@@ -31,7 +31,7 @@ function Logo({ fill = "white", isScrolled = false }: { fill?: string; isScrolle
       width={150}
       height={44}
       className={`w-auto opacity-90 group-hover:opacity-100 transition-all ${
-        isScrolled ? 'h-7' : 'h-8'
+        isScrolled ? 'h-10' : 'h-12'
       }`}
       priority
     />
@@ -81,7 +81,7 @@ function Navbar({ onConsult }: { onConsult: () => void }) {
         className={headerSurface}
         data-scrolled={isScrolled ? "true" : "false"}
       >
-        <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Brand */}
           <button
             onClick={() => handleNav("#top")}
@@ -114,7 +114,7 @@ function Navbar({ onConsult }: { onConsult: () => void }) {
             <button
               onClick={onConsult}
               className={
-                "hidden md:inline-flex px-6 py-2 uppercase tracking-[0.35em] text-[11px] font-extrabold transition-colors duration-300 " +
+                "hidden md:inline-flex px-6 py-3 uppercase tracking-[0.35em] text-[11px] font-extrabold transition-colors duration-300 " +
                 (isScrolled
                   ? "border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black"
                   : "border border-white/60 text-white hover:bg-white hover:text-[var(--accent)]")
@@ -128,7 +128,7 @@ function Navbar({ onConsult }: { onConsult: () => void }) {
             <button
               onClick={() => setIsOpen((v) => !v)}
               className={
-                "md:hidden inline-flex items-center justify-center w-10 h-10 transition-colors " +
+                "md:hidden inline-flex items-center justify-center w-11 h-11 transition-colors " +
                 (isScrolled
                   ? "border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black"
                   : "border border-white/30 bg-black/10 text-white/90 hover:text-white hover:border-white/60")
