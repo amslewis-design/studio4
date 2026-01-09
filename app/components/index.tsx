@@ -30,9 +30,7 @@ function Logo({ fill = "white", isScrolled = false }: { fill?: string; isScrolle
       alt="Sassy Studio"
       width={150}
       height={44}
-      className={`w-auto opacity-90 group-hover:opacity-100 transition-all ${
-        isScrolled ? 'h-10' : 'h-12'
-      }`}
+      className="w-auto h-12 opacity-90 group-hover:opacity-100 transition-opacity"
       priority
     />
   );
