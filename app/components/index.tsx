@@ -19,7 +19,7 @@ type BlogPost = {
   excerpt: string;
 };
 
-function Logo({ fill = "white" }: { fill?: string }) {
+function Logo({ fill = "white", isScrolled = false }: { fill?: string; isScrolled?: boolean }) {
   const src = fill === "var(--accent)" 
     ? "/sassy_logo_pink.png" 
     : "/sassy_logo_white.png";
@@ -30,7 +30,9 @@ function Logo({ fill = "white" }: { fill?: string }) {
       alt="Sassy Studio"
       width={150}
       height={44}
-      className="opacity-90 group-hover:opacity-100 transition-opacity"
+      className={`w-auto opacity-90 group-hover:opacity-100 transition-all ${
+        isScrolled ? 'h-7' : 'h-8'
+      }`}
       priority
     />
   );
@@ -86,7 +88,7 @@ function Navbar({ onConsult }: { onConsult: () => void }) {
             className="group inline-flex items-center"
             aria-label="Sassy Studio Home"
           >
-            <Logo fill={isScrolled ? "var(--accent)" : "white"} />
+            <Logo fill={isScrolled ? "var(--accent)" : "white"} isScrolled={isScrolled} />
           </button>
 
           {/* Desktop nav */}
