@@ -1,0 +1,856 @@
+import React, { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+
+type ConsultationStatus = "idle" | "loading" | "success" | "error";
+
+type NavItem = {
+  label: string;
+  href: string;
+};
+
+type BlogPost = {
+  title: string;
+  date: string;
+  tag: string;
+  image: string;
+  excerpt: string;
+};
+
+// Preview-safe logo: inline SVG so the canvas does not depend on local assets.
+// In your production project, replace this with:
+// <img src="/logo-white.png" alt="Sassy Studio" className="h-6 md:h-7 w-auto" />
+function Logo({ fill = "white" }: { fill?: string }) {
+  return (
+    <svg
+      width="150"
+      height="44"
+      viewBox="0 0 300 88"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="opacity-90 group-hover:opacity-100 transition-opacity"
+      aria-label="Sassy Studio"
+    >
+      <text
+        x="0"
+        y="64"
+        fill={fill}
+        fontSize="70"
+        fontFamily="Cormorant Garamond, Georgia, serif"
+        fontWeight="700"
+      >
+        sassy
+      </text>
+    </svg>
+  );
+}
+
+function Navbar({ onConsult }: { onConsult: () => void }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navItems: NavItem[] = useMemo(
+    () => [
+      { label: "Home", href: "#top" },
+      { label: "Portfolio", href: "#portfolio" },
+      { label: "Services", href: "#services" },
+      { label: "Approach", href: "#approach" },
+      { label: "Blog", href: "#blog" },
+      { label: "Contact", href: "#contact" },
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const handleNav = (href: string) => {
+    setIsOpen(false);
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // Behaviour:
+  // - Default: pink navbar
+  // - Scrolled: transparent navbar, but logo + text switch to theme pink
+  const headerSurface =
+    "transition-all duration-500 " +
+    (isScrolled ? "bg-transparent" : "bg-[var(--accent)] backdrop-blur-xl");
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-[60]">
+      <div
+        className={headerSurface}
+        data-scrolled={isScrolled ? "true" : "false"}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+          {/* Brand */}
+          <button
+            onClick={() => handleNav("#top")}
+            className="group inline-flex items-center"
+            aria-label="Sassy Studio Home"
+          >
+            <Logo fill={isScrolled ? "var(--accent)" : "white"} />
+          </button>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-10">
+            {navItems.map((item) => (
+              <button
+                key={item.label}
+                onClick={() => handleNav(item.href)}
+                className={
+                  "text-[11px] uppercase tracking-[0.45em] font-bold transition-colors " +
+                  (isScrolled
+                    ? "text-[var(--accent)] hover:opacity-80"
+                    : "text-white hover:opacity-90")
+                }
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={onConsult}
+              className={
+                "hidden md:inline-flex px-6 py-3 uppercase tracking-[0.35em] text-[11px] font-extrabold transition-colors duration-300 " +
+                (isScrolled
+                  ? "border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black"
+                  : "border border-white/60 text-white hover:bg-white hover:text-[var(--accent)]")
+              }
+              style={{ borderRadius: "var(--btn-radius)" }}
+            >
+              Consult
+            </button>
+
+            {/* Mobile toggle */}
+            <button
+              onClick={() => setIsOpen((v) => !v)}
+              className={
+                "md:hidden inline-flex items-center justify-center w-11 h-11 transition-colors " +
+                (isScrolled
+                  ? "border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black"
+                  : "border border-white/30 bg-black/10 text-white/90 hover:text-white hover:border-white/60")
+              }
+              aria-label="Toggle menu"
+              style={{ borderRadius: "var(--btn-radius)" }}
+            >
+              <span className="text-lg leading-none">{isOpen ? "×" : "≡"}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile panel */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className={
+                "md:hidden overflow-hidden " +
+                (isScrolled ? "bg-transparent" : "bg-[var(--accent)]")
+              }
+            >
+              <div className="px-6 py-6 flex flex-col gap-4">
+                {navItems.map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={() => handleNav(item.href)}
+                    className={
+                      "text-left text-[12px] uppercase tracking-[0.4em] font-bold transition-colors py-2 " +
+                      (isScrolled
+                        ? "text-[var(--accent)] hover:opacity-80"
+                        : "text-white hover:opacity-90")
+                    }
+                  >
+                    {item.label}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() => {
+                    setIsOpen(false);
+                    onConsult();
+                  }}
+                  className="mt-3 bg-white text-[var(--accent)] py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:bg-black hover:text-white transition-colors duration-300"
+                  style={{ borderRadius: "var(--btn-radius)" }}
+                >
+                  Request consultation
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </header>
+  );
+}
+
+function ConsultationModal({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    brand: "",
+    projectType: "Photography & Video",
+    message: "",
+    // Honeypot (should remain empty)
+    companyWebsite: "",
+  });
+  const [status, setStatus] = useState<ConsultationStatus>("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error("Request failed");
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/95 backdrop-blur-2xl"
+          />
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative w-full max-w-4xl bg-neutral-900 border border-white/10 rounded-sm overflow-hidden shadow-[0_0_100px_rgba(252,124,164,0.10)] flex flex-col md:flex-row"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="md:w-2/5 bg-[var(--accent)] p-10 flex flex-col justify-between text-white">
+              <div>
+                <h2
+                  className="text-4xl font-serif italic mb-6 leading-[0.95] tracking-tight max-w-[12ch] break-words"
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                >
+                  Get in <br />Touch
+                </h2>
+                <p className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-80 leading-loose">
+                  Tell us a little about your project and we’ll respond shortly.
+                </p>
+              </div>
+              <div className="text-[9px] uppercase tracking-widest font-black opacity-40">
+                Sassy Studio CDMX
+              </div>
+            </div>
+
+            <div className="flex-1 p-8 md:p-12 overflow-y-auto max-h-[85vh]">
+              {status === "success" ? (
+                <div className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12">
+                  <div className="w-20 h-20 bg-[var(--accent)]/10 rounded-full flex items-center justify-center text-[var(--accent)] text-4xl">
+                    ✧
+                  </div>
+                  <div className="space-y-4">
+                    <h3
+                      className="text-4xl font-serif italic"
+                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                    >
+                      Message received
+                    </h3>
+                    <p className="text-sm text-gray-400 max-w-sm mx-auto leading-relaxed">
+                      Thank you. We’ve received your details and will contact you at{" "}
+                      <span className="text-[var(--accent)]">
+                        {formData.email || "your email"}
+                      </span>
+                      .
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setStatus("idle");
+                      onClose();
+                    }}
+                    className="w-full max-w-xs bg-[var(--accent)] text-white py-5 uppercase tracking-[0.4em] text-[10px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl"
+                    style={{ borderRadius: "var(--btn-radius)" }}
+                  >
+                    Back to site
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  {/* Honeypot field (anti-spam). Keep hidden from users. */}
+                  <div className="hidden" aria-hidden="true">
+                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                      Company website
+                    </label>
+                    <input
+                      tabIndex={-1}
+                      autoComplete="off"
+                      className="w-full bg-black/40 border border-white/10 p-4 text-sm"
+                      value={formData.companyWebsite}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          companyWebsite: e.target.value,
+                        })
+                      }
+                      placeholder="https://"
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                        Your Name
+                      </label>
+                      <input
+                        required
+                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                        placeholder="e.g. Julian Ross"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                        placeholder="contact@brand.com"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                        Brand / Hotel
+                      </label>
+                      <input
+                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
+                        value={formData.brand}
+                        onChange={(e) =>
+                          setFormData({ ...formData, brand: e.target.value })
+                        }
+                        placeholder="Hotel Boutique CDMX"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                        Project Type
+                      </label>
+                      <select
+                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300 uppercase tracking-widest"
+                        value={formData.projectType}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            projectType: e.target.value,
+                          })
+                        }
+                      >
+                        <option>Photography & Video</option>
+                        <option>Social Content</option>
+                        <option>Brand Strategy</option>
+                        <option>Website Content</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                      Message
+                    </label>
+                    <textarea
+                      rows={4}
+                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300 resize-none"
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      placeholder="Tell us what you need help with, timelines, and any links if relevant."
+                    />
+                  </div>
+
+                  <button
+                    disabled={status === "loading"}
+                    className="w-full bg-[var(--accent)] text-white py-5 uppercase tracking-[0.5em] text-[11px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl disabled:opacity-50"
+                    style={{ borderRadius: "var(--btn-radius)" }}
+                  >
+                    {status === "loading" ? "Sending..." : "Send message"}
+                  </button>
+
+                  {status === "error" && (
+                    <p className="text-red-400 text-[10px] uppercase tracking-widest text-center">
+                      Something went wrong. Please try again.
+                    </p>
+                  )}
+                </form>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+export default function Preview() {
+  const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
+
+  const services = useMemo(
+    () => [
+      {
+        title: "Visual Alchemy",
+        description:
+          "High-res hotel and gastronomy photography that captures the essence of luxury.",
+        icon: "✧",
+      },
+      {
+        title: "Digital Narratives",
+        description:
+          "Strategic Reels and TikTok production designed for maximum brand prestige.",
+        icon: "✦",
+      },
+      {
+        title: "Identity Refinement",
+        description:
+          "Bespoke brand positioning for Mexico City’s elite hospitality market.",
+        icon: "❂",
+      },
+    ],
+    []
+  );
+
+  const blogPosts: BlogPost[] = useMemo(
+    () => [
+      {
+        title: "The New Luxury: Quiet Content That Converts",
+        date: "12 Apr 2026",
+        tag: "Strategy",
+        image:
+          "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1600",
+        excerpt:
+          "Why boutique hospitality wins when it stops shouting and starts designing every touchpoint like a guest experience.",
+      },
+      {
+        title: "Photography Briefs That Make Chefs Say Yes",
+        date: "28 Mar 2026",
+        tag: "Production",
+        image:
+          "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&q=80&w=1600",
+        excerpt:
+          "A practical framework for capturing food, light, and atmosphere without disrupting service.",
+      },
+      {
+        title: "Reels for Hotels: A Three-Scene Formula",
+        date: "03 Mar 2026",
+        tag: "Social",
+        image:
+          "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=1600",
+        excerpt:
+          "A repeatable structure for short-form video that feels premium and still drives direct enquiries.",
+      },
+    ],
+    []
+  );
+
+  // Lightweight self-checks (dev only). Helps catch accidental anchor regressions.
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+
+    const requiredAnchors = [
+      "top",
+      "services",
+      "approach",
+      "blog",
+      "contact",
+      "portfolio",
+    ];
+
+    for (const id of requiredAnchors) {
+      // eslint-disable-next-line no-console
+      if (!document.getElementById(id))
+        console.warn(`[Self-check] Missing anchor element: #${id}`);
+    }
+  }, []);
+
+  return (
+    <div
+      id="top"
+      className="relative overflow-hidden"
+      style={
+        {
+          "--primary": "#1a1a1a",
+          "--accent": "#FC7CA4",
+          "--section-bg": "#0a0a0a",
+          "--btn-radius": "0px",
+          fontFamily:
+            "Montserrat, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial",
+        } as React.CSSProperties
+      }
+    >
+      <Navbar onConsult={() => setIsConsultModalOpen(true)} />
+
+      <ConsultationModal
+        isOpen={isConsultModalOpen}
+        onClose={() => setIsConsultModalOpen(false)}
+      />
+
+      {/* Hero */}
+      <section
+        className="relative h-[92vh] md:h-screen flex items-center justify-center overflow-hidden pt-24 md:pt-28"
+        style={{ backgroundColor: "var(--primary)" }}
+      >
+        <div className="absolute inset-0 z-0">
+          <motion.div
+            initial={{ scale: 1.2, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.4 }}
+            transition={{ duration: 2.5, ease: "easeOut" }}
+            className="w-full h-full"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070"
+              alt="Luxury hotel"
+              className="w-full h-full object-cover grayscale"
+            />
+          </motion.div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-[var(--primary)]" />
+        </div>
+
+        <div className="relative z-10 text-center px-6 max-w-5xl">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, delay: 0.3 }}
+          >
+            <motion.span
+              initial={{ opacity: 0, letterSpacing: "1em" }}
+              animate={{ opacity: 1, letterSpacing: "0.5em" }}
+              transition={{ duration: 1.5 }}
+              className="text-[var(--accent)] uppercase text-xs mb-8 block font-sans font-medium"
+            >
+              Sassy Studio CDMX
+            </motion.span>
+
+            <h1
+              className="text-6xl md:text-[10rem] font-serif mb-10 leading-[0.85] tracking-tighter text-white"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              Alchemists of <br />
+              <span className="italic font-light opacity-80">Content</span>
+            </h1>
+
+            <p className="text-base md:text-2xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed mb-16 font-sans tracking-wide">
+              Transforming boutique hospitality into digital gold through high-end visual storytelling and
+              strategic brand refinement.
+            </p>
+
+            <motion.div
+              whileHover={{ scale: 1.025 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="inline-block"
+            >
+              <motion.button
+                onClick={() => setIsConsultModalOpen(true)}
+                className="border border-[var(--accent)] text-[var(--accent)] px-12 md:px-14 py-4 uppercase tracking-[0.35em] text-[10px] hover:bg-[var(--accent)] hover:text-black transition-colors duration-300 font-black shadow-xl"
+                style={{ borderRadius: "var(--btn-radius)" }}
+              >
+                Enter the Studio
+              </motion.button>
+            </motion.div>
+
+            {/* Scroll cue (clean) */}
+            <div className="mt-10 flex flex-col items-center">
+              <div className="w-[1px] h-24 bg-gradient-to-b from-[var(--accent)] to-transparent relative overflow-hidden">
+                <motion.div
+                  animate={{ y: [0, 96] }}
+                  transition={{
+                    duration: 2.2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute top-0 left-0 w-full h-1/2 bg-white"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section
+        id="services"
+        className="py-28 md:py-40 px-6"
+        style={{ backgroundColor: "var(--section-bg)" }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1 }}
+            className="text-center mb-20 md:mb-32"
+          >
+            <h2
+              className="text-5xl md:text-7xl font-serif mb-8 tracking-tight text-white"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              Our Craft
+            </h2>
+            <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-16 md:gap-20 lg:gap-32">
+            {services.map((service, index) => (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                className="group relative"
+              >
+                <div className="mb-10 text-5xl text-[var(--accent)] opacity-40 group-hover:opacity-100 transition-all duration-500 scale-100 group-hover:scale-110 origin-left">
+                  {service.icon}
+                </div>
+                <h3
+                  className="text-3xl font-serif mb-6 group-hover:text-[var(--accent)] transition-colors duration-500 text-white"
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                >
+                  {service.title}
+                </h3>
+                <p className="text-gray-500 font-light leading-relaxed tracking-wide text-lg group-hover:text-gray-300 transition-colors duration-500">
+                  {service.description}
+                </p>
+                <div className="mt-12 overflow-hidden">
+                  <div className="w-full h-[1px] bg-white/5 group-hover:bg-[var(--accent)] transition-colors origin-left scale-x-0 group-hover:scale-x-100 duration-1000" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Approach / Quote */}
+      <section
+        id="approach"
+        className="py-32 md:py-48 px-6 relative overflow-hidden"
+        style={{ backgroundColor: "var(--primary)" }}
+      >
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-[var(--accent)]/5 -skew-x-12 translate-x-20" />
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2 }}
+          >
+            <span
+              className="text-8xl font-serif text-[var(--accent)] opacity-10 block mb-12 leading-none"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              “
+            </span>
+            <p
+              className="text-3xl md:text-7xl font-serif leading-[1.15] italic font-light mb-16 tracking-tight text-white"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              In the heart of Mexico City, we refine your brand’s raw potential into the pure gold of digital
+              distinction.
+            </p>
+            <div className="flex items-center justify-center gap-6 text-[11px] uppercase tracking-[0.6em] text-gray-600">
+              <div className="w-16 h-[1px] bg-white/10" />
+              <span>The Sassy Philosophy</span>
+              <div className="w-16 h-[1px] bg-white/10" />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Blog */}
+      <section
+        id="blog"
+        className="py-28 md:py-40 px-6"
+        style={{ backgroundColor: "var(--section-bg)" }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 1 }}
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-10 mb-16 md:mb-20"
+          >
+            <div className="space-y-5">
+              <h2
+                className="text-5xl md:text-7xl font-serif tracking-tight text-white"
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+              >
+                The Studio Journal
+              </h2>
+              <p className="text-gray-500 font-light leading-relaxed max-w-2xl">
+                Notes on boutique hospitality marketing, visual storytelling, and the small details that turn
+                attention into bookings.
+              </p>
+            </div>
+
+            <button
+              className="self-start md:self-auto border border-white/15 text-white/80 px-8 py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300"
+              style={{ borderRadius: "var(--btn-radius)" }}
+            >
+              View all posts
+            </button>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-10">
+            {blogPosts.map((post, idx) => (
+              <motion.article
+                key={post.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: idx * 0.15 }}
+                className="group border border-white/10 bg-black/20 backdrop-blur-sm flex flex-col hover:border-[var(--accent)]/40 transition-colors duration-500 overflow-hidden"
+              >
+                {/* Image */}
+                <div className="relative">
+                  <div className="h-48 w-full overflow-hidden">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                    />
+                  </div>
+
+                  {/* Tag/date overlay */}
+                  <div className="absolute top-0 left-0 right-0 p-6 flex items-center justify-between gap-6 bg-gradient-to-b from-black/70 to-transparent">
+                    <div className="text-[10px] uppercase tracking-[0.4em] text-white/70 font-bold">
+                      {post.tag}
+                    </div>
+                    <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">
+                      {post.date}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Copy */}
+                <div className="p-8 space-y-4">
+                  <h3
+                    className="text-3xl font-serif text-white group-hover:text-[var(--accent)] transition-colors duration-500"
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                  >
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-500 font-light leading-relaxed">
+                    {post.excerpt}
+                  </p>
+                </div>
+
+                {/* Footer */}
+                <div className="p-8 pt-0 mt-auto">
+                  <button className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300">
+                    Read more
+                  </button>
+                  <div className="mt-6 w-full h-[1px] bg-white/5 group-hover:bg-[var(--accent)]/60 transition-colors duration-700" />
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section
+        id="contact"
+        className="h-[70vh] flex items-center justify-center relative overflow-hidden"
+        style={{ backgroundColor: "var(--primary)" }}
+      >
+        <motion.img
+          initial={{ scale: 1.1 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 2 }}
+          src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2070"
+          alt="Gastronomy"
+          className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
+        />
+        <div className="relative z-10 text-center px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="space-y-10 md:space-y-12"
+          >
+            <h2
+              className="text-5xl md:text-8xl font-serif tracking-tighter text-white"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              Ready for the <br />
+              <span className="italic text-[var(--accent)] opacity-80">
+                Transformation?
+              </span>
+            </h2>
+            <button
+              onClick={() => setIsConsultModalOpen(true)}
+              className="bg-white text-black px-14 md:px-16 py-6 uppercase tracking-[0.5em] text-[11px] font-black hover:bg-[var(--accent)] hover:text-white transition-colors duration-300 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+              style={{ borderRadius: "var(--btn-radius)" }}
+            >
+              Schedule a Consultation
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer
+        id="portfolio"
+        className="py-10 px-6"
+        style={{ backgroundColor: "#000" }}
+      >
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-white/40">
+            Sassy Studio CDMX
+          </div>
+          <button
+            onClick={() => setIsConsultModalOpen(true)}
+            className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
+          >
+            Request consultation
+          </button>
+        </div>
+      </footer>
+    </div>
+  );
+}
