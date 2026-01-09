@@ -19,7 +19,7 @@ type BlogPost = {
   excerpt: string;
 };
 
-function Logo({ fill = "white", isScrolled = false }: { fill?: string; isScrolled?: boolean }) {
+function Logo({ fill = "white" }: { fill?: string }) {
   const src = fill === "var(--accent)" 
     ? "/sassy_logo_pink.png" 
     : "/sassy_logo_white.png";
@@ -86,7 +86,7 @@ function Navbar({ onConsult }: { onConsult: () => void }) {
             className="group inline-flex items-center"
             aria-label="Sassy Studio Home"
           >
-            <Logo fill={isScrolled ? "var(--accent)" : "white"} isScrolled={isScrolled} />
+            <Logo fill={isScrolled ? "var(--accent)" : "white"} />
           </button>
 
           {/* Desktop nav */}
