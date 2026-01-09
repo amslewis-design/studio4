@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
 type ConsultationStatus = "idle" | "loading" | "success" | "error";
@@ -18,31 +19,20 @@ type BlogPost = {
   excerpt: string;
 };
 
-// Preview-safe logo: inline SVG so the canvas does not depend on local assets.
-// In your production project, replace this with:
-// <img src="/logo-white.png" alt="Sassy Studio" className="h-6 md:h-7 w-auto" />
 function Logo({ fill = "white" }: { fill?: string }) {
+  const src = fill === "var(--accent)" 
+    ? "/sassy_logo_pink.png" 
+    : "/sassy_logo_white.png";
+  
   return (
-    <svg
-      width="150"
-      height="44"
-      viewBox="0 0 300 88"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+    <Image
+      src={src}
+      alt="Sassy Studio"
+      width={150}
+      height={44}
       className="opacity-90 group-hover:opacity-100 transition-opacity"
-      aria-label="Sassy Studio"
-    >
-      <text
-        x="0"
-        y="64"
-        fill={fill}
-        fontSize="70"
-        fontFamily="Cormorant Garamond, Georgia, serif"
-        fontWeight="700"
-      >
-        sassy
-      </text>
-    </svg>
+      priority
+    />
   );
 }
 
