@@ -42,7 +42,6 @@ export default function Admin() {
   const [showAssetSelectorForPost, setShowAssetSelectorForPost] = useState(false);
   const [newPortfolio, setNewPortfolio] = useState({ clientName: '', category: 'Hotel' as any, imageUrl: '', description: '' });
   const [showAssetSelectorForPortfolio, setShowAssetSelectorForPortfolio] = useState(false);
-  const [assetError, setAssetError] = useState<string | null>(null);
 
   useEffect(() => {
     setPosts(storageService.getPosts());
@@ -189,7 +188,7 @@ export default function Admin() {
                 </h3>
                 {editingPostId && (
                   <button 
-                    onClick={() => { setEditingPostId(null); setPostTitle(''); setPostImage(''); if(quillRef.current) quillRef.current.root.innerHTML = ''; }}
+                    onClick={() => { setEditingPostId(null); setPostTitle(''); setPostImage(''); setPostContent(''); }}
                     className="text-[10px] uppercase tracking-widest text-[#FC7CA4] hover:text-white transition-colors"
                   >
                     Discard Changes

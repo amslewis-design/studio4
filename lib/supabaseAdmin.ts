@@ -1,23 +1,10 @@
 import 'server-only';
 
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+// Stub Supabase Admin - not currently in use
+// This is a placeholder to prevent build errors
+// Replace with actual implementation when needed
 
-let cached: SupabaseClient | null = null;
-
-export function getSupabaseAdmin(): SupabaseClient {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!url) throw new Error('[SupabaseAdmin] Missing NEXT_PUBLIC_SUPABASE_URL');
-  if (!serviceRole) throw new Error('[SupabaseAdmin] Missing SUPABASE_SERVICE_ROLE_KEY');
-
-  if (!cached) {
-    cached = createClient(url, serviceRole, {
-      db: { schema: 'public' },
-      auth: { persistSession: false },
-    });
-  }
-
-  return cached;
+export function getSupabaseAdmin() {
+  throw new Error('Supabase Admin not configured. Please add NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to .env.local');
 }
 

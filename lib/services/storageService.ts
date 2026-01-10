@@ -1,7 +1,4 @@
 // Storage Service - handles localStorage operations
-interface StorageItem {
-  [key: string]: any;
-}
 
 const STORAGE_KEYS = {
   POSTS: 'sassy_posts',
