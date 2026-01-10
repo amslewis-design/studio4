@@ -37,17 +37,19 @@ export async function POST(req: Request) {
 
     const userId = userData.user.id;
 
-    const insertPayload = {
+    const insertPayload: Record<string, any> = {
       slug: body.slug,
       title: body.title,
-      excerpt: body.excerpt || null,
       content: body.content,
-      tag: body.tag || null,
-      cover_url: body.cover_url || null,
-      published: body.published === true,
-      published_at: body.published === true ? new Date().toISOString() : null,
       author: userId,
+      published: body.published === true,
     };
+
+    // Optional fields
+    if (body.excerpt !== undefined) insertPayload.excerpt = body.excerpt;
+    if (body.tag !== undefined) insertPayload.tag = body.tag;
+    if (body.cover_url !== undefined) insertPayload.cover_url = body.cover_url;
+    if (body.published === true) insertPayload.published_at = new Date().toISOString();
 
     const { data, error } = await supabaseAdmin.from('posts').insert(insertPayload).select().single();
     if (error) return NextResponse.json({ error: error.message }, { status: 400 });

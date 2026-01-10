@@ -52,18 +52,23 @@ export async function PUT(
     if (existing.data.author !== user.id) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
     const body = await req.json();
+    const updatePayload: Record<string, any> = {
+      updated_at: new Date().toISOString(),
+    };
+
+    if (body.title !== undefined) updatePayload.title = body.title;
+    if (body.excerpt !== undefined) updatePayload.excerpt = body.excerpt;
+    if (body.content !== undefined) updatePayload.content = body.content;
+    if (body.tag !== undefined) updatePayload.tag = body.tag;
+    if (body.cover_url !== undefined) updatePayload.cover_url = body.cover_url;
+    if (body.published !== undefined) {
+      updatePayload.published = body.published;
+      if (body.published === true) updatePayload.published_at = new Date().toISOString();
+    }
+
     const { data, error } = await supabaseAdmin
       .from('posts')
-      .update({
-        title: body.title,
-        excerpt: body.excerpt,
-        content: body.content,
-        tag: body.tag,
-        cover_url: body.cover_url,
-        published: body.published,
-        published_at: body.published ? new Date().toISOString() : null,
-        updated_at: new Date().toISOString(),
-      })
+      .update(updatePayload)
       .eq('slug', slug)
       .select()
       .single();

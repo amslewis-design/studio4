@@ -13,6 +13,7 @@ export type BlogEditorPost = {
   slug?: string;
   title: string;
   content: string;
+  excerpt?: string | null;
   tag?: string | null;
   cover_url?: string | null;
   published?: boolean;
@@ -30,6 +31,7 @@ interface BlogEditorProps {
 export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps) {
   const [title, setTitle] = useState(post?.title || "");
   const [tags, setTags] = useState(post?.tag || "");
+  const [excerpt, setExcerpt] = useState(post?.excerpt || "");
   const [coverUrl, setCoverUrl] = useState(post?.cover_url || "");
   const [status, setStatus] = useState<BlogStatus>(post?.published ? "published" : "draft");
   const [saving, setSaving] = useState(false);
@@ -154,6 +156,7 @@ export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps)
         const mapped = {
           slug,
           title,
+          excerpt: excerpt || null,
           content,
           tag: tagArr[0] || null,
           cover_url: coverUrl || null,
@@ -174,7 +177,7 @@ export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps)
         setSaving(false);
       }
     }, 1200),
-    [title, tags, coverUrl, post, onSave, parseTags, buildSlug, apiCreate, apiUpdate, formatSupabaseError]
+    [title, tags, excerpt, coverUrl, post, onSave, parseTags, buildSlug, apiCreate, apiUpdate, formatSupabaseError]
   );
 
   const editor = useEditor({
@@ -202,6 +205,7 @@ export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps)
       const mapped = {
         slug,
         title,
+        excerpt: excerpt || null,
         content: editor?.getHTML() || "",
         tag: tagArr[0] || null,
         cover_url: coverUrl || null,
@@ -239,6 +243,7 @@ export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps)
       const mapped = {
         slug,
         title,
+        excerpt: excerpt || null,
         content: editor?.getHTML() || "",
         tag: tagArr[0] || null,
         cover_url: coverUrl || null,
@@ -301,6 +306,12 @@ export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps)
           placeholder="Tags (comma separated)"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
+        />
+        <input
+          className="w-full bg-black/40 border border-white/10 p-2 text-sm mb-2 outline-none focus:border-[var(--accent)] transition-colors duration-300"
+          placeholder="Excerpt (optional)"
+          value={excerpt}
+          onChange={(e) => setExcerpt(e.target.value)}
         />
         <div className="flex items-center gap-4 mb-2">
           <input type="file" accept="image/*" onChange={handleImageUpload} disabled={imageUploading} />
