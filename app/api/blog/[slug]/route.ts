@@ -73,10 +73,17 @@ export async function PUT(
       .select()
       .single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+    if (error) {
+      console.error('[PUT /api/blog/[slug]] Update error:', error.message);
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+    
+    console.log('[PUT /api/blog/[slug]] Post updated successfully:', slug);
     return NextResponse.json(data);
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Unknown error' }, { status: 500 });
+    const errMsg = err.message || 'Unknown error';
+    console.error('[PUT /api/blog/[slug]] Exception:', errMsg);
+    return NextResponse.json({ error: errMsg }, { status: 500 });
   }
 }
 

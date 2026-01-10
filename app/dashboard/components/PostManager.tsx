@@ -14,8 +14,33 @@ export default function PostManager() {
 
   async function fetchPosts() {
     setLoading(true);
-    const { data, error } = await supabase.from("posts").select("*").order("updated_at", { ascending: false });
-    if (!error && data) setPosts(data);
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData?.session?.access_token;
+
+      if (!token) {
+        console.error('No auth token available');
+        setLoading(false);
+        return;
+      }
+
+      const res = await fetch('/api/blog/user/posts', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setPosts(data);
+      } else {
+        console.error('Failed to fetch posts:', await res.text());
+      }
+    } catch (err) {
+      console.error('Error fetching posts:', err);
+    }
     setLoading(false);
   }
 

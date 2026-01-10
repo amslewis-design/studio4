@@ -28,14 +28,17 @@ export async function POST(req: Request) {
     const supabaseAdmin = getSupabaseAdmin();
     const body = await req.json();
     const token = req.headers.get('authorization')?.split(' ')[1];
-    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!token) return NextResponse.json({ error: 'Unauthorized: missing token' }, { status: 401 });
 
     // Validate user from token
     const { data: userData, error: userErr } = await supabaseAdmin.auth.getUser(token);
-    if (userErr || !userData?.user)
+    if (userErr || !userData?.user) {
+      console.error('[POST /api/blog] Token validation failed:', userErr?.message);
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
 
     const userId = userData.user.id;
+    console.log('[POST /api/blog] Creating post for user:', userId, 'title:', body.title);
 
     const insertPayload: Record<string, any> = {
       slug: body.slug,
@@ -52,9 +55,16 @@ export async function POST(req: Request) {
     if (body.published === true) insertPayload.published_at = new Date().toISOString();
 
     const { data, error } = await supabaseAdmin.from('posts').insert(insertPayload).select().single();
-    if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+    if (error) {
+      console.error('[POST /api/blog] Insert error:', error.message);
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+    
+    console.log('[POST /api/blog] Post created successfully:', data?.id);
     return NextResponse.json(data, { status: 201 });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Unknown error' }, { status: 500 });
+    const errMsg = err.message || 'Unknown error';
+    console.error('[POST /api/blog] Exception:', errMsg);
+    return NextResponse.json({ error: errMsg }, { status: 500 });
   }
 }

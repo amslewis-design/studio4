@@ -26,9 +26,9 @@ create index if not exists posts_slug_idx on public.posts(slug);
 -- Enable Row Level Security and policies
 alter table public.posts enable row level security;
 
--- Public can select posts that are published
-create policy "public_select_published" on public.posts
-  for select using (published = true);
+-- Users can select published posts OR their own posts (draft/published)
+create policy "select_own_or_published" on public.posts
+  for select using (published = true OR auth.uid() = author);
 
 -- Authenticated users can insert posts where they are the author
 create policy "insert_author" on public.posts
