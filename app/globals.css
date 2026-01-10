@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #1a1a1a;
+  --color-accent: #FC7CA4;
+  --color-section-bg: #0a0a0a;
+  --radius-btn: 0px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-950 text-white;
+  }
+}

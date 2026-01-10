@@ -5,7 +5,16 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "var(--color-primary)",
+        accent: "var(--color-accent)",
+        "section-bg": "var(--color-section-bg)",
+      },
+      borderRadius: {
+        btn: "var(--radius-btn)",
+      },
+    },
   },
   plugins: [],
 };
