@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, type ChangeEvent } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "next/image";
@@ -10,28 +10,28 @@ export type BlogStatus = "draft" | "published";
 
 export type BlogEditorPost = {
   id?: string;
+  slug?: string;
   title: string;
   content: string;
-  // Database currently stores a single tag (text). We'll store
-  // a single comma-split value and map it appropriately on write.
-  tags?: string[];
-  cover_url?: string;
-  status: BlogStatus;
+  tag?: string | null;
+  cover_url?: string | null;
+  published?: boolean;
+  published_at?: string | null;
+  author?: string | null;
   updated_at?: string;
 };
 
-
 interface BlogEditorProps {
-  post?: BlogEditorPost; // If editing, pass post
+  post?: BlogEditorPost;
   onSave?: (post: BlogEditorPost) => void;
   onPublish?: (post: BlogEditorPost) => void;
 }
 
 export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps) {
   const [title, setTitle] = useState(post?.title || "");
-  const [tags, setTags] = useState(post?.tags?.join(", ") || "");
+  const [tags, setTags] = useState(post?.tag || "");
   const [coverUrl, setCoverUrl] = useState(post?.cover_url || "");
-  const [status, setStatus] = useState<BlogStatus>(post?.status || "draft");
+  const [status, setStatus] = useState<BlogStatus>(post?.published ? "published" : "draft");
   const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,45 +43,138 @@ export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps)
     setMounted(true);
   }, []);
 
+  const formatSupabaseError = useCallback((err: unknown) => {
+    const anyErr = err as any;
+    const message = String(anyErr?.message || "");
+    const details = String(anyErr?.details || "");
+    const hint = String(anyErr?.hint || "");
+    const code = String(anyErr?.code || "");
+    const combined = `${message} ${details} ${hint} ${code}`.toLowerCase();
+
+    if (!combined.trim()) return "Something went wrong. Please try again.";
+
+    if (combined.includes("row-level security") || combined.includes("rls")) {
+      return "Permission denied (RLS). Make sure you're logged in and you own this post.";
+    }
+
+    if (combined.includes("jwt expired") || combined.includes("session expired")) {
+      return "Your session expired. Please log in again and retry.";
+    }
+
+    if (
+      combined.includes("jwt") ||
+      combined.includes("not authenticated") ||
+      combined.includes("missing authorization") ||
+      combined.includes("invalid token")
+    ) {
+      return "You're not logged in. Please log in and try again.";
+    }
+
+    if (
+      combined.includes("duplicate key value") ||
+      combined.includes("unique constraint") ||
+      combined.includes("posts_slug_key")
+    ) {
+      return "That slug already exists. Try changing the title and publishing again.";
+    }
+
+    if (combined.includes("null value") && combined.includes("slug")) {
+      return "Title is required before saving (slug is required).";
+    }
+
+    // Default to the original message (usually best detail from PostgREST)
+    return message || "Something went wrong. Please try again.";
+  }, []);
+
+  const parseTags = useCallback(() => {
+    return tags
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+  }, [tags]);
+
+  const buildSlug = useCallback((rawTitle: string) => {
+    const base = rawTitle
+      .toLowerCase()
+      .trim()
+      .replace(/['’]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80);
+    const suffix = Math.random().toString(36).slice(2, 8);
+    return (base || "post") + "-" + suffix;
+  }, []);
+
+  const getAccessToken = useCallback(async () => {
+    const { data, error } = await supabase.auth.getSession();
+    if (error || !data.session?.access_token) {
+      throw new Error("You must be logged in. Please refresh and try again.");
+    }
+    return data.session.access_token;
+  }, []);
+
+  const apiCreate = useCallback(async (payload: Record<string, any>) => {
+    const token = await getAccessToken();
+    const res = await fetch('/api/blog', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Failed to create post');
+    return json;
+  }, [getAccessToken]);
+
+  const apiUpdate = useCallback(async (slug: string, payload: Record<string, any>) => {
+    const token = await getAccessToken();
+    const res = await fetch(`/api/blog/${encodeURIComponent(slug)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Failed to update post');
+    return json;
+  }, [getAccessToken]);
+
   // Debounced autodraft
   const autoDraft = useCallback(
     debounce(async (content: string) => {
+      // Avoid creating rows until we have a title (slug is required in DB).
+      if (!post?.id && !title) return;
       if (!title && !content && !tags) return;
+
       setSaving(true);
       setError(null);
-      const tagArr = tags.split(",").map((t) => t.trim()).filter(Boolean);
-      const payload: BlogEditorPost = {
-        ...post,
-        title,
-        content,
-        tags: tagArr,
-        cover_url: coverUrl,
-        status: "draft",
-      };
-      const mapped = {
-        ...payload,
-        tag: (payload.tags && payload.tags[0]) || null,
-        published: false,
-        published_at: null,
-      } as any;
-      let res;
-      if (post?.id) {
-        res = await supabase
-          .from("posts")
-          .update(mapped)
-          .eq("id", post.id)
-          .select();
-      } else {
-        res = await supabase
-          .from("posts")
-          .insert([mapped])
-          .select();
+
+      try {
+        const tagArr = parseTags();
+
+        const slug = post?.slug || buildSlug(title);
+        const mapped = {
+          slug,
+          title,
+          content,
+          tag: tagArr[0] || null,
+          cover_url: coverUrl || null,
+          published: false,
+        };
+
+        let saved;
+        if (post?.slug) {
+          saved = await apiUpdate(post.slug, mapped);
+        } else {
+          saved = await apiCreate(mapped);
+        }
+
+        if (onSave && saved) onSave(saved);
+      } catch (e: any) {
+        setError(formatSupabaseError(e));
+      } finally {
+        setSaving(false);
       }
-      if (res.error) setError(res.error.message);
-      setSaving(false);
-      if (onSave && res.data && res.data[0]) onSave(res.data[0]);
     }, 1200),
-    [title, tags, coverUrl, post, onSave]
+    [title, tags, coverUrl, post, onSave, parseTags, buildSlug, apiCreate, apiUpdate, formatSupabaseError]
   );
 
   const editor = useEditor({
@@ -98,39 +191,36 @@ export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps)
   const handleSave = async () => {
     setSaving(true);
     setError(null);
-    const tagArr = tags.split(",").map((t) => t.trim()).filter(Boolean);
-    const payload: BlogEditorPost = {
-      ...post,
-      title,
-      content: editor?.getHTML() || "",
-      tags: tagArr,
-      cover_url: coverUrl,
-      status: "draft",
-    };
-    const mapped = {
-      ...payload,
-      tag: (payload.tags && payload.tags[0]) || null,
-      published: false,
-      published_at: null,
-    } as any;
-    let res;
-    if (post?.id) {
-      res = await supabase
-        .from("posts")
-        .update(mapped)
-        .eq("id", post.id)
-        .select();
-    } else {
-      res = await supabase
-        .from("posts")
-        .insert([mapped])
-        .select();
-    }
-    setSaving(false);
-    if (res.error) setError(res.error.message);
-    else {
+    setSuccess(null);
+
+    try {
+      if (!title) throw new Error("Title is required.");
+
+      const tagArr = parseTags();
+
+      const slug = post?.slug || buildSlug(title);
+      const mapped = {
+        slug,
+        title,
+        content: editor?.getHTML() || "",
+        tag: tagArr[0] || null,
+        cover_url: coverUrl || null,
+        published: false,
+      };
+
+      let saved;
+      if (post?.slug) {
+        saved = await apiUpdate(post.slug, mapped);
+      } else {
+        saved = await apiCreate(mapped);
+      }
+
       setSuccess("Draft saved");
-      if (onSave && res.data && res.data[0]) onSave(res.data[0]);
+      if (onSave && saved) onSave(saved);
+    } catch (e: any) {
+      setError(formatSupabaseError(e));
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -138,56 +228,54 @@ export default function BlogEditor({ post, onSave, onPublish }: BlogEditorProps)
   const handlePublish = async () => {
     setPublishing(true);
     setError(null);
-    const tagArr = tags.split(",").map((t) => t.trim()).filter(Boolean);
-    const payload: BlogEditorPost = {
-      ...post,
-      title,
-      content: editor?.getHTML() || "",
-      tags: tagArr,
-      cover_url: coverUrl,
-      status: "published",
-    };
-    const mapped = {
-      ...payload,
-      tag: (payload.tags && payload.tags[0]) || null,
-      published: true,
-      published_at: new Date().toISOString(),
-    } as any;
-    let res;
-    if (post?.id) {
-      res = await supabase
-        .from("posts")
-        .update(mapped)
-        .eq("id", post.id)
-        .select();
-    } else {
-      res = await supabase
-        .from("posts")
-        .insert([mapped])
-        .select();
-    }
-    setPublishing(false);
-    if (res.error) setError(res.error.message);
-    else {
+    setSuccess(null);
+
+    try {
+      if (!title) throw new Error("Title is required.");
+
+      const tagArr = parseTags();
+
+      const slug = post?.slug || buildSlug(title);
+      const mapped = {
+        slug,
+        title,
+        content: editor?.getHTML() || "",
+        tag: tagArr[0] || null,
+        cover_url: coverUrl || null,
+        published: true,
+      };
+
+      let saved;
+      if (post?.slug) {
+        saved = await apiUpdate(post.slug, mapped);
+      } else {
+        saved = await apiCreate(mapped);
+      }
+
       setSuccess("Post published");
       setStatus("published");
-      if (onPublish && res.data && res.data[0]) onPublish(res.data[0]);
+      if (onPublish && saved) onPublish(saved);
+    } catch (e: any) {
+      setError(formatSupabaseError(e));
+    } finally {
+      setPublishing(false);
     }
   };
 
   // Image upload
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setImageUploading(true);
     setError(null);
+    setSuccess(null);
     const fileExt = file.name.split(".").pop();
     const fileName = `${Date.now()}.${fileExt}`;
     const { error: uploadError } = await supabase.storage
       .from("blog-covers")
       .upload(fileName, file, { upsert: true });
     if (uploadError) {
-      setError(uploadError.message);
+      setError(formatSupabaseError(uploadError));
       setImageUploading(false);
       return;
     }

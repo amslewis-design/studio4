@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
+import { getSupabaseAdmin } from '../../../../lib/supabaseAdmin';
 
 /**
  * GET    /api/blog/[slug]   - fetch published post by slug
@@ -12,6 +12,7 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const supabaseAdmin = getSupabaseAdmin();
     const { slug } = await params;
     const { data, error } = await supabaseAdmin
       .from('posts')
@@ -29,6 +30,7 @@ export async function GET(
 
 async function getUserFromToken(token?: string) {
   if (!token) return null;
+  const supabaseAdmin = getSupabaseAdmin();
   const { data, error } = await supabaseAdmin.auth.getUser(token);
   if (error) return null;
   return data.user || null;
@@ -39,6 +41,7 @@ export async function PUT(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const supabaseAdmin = getSupabaseAdmin();
     const { slug } = await params;
     const token = req.headers.get('authorization')?.split(' ')[1];
     const user = await getUserFromToken(token || undefined);
@@ -77,6 +80,7 @@ export async function DELETE(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const supabaseAdmin = getSupabaseAdmin();
     const { slug } = await params;
     const token = req.headers.get('authorization')?.split(' ')[1];
     const user = await getUserFromToken(token || undefined);

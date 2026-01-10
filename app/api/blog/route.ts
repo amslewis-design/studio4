@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '../../../lib/supabaseAdmin';
+import { getSupabaseAdmin } from '../../../lib/supabaseAdmin';
 
 /**
  * GET  - list published posts
@@ -8,6 +8,7 @@ import { supabaseAdmin } from '../../../lib/supabaseAdmin';
 
 export async function GET() {
   try {
+    const supabaseAdmin = getSupabaseAdmin();
     const { data, error } = await supabaseAdmin
       .from('posts')
       .select('id,slug,title,excerpt,cover_url,tag,published,published_at,author,created_at')
@@ -24,6 +25,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const supabaseAdmin = getSupabaseAdmin();
     const body = await req.json();
     const token = req.headers.get('authorization')?.split(' ')[1];
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

@@ -51,7 +51,8 @@ export default function PostManager() {
                   : "bg-neutral-800 text-white border-white/10 hover:bg-[var(--accent)] hover:text-black")
               }
             >
-              {post.title || "Untitled"} <span className="ml-2 text-xs">[{post.status}]</span>
+              {post.title || "Untitled"}{" "}
+              <span className="ml-2 text-xs">[{post.published ? "published" : "draft"}]</span>
             </button>
           ))
         )}
