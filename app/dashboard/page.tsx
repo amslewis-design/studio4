@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import type { Session, User } from "@supabase/auth-js";
 import { supabase } from "@/lib/supabaseClient";
 
 function LoginForm({ onLogin }: { onLogin: () => void }) {
@@ -51,7 +52,7 @@ function LoginForm({ onLogin }: { onLogin: () => void }) {
 
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   return (
-    <div className="max-w-3xl mx-auto mt-20 p-8 bg-neutral-900 border border-white/10 rounded shadow-xl">
+    <div className="max-w-4xl mx-auto mt-20 p-8 bg-neutral-900 border border-white/10 rounded shadow-xl">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-white">Dashboard</h1>
         <button
@@ -61,22 +62,30 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           Logout
         </button>
       </div>
-      {/* TODO: List posts, add post form, rich text editor, etc. */}
-      <div className="text-gray-400">Welcome, admin! (Post management coming next.)</div>
+      <PostManager />
     </div>
   );
 }
 
-export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null);
+
+import PostManager from "./components/PostManager";
+
+function DashboardPage() {
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
-      setLoading(false);
-    });
-    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+    supabase.auth
+      .getUser()
+      .then((res: { data: { user: User | null } }) => {
+        setUser(res.data.user);
+      })
+      .catch(() => {
+        // Ensure the login screen appears even if user fetch fails
+        setUser(null);
+      })
+      .finally(() => setLoading(false));
+    const { data: listener } = supabase.auth.onAuthStateChange((_: any, session: Session | null) => {
       setUser(session?.user ?? null);
     });
     return () => listener?.subscription.unsubscribe();
@@ -87,7 +96,21 @@ export default function DashboardPage() {
     setUser(null);
   };
 
-  if (loading) return <div className="text-center text-white mt-32">Loading...</div>;
-  if (!user) return <LoginForm onLogin={() => supabase.auth.getUser().then(({ data }) => setUser(data.user))} />;
-  return <AdminDashboard onLogout={handleLogout} />;
+  return (
+    <>
+      {loading ? (
+        <div className="text-center text-white mt-32">Loading...</div>
+      ) : !user ? (
+        <LoginForm onLogin={() =>
+          supabase.auth
+            .getUser()
+            .then((res: { data: { user: User | null } }) => setUser(res.data.user))
+            .catch(() => setUser(null))
+        } />
+      ) : (
+        <AdminDashboard onLogout={handleLogout} />
+      )}
+    </>
+  );
 }
+export default DashboardPage;
