@@ -1,13 +1,19 @@
 // Type definitions for Sassy Studio
 
 export interface Post {
-  id: string;
+  id?: string;
+  slug?: string;
   title: string;
   content: string;
   image: string;
   category: string;
   excerpt: string;
-  date: string;
+  date?: string;
+  published?: boolean;
+  published_at?: string;
+  author?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface PortfolioItem {

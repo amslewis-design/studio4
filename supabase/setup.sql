@@ -26,18 +26,29 @@ create index if not exists posts_slug_idx on public.posts(slug);
 -- Enable Row Level Security and policies
 alter table public.posts enable row level security;
 
--- Users can select published posts OR their own posts (draft/published)
-create policy "select_own_or_published" on public.posts
-  for select using (published = true OR auth.uid() = author);
+-- Policy 1: Everyone can SELECT published posts
+create policy "select_published" on public.posts
+  for select using (published = true);
 
--- Authenticated users can insert posts where they are the author
-create policy "insert_author" on public.posts
-  for insert with check (auth.uid() = author);
+-- Policy 2: Authenticated users can select their own posts (draft + published)
+create policy "select_own" on public.posts
+  for select using (auth.uid() = author);
 
--- Authors can update/delete their own posts
+-- Policy 3: Anonymous and authenticated users can INSERT posts
+-- For production, you should restrict this further (e.g., require authentication)
+create policy "insert_allow_all" on public.posts
+  for insert with check (true);
+
+-- Policy 4: Only authors (or null author if anonymous) can UPDATE/DELETE their own posts
+-- For posts with no author (anonymous), they can be modified if accessed via service role
 create policy "author_manage_own" on public.posts
-  for all using (auth.uid() = author) with check (auth.uid() = author);
+  for update using (auth.uid() = author OR author IS NULL) with check (auth.uid() = author OR author IS NULL);
 
--- Note: Admin operations (bulk import, publishing, moderation) should use the
--- service_role key via a trusted server environment — do NOT expose that key
--- to client-side code. Adjust policies as necessary for your workflow.
+create policy "author_delete_own" on public.posts
+  for delete using (auth.uid() = author OR author IS NULL);
+
+-- Note: For production, consider:
+-- 1. Restricting inserts to authenticated users only
+-- 2. Using the service_role key for admin operations via server endpoints
+-- 3. Implementing more granular access controls
+

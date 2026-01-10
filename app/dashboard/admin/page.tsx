@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { storageService } from '@/lib/services/storageService';
+import { supabaseService } from '@/lib/services/supabaseService';
 import { geminiService } from '@/lib/services/geminiService';
 import StyleManager from '@/app/components/StyleManager';
 import AssetSelector from '@/app/components/AssetSelector';
@@ -44,10 +45,15 @@ export default function Admin() {
   const [showAssetSelectorForPortfolio, setShowAssetSelectorForPortfolio] = useState(false);
 
   useEffect(() => {
-    setPosts(storageService.getPosts());
+    loadPosts();
     setPortfolio(storageService.getPortfolio());
     fetchAssets();
   }, []);
+
+  const loadPosts = async () => {
+    const supabasePosts = await supabaseService.getPosts();
+    setPosts(supabasePosts);
+  };
 
   const fetchAssets = async () => {
     try {
@@ -78,28 +84,34 @@ export default function Admin() {
     const htmlContent = postContent || '';
     if (!postTitle || !htmlContent) return;
 
+    const excerpt = stripHtml(htmlContent).substring(0, 100) + '...';
+
     if (editingPostId) {
-      const updatedPosts = posts.map(p => 
-        p.id === editingPostId 
-        ? { ...p, title: postTitle, content: htmlContent, image: postImage, category: postCategory, excerpt: stripHtml(htmlContent).substring(0, 100) + '...' } 
-        : p
-      );
-      setPosts(updatedPosts);
-      storageService.savePosts(updatedPosts);
-      setEditingPostId(null);
-    } else {
-      const post: Post = {
-        id: Date.now().toString(),
+      const updated = await supabaseService.updatePost(editingPostId, {
         title: postTitle,
         content: htmlContent,
         image: postImage,
         category: postCategory,
-        excerpt: stripHtml(htmlContent).substring(0, 100) + '...',
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-      };
-      const updatedPosts = [post, ...posts];
-      setPosts(updatedPosts);
-      storageService.savePosts(updatedPosts);
+        excerpt,
+      });
+      
+      if (updated) {
+        setPosts(posts.map(p => p.id === editingPostId ? updated : p));
+        setEditingPostId(null);
+      }
+    } else {
+      const newPost = await supabaseService.createPost({
+        title: postTitle,
+        content: htmlContent,
+        image: postImage,
+        category: postCategory,
+        excerpt,
+        published: false,
+      });
+      
+      if (newPost) {
+        setPosts([newPost, ...posts]);
+      }
     }
     
     setPostTitle('');
@@ -272,7 +284,7 @@ export default function Admin() {
                     </div>
                     <div className="flex gap-3 pt-3 border-t border-white/5">
                       <button onClick={() => handleEditPost(post)} className="flex-1 bg-white/5 py-2 text-[9px] uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/10 transition-all">Refine</button>
-                      <button onClick={() => { if(confirm('Are you sure you want to return this to the void?')) setPosts(posts.filter(p => p.id !== post.id)); }} className="flex-1 bg-red-900/10 py-2 text-[9px] uppercase tracking-widest text-red-900/60 hover:text-red-400 hover:bg-red-900/20 transition-all">Vanish</button>
+                      <button onClick={async () => { if(confirm('Are you sure you want to return this to the void?')) { await supabaseService.deletePost(post.id!); setPosts(posts.filter(p => p.id !== post.id)); } }} className="flex-1 bg-red-900/10 py-2 text-[9px] uppercase tracking-widest text-red-900/60 hover:text-red-400 hover:bg-red-900/20 transition-all">Vanish</button>
                     </div>
                   </div>
                 ))}
