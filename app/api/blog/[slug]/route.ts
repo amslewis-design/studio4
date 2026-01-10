@@ -7,9 +7,12 @@ import { supabaseAdmin } from '../../../../lib/supabaseAdmin';
  * DELETE /api/blog/[slug]   - delete post (author only)
  */
 
-export async function GET(req: Request, { params }: { params: { slug: string } }) {
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ slug: string }> }
+) {
   try {
-    const slug = params.slug;
+    const { slug } = await params;
     const { data, error } = await supabaseAdmin
       .from('posts')
       .select('*')
@@ -31,9 +34,12 @@ async function getUserFromToken(token?: string) {
   return data.user || null;
 }
 
-export async function PUT(req: Request, { params }: { params: { slug: string } }) {
+export async function PUT(
+  req: Request,
+  { params }: { params: Promise<{ slug: string }> }
+) {
   try {
-    const slug = params.slug;
+    const { slug } = await params;
     const token = req.headers.get('authorization')?.split(' ')[1];
     const user = await getUserFromToken(token || undefined);
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -66,9 +72,12 @@ export async function PUT(req: Request, { params }: { params: { slug: string } }
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { slug: string } }) {
+export async function DELETE(
+  req: Request,
+  { params }: { params: Promise<{ slug: string }> }
+) {
   try {
-    const slug = params.slug;
+    const { slug } = await params;
     const token = req.headers.get('authorization')?.split(' ')[1];
     const user = await getUserFromToken(token || undefined);
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
