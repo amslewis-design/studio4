@@ -1,11 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-export default supabase;
+// Re-export the Supabase client from utils
+// This maintains backward compatibility while using the modern publishable key setup
+export { supabase } from '@/utils/supabase';
+export { supabase as default } from '@/utils/supabase';
