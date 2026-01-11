@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const CLOUDINARY_API_BASE = 'https://api.cloudinary.com/v1_1';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
