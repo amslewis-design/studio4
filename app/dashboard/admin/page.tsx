@@ -9,9 +9,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { storageService } from '@/lib/services/storageService';
 import { supabaseService } from '@/lib/services/supabaseService';
 import { geminiService } from '@/lib/services/geminiService';
+import { cloudinaryService } from '@/lib/services/cloudinaryService';
 import StyleManager from '@/app/components/StyleManager';
 import AssetSelector from '@/app/components/AssetSelector';
 import ImageUploadManager from '@/app/components/ImageUploadManager';
+import ImagePreviewModal from '@/app/components/ImagePreviewModal';
 import { Post, PortfolioItem, SiteSettings, Asset } from '@/lib/types';
 
 const BACKEND_URL = '';
@@ -43,6 +45,12 @@ export default function Admin() {
   const [assetSearchQuery, setAssetSearchQuery] = useState('');
   const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
   const [showImageUploadManager, setShowImageUploadManager] = useState(false);
+  const [previewAsset, setPreviewAsset] = useState<Asset | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [editingFolderId, setEditingFolderId] = useState<string | null>(null);
+  const [editingFolderName, setEditingFolderName] = useState('');
+  const [isLoadingFolders, setIsLoadingFolders] = useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   
   // Helpers
   const [isGenerating, setIsGenerating] = useState(false);
@@ -175,6 +183,133 @@ export default function Admin() {
     if (confirm(`Return ${selectedAssetIds.length} artifacts to the void?`)) {
       setAssets(prev => prev.filter(a => !selectedAssetIds.includes(a.id || (a as any)._id)));
       setSelectedAssetIds([]);
+    }
+  };
+
+  const handleDeleteAsset = async (assetId: string, cloudinaryId?: string) => {
+    if (!confirm('Vanish this artifact?')) return;
+
+    try {
+      setIsLoadingDelete(true);
+      
+      // Delete from Cloudinary if it has a cloudinary ID
+      if (cloudinaryId) {
+        const success = await cloudinaryService.deleteImage(cloudinaryId);
+        if (!success) {
+          console.error('Failed to delete from Cloudinary');
+          alert('Failed to delete from Cloudinary. Please try again.');
+          return;
+        }
+      }
+
+      // Remove from local state
+      setAssets(prev => prev.filter(a => (a.id || (a as any)._id) !== assetId));
+      
+      // Persist to storage
+      const updated = assets.filter(a => (a.id || (a as any)._id) !== assetId);
+      storageService.saveAssets(updated);
+    } catch (error) {
+      console.error('Error deleting asset:', error);
+      alert('Error deleting asset. Please try again.');
+    } finally {
+      setIsLoadingDelete(false);
+    }
+  };
+
+  const handleCreateFolder = async () => {
+    const folderPath = prompt('Enter folder path (e.g., my_folder or parent/child):');
+    if (!folderPath?.trim()) return;
+
+    try {
+      setIsLoadingFolders(true);
+      const response = await fetch('/api/cloudinary/folders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ folderPath: folderPath.trim() }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create folder');
+      }
+
+      const newFolder = await response.json();
+      
+      // Add to local folders state
+      setFolders([...folders, {
+        id: newFolder.path || folderPath.trim(),
+        name: newFolder.name || folderPath.trim().split('/').pop() || 'New Folder',
+        count: 0,
+      }]);
+    } catch (error) {
+      console.error('Error creating folder:', error);
+      alert(`Error creating folder: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsLoadingFolders(false);
+    }
+  };
+
+  const handleRenameFolder = async (folderId: string, newName: string) => {
+    if (!newName?.trim() || newName === folders.find(f => f.id === folderId)?.name) {
+      setEditingFolderId(null);
+      setEditingFolderName('');
+      return;
+    }
+
+    try {
+      setIsLoadingFolders(true);
+      const response = await fetch('/api/cloudinary/folders', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: folderId, toPath: newName.trim() }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to rename folder');
+      }
+
+      // Update local state
+      setFolders(prev => 
+        prev.map(f => f.id === folderId ? { ...f, id: newName.trim(), name: newName.trim().split('/').pop() || newName.trim() } : f)
+      );
+
+      setEditingFolderId(null);
+      setEditingFolderName('');
+    } catch (error) {
+      console.error('Error renaming folder:', error);
+      alert(`Error renaming folder: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsLoadingFolders(false);
+    }
+  };
+
+  const handleDeleteFolder = async (folderId: string, folderName: string) => {
+    if (!confirm(`Delete folder "${folderName}"? Assets in this folder will not be deleted.`)) return;
+
+    try {
+      setIsLoadingFolders(true);
+      const response = await fetch('/api/cloudinary/folders', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: folderId }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to delete folder');
+      }
+
+      // Remove from local state
+      setFolders(prev => prev.filter(f => f.id !== folderId));
+      if (currentFolderId === folderId) {
+        setCurrentFolderId(null);
+      }
+    } catch (error) {
+      console.error('Error deleting folder:', error);
+      alert(`Error deleting folder: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsLoadingFolders(false);
     }
   };
 
@@ -327,13 +462,15 @@ export default function Admin() {
               </div>
               <div className="flex gap-3 w-full md:w-auto">
                 <button 
-                   onClick={() => setFolders([...folders, { id: Date.now().toString(), name: 'New Alchemical Collection', count: 0 }])}
-                   className="flex-1 md:flex-none px-8 py-4 bg-white/5 border border-white/10 text-[9px] uppercase tracking-[0.3em] font-bold text-gray-400 hover:bg-white/10 hover:text-white transition-all">
-                  New Folder
+                   onClick={handleCreateFolder}
+                   disabled={isLoadingFolders}
+                   className="flex-1 md:flex-none px-8 py-4 bg-white/5 border border-white/10 text-[9px] uppercase tracking-[0.3em] font-bold text-gray-400 hover:bg-white/10 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                  {isLoadingFolders ? 'Creating...' : 'New Folder'}
                 </button>
                 <button 
                   onClick={() => setShowImageUploadManager(true)}
-                  className="flex-1 md:flex-none px-10 py-4 bg-[#FC7CA4] text-black text-[9px] uppercase tracking-[0.3em] font-black hover:bg-white transition-all">
+                  className="flex-1 md:flex-none px-10 py-4 bg-[#FC7CA4] text-black text-[9px] uppercase tracking-[0.3em] font-black hover:bg-white transition-all disabled:opacity-50"
+                >
                   Upload Artifact
                 </button>
               </div>
@@ -363,14 +500,82 @@ export default function Admin() {
                   {folders.map(folder => (
                     <div 
                       key={folder.id} 
-                      onClick={() => setCurrentFolderId(folder.id)}
-                      className="group cursor-pointer bg-neutral-900/60 border border-white/5 p-5 rounded-sm hover:border-[#FC7CA4]/30 transition-all flex items-center gap-4"
+                      className="group relative"
                     >
-                      <div className="text-2xl opacity-40 group-hover:opacity-100 transition-opacity">📁</div>
-                      <div className="min-w-0">
-                        <p className="text-[10px] uppercase tracking-widest text-white truncate font-bold">{folder.name}</p>
-                        <p className="text-[8px] text-gray-600 uppercase tracking-tighter">{folder.count} items</p>
-                      </div>
+                      {editingFolderId === folder.id ? (
+                        <div className="bg-neutral-900/60 border border-white/5 p-5 rounded-sm flex flex-col gap-3">
+                          <input
+                            autoFocus
+                            type="text"
+                            value={editingFolderName}
+                            onChange={(e) => setEditingFolderName(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') handleRenameFolder(folder.id, editingFolderName);
+                              if (e.key === 'Escape') {
+                                setEditingFolderId(null);
+                                setEditingFolderName('');
+                              }
+                            }}
+                            className="bg-black/40 border border-white/10 px-2 py-2 text-[10px] text-white outline-none focus:border-[#FC7CA4]"
+                            placeholder="Folder name"
+                          />
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleRenameFolder(folder.id, editingFolderName)}
+                              disabled={isLoadingFolders}
+                              className="flex-1 bg-[#FC7CA4] text-black text-[8px] uppercase font-bold py-1 hover:bg-white transition-colors disabled:opacity-50"
+                            >
+                              Save
+                            </button>
+                            <button
+                              onClick={() => {
+                                setEditingFolderId(null);
+                                setEditingFolderName('');
+                              }}
+                              className="flex-1 bg-white/10 text-white text-[8px] uppercase font-bold py-1 hover:bg-white/20 transition-colors"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div 
+                            onClick={() => setCurrentFolderId(folder.id)}
+                            className="cursor-pointer bg-neutral-900/60 border border-white/5 p-5 rounded-sm hover:border-[#FC7CA4]/30 transition-all flex items-center gap-4 group-hover:opacity-70"
+                          >
+                            <div className="text-2xl opacity-40 group-hover:opacity-100 transition-opacity">📁</div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-[10px] uppercase tracking-widest text-white truncate font-bold">{folder.name}</p>
+                              <p className="text-[8px] text-gray-600 uppercase tracking-tighter">{folder.count} items</p>
+                            </div>
+                          </div>
+                          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditingFolderId(folder.id);
+                                setEditingFolderName(folder.name);
+                              }}
+                              className="w-6 h-6 bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-[#FC7CA4] hover:text-black transition-all text-[10px]"
+                              title="Rename"
+                            >
+                              ✎
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteFolder(folder.id, folder.name);
+                              }}
+                              disabled={isLoadingFolders}
+                              className="w-6 h-6 bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all text-[10px] disabled:opacity-50"
+                              title="Delete"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -422,10 +627,23 @@ export default function Admin() {
                       />
                       {/* Hover Actions Overlay */}
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-4">
-                        <button className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-[#FC7CA4] hover:text-black transition-all">👁</button>
                         <button 
-                          onClick={(e) => { e.stopPropagation(); if(confirm('Vanish this artifact?')) setAssets(assets.filter(a => (a.id || (a as any)._id) !== (asset.id || (asset as any)._id))); }}
-                          className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPreviewAsset(asset);
+                            setIsPreviewOpen(true);
+                          }}
+                          className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-[#FC7CA4] hover:text-black transition-all"
+                        >
+                          👁
+                        </button>
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteAsset(asset.id || (asset as any)._id, asset.cloudinaryId);
+                          }}
+                          disabled={isLoadingDelete}
+                          className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           ✕
                         </button>
@@ -559,6 +777,16 @@ export default function Admin() {
 
       {showAssetSelectorForPost && <AssetSelector onSelect={(url) => setPostImage(url)} onClose={() => setShowAssetSelectorForPost(false)} />}
       {showAssetSelectorForPortfolio && <AssetSelector onSelect={(url) => setNewPortfolio({...newPortfolio, imageUrl: url})} onClose={() => setShowAssetSelectorForPortfolio(false)} />}
+      
+      {/* Image Preview Modal */}
+      <ImagePreviewModal
+        asset={previewAsset}
+        isOpen={isPreviewOpen}
+        onClose={() => {
+          setIsPreviewOpen(false);
+          setPreviewAsset(null);
+        }}
+      />
     </div>
   );
 }
