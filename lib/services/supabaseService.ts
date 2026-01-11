@@ -169,17 +169,12 @@ export const supabaseService = {
 
   /**
    * Subscribe to real-time updates (optional for future use)
+   * Note: Using realtime subscriptions with the new API requires different approach
    */
-  subscribeToPostChanges(callback: (posts: Post[]) => void) {
-    const subscription = supabase
-      .from('posts')
-      .on('*', (payload) => {
-        // Refetch posts on any change
-        this.getPosts().then(callback);
-      })
-      .subscribe();
-
-    return subscription;
+  subscribeToPostChanges(_callback?: (posts: Post[]) => void) {
+    // TODO: Implement realtime subscriptions using the new Supabase Realtime API
+    // For now, this is a placeholder that can be called manually
+    return null;
   },
 };
 

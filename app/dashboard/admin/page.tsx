@@ -121,7 +121,7 @@ export default function Admin() {
   };
 
   const handleEditPost = (post: Post) => {
-    setEditingPostId(post.id);
+    setEditingPostId(post.id || null);
     setPostTitle(post.title);
     setPostImage(post.image);
     setPostContent(post.content);
