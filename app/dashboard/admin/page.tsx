@@ -11,6 +11,7 @@ import { supabaseService } from '@/lib/services/supabaseService';
 import { geminiService } from '@/lib/services/geminiService';
 import StyleManager from '@/app/components/StyleManager';
 import AssetSelector from '@/app/components/AssetSelector';
+import ImageUploadManager from '@/app/components/ImageUploadManager';
 import { Post, PortfolioItem, SiteSettings, Asset } from '@/lib/types';
 
 const BACKEND_URL = '';
@@ -41,6 +42,7 @@ export default function Admin() {
   const [selectedAssetIds, setSelectedAssetIds] = useState<string[]>([]);
   const [assetSearchQuery, setAssetSearchQuery] = useState('');
   const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
+  const [showImageUploadManager, setShowImageUploadManager] = useState(false);
   
   // Helpers
   const [isGenerating, setIsGenerating] = useState(false);
@@ -82,6 +84,18 @@ export default function Admin() {
     } catch (e) {
       setAssets(storageService.getAssets());
     }
+  };
+
+  const handleAssetUpload = (newAsset: Asset) => {
+    // Add to local state
+    setAssets([newAsset, ...assets]);
+    
+    // Persist to local storage
+    const allAssets = [newAsset, ...assets];
+    storageService.saveAssets(allAssets);
+    
+    // Close upload manager
+    setShowImageUploadManager(false);
   };
 
   const handleSavePost = async () => {
@@ -317,7 +331,9 @@ export default function Admin() {
                    className="flex-1 md:flex-none px-8 py-4 bg-white/5 border border-white/10 text-[9px] uppercase tracking-[0.3em] font-bold text-gray-400 hover:bg-white/10 hover:text-white transition-all">
                   New Folder
                 </button>
-                <button className="flex-1 md:flex-none px-10 py-4 bg-[#FC7CA4] text-black text-[9px] uppercase tracking-[0.3em] font-black hover:bg-white transition-all">
+                <button 
+                  onClick={() => setShowImageUploadManager(true)}
+                  className="flex-1 md:flex-none px-10 py-4 bg-[#FC7CA4] text-black text-[9px] uppercase tracking-[0.3em] font-black hover:bg-white transition-all">
                   Upload Artifact
                 </button>
               </div>
@@ -454,6 +470,51 @@ export default function Admin() {
                       Bulk Vanish
                     </button>
                   </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Image Upload Manager Modal */}
+            <AnimatePresence>
+              {showImageUploadManager && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setShowImageUploadManager(false)}
+                  className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-xl flex items-center justify-center p-4"
+                >
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                    onClick={(e) => e.stopPropagation()}
+                    className="bg-neutral-900 border border-white/10 rounded-sm max-w-xl w-full p-8 space-y-6"
+                  >
+                    <div>
+                      <h3
+                        className="text-3xl font-serif italic text-white mb-2"
+                        style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                      >
+                        Upload Artifact
+                      </h3>
+                      <p className="text-[10px] uppercase tracking-widest text-gray-500">
+                        Add new images to your digital vault via Cloudinary
+                      </p>
+                    </div>
+
+                    <ImageUploadManager
+                      onAssetUpload={handleAssetUpload}
+                      folderContext={currentFolderId || undefined}
+                    />
+
+                    <button
+                      onClick={() => setShowImageUploadManager(false)}
+                      className="w-full text-center text-[10px] uppercase tracking-widest text-gray-500 hover:text-white transition-colors py-3"
+                    >
+                      Close
+                    </button>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>

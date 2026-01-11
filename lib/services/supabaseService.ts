@@ -202,3 +202,90 @@ function mapPostFromDatabase(record: any): Post {
     updated_at: record.updated_at,
   };
 }
+/**
+ * Save asset metadata to Supabase
+ * Tracks Cloudinary assets for future reference and organization
+ */
+export const saveAssetMetadata = async (
+  publicId: string,
+  metadata: {
+    name: string;
+    url: string;
+    type: string;
+    version: number;
+    folder?: string;
+  }
+): Promise<boolean> => {
+  try {
+    // Create cloudinary_assets table if it doesn't exist
+    // This allows us to track which assets are being used
+    const { error } = await supabase
+      .from('cloudinary_assets')
+      .insert({
+        cloudinary_id: publicId,
+        name: metadata.name,
+        url: metadata.url,
+        type: metadata.type,
+        version: metadata.version,
+        folder: metadata.folder,
+        created_at: new Date().toISOString(),
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error saving asset metadata:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error in saveAssetMetadata:', error);
+    return false;
+  }
+};
+
+/**
+ * Get asset metadata from Supabase
+ */
+export const getAssetMetadata = async (publicId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('cloudinary_assets')
+      .select('*')
+      .eq('cloudinary_id', publicId)
+      .single();
+
+    if (error) {
+      console.error('Error fetching asset metadata:', error);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error in getAssetMetadata:', error);
+    return null;
+  }
+};
+
+/**
+ * Delete asset metadata from Supabase
+ */
+export const deleteAssetMetadata = async (publicId: string): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('cloudinary_assets')
+      .delete()
+      .eq('cloudinary_id', publicId);
+
+    if (error) {
+      console.error('Error deleting asset metadata:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error in deleteAssetMetadata:', error);
+    return false;
+  }
+};

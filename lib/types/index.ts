@@ -31,6 +31,11 @@ export interface Asset {
   url: string;
   type: string;
   createdAt: string;
+  // Cloudinary metadata
+  cloudinaryId?: string; // public_id from Cloudinary
+  cloudinaryVersion?: number; // Version number for cache busting
+  transformations?: Record<string, string>; // Stored transformation URLs
+  folderId?: string; // Associated folder/category
 }
 
 export interface SiteSettings {
