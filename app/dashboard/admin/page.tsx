@@ -1,5 +1,9 @@
 'use client';
 
+// Mark this page as dynamic to prevent static pre-rendering at build time
+// This is an interactive dashboard that requires client-side rendering
+export const dynamic = 'force-dynamic';
+
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { storageService } from '@/lib/services/storageService';
