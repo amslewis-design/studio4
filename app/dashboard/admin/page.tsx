@@ -119,6 +119,7 @@ export default function Admin() {
         image: postImage,
         category: postCategory,
         excerpt,
+        published: true,
       });
       
       if (updated) {
@@ -132,7 +133,7 @@ export default function Admin() {
         image: postImage,
         category: postCategory,
         excerpt,
-        published: false,
+        published: true,
       });
       
       if (newPost) {

@@ -709,12 +709,13 @@ export default function Preview() {
               </p>
             </div>
 
-            <button
-              className="self-start md:self-auto border border-white/15 text-white/80 px-8 py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300"
+            <Link
+              href="/blog"
+              className="self-start md:self-auto border border-white/15 text-white/80 px-8 py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
               style={{ borderRadius: "var(--btn-radius)" }}
             >
               View all posts
-            </button>
+            </Link>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-10">
