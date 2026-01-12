@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 
 type ConsultationStatus = "idle" | "loading" | "success" | "error";
@@ -17,6 +18,7 @@ type BlogPost = {
   tag: string;
   image: string;
   excerpt: string;
+  slug?: string;
 };
 
 function Logo({ fill = "white" }: { fill?: string }) {
@@ -443,38 +445,28 @@ export default function Preview() {
     []
   );
 
-  const blogPosts: BlogPost[] = useMemo(
-    () => [
-      {
-        title: "The New Luxury: Quiet Content That Converts",
-        date: "12 Apr 2026",
-        tag: "Strategy",
-        image:
-          "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=1600",
-        excerpt:
-          "Why boutique hospitality wins when it stops shouting and starts designing every touchpoint like a guest experience.",
-      },
-      {
-        title: "Photography Briefs That Make Chefs Say Yes",
-        date: "28 Mar 2026",
-        tag: "Production",
-        image:
-          "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&q=80&w=1600",
-        excerpt:
-          "A practical framework for capturing food, light, and atmosphere without disrupting service.",
-      },
-      {
-        title: "Reels for Hotels: A Three-Scene Formula",
-        date: "03 Mar 2026",
-        tag: "Social",
-        image:
-          "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=1600",
-        excerpt:
-          "A repeatable structure for short-form video that feels premium and still drives direct enquiries.",
-      },
-    ],
-    []
-  );
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const response = await fetch('/api/posts');
+        if (response.ok) {
+          const data = await response.json();
+          setBlogPosts(data.posts || []);
+        } else {
+          // On API error, show empty posts
+          setBlogPosts([]);
+        }
+      } catch (error) {
+        // On fetch error, show empty posts
+        console.error('Failed to fetch blog posts:', error);
+        setBlogPosts([]);
+      }
+    };
+
+    fetchBlogPosts();
+  }, []);
 
   // Lightweight self-checks (dev only). Helps catch accidental anchor regressions.
   useEffect(() => {
@@ -772,9 +764,18 @@ export default function Preview() {
 
                 {/* Footer */}
                 <div className="p-8 pt-0 mt-auto">
-                  <button className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300">
-                    Read more
-                  </button>
+                  {post.slug ? (
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 inline-block"
+                    >
+                      Read more
+                    </Link>
+                  ) : (
+                    <button className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 cursor-default">
+                      Read more
+                    </button>
+                  )}
                   <div className="mt-6 w-full h-[1px] bg-white/5 group-hover:bg-[var(--accent)]/60 transition-colors duration-700" />
                 </div>
               </motion.article>
