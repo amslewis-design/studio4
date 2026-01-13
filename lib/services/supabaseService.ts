@@ -107,13 +107,11 @@ export const supabaseService = {
   async updatePost(id: string, postData: Partial<Post>): Promise<Post | null> {
     try {
       const updatePayload: any = {};
-      const resultPost: Partial<Post> = { id, ...postData };
 
       // Only include defined fields
       if (postData.title !== undefined) {
         updatePayload.title = postData.title;
         updatePayload.slug = generateSlug(postData.title);
-        resultPost.slug = updatePayload.slug;
       }
       if (postData.content !== undefined) {
         updatePayload.content = postData.content;
@@ -130,41 +128,50 @@ export const supabaseService = {
       if (postData.published !== undefined) {
         updatePayload.published = postData.published;
         updatePayload.published_at = postData.published ? new Date().toISOString() : null;
-        resultPost.published_at = updatePayload.published_at;
       }
       
       updatePayload.updated_at = new Date().toISOString();
-      resultPost.updated_at = updatePayload.updated_at;
 
       console.log('Updating post with payload:', { id, updatePayload });
 
-      const { error } = await supabase
+      // Try to update with select in one call
+      const { data, error } = await supabase
         .from('posts')
         .update(updatePayload)
-        .eq('id', id);
+        .eq('id', id)
+        .select()
+        .single();
 
       if (error) {
-        console.error('Error updating post:', error);
+        console.error('Error updating post:', { code: error.code, message: error.message, details: error.details });
+        
+        // If we get a PGRST116 error, the update likely succeeded but select failed due to RLS
+        if (error.code === 'PGRST116') {
+          console.log('Update succeeded but select failed due to RLS (PGRST116), attempting separate fetch...');
+          
+          // Try to fetch the updated post separately
+          const { data: fetchedData, error: fetchError } = await supabase
+            .from('posts')
+            .select('*')
+            .eq('id', id)
+            .single();
+          
+          if (fetchError) {
+            console.error('Failed to fetch updated post:', { code: fetchError.code, message: fetchError.message });
+            return null;
+          }
+          
+          if (fetchedData) {
+            console.log('Successfully fetched updated post:', fetchedData);
+            return mapPostFromDatabase(fetchedData);
+          }
+        }
+        
         return null;
       }
 
-      console.log('Post updated successfully');
-      
-      // Return the constructed result post without trying to re-select
-      return {
-        id: resultPost.id as string,
-        slug: resultPost.slug as string,
-        title: resultPost.title as string,
-        content: resultPost.content as string,
-        image: resultPost.image as string,
-        category: resultPost.category as string,
-        excerpt: resultPost.excerpt as string,
-        date: resultPost.date,
-        published: resultPost.published,
-        published_at: resultPost.published_at,
-        created_at: resultPost.created_at,
-        updated_at: resultPost.updated_at,
-      } as Post;
+      console.log('Post updated successfully:', data);
+      return data ? mapPostFromDatabase(data) : null;
     } catch (err) {
       console.error('Exception updating post:', err);
       return null;

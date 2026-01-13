@@ -104,6 +104,27 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
   return (
     <div className="space-y-4">
       <style>{`
+        .ProseMirror h1 {
+          font-size: 2em;
+          font-weight: bold;
+          margin-top: 0.67em;
+          margin-bottom: 0.67em;
+          line-height: 1.2;
+        }
+        .ProseMirror h2 {
+          font-size: 1.5em;
+          font-weight: bold;
+          margin-top: 0.75em;
+          margin-bottom: 0.75em;
+          line-height: 1.2;
+        }
+        .ProseMirror h3 {
+          font-size: 1.17em;
+          font-weight: bold;
+          margin-top: 0.83em;
+          margin-bottom: 0.83em;
+          line-height: 1.2;
+        }
         .ProseMirror a {
           color: #FC7CA4;
           text-decoration: underline;
