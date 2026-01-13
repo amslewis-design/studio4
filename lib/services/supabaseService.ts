@@ -134,44 +134,37 @@ export const supabaseService = {
 
       console.log('Updating post with payload:', { id, updatePayload });
 
-      // Try to update with select in one call
-      const { data, error } = await supabase
+      // First, do the UPDATE operation WITHOUT trying to select
+      const { error: updateError } = await supabase
         .from('posts')
         .update(updatePayload)
-        .eq('id', id)
-        .select()
-        .single();
+        .eq('id', id);
 
-      if (error) {
-        console.error('Error updating post:', { code: error.code, message: error.message, details: error.details });
-        
-        // If we get a PGRST116 error, the update likely succeeded but select failed due to RLS
-        if (error.code === 'PGRST116') {
-          console.log('Update succeeded but select failed due to RLS (PGRST116), attempting separate fetch...');
-          
-          // Try to fetch the updated post separately
-          const { data: fetchedData, error: fetchError } = await supabase
-            .from('posts')
-            .select('*')
-            .eq('id', id)
-            .single();
-          
-          if (fetchError) {
-            console.error('Failed to fetch updated post:', { code: fetchError.code, message: fetchError.message });
-            return null;
-          }
-          
-          if (fetchedData) {
-            console.log('Successfully fetched updated post:', fetchedData);
-            return mapPostFromDatabase(fetchedData);
-          }
-        }
-        
+      if (updateError) {
+        console.error('Error during update:', { code: updateError.code, message: updateError.message });
         return null;
       }
 
-      console.log('Post updated successfully:', data);
-      return data ? mapPostFromDatabase(data) : null;
+      console.log('Update operation completed successfully');
+
+      // Now fetch the updated post separately
+      const { data, error: fetchError } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (fetchError) {
+        console.error('Error fetching updated post:', { code: fetchError.code, message: fetchError.message });
+        return null;
+      }
+
+      if (data) {
+        console.log('Successfully fetched updated post:', data);
+        return mapPostFromDatabase(data);
+      }
+
+      return null;
     } catch (err) {
       console.error('Exception updating post:', err);
       return null;
