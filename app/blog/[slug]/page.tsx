@@ -85,14 +85,16 @@ export default function BlogPostPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative h-96 md:h-[500px] overflow-hidden"
+        className="px-6 mx-auto max-w-6xl"
       >
-        <img
-          src={post.image || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1600'}
-          alt={post.title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="relative h-96 md:h-[500px] overflow-hidden rounded-sm">
+          <img
+            src={post.image || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1600'}
+            alt={post.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        </div>
       </motion.div>
 
       {/* Post Header */}
@@ -146,7 +148,7 @@ export default function BlogPostPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="max-w-4xl mx-auto prose prose-invert max-w-none"
+          className="max-w-4xl mx-auto prose prose-invert"
           dangerouslySetInnerHTML={{
             __html: post.content || '<p>No content available.</p>',
           }}
