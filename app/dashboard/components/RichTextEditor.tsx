@@ -49,7 +49,13 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
   const toggleOrderedList = () => editor.chain().focus().toggleOrderedList().run();
   
   const setHeading = (level: 1 | 2 | 3) => {
-    editor.chain().focus().setHeading({ level }).run();
+    // Only toggle if not already at this heading level
+    if (editor.isActive('heading', { level })) {
+      editor.chain().focus().toggleHeading({ level }).run();
+    } else {
+      // Clear any existing heading and set to new level
+      editor.chain().focus().clearNodes().toggleHeading({ level }).run();
+    }
   };
 
   const setTextAlign = (align: 'left' | 'center' | 'right' | 'justify') => {

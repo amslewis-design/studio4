@@ -132,19 +132,29 @@ export const supabaseService = {
       
       updatePayload.updated_at = new Date().toISOString();
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('posts')
         .update(updatePayload)
-        .eq('id', id)
-        .select()
-        .single();
+        .eq('id', id);
 
       if (error) {
         console.error('Error updating post:', error);
         return null;
       }
 
-      return data ? mapPostFromDatabase(data) : null;
+      // Re-fetch the updated post to return the complete data
+      const { data, error: fetchError } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (fetchError || !data) {
+        console.error('Error fetching updated post:', fetchError);
+        return null;
+      }
+
+      return mapPostFromDatabase(data);
     } catch (err) {
       console.error('Exception updating post:', err);
       return null;
