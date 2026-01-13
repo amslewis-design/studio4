@@ -107,11 +107,15 @@ export default function Admin() {
 
   const handleSavePost = async () => {
     const htmlContent = postContent || '';
-    if (!postTitle || !htmlContent) return;
+    if (!postTitle || !htmlContent) {
+      console.log('Save blocked: missing title or content', { postTitle, htmlContent: htmlContent?.length });
+      return;
+    }
 
     const excerpt = stripHtml(htmlContent).substring(0, 100) + '...';
 
     if (editingPostId) {
+      console.log('Updating post:', { editingPostId, postTitle });
       const updated = await supabaseService.updatePost(editingPostId, {
         title: postTitle,
         content: htmlContent,
@@ -121,11 +125,15 @@ export default function Admin() {
         published: true,
       });
       
+      console.log('Update result:', updated);
       if (updated) {
         setPosts(posts.map(p => p.id === editingPostId ? updated : p));
         setEditingPostId(null);
+      } else {
+        console.log('Update failed - updated is null');
       }
     } else {
+      console.log('Creating new post:', { postTitle });
       const newPost = await supabaseService.createPost({
         title: postTitle,
         content: htmlContent,
@@ -135,6 +143,7 @@ export default function Admin() {
         published: true,
       });
       
+      console.log('Create result:', newPost);
       if (newPost) {
         setPosts([newPost, ...posts]);
       }

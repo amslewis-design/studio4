@@ -45,17 +45,19 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
   const toggleBold = () => editor.chain().focus().toggleBold().run();
   const toggleItalic = () => editor.chain().focus().toggleItalic().run();
   const toggleUnderline = () => editor.chain().focus().toggleUnderline().run();
-  const toggleBulletList = () => editor.chain().focus().toggleBulletList().run();
-  const toggleOrderedList = () => editor.chain().focus().toggleOrderedList().run();
+  const toggleBulletList = () => {
+    if (!editor) return;
+    editor.chain().focus().toggleBulletList().run();
+  };
+  const toggleOrderedList = () => {
+    if (!editor) return;
+    editor.chain().focus().toggleOrderedList().run();
+  };
   
   const setHeading = (level: 1 | 2 | 3) => {
-    // Only toggle if not already at this heading level
-    if (editor.isActive('heading', { level })) {
-      editor.chain().focus().toggleHeading({ level }).run();
-    } else {
-      // Clear any existing heading and set to new level
-      editor.chain().focus().clearNodes().toggleHeading({ level }).run();
-    }
+    if (!editor) return;
+    console.log(`Setting heading ${level}`);
+    editor.chain().focus().toggleHeading({ level }).run();
   };
 
   const setTextAlign = (align: 'left' | 'center' | 'right' | 'justify') => {
