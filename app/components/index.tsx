@@ -431,7 +431,7 @@ export default function Preview() {
 
   // Load settings from localStorage on mount
   useEffect(() => {
-    const storedSettings = localStorage.getItem('siteSettings');
+    const storedSettings = localStorage.getItem('sassy_settings');
     if (storedSettings) {
       try {
         const parsed = JSON.parse(storedSettings);
