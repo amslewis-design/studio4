@@ -8,7 +8,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { storageService } from '@/lib/services/storageService';
 import { supabaseService } from '@/lib/services/supabaseService';
-import { geminiService } from '@/lib/services/geminiService';
 import { cloudinaryService } from '@/lib/services/cloudinaryService';
 import StyleManager from '@/app/components/StyleManager';
 import AssetSelector from '@/app/components/AssetSelector';
@@ -54,7 +53,6 @@ export default function Admin() {
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   
   // Helpers
-  const [isGenerating, setIsGenerating] = useState(false);
   const [showAssetSelectorForPost, setShowAssetSelectorForPost] = useState(false);
   const [newPortfolio, setNewPortfolio] = useState({ clientName: '', category: 'Hotel' as any, imageUrl: '', description: '' });
   const [showAssetSelectorForPortfolio, setShowAssetSelectorForPortfolio] = useState(false);
@@ -164,16 +162,7 @@ export default function Admin() {
     return tmp.textContent || tmp.innerText || "";
   };
 
-  const handleAIHelp = async () => {
-    if (!postTitle) return;
-    setIsGenerating(true);
-    try {
-      const result = await geminiService.generateMarketingCopy(postTitle);
-      setPostContent(result);
-    } finally {
-      setIsGenerating(false);
-    }
-  };
+
 
   const toggleAssetSelection = (id: string) => {
     setSelectedAssetIds(prev => 
@@ -370,16 +359,7 @@ export default function Admin() {
                   onChange={e => setPostTitle(e.target.value)} 
                 />
                 <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Content Narrative</label>
-                    <button 
-                      onClick={handleAIHelp} 
-                      disabled={isGenerating} 
-                      className="text-[9px] uppercase px-4 py-1.5 rounded-full border border-[#FC7CA4]/30 text-[#FC7CA4] hover:bg-[#FC7CA4] hover:text-black transition-all"
-                    >
-                      {isGenerating ? 'Channeling...' : '✨ AI Alchemist'}
-                    </button>
-                  </div>
+                  <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Content Narrative</label>
                   <div className="w-full bg-black border border-white/10 rounded-sm overflow-hidden">
                     <RichTextEditor 
                       value={postContent}
