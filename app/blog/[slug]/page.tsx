@@ -144,11 +144,49 @@ export default function BlogPostPage() {
 
       {/* Post Content */}
       <section className="py-16 md:py-24 px-6">
+        <style>{`
+          .blog-post-content h1,
+          .blog-post-content h2,
+          .blog-post-content h3,
+          .blog-post-content h4,
+          .blog-post-content h5,
+          .blog-post-content h6 {
+            color: #ffffff;
+            font-weight: bold;
+            line-height: 1.3;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+          }
+          .blog-post-content h1 {
+            font-size: 2.2em;
+          }
+          .blog-post-content h2 {
+            font-size: 1.8em;
+          }
+          .blog-post-content h3 {
+            font-size: 1.5em;
+          }
+          .blog-post-content h4 {
+            font-size: 1.3em;
+          }
+          .blog-post-content p {
+            color: #d1d5db;
+            line-height: 1.7;
+            margin-bottom: 1em;
+          }
+          .blog-post-content a {
+            color: #FC7CA4;
+            text-decoration: underline;
+          }
+          .blog-post-content a:hover {
+            color: #ff9fc0;
+          }
+        `}</style>
         <motion.article
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="max-w-4xl mx-auto prose prose-invert"
+          className="max-w-4xl mx-auto prose prose-invert blog-post-content"
           dangerouslySetInnerHTML={{
             __html: post.content || '<p>No content available.</p>',
           }}

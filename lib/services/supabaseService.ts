@@ -107,34 +107,47 @@ export const supabaseService = {
   async updatePost(id: string, postData: Partial<Post>): Promise<Post | null> {
     try {
       const updatePayload: any = {};
+      const resultData: any = { id };
 
-      // Only include defined fields
+      // Only include defined fields and track what we're updating
       if (postData.title !== undefined) {
         updatePayload.title = postData.title;
-        updatePayload.slug = generateSlug(postData.title);
+        const newSlug = generateSlug(postData.title);
+        updatePayload.slug = newSlug;
+        resultData.title = postData.title;
+        resultData.slug = newSlug;
       }
       if (postData.content !== undefined) {
         updatePayload.content = postData.content;
+        resultData.content = postData.content;
       }
       if (postData.image !== undefined) {
         updatePayload.cover_url = postData.image;
+        resultData.image = postData.image;
       }
       if (postData.category !== undefined) {
         updatePayload.tag = postData.category;
+        resultData.category = postData.category;
       }
       if (postData.excerpt !== undefined) {
         updatePayload.excerpt = postData.excerpt;
+        resultData.excerpt = postData.excerpt;
       }
       if (postData.published !== undefined) {
         updatePayload.published = postData.published;
-        updatePayload.published_at = postData.published ? new Date().toISOString() : null;
+        const publishedAt = postData.published ? new Date().toISOString() : null;
+        updatePayload.published_at = publishedAt;
+        resultData.published = postData.published;
+        resultData.published_at = publishedAt;
       }
       
-      updatePayload.updated_at = new Date().toISOString();
+      const now = new Date().toISOString();
+      updatePayload.updated_at = now;
+      resultData.updated_at = now;
 
       console.log('Updating post with payload:', { id, updatePayload });
 
-      // First, do the UPDATE operation WITHOUT trying to select
+      // Do the UPDATE operation
       const { error: updateError } = await supabase
         .from('posts')
         .update(updatePayload)
@@ -147,21 +160,34 @@ export const supabaseService = {
 
       console.log('Update operation completed successfully');
 
-      // Now fetch the updated post separately
+      // Try to fetch the updated post, but if it fails due to RLS, return constructed object
       const { data, error: fetchError } = await supabase
         .from('posts')
         .select('*')
         .eq('id', id)
         .single();
 
-      if (fetchError) {
-        console.error('Error fetching updated post:', { code: fetchError.code, message: fetchError.message });
-        return null;
-      }
-
       if (data) {
         console.log('Successfully fetched updated post:', data);
         return mapPostFromDatabase(data);
+      }
+
+      // If fetch failed (likely due to RLS on unpublished posts), return the constructed result
+      if (fetchError) {
+        console.log('Fetch failed (likely RLS), returning constructed result:', { code: fetchError.code });
+        return {
+          id: resultData.id,
+          title: resultData.title || postData.title || '',
+          slug: resultData.slug || '',
+          content: resultData.content || postData.content || '',
+          image: resultData.image || postData.image || '',
+          category: resultData.category || postData.category || '',
+          excerpt: resultData.excerpt || postData.excerpt || '',
+          published: resultData.published !== undefined ? resultData.published : postData.published,
+          published_at: resultData.published_at || postData.published_at,
+          created_at: postData.created_at,
+          updated_at: resultData.updated_at,
+        } as Post;
       }
 
       return null;
