@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
+import { SiteSettings } from "@/lib/types";
 
 type ConsultationStatus = "idle" | "loading" | "success" | "error";
 
@@ -420,6 +421,46 @@ function ConsultationModal({
 
 export default function Preview() {
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
+  const [settings, setSettings] = useState<SiteSettings>({
+    primaryColor: "#1a1a1a",
+    secondaryColor: "#FC7CA4",
+    backgroundColor: "#0a0a0a",
+    heroImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070",
+    galleryImages: [],
+  });
+
+  // Load settings from localStorage on mount
+  useEffect(() => {
+    const storedSettings = localStorage.getItem('siteSettings');
+    if (storedSettings) {
+      try {
+        const parsed = JSON.parse(storedSettings);
+        setSettings(prev => ({
+          ...prev,
+          ...parsed
+        }));
+      } catch (error) {
+        console.error('Failed to parse stored settings:', error);
+      }
+    }
+    // Listen for settings updates from admin dashboard
+    const handleSettingsUpdate = () => {
+      const updatedSettings = localStorage.getItem('sassy_settings');
+      if (updatedSettings) {
+        try {
+          const parsed = JSON.parse(updatedSettings);
+          setSettings(prev => ({
+            ...prev,
+            ...parsed
+          }));
+        } catch (error) {
+          console.error('Failed to parse updated settings:', error);
+        }
+      }
+    };
+
+    window.addEventListener('settingsUpdated', handleSettingsUpdate);
+    return () => window.removeEventListener('settingsUpdated', handleSettingsUpdate);  }, []);
 
   const services = useMemo(
     () => [
@@ -523,7 +564,7 @@ export default function Preview() {
             className="w-full h-full"
           >
             <img
-              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070"
+              src={settings.heroImage || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070"}
               alt="Luxury hotel"
               className="w-full h-full object-cover grayscale"
             />
@@ -795,7 +836,7 @@ export default function Preview() {
           initial={{ scale: 1.1 }}
           whileInView={{ scale: 1 }}
           transition={{ duration: 2 }}
-          src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2070"
+          src={settings.galleryImages?.[0] || "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2070"}
           alt="Gastronomy"
           className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
         />

@@ -42,4 +42,6 @@ export interface SiteSettings {
   primaryColor: string;
   secondaryColor: string;
   backgroundColor: string;
+  heroImage?: string;
+  galleryImages?: string[];
 }
