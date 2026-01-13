@@ -46,4 +46,5 @@ export interface SiteSettings {
   galleryImages?: string[];
   heroMode?: 'static' | 'carousel' | 'slideshow';
   heroCarouselInterval?: number;
+  skipIntroAnimation?: boolean;
 }

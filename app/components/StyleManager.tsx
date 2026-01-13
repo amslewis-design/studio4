@@ -278,6 +278,28 @@ export default function StyleManager({ initialSettings, onSave }: StyleManagerPr
           </div>
         </div>
 
+        {/* Animation Settings */}
+        <div className="pt-8 border-t border-white/5">
+          <div className="space-y-6">
+            <div>
+              <h4 className="text-lg font-serif italic mb-2 text-white">Animation Settings</h4>
+              <p className="text-[10px] uppercase tracking-widest text-gray-500">Control intro animation behavior.</p>
+            </div>
+
+            <label className="flex items-center gap-4 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={settings.skipIntroAnimation || false}
+                onChange={(e) => setSettings({ ...settings, skipIntroAnimation: e.target.checked })}
+                className="w-5 h-5 accent-[#FC7CA4] cursor-pointer"
+              />
+              <span className="text-white uppercase tracking-widest text-sm group-hover:text-[#FC7CA4] transition-colors">
+                Skip Intro Animation
+              </span>
+            </label>
+          </div>
+        </div>
+
         {/* Save Button */}
         <div className="pt-6 border-t border-white/5">
           <button

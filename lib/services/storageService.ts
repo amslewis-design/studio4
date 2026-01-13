@@ -15,6 +15,7 @@ const DEFAULT_SETTINGS = {
   galleryImages: [],
   heroMode: 'static',
   heroCarouselInterval: 5000,
+  skipIntroAnimation: false,
 };
 
 export const storageService = {

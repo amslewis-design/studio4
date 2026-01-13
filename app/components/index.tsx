@@ -431,12 +431,17 @@ export default function Preview() {
     backgroundColor: "#0a0a0a",
     heroImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070",
     galleryImages: [],
+    skipIntroAnimation: false,
   });
 
   // Check if user has seen intro and show on first visit
   useEffect(() => {
+    const storedSettings = localStorage.getItem('sassy_settings');
+    const parsedSettings = storedSettings ? JSON.parse(storedSettings) : {};
+    const skipIntroAnimation = parsedSettings.skipIntroAnimation || false;
     const hasSeenIntro = localStorage.getItem('hasSeenIntro');
-    if (!hasSeenIntro) {
+    
+    if (!skipIntroAnimation && !hasSeenIntro) {
       setShowIntro(true);
     }
   }, []);

@@ -39,7 +39,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
       <motion.img
         src="/sassyanimation.gif"
         alt="Intro animation"
-        className="w-64 h-64 object-contain"
+        className="w-96 h-96 object-contain"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -48,16 +48,16 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
       {/* Left Curtain Panel */}
       <motion.div
         className="absolute inset-y-0 left-0 w-1/2 bg-white"
-        initial={{ translateX: '-100%' }}
-        animate={showCurtain ? { translateX: 0 } : { translateX: '-100%' }}
+        initial={{ translateX: 0 }}
+        animate={showCurtain ? { translateX: '-100%' } : { translateX: 0 }}
         transition={{ duration: 0.6, ease: 'easeInOut' }}
       />
 
       {/* Right Curtain Panel */}
       <motion.div
         className="absolute inset-y-0 right-0 w-1/2 bg-white"
-        initial={{ translateX: '100%' }}
-        animate={showCurtain ? { translateX: 0 } : { translateX: '100%' }}
+        initial={{ translateX: 0 }}
+        animate={showCurtain ? { translateX: '100%' } : { translateX: 0 }}
         transition={{ duration: 0.6, ease: 'easeInOut' }}
       />
     </motion.div>
