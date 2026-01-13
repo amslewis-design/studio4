@@ -49,7 +49,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
   const toggleOrderedList = () => editor.chain().focus().toggleOrderedList().run();
   
   const setHeading = (level: 1 | 2 | 3) => {
-    editor.chain().focus().toggleHeading({ level }).run();
+    editor.chain().focus().setHeading({ level }).run();
   };
 
   const setTextAlign = (align: 'left' | 'center' | 'right' | 'justify') => {

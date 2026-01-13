@@ -106,25 +106,31 @@ export const supabaseService = {
    */
   async updatePost(id: string, postData: Partial<Post>): Promise<Post | null> {
     try {
-      const updatePayload: any = {
-        title: postData.title,
-        content: postData.content,
-        cover_url: postData.image,
-        tag: postData.category,
-        excerpt: postData.excerpt,
-        published: postData.published,
-        updated_at: new Date().toISOString(),
-      };
+      const updatePayload: any = {};
 
-      // Generate new slug if title changed
-      if (postData.title) {
+      // Only include defined fields
+      if (postData.title !== undefined) {
+        updatePayload.title = postData.title;
         updatePayload.slug = generateSlug(postData.title);
       }
-
-      // Update published_at if publishing status changed
+      if (postData.content !== undefined) {
+        updatePayload.content = postData.content;
+      }
+      if (postData.image !== undefined) {
+        updatePayload.cover_url = postData.image;
+      }
+      if (postData.category !== undefined) {
+        updatePayload.tag = postData.category;
+      }
+      if (postData.excerpt !== undefined) {
+        updatePayload.excerpt = postData.excerpt;
+      }
       if (postData.published !== undefined) {
+        updatePayload.published = postData.published;
         updatePayload.published_at = postData.published ? new Date().toISOString() : null;
       }
+      
+      updatePayload.updated_at = new Date().toISOString();
 
       const { data, error } = await supabase
         .from('posts')
