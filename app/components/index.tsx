@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { SiteSettings } from "@/lib/types";
 import HeroCarousel from "./HeroCarousel";
 import HeroSlideshow from "./HeroSlideshow";
+import IntroAnimation from "./IntroAnimation";
 
 type ConsultationStatus = "idle" | "loading" | "success" | "error";
 
@@ -423,6 +424,7 @@ function ConsultationModal({
 
 export default function Preview() {
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
+  const [showIntro, setShowIntro] = useState(false);
   const [settings, setSettings] = useState<SiteSettings>({
     primaryColor: "#1a1a1a",
     secondaryColor: "#FC7CA4",
@@ -430,6 +432,14 @@ export default function Preview() {
     heroImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070",
     galleryImages: [],
   });
+
+  // Check if user has seen intro and show on first visit
+  useEffect(() => {
+    const hasSeenIntro = localStorage.getItem('hasSeenIntro');
+    if (!hasSeenIntro) {
+      setShowIntro(true);
+    }
+  }, []);
 
   // Load settings from localStorage on mount
   useEffect(() => {
@@ -530,6 +540,15 @@ export default function Preview() {
         console.warn(`[Self-check] Missing anchor element: #${id}`);
     }
   }, []);
+
+  const handleIntroComplete = () => {
+    localStorage.setItem('hasSeenIntro', 'true');
+    setShowIntro(false);
+  };
+
+  if (showIntro) {
+    return <IntroAnimation onComplete={handleIntroComplete} />;
+  }
 
   return (
     <div
