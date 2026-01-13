@@ -13,6 +13,7 @@ import { cloudinaryService } from '@/lib/services/cloudinaryService';
 import StyleManager from '@/app/components/StyleManager';
 import AssetSelector from '@/app/components/AssetSelector';
 import ImageUploadManager from '@/app/components/ImageUploadManager';
+import RichTextEditor from '@/app/dashboard/components/RichTextEditor';
 import ImagePreviewModal from '@/app/components/ImagePreviewModal';
 import { Post, PortfolioItem, SiteSettings, Asset } from '@/lib/types';
 
@@ -379,12 +380,12 @@ export default function Admin() {
                       {isGenerating ? 'Channeling...' : '✨ AI Alchemist'}
                     </button>
                   </div>
-                  <textarea 
-                    className="w-full bg-black border border-white/10 p-5 text-sm text-white outline-none focus:border-[#FC7CA4] transition-all rounded-sm min-h-[200px] resize-none"
-                    placeholder="Transcribe your vision into the digital vault..."
-                    value={postContent}
-                    onChange={e => setPostContent(e.target.value)}
-                  />
+                  <div className="w-full bg-black border border-white/10 rounded-sm overflow-hidden">
+                    <RichTextEditor 
+                      value={postContent}
+                      onChange={setPostContent}
+                    />
+                  </div>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
