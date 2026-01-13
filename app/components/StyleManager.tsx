@@ -217,6 +217,67 @@ export default function StyleManager({ initialSettings, onSave }: StyleManagerPr
           )}
         </div>
 
+        {/* Hero Display Settings */}
+        <div className="pt-8 border-t border-white/5">
+          <div className="space-y-6">
+            <div>
+              <h4 className="text-lg font-serif italic mb-2 text-white">Hero Display Settings</h4>
+              <p className="text-[10px] uppercase tracking-widest text-gray-500">Choose how your hero image will be displayed.</p>
+            </div>
+
+            {/* Radio Button Group */}
+            <div className="space-y-3">
+              <label className="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold block">Display Mode</label>
+              <div className="space-y-2">
+                {[
+                  { label: 'Static Image', value: 'static' },
+                  { label: 'Carousel', value: 'carousel' },
+                  { label: 'Slideshow', value: 'slideshow' }
+                ].map((option) => (
+                  <label key={option.value} className="flex items-center gap-3 cursor-pointer group">
+                    <input
+                      type="radio"
+                      name="heroMode"
+                      value={option.value}
+                      checked={settings.heroMode === option.value}
+                      onChange={(e) => setSettings({ ...settings, heroMode: e.target.value as 'static' | 'carousel' | 'slideshow' })}
+                      className="w-4 h-4 accent-[#FC7CA4]"
+                    />
+                    <span className="text-white uppercase tracking-widest text-sm group-hover:text-[#FC7CA4] transition-colors">
+                      {option.label}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Conditional Transition Interval Input */}
+            {(settings.heroMode === 'carousel' || settings.heroMode === 'slideshow') && (
+              <div className="space-y-3 pt-4 border-t border-white/10">
+                <label className="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">Transition Interval (ms)</label>
+                <input
+                  type="number"
+                  min="1000"
+                  max="10000"
+                  step="100"
+                  value={settings.heroCarouselInterval || 5000}
+                  onChange={(e) => setSettings({ ...settings, heroCarouselInterval: parseInt(e.target.value) })}
+                  className="w-full bg-black border border-white/10 px-6 py-4 text-white text-sm outline-none focus:border-[#FC7CA4] transition-all rounded-sm font-mono"
+                  placeholder="5000"
+                />
+                <p className="text-[9px] uppercase tracking-widest text-gray-600">Time between slide changes</p>
+              </div>
+            )}
+
+            {/* Validation Warning */}
+            {settings.heroMode !== 'static' && (!settings.galleryImages || settings.galleryImages.length < 2) && (
+              <div className="p-4 bg-yellow-400/10 border border-yellow-400/30 rounded-sm">
+                <p className="text-yellow-400 text-sm">Add at least 2 gallery images to use Carousel or Slideshow modes</p>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Save Button */}
         <div className="pt-6 border-t border-white/5">
           <button

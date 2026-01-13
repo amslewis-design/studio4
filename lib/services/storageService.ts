@@ -13,6 +13,8 @@ const DEFAULT_SETTINGS = {
   backgroundColor: '#0a0a0a',
   heroImage: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070',
   galleryImages: [],
+  heroMode: 'static',
+  heroCarouselInterval: 5000,
 };
 
 export const storageService = {

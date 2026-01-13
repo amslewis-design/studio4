@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { SiteSettings } from "@/lib/types";
+import HeroCarousel from "./HeroCarousel";
+import HeroSlideshow from "./HeroSlideshow";
 
 type ConsultationStatus = "idle" | "loading" | "success" | "error";
 
@@ -557,18 +559,32 @@ export default function Preview() {
         style={{ backgroundColor: "var(--primary)" }}
       >
         <div className="absolute inset-0 z-0">
-          <motion.div
-            initial={{ scale: 1.2, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.4 }}
-            transition={{ duration: 2.5, ease: "easeOut" }}
-            className="w-full h-full"
-          >
-            <img
-              src={settings.heroImage || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070"}
-              alt="Luxury hotel"
-              className="w-full h-full object-cover grayscale"
+          {settings.heroMode === 'carousel' && (settings.galleryImages?.length ?? 0) >= 2 ? (
+            <HeroCarousel
+              images={settings.galleryImages || []}
+              interval={settings.heroCarouselInterval || 5000}
+              opacity={0.4}
             />
-          </motion.div>
+          ) : settings.heroMode === 'slideshow' && (settings.galleryImages?.length ?? 0) >= 2 ? (
+            <HeroSlideshow
+              images={settings.galleryImages || []}
+              interval={settings.heroCarouselInterval || 5000}
+              opacity={0.4}
+            />
+          ) : (
+            <motion.div
+              initial={{ scale: 1.2, opacity: 0 }}
+              animate={{ scale: 1, opacity: 0.4 }}
+              transition={{ duration: 2.5, ease: "easeOut" }}
+              className="w-full h-full"
+            >
+              <img
+                src={settings.heroImage || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070"}
+                alt="Luxury hotel"
+                className="w-full h-full object-cover grayscale"
+              />
+            </motion.div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-[var(--primary)]" />
         </div>
 

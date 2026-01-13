@@ -44,4 +44,6 @@ export interface SiteSettings {
   backgroundColor: string;
   heroImage?: string;
   galleryImages?: string[];
+  heroMode?: 'static' | 'carousel' | 'slideshow';
+  heroCarouselInterval?: number;
 }
