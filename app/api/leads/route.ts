@@ -85,7 +85,7 @@ Sassy Studio`;
 
     // Send email to admin
     await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'amslewis@gmail.com',
       to: 'contacto@sassystudio.com.mx',
       subject: `New Contact Form Submission from ${body.name}`,
       text: adminEmailContent,
@@ -93,7 +93,7 @@ Sassy Studio`;
 
     // Send confirmation email to user
     await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'amslewis@gmail.com',
       to: body.email,
       subject: 'We received your message',
       text: userEmailContent,
