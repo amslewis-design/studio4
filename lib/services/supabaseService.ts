@@ -34,6 +34,7 @@ export const supabaseService = {
           published: postData.published ?? false,
           published_at: postData.published ? new Date().toISOString() : null,
           author: null, // Anonymous user
+          language: postData.language || 'es',
         })
         .select()
         .single();
@@ -74,6 +75,29 @@ export const supabaseService = {
       return (data || []).map(mapPostFromDatabase);
     } catch (err) {
       console.error('Exception fetching posts:', err);
+      return [];
+    }
+  },
+
+  /**
+   * Get posts by language
+   */
+  async getPostsByLanguage(language: 'es' | 'en'): Promise<Post[]> {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('language', language)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching posts by language:', error);
+        return [];
+      }
+
+      return (data || []).map(mapPostFromDatabase);
+    } catch (err) {
+      console.error('Exception fetching posts by language:', err);
       return [];
     }
   },
@@ -139,6 +163,10 @@ export const supabaseService = {
         updatePayload.published_at = publishedAt;
         resultData.published = postData.published;
         resultData.published_at = publishedAt;
+      }
+      if (postData.language !== undefined) {
+        updatePayload.language = postData.language;
+        resultData.language = postData.language;
       }
       
       const now = new Date().toISOString();
@@ -252,6 +280,7 @@ function mapPostFromDatabase(record: any): Post {
     author: record.author,
     created_at: record.created_at,
     updated_at: record.updated_at,
+    language: record.language || 'es',
   };
 }
 /**

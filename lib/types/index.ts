@@ -14,6 +14,7 @@ export interface Post {
   author?: string;
   created_at?: string;
   updated_at?: string;
+  language?: 'es' | 'en';
 }
 
 export interface PortfolioItem {

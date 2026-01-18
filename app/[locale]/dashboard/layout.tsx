@@ -2,18 +2,21 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useLocale } from 'next-intl';
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = useLocale();
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Top Bar with Branding and Actions */}
       <div className="sticky top-0 z-40 border-b border-white/5 bg-neutral-900/40 backdrop-blur-3xl px-8 py-6">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link href={`/${locale}`} className="flex items-center gap-3 group">
             <span className="text-2xl">✧</span>
             <div className="flex flex-col">
               <span className="text-sm font-serif tracking-[0.2em] uppercase">Sassy</span>
@@ -28,7 +31,7 @@ export default function DashboardLayout({
               <span>Dashboard</span>
             </div>
             <Link
-              href="/"
+              href={`/${locale}`}
               className="text-[10px] uppercase tracking-widest text-gray-400 hover:text-white transition-colors border-l border-white/10 pl-6"
             >
               ← Return to Site

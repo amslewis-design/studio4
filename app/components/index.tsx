@@ -3,10 +3,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from "framer-motion";
 import { SiteSettings } from "@/lib/types";
 import HeroCarousel from "./HeroCarousel";
 import HeroSlideshow from "./HeroSlideshow";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 type ConsultationStatus = "idle" | "loading" | "success" | "error";
 
@@ -42,19 +44,21 @@ function Logo({ fill = "white" }: { fill?: string }) {
 }
 
 function Navbar({ onConsult }: { onConsult: () => void }) {
+  const t = useTranslations('navigation');
+  const tCommon = useTranslations('common');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems: NavItem[] = useMemo(
     () => [
-      { label: "Home", href: "#top" },
-      { label: "Portfolio", href: "#portfolio" },
-      { label: "Services", href: "#services" },
-      { label: "Approach", href: "#approach" },
-      { label: "Blog", href: "#blog" },
-      { label: "Contact", href: "#contact" },
+      { label: t('home'), href: "#top" },
+      { label: t('portfolio'), href: "#portfolio" },
+      { label: t('services'), href: "#services" },
+      { label: t('approach'), href: "#approach" },
+      { label: t('blog'), href: "#blog" },
+      { label: t('contact'), href: "#contact" },
     ],
-    []
+    [t]
   );
 
   useEffect(() => {
@@ -114,6 +118,7 @@ function Navbar({ onConsult }: { onConsult: () => void }) {
 
           {/* Actions */}
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             <button
               onClick={onConsult}
               className={
@@ -124,7 +129,7 @@ function Navbar({ onConsult }: { onConsult: () => void }) {
               }
               style={{ borderRadius: "var(--btn-radius)" }}
             >
-              Consult
+              {tCommon('consult')}
             </button>
 
             {/* Mobile toggle */}
@@ -181,7 +186,7 @@ function Navbar({ onConsult }: { onConsult: () => void }) {
                   className="mt-3 bg-white text-[var(--accent)] py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:bg-black hover:text-white transition-colors duration-300"
                   style={{ borderRadius: "var(--btn-radius)" }}
                 >
-                  Request consultation
+                  {tCommon('requestConsultation')}
                 </button>
               </div>
             </motion.div>
@@ -199,11 +204,13 @@ function ConsultationModal({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const tContact = useTranslations('contact');
+  const tCommon = useTranslations('common');
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     brand: "",
-    projectType: "Photography & Video",
+    projectType: tContact('projectTypes.photography'),
     message: "",
     // Honeypot (should remain empty)
     companyWebsite: "",
@@ -253,10 +260,10 @@ function ConsultationModal({
                   className="text-4xl font-serif italic mb-6 leading-[0.95] tracking-tight max-w-[12ch] break-words"
                   style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                 >
-                  Get in <br />Touch
+                  {tContact('heading')}
                 </h2>
                 <p className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-80 leading-loose">
-                  Tell us a little about your project and we’ll respond shortly.
+                  {tContact('subtitle')}
                 </p>
               </div>
               <div className="text-[9px] uppercase tracking-widest font-black opacity-40">
@@ -275,14 +282,10 @@ function ConsultationModal({
                       className="text-4xl font-serif italic"
                       style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                     >
-                      Message received
+                      {tContact('form.successMessage')}
                     </h3>
                     <p className="text-sm text-gray-400 max-w-sm mx-auto leading-relaxed">
-                      Thank you. We’ve received your details and will contact you at{" "}
-                      <span className="text-[var(--accent)]">
-                        {formData.email || "your email"}
-                      </span>
-                      .
+                      {tContact('form.successText').replace('{email}', formData.email || "your email")}
                     </p>
                   </div>
                   <button
@@ -293,7 +296,7 @@ function ConsultationModal({
                     className="w-full max-w-xs bg-[var(--accent)] text-white py-5 uppercase tracking-[0.4em] text-[10px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl"
                     style={{ borderRadius: "var(--btn-radius)" }}
                   >
-                    Back to site
+                    {tCommon('backToSite')}
                   </button>
                 </div>
               ) : (
@@ -321,7 +324,7 @@ function ConsultationModal({
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-2">
                       <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        Your Name
+                        {tContact('form.name')}
                       </label>
                       <input
                         required
@@ -330,12 +333,12 @@ function ConsultationModal({
                         onChange={(e) =>
                           setFormData({ ...formData, name: e.target.value })
                         }
-                        placeholder="e.g. Julian Ross"
+                        placeholder={tContact('form.namePlaceholder')}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        Email Address
+                        {tContact('form.email')}
                       </label>
                       <input
                         type="email"
@@ -345,12 +348,12 @@ function ConsultationModal({
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
                         }
-                        placeholder="contact@brand.com"
+                        placeholder={tContact('form.emailPlaceholder')}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        Brand / Hotel
+                        {tContact('form.brand')}
                       </label>
                       <input
                         className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
@@ -358,12 +361,12 @@ function ConsultationModal({
                         onChange={(e) =>
                           setFormData({ ...formData, brand: e.target.value })
                         }
-                        placeholder="Hotel Boutique CDMX"
+                        placeholder={tContact('form.brandPlaceholder')}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        Project Type
+                        {tContact('form.projectType')}
                       </label>
                       <select
                         className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300 uppercase tracking-widest"
@@ -375,17 +378,17 @@ function ConsultationModal({
                           })
                         }
                       >
-                        <option>Photography & Video</option>
-                        <option>Social Content</option>
-                        <option>Brand Strategy</option>
-                        <option>Website Content</option>
+                        <option>{tContact('projectTypes.photography')}</option>
+                        <option>{tContact('projectTypes.socialContent')}</option>
+                        <option>{tContact('projectTypes.brandStrategy')}</option>
+                        <option>{tContact('projectTypes.websiteContent')}</option>
                       </select>
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                      Message
+                      {tContact('form.message')}
                     </label>
                     <textarea
                       rows={4}
@@ -394,7 +397,7 @@ function ConsultationModal({
                       onChange={(e) =>
                         setFormData({ ...formData, message: e.target.value })
                       }
-                      placeholder="Tell us what you need help with, timelines, and any links if relevant."
+                      placeholder={tContact('form.messagePlaceholder')}
                     />
                   </div>
 
@@ -403,7 +406,7 @@ function ConsultationModal({
                     className="w-full bg-[var(--accent)] text-white py-5 uppercase tracking-[0.5em] text-[11px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl disabled:opacity-50"
                     style={{ borderRadius: "var(--btn-radius)" }}
                   >
-                    {status === "loading" ? "Sending..." : "Send message"}
+                    {status === "loading" ? tCommon('sending') : tContact('form.sendMessage')}
                   </button>
 
                   {status === "error" && (
@@ -422,6 +425,13 @@ function ConsultationModal({
 }
 
 export default function Preview() {
+  // const tServices = useTranslations('services');
+  // const tApproach = useTranslations('approach');
+  // const tBlog = useTranslations('blog');
+  // const tContact = useTranslations('contact');
+  // const tHero = useTranslations('hero');
+  // const tCommon = useTranslations('common');
+  // const locale = useLocale();
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings>({
     primaryColor: "#1a1a1a",

@@ -3,12 +3,16 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { supabaseService } from '@/lib/services/supabaseService';
 import type { Post } from '@/lib/types';
 
 const POSTS_PER_PAGE = 9;
 
 export default function BlogPage() {
+  const t = useTranslations();
+  const locale = useLocale();
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -18,12 +22,12 @@ export default function BlogPage() {
   // Fetch posts on mount
   useEffect(() => {
     const fetchPosts = async () => {
-      const posts = await supabaseService.getPosts();
+      const posts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
       const publishedPosts = posts.filter(p => p.published === true);
       setAllPosts(publishedPosts);
     };
     fetchPosts();
-  }, []);
+  }, [locale]);
 
   // Get unique categories
   const categories = useMemo(() => {
@@ -75,7 +79,7 @@ export default function BlogPage() {
   // Format date
   const formatDate = (date: string | undefined) => {
     if (!date) return '';
-    return new Date(date).toLocaleDateString('en-GB', {
+    return new Date(date).toLocaleDateString(locale === 'es' ? 'es-MX' : 'en-GB', {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
@@ -93,7 +97,7 @@ export default function BlogPage() {
             className="text-5xl md:text-7xl font-serif text-white mb-6 tracking-tight"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
-            The Studio Journal
+            {t('blog.title')}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -101,8 +105,7 @@ export default function BlogPage() {
             transition={{ delay: 0.1 }}
             className="text-gray-400 text-lg max-w-2xl mx-auto"
           >
-            Notes on boutique hospitality marketing, visual storytelling, and the small details that turn
-            attention into bookings.
+            {t('blog.description')}
           </motion.p>
         </div>
       </section>
@@ -115,7 +118,7 @@ export default function BlogPage() {
             <div className="md:col-span-2">
               <input
                 type="text"
-                placeholder="Search posts..."
+                placeholder={t('blog.searchPlaceholder')}
                 value={searchQuery}
                 onChange={e => {
                   setSearchQuery(e.target.value);
@@ -147,7 +150,7 @@ export default function BlogPage() {
           {/* Sort Options */}
           <div className="mt-6 flex gap-4 flex-wrap">
             <label className="flex items-center gap-2 text-sm text-gray-400">
-              Sort:
+              {t('blog.sortBy')}
             </label>
             {(['newest', 'oldest', 'alphabetical'] as const).map(order => (
               <button
@@ -163,10 +166,10 @@ export default function BlogPage() {
                 }`}
               >
                 {order === 'newest'
-                  ? 'Newest First'
+                  ? t('blog.newestFirst')
                   : order === 'oldest'
-                    ? 'Oldest First'
-                    : 'Alphabetical'}
+                    ? t('blog.oldestFirst')
+                    : t('blog.alphabetical')}
               </button>
             ))}
           </div>
@@ -196,7 +199,7 @@ export default function BlogPage() {
               <div className="space-y-6">
                 <div>
                   <p className="text-[#FC7CA4] text-xs uppercase tracking-[0.3em] font-bold mb-3">
-                    Featured Post
+                    {t('blog.featuredPost')}
                   </p>
                   <h2
                     className="text-5xl font-serif text-white mb-4 leading-[1.1]"
@@ -215,11 +218,11 @@ export default function BlogPage() {
                 <p className="text-gray-300 text-lg leading-relaxed">{featuredPost.excerpt}</p>
 
                 <Link
-                  href={`/blog/${featuredPost.slug}`}
+                  href={`/${locale}/blog/${featuredPost.slug}`}
                   className="inline-block border border-[#FC7CA4] text-[#FC7CA4] px-8 py-4 uppercase tracking-[0.3em] text-xs font-bold hover:bg-[#FC7CA4] hover:text-black transition-colors duration-300"
                   style={{ borderRadius: 'var(--btn-radius, 0px)' }}
                 >
-                  Read Full Article
+                  {t('common.readFullArticle')}
                 </Link>
               </div>
             </motion.div>
@@ -277,10 +280,10 @@ export default function BlogPage() {
                   {/* Footer */}
                   <div className="p-8 pt-0 mt-auto">
                     <Link
-                      href={`/blog/${post.slug}`}
+                      href={`/${locale}/blog/${post.slug}`}
                       className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 inline-block"
                     >
-                      Read more
+                      {t('common.readMore')}
                     </Link>
                     <div className="mt-6 w-full h-[1px] bg-white/5 group-hover:bg-[#FC7CA4]/60 transition-colors duration-700" />
                   </div>
@@ -300,7 +303,7 @@ export default function BlogPage() {
               disabled={currentPage === 1}
               className="px-4 py-2 text-xs uppercase tracking-widest font-bold border border-white/10 text-white/60 hover:text-white hover:border-white/30 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
-              Previous
+              {t('blog.previous')}
             </button>
 
             <div className="flex gap-2">
@@ -324,7 +327,7 @@ export default function BlogPage() {
               disabled={currentPage === totalPages}
               className="px-4 py-2 text-xs uppercase tracking-widest font-bold border border-white/10 text-white/60 hover:text-white hover:border-white/30 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
             >
-              Next
+              {t('blog.next')}
             </button>
           </div>
         </section>
@@ -334,7 +337,7 @@ export default function BlogPage() {
       {filteredPosts.length === 0 && (
         <section className="py-20 px-6">
           <div className="max-w-7xl mx-auto text-center">
-            <p className="text-gray-500 text-lg">No posts found. Try adjusting your search or filters.</p>
+            <p className="text-gray-500 text-lg">{t('blog.noPostsFound')}</p>
           </div>
         </section>
       )}

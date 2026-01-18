@@ -3,9 +3,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function LoginPage() {
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,12 +26,12 @@ export default function LoginPage() {
       setSuccess(true);
       // Redirect to dashboard after animation
       setTimeout(() => {
-        router.push('/dashboard/admin');
+        router.push(`/${locale}/dashboard/admin`);
       }, 800);
       return;
     }
 
-    setError('Invalid credentials. Use: admin@sassy.studio / gold');
+    setError(t('login.invalidCredentials'));
     setLoading(false);
   };
 
@@ -39,7 +42,7 @@ export default function LoginPage() {
     setTimeout(() => {
       setSuccess(true);
       setTimeout(() => {
-        router.push('/dashboard/admin');
+        router.push(`/${locale}/dashboard/admin`);
       }, 800);
     }, 400);
   };
@@ -73,8 +76,8 @@ export default function LoginPage() {
                 >
                   ✧
                 </motion.div>
-                <h1 className="text-3xl font-serif tracking-[0.25em] uppercase">Sassy Vault</h1>
-                <p className="text-[9px] uppercase tracking-[0.4em] text-gray-500 font-medium">Digital Alchemy Control Portal</p>
+                <h1 className="text-3xl font-serif tracking-[0.25em] uppercase">{t('login.title')}</h1>
+                <p className="text-[9px] uppercase tracking-[0.4em] text-gray-500 font-medium">{t('login.subtitle')}</p>
               </div>
               
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -103,68 +106,61 @@ export default function LoginPage() {
 
                 {error && (
                   <motion.div 
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="bg-red-500/10 border border-red-500/20 p-3 text-red-400 text-[9px] uppercase tracking-widest text-center"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-red-400 text-xs p-3 bg-red-950/20 border border-red-900/30 rounded-sm"
                   >
                     {error}
                   </motion.div>
                 )}
 
-                <div className="space-y-4 pt-4">
-                  <button 
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-[#FC7CA4] text-white py-5 uppercase tracking-[0.4em] text-[10px] font-black hover:bg-white hover:text-[#FC7CA4] transition-all duration-700 disabled:opacity-50 relative overflow-hidden group shadow-lg"
-                  >
-                    <span className="relative z-10">{loading ? 'Initiating Alchemy...' : 'Enter the Vault'}</span>
-                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-700"></div>
-                  </button>
-
-                  <button 
-                    type="button"
-                    onClick={handleDemoAccess}
-                    disabled={loading}
-                    className="w-full py-4 border border-white/5 text-gray-500 hover:text-[#FC7CA4] hover:border-[#FC7CA4]/30 transition-all text-[9px] uppercase tracking-[0.4em] font-medium disabled:opacity-30"
-                  >
-                    Use Demo Credentials
-                  </button>
-                </div>
+                <button 
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-[#FC7CA4] hover:bg-[#ff9fc0] disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 uppercase tracking-[0.2em] text-xs transition-colors duration-300 rounded-sm"
+                >
+                  {loading ? t('common.sending') : 'Enter'}
+                </button>
               </form>
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-white/10"></div>
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="px-2 bg-neutral-900/40 text-gray-500 tracking-wider">Or</span>
+                </div>
+              </div>
+
+              <button 
+                type="button"
+                onClick={handleDemoAccess}
+                className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-3 uppercase tracking-[0.2em] text-xs transition-colors duration-300 rounded-sm"
+              >
+                Demo Access
+              </button>
             </motion.div>
           ) : (
             <motion.div 
-              key="success-screen"
-              initial={{ opacity: 0, scale: 1.1 }}
+              key="success"
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-10 space-y-6"
+              className="text-center space-y-6"
             >
-              <div className="relative w-20 h-20 mx-auto">
-                <motion.div 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute inset-0 bg-[#FC7CA4] rounded-full opacity-20 blur-xl"
-                ></motion.div>
-                <motion.div 
-                  initial={{ rotate: 0 }}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, ease: "easeInOut" }}
-                  className="text-[#FC7CA4] text-6xl"
-                >
-                  ❂
-                </motion.div>
+              <motion.div 
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 0.6 }}
+                className="text-5xl"
+              >
+                ✨
+              </motion.div>
+              <div>
+                <h2 className="text-2xl font-serif mb-2 text-white">Welcome</h2>
+                <p className="text-gray-400 text-sm">Entering the alchemy chamber...</p>
               </div>
-              <h2 className="text-2xl font-serif italic">Identity Transmuted</h2>
-              <p className="text-[10px] uppercase tracking-[0.5em] text-gray-500 font-medium">Unlocking Alchemy Dashboard...</p>
             </motion.div>
           )}
         </AnimatePresence>
-        
-        <div className="pt-6 border-t border-white/5 text-center">
-          <p className="text-[8px] text-gray-700 uppercase tracking-[0.3em] font-medium">
-            Protected Digital Environment
-          </p>
-        </div>
       </motion.div>
     </div>
   );

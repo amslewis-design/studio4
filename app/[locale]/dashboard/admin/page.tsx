@@ -38,6 +38,7 @@ export default function Admin() {
   const [postImage, setPostImage] = useState('');
   const [postContent, setPostContent] = useState('');
   const [postCategory, setPostCategory] = useState('Marketing');
+  const [postLanguage, setPostLanguage] = useState<'es' | 'en'>('es');
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   
   // Asset Manager State
@@ -123,6 +124,7 @@ export default function Admin() {
         category: postCategory,
         excerpt,
         published: true,
+        language: postLanguage,
       });
       
       console.log('Update result:', updated);
@@ -141,6 +143,7 @@ export default function Admin() {
         category: postCategory,
         excerpt,
         published: true,
+        language: postLanguage,
       });
       
       console.log('Create result:', newPost);
@@ -153,6 +156,7 @@ export default function Admin() {
     setPostImage('');
     setPostContent('');
     setPostCategory('Marketing');
+    setPostLanguage('es');
   };
 
   const handleEditPost = (post: Post) => {
@@ -161,6 +165,7 @@ export default function Admin() {
     setPostImage(post.image);
     setPostContent(post.content);
     setPostCategory(post.category);
+    setPostLanguage(post.language || 'es');
     setTab('posts');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -170,8 +175,6 @@ export default function Admin() {
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
   };
-
-
 
   const toggleAssetSelection = (id: string) => {
     setSelectedAssetIds(prev => 
@@ -376,7 +379,7 @@ export default function Admin() {
                     />
                   </div>
                 </div>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-3 gap-6">
                   <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Hero Asset URL</label>
                     <div className="flex gap-2">
@@ -402,6 +405,17 @@ export default function Admin() {
                       <option>Trends</option>
                     </select>
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Language</label>
+                    <select 
+                      className="w-full bg-black border border-white/10 p-4 text-sm text-white outline-none uppercase tracking-widest cursor-pointer"
+                      value={postLanguage}
+                      onChange={e => setPostLanguage(e.target.value as 'es' | 'en')}
+                    >
+                      <option value="es">Español</option>
+                      <option value="en">English</option>
+                    </select>
+                  </div>
                 </div>
                 <button 
                   onClick={handleSavePost} 
@@ -423,7 +437,7 @@ export default function Admin() {
                       <img src={post.image} className="w-16 h-16 object-cover rounded-sm grayscale group-hover:grayscale-0 transition-all duration-500" />
                       <div className="flex-1 min-w-0">
                         <h4 className="font-serif text-lg text-white truncate">{post.title}</h4>
-                        <p className="text-[8px] text-[#FC7CA4] uppercase tracking-widest font-bold">{post.category} • {post.date}</p>
+                        <p className="text-[8px] text-[#FC7CA4] uppercase tracking-widest font-bold">{post.category} • {post.language === 'es' ? 'ES' : 'EN'} • {post.date}</p>
                       </div>
                     </div>
                     <div className="flex gap-3 pt-3 border-t border-white/5">

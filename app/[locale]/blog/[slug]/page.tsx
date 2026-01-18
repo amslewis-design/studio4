@@ -4,12 +4,16 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import { supabaseService } from '@/lib/services/supabaseService';
 import type { Post } from '@/lib/types';
 
 export default function BlogPostPage() {
   const params = useParams();
   const slug = params?.slug as string;
+  const locale = useLocale();
+  const t = useTranslations();
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -20,7 +24,7 @@ export default function BlogPostPage() {
 
       try {
         setLoading(true);
-        const allPosts = await supabaseService.getPosts();
+        const allPosts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
         const foundPost = allPosts.find(p => p.slug === slug && p.published === true);
 
         if (foundPost) {
@@ -38,12 +42,12 @@ export default function BlogPostPage() {
     };
 
     fetchPost();
-  }, [slug]);
+  }, [slug, locale]);
 
   // Format date
   const formatDate = (date: string | undefined) => {
     if (!date) return '';
-    return new Date(date).toLocaleDateString('en-GB', {
+    return new Date(date).toLocaleDateString(locale === 'es' ? 'es-MX' : 'en-GB', {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
@@ -67,7 +71,7 @@ export default function BlogPostPage() {
           </h1>
           <p className="text-gray-400 mb-8">The blog post you're looking for doesn't exist or has been removed.</p>
           <Link
-            href="/blog"
+            href={`/${locale}/blog`}
             className="inline-block border border-[#FC7CA4] text-[#FC7CA4] px-8 py-4 uppercase tracking-[0.3em] text-xs font-bold hover:bg-[#FC7CA4] hover:text-black transition-colors duration-300"
             style={{ borderRadius: 'var(--btn-radius, 0px)' }}
           >
@@ -107,7 +111,7 @@ export default function BlogPostPage() {
           >
             {/* Breadcrumb */}
             <div className="mb-6 flex gap-2 text-xs uppercase tracking-widest text-gray-500">
-              <Link href="/blog" className="hover:text-white transition-colors">
+              <Link href={`/${locale}/blog`} className="hover:text-white transition-colors">
                 Journal
               </Link>
               <span>•</span>
@@ -198,21 +202,15 @@ export default function BlogPostPage() {
         />
       </section>
 
-      {/* Post Footer */}
-      <section className="py-12 px-6 border-t border-white/5">
+      {/* Back Link */}
+      <section className="py-16 px-6 border-t border-white/5">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-black/40 border border-white/5 p-8 rounded-sm">
-            <p className="text-sm text-gray-400 mb-6">
-              Enjoyed this article? Explore more insights from the Sassy Studio journal.
-            </p>
-            <Link
-              href="/blog"
-              className="inline-block border border-[#FC7CA4] text-[#FC7CA4] px-8 py-3 uppercase tracking-[0.3em] text-xs font-bold hover:bg-[#FC7CA4] hover:text-black transition-colors duration-300"
-              style={{ borderRadius: 'var(--btn-radius, 0px)' }}
-            >
-              View All Posts
-            </Link>
-          </div>
+          <Link
+            href={`/${locale}/blog`}
+            className="text-[10px] uppercase tracking-[0.5em] text-white/60 hover:text-white transition-colors duration-300 inline-flex items-center gap-2"
+          >
+            ← {t('blog.viewAllPosts')}
+          </Link>
         </div>
       </section>
     </div>

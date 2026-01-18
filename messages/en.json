@@ -1,0 +1,111 @@
+{
+  "navigation": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "services": "Services",
+    "approach": "Approach",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "common": {
+    "consult": "Consult",
+    "requestConsultation": "Request consultation",
+    "enterTheStudio": "Enter the Studio",
+    "scheduleConsultation": "Schedule a Consultation",
+    "readFullArticle": "Read Full Article",
+    "readMore": "Read more",
+    "backToSite": "Back to site",
+    "sendMessage": "Send message",
+    "sending": "Sending...",
+    "language": "Language"
+  },
+  "hero": {
+    "tagline": "Sassy Studio CDMX",
+    "heading": "Alchemists of Content",
+    "description": "Transforming boutique hospitality into digital gold through high-end visual storytelling and strategic brand refinement."
+  },
+  "services": {
+    "title": "Services",
+    "visualAlchemy": "Visual Alchemy",
+    "visualAlchemyDesc": "High-res hotel and gastronomy photography that captures the essence of luxury.",
+    "digitalNarratives": "Digital Narratives",
+    "digitalNarrativesDesc": "Strategic Reels and TikTok production designed for maximum brand prestige.",
+    "identityRefinement": "Identity Refinement",
+    "identityRefinementDesc": "Bespoke brand positioning for Mexico City's elite hospitality market."
+  },
+  "approach": {
+    "title": "Our Craft",
+    "quote": "In the heart of Mexico City, we refine your brand's raw potential into the pure gold of digital distinction.",
+    "philosophy": "The Sassy Philosophy"
+  },
+  "blog": {
+    "title": "The Studio Journal",
+    "description": "Notes on boutique hospitality marketing, visual storytelling, and the small details that turn attention into bookings.",
+    "viewAllPosts": "View all posts",
+    "featuredPost": "Featured Post",
+    "sortBy": "Sort by:",
+    "newestFirst": "Newest First",
+    "oldestFirst": "Oldest First",
+    "alphabetical": "Alphabetical",
+    "searchPlaceholder": "Search posts...",
+    "noPostsFound": "No posts found. Try adjusting your search or filters.",
+    "previous": "Previous",
+    "next": "Next",
+    "category": "Category",
+    "publishedOn": "Published on",
+    "by": "by"
+  },
+  "contact": {
+    "title": "Ready for the Transformation?",
+    "heading": "Get in Touch",
+    "subtitle": "Tell us a little about your project and we'll respond shortly.",
+    "form": {
+      "name": "Your Name",
+      "namePlaceholder": "e.g. Julian Ross",
+      "email": "Email Address",
+      "emailPlaceholder": "contact@brand.com",
+      "brand": "Brand / Hotel",
+      "brandPlaceholder": "Hotel Boutique CDMX",
+      "projectType": "Project Type",
+      "message": "Message",
+      "messagePlaceholder": "Tell us what you need help with, timelines, and any links if relevant.",
+      "sendMessage": "Send message",
+      "sending": "Sending...",
+      "successMessage": "Message received",
+      "successText": "Thank you. We've received your details and will contact you at {email}."
+    },
+    "projectTypes": {
+      "photography": "Photography & Video",
+      "socialContent": "Social Content",
+      "brandStrategy": "Brand Strategy",
+      "websiteContent": "Website Content"
+    }
+  },
+  "metadata": {
+    "homeTitle": "Sassy Studio | Content Marketing | Preview Site",
+    "homeDescription": "Transforming boutique hospitality into digital gold through high-end visual storytelling and strategic brand refinement.",
+    "blogTitle": "The Studio Journal | Blog",
+    "blogDescription": "Notes on boutique hospitality marketing, visual storytelling, and the small details that turn attention into bookings.",
+    "loginTitle": "Sassy Vault | Digital Alchemy Control Portal",
+    "dashboardTitle": "Alchemy Dashboard | Refining the Sassy Studio Brand Identity"
+  },
+  "login": {
+    "title": "Sassy Vault",
+    "subtitle": "Digital Alchemy Control Portal",
+    "invalidCredentials": "Invalid credentials. Use: admin@sassy.studio / gold"
+  },
+  "dashboard": {
+    "title": "Alchemy Dashboard",
+    "subtitle": "Refining the Sassy Studio Brand Identity",
+    "posts": "posts",
+    "portfolio": "portfolio",
+    "assets": "assets",
+    "style": "style",
+    "artifactTitle": "Artifact Title",
+    "enterFolderPath": "Enter folder path...",
+    "language": "Language",
+    "selectLanguage": "Select language",
+    "languageSpanish": "Spanish",
+    "languageEnglish": "English"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "portfolio": "Portafolio",
+    "services": "Servicios",
+    "approach": "Enfoque",
+    "blog": "Blog",
+    "contact": "Contacto"
+  },
+  "common": {
+    "consult": "Consultar",
+    "requestConsultation": "Solicitar consultoría",
+    "enterTheStudio": "Entrar al Estudio",
+    "scheduleConsultation": "Agendar una Consulta",
+    "readFullArticle": "Leer Artículo Completo",
+    "readMore": "Leer más",
+    "backToSite": "Volver al sitio",
+    "sendMessage": "Enviar mensaje",
+    "sending": "Enviando...",
+    "language": "Idioma"
+  },
+  "hero": {
+    "tagline": "Sassy Studio CDMX",
+    "heading": "Alquimistas del Contenido",
+    "description": "Transformamos la hospitalidad boutique en oro digital a través de narrativa visual de lujo y refinamiento estratégico de marca."
+  },
+  "services": {
+    "title": "Servicios",
+    "visualAlchemy": "Alquimia Visual",
+    "visualAlchemyDesc": "Fotografía de hotel y gastronomía de alta resolución que captura la esencia del lujo.",
+    "digitalNarratives": "Narrativas Digitales",
+    "digitalNarrativesDesc": "Producción estratégica de Reels y TikTok diseñada para máximo prestigio de marca.",
+    "identityRefinement": "Refinamiento de Identidad",
+    "identityRefinementDesc": "Posicionamiento de marca personalizado para el mercado de hospitalidad elite de la Ciudad de México."
+  },
+  "approach": {
+    "title": "Nuestro Oficio",
+    "quote": "En el corazón de la Ciudad de México, refinamos el potencial bruto de tu marca en el oro puro de la distinción digital.",
+    "philosophy": "La Filosofía Sassy"
+  },
+  "blog": {
+    "title": "El Diario del Estudio",
+    "description": "Notas sobre marketing de hospitalidad boutique, narrativa visual y los pequeños detalles que convierten la atención en reservas.",
+    "viewAllPosts": "Ver todos los posts",
+    "featuredPost": "Post Destacado",
+    "sortBy": "Ordenar por:",
+    "newestFirst": "Más Recientes",
+    "oldestFirst": "Más Antiguos",
+    "alphabetical": "Alfabético",
+    "searchPlaceholder": "Buscar posts...",
+    "noPostsFound": "No se encontraron posts. Intenta ajustar tu búsqueda o filtros.",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "category": "Categoría",
+    "publishedOn": "Publicado el",
+    "by": "por"
+  },
+  "contact": {
+    "title": "¿Listo para la Transformación?",
+    "heading": "Ponerse en Contacto",
+    "subtitle": "Cuéntanos un poco sobre tu proyecto y te responderemos pronto.",
+    "form": {
+      "name": "Tu Nombre",
+      "namePlaceholder": "ej. Julian Ross",
+      "email": "Correo Electrónico",
+      "emailPlaceholder": "contacto@marca.com",
+      "brand": "Marca / Hotel",
+      "brandPlaceholder": "Hotel Boutique CDMX",
+      "projectType": "Tipo de Proyecto",
+      "message": "Mensaje",
+      "messagePlaceholder": "Cuéntanos qué necesitas ayuda, plazos y enlaces si es relevante.",
+      "sendMessage": "Enviar mensaje",
+      "sending": "Enviando...",
+      "successMessage": "Mensaje recibido",
+      "successText": "Gracias. Hemos recibido tus detalles y nos pondremos en contacto en {email}."
+    },
+    "projectTypes": {
+      "photography": "Fotografía y Video",
+      "socialContent": "Contenido Social",
+      "brandStrategy": "Estrategia de Marca",
+      "websiteContent": "Contenido del Sitio Web"
+    }
+  },
+  "metadata": {
+    "homeTitle": "Sassy Studio | Marketing de Contenido | Sitio de Previsualización",
+    "homeDescription": "Transformamos la hospitalidad boutique en oro digital a través de narrativa visual de lujo y refinamiento estratégico de marca.",
+    "blogTitle": "El Diario del Estudio | Blog",
+    "blogDescription": "Notas sobre marketing de hospitalidad boutique, narrativa visual y los pequeños detalles que convierten la atención en reservas.",
+    "loginTitle": "Bóveda Sassy | Portal de Control de Alquimia Digital",
+    "dashboardTitle": "Panel de Alchemy | Refinando la Identidad de Marca de Sassy Studio"
+  },
+  "login": {
+    "title": "Bóveda Sassy",
+    "subtitle": "Portal de Control de Alquimia Digital",
+    "invalidCredentials": "Credenciales inválidas. Usa: admin@sassy.studio / gold"
+  },
+  "dashboard": {
+    "title": "Panel de Alchemy",
+    "subtitle": "Refinando la Identidad de Marca de Sassy Studio",
+    "posts": "Posts",
+    "portfolio": "Portafolio",
+    "assets": "Activos",
+    "style": "Estilo",
+    "artifactTitle": "Título del Artefacto",
+    "enterFolderPath": "Ingresa ruta de carpeta...",
+    "language": "Idioma",
+    "selectLanguage": "Selecciona idioma",
+    "languageSpanish": "Español",
+    "languageEnglish": "Inglés"
+  }
+}
