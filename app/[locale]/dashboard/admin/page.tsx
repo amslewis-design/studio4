@@ -66,7 +66,18 @@ export default function Admin() {
 
   const loadPosts = async () => {
     const supabasePosts = await supabaseService.getPosts();
-    setPosts(supabasePosts);
+    if (supabasePosts.length > 0) {
+      setPosts(supabasePosts);
+    } else {
+      // Fallback to localStorage if Supabase is unavailable
+      const cachedPosts = storageService.getPosts();
+      if (cachedPosts.length > 0) {
+        console.info('Using cached posts from localStorage');
+        setPosts(cachedPosts);
+      } else {
+        setPosts([]);
+      }
+    }
   };
 
   const fetchAssets = async () => {

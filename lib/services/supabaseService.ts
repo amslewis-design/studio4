@@ -68,7 +68,13 @@ export const supabaseService = {
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching posts:', error);
+        console.error('Error fetching posts:', {
+          message: error.message,
+          code: error.code,
+          details: error.details,
+          hint: error.hint,
+          fullError: error
+        });
         return [];
       }
 
