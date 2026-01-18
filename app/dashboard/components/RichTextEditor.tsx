@@ -29,6 +29,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
+    immediatelyRender: false,
   });
 
   // Update editor content when value prop changes (e.g., when editing a post)

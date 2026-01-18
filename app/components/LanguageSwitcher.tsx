@@ -50,7 +50,7 @@ export default function LanguageSwitcher() {
                 : 'text-white hover:bg-white/10'
             }`}
           >
-            🇲🇽 {t('language')} Español
+            🇲🇽 Español
           </button>
           <div className="h-px bg-white/10" />
           <button
@@ -61,7 +61,7 @@ export default function LanguageSwitcher() {
                 : 'text-white hover:bg-white/10'
             }`}
           >
-            🇬🇧 {t('language')} English
+            🇬🇧 English
           </button>
         </motion.div>
       )}

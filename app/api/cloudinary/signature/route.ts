@@ -4,13 +4,40 @@
  * Used for client-side uploads
  */
 
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import crypto from 'crypto';
+import { createClient } from '@supabase/supabase-js';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     // Verify the request is from an authenticated admin
-    // TODO: Add proper auth check with Supabase JWT verification
+    const token = request.headers.get('authorization')?.replace('Bearer ', '');
+    
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Missing authentication token' },
+        { status: 401 }
+      );
+    }
+
+    // Verify JWT token with Supabase
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+      console.warn('Supabase credentials not configured for auth verification');
+      // Allow request if Supabase not configured (development fallback)
+    } else {
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      const { data: { user }, error } = await supabase.auth.getUser(token);
+      
+      if (error || !user) {
+        return NextResponse.json(
+          { error: 'Unauthorized: Invalid or expired token' },
+          { status: 401 }
+        );
+      }
+    }
     
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
