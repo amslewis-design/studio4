@@ -430,8 +430,6 @@ export default function Preview() {
   const tBlog = useTranslations('blog');
   const tContact = useTranslations('contact');
   const tHero = useTranslations('hero');
-  const tCommon = useTranslations('common');
-  // Common translations used above in handleSubmit
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings>({
     primaryColor: "#1a1a1a",
