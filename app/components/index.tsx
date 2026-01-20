@@ -425,13 +425,13 @@ function ConsultationModal({
 }
 
 export default function Preview() {
-  // const tServices = useTranslations('services');
-  // const tApproach = useTranslations('approach');
-  // const tBlog = useTranslations('blog');
-  // const tContact = useTranslations('contact');
-  // const tHero = useTranslations('hero');
-  // const tCommon = useTranslations('common');
-  // const locale = useLocale();
+  const tServices = useTranslations('services');
+  const tApproach = useTranslations('approach');
+  const tBlog = useTranslations('blog');
+  const tContact = useTranslations('contact');
+  const tHero = useTranslations('hero');
+  const tCommon = useTranslations('common');
+  // Common translations used above in handleSubmit
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings>({
     primaryColor: "#1a1a1a",
@@ -610,20 +610,18 @@ export default function Preview() {
               transition={{ duration: 1.5 }}
               className="text-[var(--accent)] uppercase text-xs mb-8 block font-sans font-medium"
             >
-              Sassy Studio CDMX
+              {tHero('tagline')}
             </motion.span>
 
             <h1
               className="text-6xl md:text-[10rem] font-serif mb-10 leading-[0.85] tracking-tighter text-white"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             >
-              Alchemists of <br />
-              <span className="italic font-light opacity-80">Content</span>
+              {tHero('heading')}
             </h1>
 
             <p className="text-base md:text-2xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed mb-16 font-sans tracking-wide">
-              Transforming boutique hospitality into digital gold through high-end visual storytelling and
-              strategic brand refinement.
+              {tHero('description')}
             </p>
 
             <motion.div
@@ -637,7 +635,7 @@ export default function Preview() {
                 className="border border-[var(--accent)] text-[var(--accent)] px-12 md:px-14 py-4 uppercase tracking-[0.35em] text-[10px] hover:bg-[var(--accent)] hover:text-black transition-colors duration-300 font-black shadow-xl"
                 style={{ borderRadius: "var(--btn-radius)" }}
               >
-                Enter the Studio
+                {tHero('cta')}
               </motion.button>
             </motion.div>
 
@@ -677,7 +675,7 @@ export default function Preview() {
               className="text-5xl md:text-7xl font-serif mb-8 tracking-tight text-white"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             >
-              Our Craft
+              {tServices('ourCraft')}
             </h2>
             <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
           </motion.div>
@@ -737,12 +735,11 @@ export default function Preview() {
               className="text-3xl md:text-7xl font-serif leading-[1.15] italic font-light mb-16 tracking-tight text-white"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             >
-              In the heart of Mexico City, we refine your brand’s raw potential into the pure gold of digital
-              distinction.
+              {tApproach('quote')}
             </p>
             <div className="flex items-center justify-center gap-6 text-[11px] uppercase tracking-[0.6em] text-gray-600">
               <div className="w-16 h-[1px] bg-white/10" />
-              <span>The Sassy Philosophy</span>
+              <span>{tApproach('philosophy')}</span>
               <div className="w-16 h-[1px] bg-white/10" />
             </div>
           </motion.div>
@@ -768,11 +765,10 @@ export default function Preview() {
                 className="text-5xl md:text-7xl font-serif tracking-tight text-white"
                 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
               >
-                The Studio Journal
+                {tBlog('title')}
               </h2>
               <p className="text-gray-500 font-light leading-relaxed max-w-2xl">
-                Notes on boutique hospitality marketing, visual storytelling, and the small details that turn
-                attention into bookings.
+                {tBlog('description')}
               </p>
             </div>
 
@@ -781,7 +777,7 @@ export default function Preview() {
               className="self-start md:self-auto border border-white/15 text-white/80 px-8 py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
               style={{ borderRadius: "var(--btn-radius)" }}
             >
-              View all posts
+              {tBlog('viewAllPosts')}
             </Link>
           </motion.div>
 
@@ -837,11 +833,11 @@ export default function Preview() {
                       href={`/blog/${post.slug}`}
                       className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 inline-block"
                     >
-                      Read more
+                      {tBlog('readMore')}
                     </Link>
                   ) : (
                     <button className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 cursor-default">
-                      Read more
+                      {tBlog('readMore')}
                     </button>
                   )}
                   <div className="mt-6 w-full h-[1px] bg-white/5 group-hover:bg-[var(--accent)]/60 transition-colors duration-700" />
@@ -878,17 +874,14 @@ export default function Preview() {
               className="text-5xl md:text-8xl font-serif tracking-tighter text-white"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             >
-              Ready for the <br />
-              <span className="italic text-[var(--accent)] opacity-80">
-                Transformation?
-              </span>
+              {tContact('title')}
             </h2>
             <button
               onClick={() => setIsConsultModalOpen(true)}
               className="bg-white text-black px-14 md:px-16 py-6 uppercase tracking-[0.5em] text-[11px] font-black hover:bg-[var(--accent)] hover:text-white transition-colors duration-300 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
               style={{ borderRadius: "var(--btn-radius)" }}
             >
-              Schedule a Consultation
+              {tContact('form.sendMessage')}
             </button>
           </motion.div>
         </div>
@@ -902,7 +895,7 @@ export default function Preview() {
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-[10px] uppercase tracking-[0.4em] text-white/40">
-            Sassy Studio CDMX
+            {tHero('tagline')}
           </div>
           <button
             onClick={() => setIsConsultModalOpen(true)}

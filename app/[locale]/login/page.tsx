@@ -9,6 +9,8 @@ export default function LoginPage() {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
+  const tLogin = useTranslations('login');
+  const tCommon = useTranslations('common');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -82,18 +84,18 @@ export default function LoginPage() {
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">Staff Identifier</label>
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">{tLogin('staffIdentifier')}</label>
                   <input 
                     type="email" 
                     required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     className="w-full bg-black/40 border border-white/10 p-4 text-white outline-none focus:border-[#FC7CA4] transition-all font-sans text-sm rounded-sm" 
-                    placeholder="admin@sassy.studio"
+                    placeholder={tLogin('staffPlaceholder')}
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">Access Sigil</label>
+                  <label className="text-[10px] uppercase tracking-[0.3em] text-gray-500 font-bold">{tLogin('accessSigil')}</label>
                   <input 
                     type="password" 
                     required
@@ -119,7 +121,7 @@ export default function LoginPage() {
                   disabled={loading}
                   className="w-full bg-[#FC7CA4] hover:bg-[#ff9fc0] disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 uppercase tracking-[0.2em] text-xs transition-colors duration-300 rounded-sm"
                 >
-                  {loading ? t('common.sending') : 'Enter'}
+                  {loading ? tCommon('sending') : tLogin('enter')}
                 </button>
               </form>
 
@@ -128,7 +130,7 @@ export default function LoginPage() {
                   <div className="w-full border-t border-white/10"></div>
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="px-2 bg-neutral-900/40 text-gray-500 tracking-wider">Or</span>
+                  <span className="px-2 bg-neutral-900/40 text-gray-500 tracking-wider">{tCommon('language') === 'Idioma' ? 'O' : 'Or'}</span>
                 </div>
               </div>
 
@@ -137,7 +139,7 @@ export default function LoginPage() {
                 onClick={handleDemoAccess}
                 className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-3 uppercase tracking-[0.2em] text-xs transition-colors duration-300 rounded-sm"
               >
-                Demo Access
+                {tLogin('demoAccess')}
               </button>
             </motion.div>
           ) : (
@@ -155,8 +157,8 @@ export default function LoginPage() {
                 ✨
               </motion.div>
               <div>
-                <h2 className="text-2xl font-serif mb-2 text-white">Welcome</h2>
-                <p className="text-gray-400 text-sm">Entering the alchemy chamber...</p>
+                <h2 className="text-2xl font-serif mb-2 text-white">{tLogin('welcome')}</h2>
+                <p className="text-gray-400 text-sm">{tLogin('enteringMessage')}</p>
               </div>
             </motion.div>
           )}

@@ -5,7 +5,8 @@
     "services": "Servicios",
     "approach": "Enfoque",
     "blog": "Blog",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "studioHome": "Inicio de Sassy Studio"
   },
   "common": {
     "consult": "Consultar",
@@ -17,15 +18,23 @@
     "backToSite": "Volver al sitio",
     "sendMessage": "Enviar mensaje",
     "sending": "Enviando...",
-    "language": "Idioma"
+    "language": "Idioma",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "close": "Cerrar",
+    "loading": "Cargando...",
+    "noData": "Sin datos disponibles"
   },
   "hero": {
     "tagline": "Sassy Studio CDMX",
     "heading": "Alquimistas del Contenido",
-    "description": "Transformamos la hospitalidad boutique en oro digital a través de narrativa visual de lujo y refinamiento estratégico de marca."
+    "description": "Transformamos la hospitalidad boutique en oro digital a través de narrativa visual de lujo y refinamiento estratégico de marca.",
+    "cta": "Entrar al Estudio"
   },
   "services": {
     "title": "Servicios",
+    "ourCraft": "Nuestro Oficio",
     "visualAlchemy": "Alquimia Visual",
     "visualAlchemyDesc": "Fotografía de hotel y gastronomía de alta resolución que captura la esencia del lujo.",
     "digitalNarratives": "Narrativas Digitales",
@@ -40,6 +49,7 @@
   },
   "blog": {
     "title": "El Diario del Estudio",
+    "journal": "Diario",
     "description": "Notas sobre marketing de hospitalidad boutique, narrativa visual y los pequeños detalles que convierten la atención en reservas.",
     "viewAllPosts": "Ver todos los posts",
     "featuredPost": "Post Destacado",
@@ -53,7 +63,11 @@
     "next": "Siguiente",
     "category": "Categoría",
     "publishedOn": "Publicado el",
-    "by": "por"
+    "by": "por",
+    "updates": "Actualizaciones",
+    "backToAllPosts": "Volver a Todos los Posts",
+    "postNotFound": "Post No Encontrado",
+    "postNotFoundDesc": "El post que buscas no existe o ha sido eliminado."
   },
   "contact": {
     "title": "¿Listo para la Transformación?",
@@ -87,25 +101,114 @@
     "blogTitle": "El Diario del Estudio | Blog",
     "blogDescription": "Notas sobre marketing de hospitalidad boutique, narrativa visual y los pequeños detalles que convierten la atención en reservas.",
     "loginTitle": "Bóveda Sassy | Portal de Control de Alquimia Digital",
-    "dashboardTitle": "Panel de Alchemy | Refinando la Identidad de Marca de Sassy Studio"
+    "dashboardTitle": "Panel de Alquimia | Refinando la Identidad de Marca de Sassy Studio"
   },
   "login": {
     "title": "Bóveda Sassy",
     "subtitle": "Portal de Control de Alquimia Digital",
-    "invalidCredentials": "Credenciales inválidas. Usa: admin@sassy.studio / gold"
+    "staffIdentifier": "Identificador de Personal",
+    "staffPlaceholder": "admin@sassy.studio",
+    "accessSigil": "Sigilo de Acceso",
+    "enter": "Entrar",
+    "or": "O",
+    "demoAccess": "Acceso de Demostración",
+    "invalidCredentials": "Credenciales inválidas. Usa: admin@sassy.studio / gold",
+    "welcome": "Bienvenido",
+    "enteringMessage": "Entrando a la cámara alquímica..."
   },
   "dashboard": {
-    "title": "Panel de Alchemy",
+    "title": "Panel de Alquimia",
     "subtitle": "Refinando la Identidad de Marca de Sassy Studio",
+    "adminAccess": "Acceso Administrativo",
+    "dashboard": "Panel de Control",
+    "returnToSite": "← Volver al Sitio",
     "posts": "Posts",
     "portfolio": "Portafolio",
     "assets": "Activos",
     "style": "Estilo",
+    "posts_tab": {
+      "refiningArtifact": "Refinando Artefacto",
+      "draftNewInsight": "Borrador de Nueva Perspectiva",
+      "discardChanges": "Descartar Cambios",
+      "artifactTitle": "Título del Artefacto",
+      "contentNarrative": "Narrativa de Contenido",
+      "heroAssetUrl": "URL de Activo de Héroe",
+      "vault": "Bóveda",
+      "category": "Categoría",
+      "language": "Idioma",
+      "updateArtifact": "Actualizar Artefacto Alquímico",
+      "secureToLibrary": "Asegurar a la Biblioteca",
+      "libraryOfInsights": "Biblioteca de Perspectivas",
+      "noArtifacts": "Aún no se han descubierto artefactos.",
+      "refine": "Refinar",
+      "confirmDelete": "¿Estás seguro de que quieres devolver esto al vacío?",
+      "vanish": "Desvanecer"
+    },
+    "assets_tab": {
+      "searchVault": "Buscar en Bóveda Digital...",
+      "creating": "Creando...",
+      "newFolder": "Nueva Carpeta",
+      "uploadArtifact": "Cargar Artefacto",
+      "vault": "La Bóveda",
+      "collections": "Colecciones",
+      "folderName": "Nombre de carpeta",
+      "looseArtifacts": "Artefactos Sueltos",
+      "contentsOf": "Contenidos de {folder}",
+      "backToVault": "← Volver a la Bóveda",
+      "voidEmpty": "Esta carpeta actualmente es un vacío.",
+      "selectedArtifacts": "Artefactos Seleccionados",
+      "artifactsInFocus": "{count} artefactos en foco",
+      "clearSigils": "Limpiar Símbolos",
+      "bulkVanish": "Desvanecer en Lote",
+      "uploadModal": "Cargar Artefacto",
+      "uploadDescription": "Agrega nuevas imágenes a tu bóveda digital a través de Cloudinary",
+      "rename": "Renombrar",
+      "deleteFolder": "Eliminar"
+    },
+    "portfolio_tab": {
+      "addToCollection": "Agregar a Colección",
+      "clientIdentifier": "Identificador de Cliente",
+      "projectType": "Tipo de Proyecto",
+      "hotel": "Hotel",
+      "restaurant": "Restaurante",
+      "lifestyle": "Estilo de Vida",
+      "heroImageUrl": "URL de Activo de Imagen de Héroe",
+      "browseVault": "Explorar Bóveda",
+      "syncArtifact": "Sincronizar Artefacto"
+    },
+    "style_tab": {
+      "brandPalette": "Paleta de Marca",
+      "customizeDescription": "Personaliza la identidad visual de tu presencia digital.",
+      "primaryColor": "Color Primario",
+      "secondaryColor": "Color Secundario (Acento)"
+    },
     "artifactTitle": "Título del Artefacto",
     "enterFolderPath": "Ingresa ruta de carpeta...",
     "language": "Idioma",
     "selectLanguage": "Selecciona idioma",
     "languageSpanish": "Español",
     "languageEnglish": "Inglés"
+  },
+  "editor": {
+    "loadingEditor": "Cargando editor...",
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "underline": "Subrayado",
+    "bulletList": "• Lista",
+    "numberedList": "1. Lista",
+    "alignLeft": "⬅ Izquierda",
+    "alignCenter": "⬍ Centro",
+    "alignRight": "Derecha ➡",
+    "alignJustify": "⬌ Justificar",
+    "link": "Enlace",
+    "enterUrl": "Ingresa URL:",
+    "linkPlaceholder": "https://ejemplo.com",
+    "applyLink": "Aplicar Enlace",
+    "removeLink": "Eliminar Enlace",
+    "editorTip": "Consejo: Usa atajos de teclado como Ctrl+B para negrita, Ctrl+I para cursiva. Tu contenido se guarda automáticamente como HTML."
+  },
+  "errors": {
+    "generalError": "Algo salió mal. Por favor intenta de nuevo.",
+    "networkError": "Error de red. Por favor verifica tu conexión."
   }
 }

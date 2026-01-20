@@ -4,7 +4,8 @@
 // This is an interactive dashboard that requires client-side rendering
 export const dynamic = 'force-dynamic';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { storageService } from '@/lib/services/storageService';
 import { supabaseService } from '@/lib/services/supabaseService';
@@ -16,6 +17,36 @@ import RichTextEditor from '@/app/dashboard/components/RichTextEditor';
 import ImagePreviewModal from '@/app/components/ImagePreviewModal';
 import { Post, PortfolioItem, SiteSettings, Asset } from '@/lib/types';
 
+// Error boundary component for RichTextEditor
+class RichTextEditorErrorBoundary extends React.Component<
+  { children: ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error) {
+    console.error('RichTextEditor error:', error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-4 bg-red-900/20 border border-red-500/50 rounded text-red-400 text-sm">
+          Error loading text editor. Please refresh the page.
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const BACKEND_URL = '';
 
 // Mock Folders for initial UI experience
@@ -26,6 +57,11 @@ const INITIAL_FOLDERS = [
 ];
 
 export default function Admin() {
+  const tDash = useTranslations('dashboard');
+  const tPostsTab = useTranslations('dashboard.posts_tab');
+  const tAssetsTab = useTranslations('dashboard.assets_tab');
+  const tPortfolioTab = useTranslations('dashboard.portfolio_tab');
+  const tStyleTab = useTranslations('dashboard.style_tab');
   const [tab, setTab] = useState<'posts' | 'portfolio' | 'assets' | 'style'>('posts');
   const [posts, setPosts] = useState<Post[]>([]);
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
@@ -118,56 +154,67 @@ export default function Admin() {
   };
 
   const handleSavePost = async () => {
-    const htmlContent = postContent || '';
-    if (!postTitle || !htmlContent) {
-      console.log('Save blocked: missing title or content', { postTitle, htmlContent: htmlContent?.length });
-      return;
-    }
+    try {
+      const htmlContent = postContent || '';
+      if (!postTitle || !htmlContent) {
+        console.log('Save blocked: missing title or content', { postTitle, htmlContent: htmlContent?.length });
+        return;
+      }
 
-    const excerpt = stripHtml(htmlContent).substring(0, 100) + '...';
+      const excerpt = stripHtml(htmlContent).substring(0, 100) + '...';
 
-    if (editingPostId) {
-      console.log('Updating post:', { editingPostId, postTitle });
-      const updated = await supabaseService.updatePost(editingPostId, {
-        title: postTitle,
-        content: htmlContent,
-        image: postImage,
-        category: postCategory,
-        excerpt,
-        published: true,
-        language: postLanguage,
-      });
-      
-      console.log('Update result:', updated);
-      if (updated) {
-        setPosts(posts.map(p => p.id === editingPostId ? updated : p));
-        setEditingPostId(null);
+      if (editingPostId) {
+        console.log('Updating post:', { editingPostId, postTitle });
+        const updated = await supabaseService.updatePost(editingPostId, {
+          title: postTitle,
+          content: htmlContent,
+          image: postImage,
+          category: postCategory,
+          excerpt,
+          published: true,
+          language: postLanguage,
+        });
+        
+        console.log('Update result:', updated);
+        if (updated) {
+          setPosts(posts.map(p => p.id === editingPostId ? updated : p));
+          setEditingPostId(null);
+        } else {
+          console.log('Update failed - updated is null');
+        }
       } else {
-        console.log('Update failed - updated is null');
+        console.log('Creating new post:', { postTitle });
+        const newPost = await supabaseService.createPost({
+          title: postTitle,
+          content: htmlContent,
+          image: postImage,
+          category: postCategory,
+          excerpt,
+          published: true,
+          language: postLanguage,
+        });
+        
+        console.log('Create result:', newPost);
+        if (newPost) {
+          setPosts([newPost, ...posts]);
+        }
       }
-    } else {
-      console.log('Creating new post:', { postTitle });
-      const newPost = await supabaseService.createPost({
-        title: postTitle,
-        content: htmlContent,
-        image: postImage,
-        category: postCategory,
-        excerpt,
-        published: true,
-        language: postLanguage,
-      });
       
-      console.log('Create result:', newPost);
-      if (newPost) {
-        setPosts([newPost, ...posts]);
-      }
+      // Defer form reset to allow RichTextEditor cleanup to complete before resetting state
+      setTimeout(() => {
+        try {
+          setPostTitle('');
+          setPostImage('');
+          setPostContent('');
+          setPostCategory('Marketing');
+          setPostLanguage('es');
+        } catch (resetError) {
+          console.error('Error resetting form state:', resetError);
+        }
+      }, 0);
+    } catch (error) {
+      console.error('Error in handleSavePost:', error);
     }
-    
-    setPostTitle('');
-    setPostImage('');
-    setPostContent('');
-    setPostCategory('Marketing');
-    setPostLanguage('es');
   };
 
   const handleEditPost = (post: Post) => {
@@ -340,18 +387,23 @@ export default function Admin() {
     <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto min-h-screen font-sans">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
         <div>
-          <h1 className="text-5xl font-serif mb-2 text-white">Alchemy Dashboard</h1>
-          <p className="text-[10px] uppercase tracking-[0.4em] text-gray-500">Refining the Sassy Studio Brand Identity</p>
+          <h1 className="text-5xl font-serif mb-2 text-white">{tDash('title')}</h1>
+          <p className="text-[10px] uppercase tracking-[0.4em] text-gray-500">{tDash('subtitle')}</p>
         </div>
         <div className="flex bg-neutral-900 border border-white/5 p-1 rounded-sm shadow-2xl">
-          {['posts', 'portfolio', 'assets', 'style'].map((t: any) => (
+          {[
+            { key: 'posts', label: tDash('posts') },
+            { key: 'portfolio', label: tDash('portfolio') },
+            { key: 'assets', label: tDash('assets') },
+            { key: 'style', label: tDash('style') }
+          ].map((t: any) => (
             <button 
-              key={t}
-              onClick={() => setTab(t)} 
-              className={`px-8 py-3 text-[9px] uppercase tracking-[0.3em] transition-all duration-500 whitespace-nowrap ${tab === t ? 'text-black font-bold' : 'text-gray-400 hover:text-white hover:bg-white/5'}`} 
-              style={tab === t ? { backgroundColor: settings.secondaryColor } : {}}
+              key={t.key}
+              onClick={() => setTab(t.key)} 
+              className={`px-8 py-3 text-[9px] uppercase tracking-[0.3em] transition-all duration-500 whitespace-nowrap ${tab === t.key ? 'text-black font-bold' : 'text-gray-400 hover:text-white hover:bg-white/5'}`} 
+              style={tab === t.key ? { backgroundColor: settings.secondaryColor } : {}}
             >
-              {t}
+              {t.label}
             </button>
           ))}
         </div>
@@ -363,36 +415,38 @@ export default function Admin() {
             <div className="lg:col-span-2 space-y-8 bg-neutral-900/50 p-6 md:p-10 border border-white/5 rounded-sm">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-serif italic text-white">
-                  {editingPostId ? 'Refining Artifact' : 'Draft New Insight'}
+                  {editingPostId ? tPostsTab('refiningArtifact') : tPostsTab('draftNewInsight')}
                 </h3>
                 {editingPostId && (
                   <button 
                     onClick={() => { setEditingPostId(null); setPostTitle(''); setPostImage(''); setPostContent(''); }}
                     className="text-[10px] uppercase tracking-widest text-[#FC7CA4] hover:text-white transition-colors"
                   >
-                    Discard Changes
+                    {tPostsTab('discardChanges')}
                   </button>
                 )}
               </div>
               <div className="space-y-6">
                 <input 
                   className="w-full bg-black border border-white/10 p-5 text-xl font-serif italic text-white outline-none focus:border-[#FC7CA4] transition-all" 
-                  placeholder="Artifact Title" 
+                  placeholder={tPostsTab('artifactTitle')} 
                   value={postTitle} 
                   onChange={e => setPostTitle(e.target.value)} 
                 />
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Content Narrative</label>
+                  <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">{tPostsTab('contentNarrative')}</label>
                   <div className="w-full bg-black border border-white/10 rounded-sm overflow-hidden">
-                    <RichTextEditor 
-                      value={postContent}
-                      onChange={setPostContent}
-                    />
+                    <RichTextEditorErrorBoundary>
+                      <RichTextEditor 
+                        value={postContent}
+                        onChange={setPostContent}
+                      />
+                    </RichTextEditorErrorBoundary>
                   </div>
                 </div>
                 <div className="grid md:grid-cols-3 gap-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Hero Asset URL</label>
+                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">{tPostsTab('heroAssetUrl')}</label>
                     <div className="flex gap-2">
                       <input 
                         className="flex-1 bg-black border border-white/10 p-4 text-sm text-white outline-none" 
@@ -400,11 +454,11 @@ export default function Admin() {
                         value={postImage} 
                         onChange={e => setPostImage(e.target.value)} 
                       />
-                      <button onClick={() => setShowAssetSelectorForPost(true)} className="px-4 bg-white/5 border border-white/10 text-[9px] text-white uppercase hover:bg-white hover:text-black transition-all">Vault</button>
+                      <button onClick={() => setShowAssetSelectorForPost(true)} className="px-4 bg-white/5 border border-white/10 text-[9px] text-white uppercase hover:bg-white hover:text-black transition-all">{tPostsTab('vault')}</button>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Category</label>
+                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">{tPostsTab('category')}</label>
                     <select 
                       className="w-full bg-black border border-white/10 p-4 text-sm text-white outline-none uppercase tracking-widest cursor-pointer"
                       value={postCategory}
@@ -423,8 +477,8 @@ export default function Admin() {
                       value={postLanguage}
                       onChange={e => setPostLanguage(e.target.value as 'es' | 'en')}
                     >
-                      <option value="es">Español</option>
-                      <option value="en">English</option>
+                      <option value="es">{tDash('languageSpanish')}</option>
+                      <option value="en">{tDash('languageEnglish')}</option>
                     </select>
                   </div>
                 </div>
@@ -433,15 +487,15 @@ export default function Admin() {
                   className="w-full py-6 text-black text-xs uppercase tracking-[0.5em] font-black shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all" 
                   style={{ backgroundColor: settings.secondaryColor }}
                 >
-                  {editingPostId ? 'Update Alchemical Artifact' : 'Secure to Library'}
+                  {editingPostId ? tPostsTab('updateArtifact') : tPostsTab('secureToLibrary')}
                 </button>
               </div>
             </div>
             <div className="lg:col-span-1 space-y-8">
-              <h3 className="text-2xl font-serif text-white border-b border-white/5 pb-4">Library of Insights</h3>
+              <h3 className="text-2xl font-serif text-white border-b border-white/5 pb-4">{tPostsTab('libraryOfInsights')}</h3>
               <div className="space-y-4 max-h-[800px] overflow-y-auto custom-scrollbar pr-2">
                 {posts.length === 0 ? (
-                  <p className="text-[10px] uppercase tracking-widest text-gray-600 italic">No artifacts discovered yet.</p>
+                  <p className="text-[10px] uppercase tracking-widest text-gray-600 italic">{tPostsTab('noArtifacts')}</p>
                 ) : posts.map(post => (
                   <div key={post.id} className="bg-neutral-900/40 border border-white/5 p-5 group rounded-sm transition-all hover:border-[#FC7CA4]/30">
                     <div className="flex gap-4 items-center mb-4">
@@ -452,8 +506,8 @@ export default function Admin() {
                       </div>
                     </div>
                     <div className="flex gap-3 pt-3 border-t border-white/5">
-                      <button onClick={() => handleEditPost(post)} className="flex-1 bg-white/5 py-2 text-[9px] uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/10 transition-all">Refine</button>
-                      <button onClick={async () => { if(confirm('Are you sure you want to return this to the void?')) { await supabaseService.deletePost(post.id!); setPosts(posts.filter(p => p.id !== post.id)); } }} className="flex-1 bg-red-900/10 py-2 text-[9px] uppercase tracking-widest text-red-900/60 hover:text-red-400 hover:bg-red-900/20 transition-all">Vanish</button>
+                      <button onClick={() => handleEditPost(post)} className="flex-1 bg-white/5 py-2 text-[9px] uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/10 transition-all">{tPostsTab('refine')}</button>
+                      <button onClick={async () => { if(confirm(tPostsTab('confirmDelete'))) { await supabaseService.deletePost(post.id!); setPosts(posts.filter(p => p.id !== post.id)); } }} className="flex-1 bg-red-900/10 py-2 text-[9px] uppercase tracking-widest text-red-900/60 hover:text-red-400 hover:bg-red-900/20 transition-all">{tPostsTab('vanish')}</button>
                     </div>
                   </div>
                 ))}
@@ -469,7 +523,7 @@ export default function Admin() {
               <div className="flex-1 w-full max-w-md relative">
                 <input 
                   type="text" 
-                  placeholder="Search Digital Vault..." 
+                  placeholder={tAssetsTab('searchVault')} 
                   className="w-full bg-neutral-900 border border-white/10 px-12 py-4 text-xs uppercase tracking-widest text-white outline-none focus:border-[#FC7CA4] transition-all"
                   value={assetSearchQuery}
                   onChange={e => setAssetSearchQuery(e.target.value)}
@@ -481,13 +535,13 @@ export default function Admin() {
                    onClick={handleCreateFolder}
                    disabled={isLoadingFolders}
                    className="flex-1 md:flex-none px-8 py-4 bg-white/5 border border-white/10 text-[9px] uppercase tracking-[0.3em] font-bold text-gray-400 hover:bg-white/10 hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                  {isLoadingFolders ? 'Creating...' : 'New Folder'}
+                  {isLoadingFolders ? tAssetsTab('creating') : tAssetsTab('newFolder')}
                 </button>
                 <button 
                   onClick={() => setShowImageUploadManager(true)}
                   className="flex-1 md:flex-none px-10 py-4 bg-[#FC7CA4] text-black text-[9px] uppercase tracking-[0.3em] font-black hover:bg-white transition-all disabled:opacity-50"
                 >
-                  Upload Artifact
+                  {tAssetsTab('uploadArtifact')}
                 </button>
               </div>
             </div>
@@ -498,7 +552,7 @@ export default function Admin() {
                 onClick={() => setCurrentFolderId(null)}
                 className={`transition-all ${!currentFolderId ? 'text-white font-black' : 'text-gray-600 hover:text-white'}`}
               >
-                The Vault
+                {tAssetsTab('vault')}
               </button>
               {currentFolderId && (
                 <>
@@ -511,7 +565,7 @@ export default function Admin() {
             {/* Folders Section - Only show when at root */}
             {!currentFolderId && (
               <div className="space-y-4">
-                <h4 className="text-[10px] uppercase tracking-[0.4em] text-gray-600 font-black">Collections</h4>
+                <h4 className="text-[10px] uppercase tracking-[0.4em] text-gray-600 font-black">{tAssetsTab('collections')}</h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
                   {folders.map(folder => (
                     <div 
@@ -533,7 +587,7 @@ export default function Admin() {
                               }
                             }}
                             className="bg-black/40 border border-white/10 px-2 py-2 text-[10px] text-white outline-none focus:border-[#FC7CA4]"
-                            placeholder="Folder name"
+                            placeholder={tAssetsTab('folderName')}
                           />
                           <div className="flex gap-2">
                             <button
@@ -541,7 +595,7 @@ export default function Admin() {
                               disabled={isLoadingFolders}
                               className="flex-1 bg-[#FC7CA4] text-black text-[8px] uppercase font-bold py-1 hover:bg-white transition-colors disabled:opacity-50"
                             >
-                              Save
+                              {tDash('save')}
                             </button>
                             <button
                               onClick={() => {
@@ -550,7 +604,7 @@ export default function Admin() {
                               }}
                               className="flex-1 bg-white/10 text-white text-[8px] uppercase font-bold py-1 hover:bg-white/20 transition-colors"
                             >
-                              Cancel
+                              {tDash('cancel')}
                             </button>
                           </div>
                         </div>
@@ -602,14 +656,14 @@ export default function Admin() {
             <div className="space-y-4 pt-4">
               <div className="flex justify-between items-end">
                 <h4 className="text-[10px] uppercase tracking-[0.4em] text-gray-600 font-black">
-                  {currentFolderId ? `Contents of ${currentFolder?.name}` : 'Loose Artifacts'}
+                  {currentFolderId ? tAssetsTab('contentsOf').replace('{folder}', currentFolder?.name || '') : tAssetsTab('looseArtifacts')}
                 </h4>
                 {currentFolderId && (
                   <button 
                     onClick={() => setCurrentFolderId(null)}
                     className="text-[9px] uppercase tracking-widest text-[#FC7CA4] hover:text-white transition-colors"
                   >
-                    ← Back to Vault
+                    {tAssetsTab('backToVault')}
                   </button>
                 )}
               </div>
@@ -618,7 +672,7 @@ export default function Admin() {
                 {filteredAssets.length === 0 ? (
                   <div className="col-span-full py-32 text-center space-y-4">
                     <div className="text-4xl opacity-10">✦</div>
-                    <p className="text-[10px] uppercase tracking-[0.4em] text-gray-600">This directory is currently a void.</p>
+                    <p className="text-[10px] uppercase tracking-[0.4em] text-gray-600">{tAssetsTab('voidEmpty')}</p>
                   </div>
                 ) : filteredAssets.map(asset => (
                   <motion.div 
@@ -686,8 +740,8 @@ export default function Admin() {
                   className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[60] bg-neutral-900 border border-[#FC7CA4]/30 px-10 py-6 rounded-full shadow-[0_30px_60px_rgba(0,0,0,0.8)] backdrop-blur-3xl flex items-center gap-10 border-t border-white/10"
                 >
                   <div className="flex flex-col">
-                    <span className="text-[10px] uppercase tracking-[0.3em] font-black text-[#FC7CA4]">Selected Artifacts</span>
-                    <span className="text-[9px] uppercase tracking-widest text-gray-500">{selectedAssetIds.length} artifacts in focus</span>
+                    <span className="text-[10px] uppercase tracking-[0.3em] font-black text-[#FC7CA4]">{tAssetsTab('selectedArtifacts')}</span>
+                    <span className="text-[9px] uppercase tracking-widest text-gray-500">{tAssetsTab('artifactsInFocus').replace('{count}', selectedAssetIds.length.toString())}</span>
                   </div>
                   <div className="h-8 w-[1px] bg-white/10"></div>
                   <div className="flex gap-4">
@@ -695,13 +749,13 @@ export default function Admin() {
                       onClick={() => setSelectedAssetIds([])}
                       className="text-[9px] uppercase tracking-[0.3em] text-gray-400 hover:text-white transition-colors"
                     >
-                      Clear Sigils
+                      {tAssetsTab('clearSigils')}
                     </button>
                     <button 
                       onClick={handleBulkDelete}
                       className="bg-red-900/20 border border-red-900/40 text-red-400 px-6 py-2 text-[9px] uppercase tracking-[0.3em] font-black hover:bg-red-500 hover:text-white transition-all rounded-full"
                     >
-                      Bulk Vanish
+                      {tAssetsTab('bulkVanish')}
                     </button>
                   </div>
                 </motion.div>
@@ -730,10 +784,10 @@ export default function Admin() {
                         className="text-3xl font-serif italic text-white mb-2"
                         style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
                       >
-                        Upload Artifact
+                        {tAssetsTab('uploadModal')}
                       </h3>
                       <p className="text-[10px] uppercase tracking-widest text-gray-500">
-                        Add new images to your digital vault via Cloudinary
+                        {tAssetsTab('uploadDescription')}
                       </p>
                     </div>
 
@@ -746,7 +800,7 @@ export default function Admin() {
                       onClick={() => setShowImageUploadManager(false)}
                       className="w-full text-center text-[10px] uppercase tracking-widest text-gray-500 hover:text-white transition-colors py-3"
                     >
-                      Close
+                      {tDash('close')}
                     </button>
                   </motion.div>
                 </motion.div>
@@ -758,15 +812,15 @@ export default function Admin() {
         {tab === 'portfolio' && (
             <motion.div key="portfolio" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12">
                 <div className="bg-neutral-900/50 p-10 border border-white/5 rounded-sm max-w-4xl mx-auto">
-                    <h3 className="text-2xl font-serif italic mb-8 text-white">Add to Collection</h3>
+                    <h3 className="text-2xl font-serif italic mb-8 text-white">{tPortfolioTab('addToCollection')}</h3>
                     <div className="grid md:grid-cols-2 gap-6">
-                        <input className="bg-black border border-white/10 p-4 text-sm text-white outline-none" placeholder="Client Identifier" value={newPortfolio.clientName} onChange={e => setNewPortfolio({...newPortfolio, clientName: e.target.value})} />
+                        <input className="bg-black border border-white/10 p-4 text-sm text-white outline-none" placeholder={tPortfolioTab('clientIdentifier')} value={newPortfolio.clientName} onChange={e => setNewPortfolio({...newPortfolio, clientName: e.target.value})} />
                         <select className="bg-black border border-white/10 p-4 text-sm text-white outline-none uppercase tracking-widest" value={newPortfolio.category} onChange={e => setNewPortfolio({...newPortfolio, category: e.target.value as any})}>
-                            <option>Hotel</option><option>Restaurant</option><option>Lifestyle</option>
+                            <option>{tPortfolioTab('hotel')}</option><option>{tPortfolioTab('restaurant')}</option><option>{tPortfolioTab('lifestyle')}</option>
                         </select>
                         <div className="md:col-span-2 flex gap-4">
-                            <input className="flex-1 bg-black border border-white/10 p-4 text-sm text-white outline-none" placeholder="Hero Image Asset URL" value={newPortfolio.imageUrl} onChange={e => setNewPortfolio({...newPortfolio, imageUrl: e.target.value})} />
-                            <button onClick={() => setShowAssetSelectorForPortfolio(true)} className="px-8 bg-white/5 border border-white/10 text-[9px] text-white uppercase hover:bg-white hover:text-black">Browse Vault</button>
+                            <input className="flex-1 bg-black border border-white/10 p-4 text-sm text-white outline-none" placeholder={tPortfolioTab('heroImageUrl')} value={newPortfolio.imageUrl} onChange={e => setNewPortfolio({...newPortfolio, imageUrl: e.target.value})} />
+                            <button onClick={() => setShowAssetSelectorForPortfolio(true)} className="px-8 bg-white/5 border border-white/10 text-[9px] text-white uppercase hover:bg-white hover:text-black">{tPortfolioTab('browseVault')}</button>
                         </div>
                         <button onClick={() => {
                           const item: PortfolioItem = { id: Date.now().toString(), ...newPortfolio };
@@ -774,7 +828,7 @@ export default function Admin() {
                           setPortfolio(updated);
                           storageService.savePortfolio(updated);
                           setNewPortfolio({ clientName: '', category: 'Hotel', imageUrl: '', description: '' });
-                        }} className="text-black py-5 text-xs uppercase tracking-[0.4em] font-bold md:col-span-2 transition-all hover:scale-[1.01]" style={{ backgroundColor: settings.secondaryColor }}>Sync Artifact</button>
+                        }} className="text-black py-5 text-xs uppercase tracking-[0.4em] font-bold md:col-span-2 transition-all hover:scale-[1.01]" style={{ backgroundColor: settings.secondaryColor }}>{tPortfolioTab('syncArtifact')}</button>
                     </div>
                 </div>
             </motion.div>

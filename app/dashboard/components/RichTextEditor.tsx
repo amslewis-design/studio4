@@ -5,6 +5,7 @@ import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import TextAlign from '@tiptap/extension-text-align';
 import React, { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface RichTextEditorProps {
   value: string;
@@ -12,6 +13,7 @@ interface RichTextEditorProps {
 }
 
 export default function RichTextEditor({ value, onChange }: RichTextEditorProps) {
+  const tEditor = useTranslations('editor');
   const [showLinkDialog, setShowLinkDialog] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
 
@@ -34,13 +36,34 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
 
   // Update editor content when value prop changes (e.g., when editing a post)
   useEffect(() => {
-    if (editor && value && editor.getHTML() !== value) {
-      editor.commands.setContent(value);
+    try {
+      if (editor && value && editor.getHTML() !== value) {
+        editor.commands.setContent(value);
+      } else if (editor && !value) {
+        // Handle empty content reset gracefully
+        editor.commands.clearContent();
+      }
+    } catch (error) {
+      console.error('Error updating editor content:', error);
+      // Silently continue - editor will handle gracefully
     }
   }, [value, editor]);
 
+  // Clean up editor on unmount
+  useEffect(() => {
+    return () => {
+      try {
+        if (editor) {
+          editor.destroy();
+        }
+      } catch (error) {
+        console.error('Error destroying editor:', error);
+      }
+    };
+  }, [editor]);
+
   if (!editor) {
-    return <div className="text-gray-400">Loading editor...</div>;
+    return <div className="text-gray-400">{tEditor('loadingEditor')}</div>;
   }
 
   const toggleBold = () => editor.chain().focus().toggleBold().run();
@@ -197,14 +220,14 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
           className={buttonClass(editor.isActive('bulletList'))}
           title="Bullet List"
         >
-          • List
+          {tEditor('bulletList')}
         </button>
         <button
           onClick={toggleOrderedList}
           className={buttonClass(editor.isActive('orderedList'))}
           title="Ordered List"
         >
-          1. List
+          {tEditor('numberedList')}
         </button>
 
         <div className="w-px bg-white/10" />
@@ -215,28 +238,28 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
           className={buttonClass(editor.isActive({ textAlign: 'left' }))}
           title="Align Left"
         >
-          ⬅ Left
+          {tEditor('alignLeft')}
         </button>
         <button
           onClick={() => setTextAlign('center')}
           className={buttonClass(editor.isActive({ textAlign: 'center' }))}
           title="Align Center"
         >
-          ⬍ Center
+          {tEditor('alignCenter')}
         </button>
         <button
           onClick={() => setTextAlign('right')}
           className={buttonClass(editor.isActive({ textAlign: 'right' }))}
           title="Align Right"
         >
-          Right ➡
+          {tEditor('alignRight')}
         </button>
         <button
           onClick={() => setTextAlign('justify')}
           className={buttonClass(editor.isActive({ textAlign: 'justify' }))}
           title="Justify"
         >
-          ⬌ Justify
+          {tEditor('alignJustify')}
         </button>
 
         <div className="w-px bg-white/10" />
@@ -248,17 +271,17 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
             className={buttonClass(editor.isActive('link'))}
             title="Add Link"
           >
-            🔗 Link
+            🔗 {tEditor('link')}
           </button>
           {showLinkDialog && (
             <div className="absolute top-full mt-2 left-0 bg-black border border-white/20 rounded-sm p-3 z-50 min-w-80 shadow-lg">
-              <p className="text-xs text-gray-400 mb-2">Enter URL:</p>
+              <p className="text-xs text-gray-400 mb-2">{tEditor('enterUrl')}</p>
               <input
                 type="text"
                 value={linkUrl}
                 onChange={(e) => setLinkUrl(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="https://example.com"
+                placeholder={tEditor('linkPlaceholder')}
                 className="w-full bg-white/5 border border-white/10 p-2 text-sm text-white rounded-sm outline-none focus:border-[#FC7CA4] mb-2"
                 autoFocus
               />
@@ -267,13 +290,13 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
                   onClick={handleAddLink}
                   className="flex-1 bg-[#FC7CA4] text-black px-2 py-1.5 text-xs uppercase font-bold rounded-sm hover:bg-[#FC7CA4]/90 transition-colors"
                 >
-                  Apply Link
+                  {tEditor('applyLink')}
                 </button>
                 <button
                   onClick={handleRemoveLink}
                   className="flex-1 bg-white/5 text-gray-400 px-2 py-1.5 text-xs uppercase font-bold rounded-sm hover:bg-white/10 transition-colors"
                 >
-                  Remove Link
+                  {tEditor('removeLink')}
                 </button>
                 <button
                   onClick={() => {
@@ -282,7 +305,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
                   }}
                   className="flex-1 bg-white/5 text-gray-400 px-2 py-1.5 text-xs uppercase font-bold rounded-sm hover:bg-white/10 transition-colors"
                 >
-                  Cancel
+                  {tEditor('link') === 'Link' ? 'Cancel' : 'Cancelar'}
                 </button>
               </div>
             </div>
@@ -303,7 +326,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
 
       {/* Info Text */}
       <p className="text-xs text-gray-500">
-        Tip: Use keyboard shortcuts like Ctrl+B for bold, Ctrl+I for italic. Your content is auto-saved as HTML.
+        {tEditor('editorTip')}
       </p>
     </div>
   );

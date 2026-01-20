@@ -14,6 +14,8 @@ export default function BlogPostPage() {
   const slug = params?.slug as string;
   const locale = useLocale();
   const t = useTranslations();
+  const tBlog = useTranslations('blog');
+  const tCommon = useTranslations('common');
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -57,7 +59,7 @@ export default function BlogPostPage() {
   if (loading) {
     return (
       <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }} className="flex items-center justify-center">
-        <p className="text-gray-400">Loading...</p>
+        <p className="text-gray-400">{tCommon('loading')}</p>
       </div>
     );
   }
@@ -67,15 +69,15 @@ export default function BlogPostPage() {
       <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }}>
         <div className="max-w-4xl mx-auto px-6 py-20 text-center">
           <h1 className="text-4xl font-serif text-white mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-            Post Not Found
+            {tBlog('postNotFound')}
           </h1>
-          <p className="text-gray-400 mb-8">The blog post you're looking for doesn't exist or has been removed.</p>
+          <p className="text-gray-400 mb-8">{tBlog('postNotFoundDesc')}</p>
           <Link
             href={`/${locale}/blog`}
             className="inline-block border border-[#FC7CA4] text-[#FC7CA4] px-8 py-4 uppercase tracking-[0.3em] text-xs font-bold hover:bg-[#FC7CA4] hover:text-black transition-colors duration-300"
             style={{ borderRadius: 'var(--btn-radius, 0px)' }}
           >
-            Back to All Posts
+            {tBlog('backToAllPosts')}
           </Link>
         </div>
       </div>
@@ -112,10 +114,10 @@ export default function BlogPostPage() {
             {/* Breadcrumb */}
             <div className="mb-6 flex gap-2 text-xs uppercase tracking-widest text-gray-500">
               <Link href={`/${locale}/blog`} className="hover:text-white transition-colors">
-                Journal
+                {tBlog('journal')}
               </Link>
               <span>•</span>
-              <span className="text-white">{post.category || 'Updates'}</span>
+              <span className="text-white">{post.category || tBlog('updates')}</span>
             </div>
 
             {/* Title */}
@@ -130,11 +132,11 @@ export default function BlogPostPage() {
             <div className="flex flex-wrap gap-6 text-sm text-gray-400 mb-8">
               <div className="flex items-center gap-2">
                 <span className="text-[#FC7CA4]">✦</span>
-                <span className="uppercase tracking-widest font-bold">{post.category || 'Updates'}</span>
+                <span className="uppercase tracking-widest font-bold">{post.category || tBlog('updates')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[#FC7CA4]">✦</span>
-                <span className="uppercase tracking-widest">{formatDate(post.published_at || post.created_at)}</span>
+                <span className="uppercase tracking-widest">{tBlog('publishedOn')} {formatDate(post.published_at || post.created_at)}</span>
               </div>
             </div>
 

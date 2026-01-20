@@ -5,7 +5,8 @@
     "services": "Services",
     "approach": "Approach",
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "studioHome": "Sassy Studio Home"
   },
   "common": {
     "consult": "Consult",
@@ -17,15 +18,23 @@
     "backToSite": "Back to site",
     "sendMessage": "Send message",
     "sending": "Sending...",
-    "language": "Language"
+    "language": "Language",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "close": "Close",
+    "loading": "Loading...",
+    "noData": "No data available"
   },
   "hero": {
     "tagline": "Sassy Studio CDMX",
     "heading": "Alchemists of Content",
-    "description": "Transforming boutique hospitality into digital gold through high-end visual storytelling and strategic brand refinement."
+    "description": "Transforming boutique hospitality into digital gold through high-end visual storytelling and strategic brand refinement.",
+    "cta": "Enter the Studio"
   },
   "services": {
     "title": "Services",
+    "ourCraft": "Our Craft",
     "visualAlchemy": "Visual Alchemy",
     "visualAlchemyDesc": "High-res hotel and gastronomy photography that captures the essence of luxury.",
     "digitalNarratives": "Digital Narratives",
@@ -40,6 +49,7 @@
   },
   "blog": {
     "title": "The Studio Journal",
+    "journal": "Journal",
     "description": "Notes on boutique hospitality marketing, visual storytelling, and the small details that turn attention into bookings.",
     "viewAllPosts": "View all posts",
     "featuredPost": "Featured Post",
@@ -53,7 +63,11 @@
     "next": "Next",
     "category": "Category",
     "publishedOn": "Published on",
-    "by": "by"
+    "by": "by",
+    "updates": "Updates",
+    "backToAllPosts": "Back to All Posts",
+    "postNotFound": "Post Not Found",
+    "postNotFoundDesc": "The blog post you're looking for doesn't exist or has been removed."
   },
   "contact": {
     "title": "Ready for the Transformation?",
@@ -92,20 +106,109 @@
   "login": {
     "title": "Sassy Vault",
     "subtitle": "Digital Alchemy Control Portal",
-    "invalidCredentials": "Invalid credentials. Use: admin@sassy.studio / gold"
+    "staffIdentifier": "Staff Identifier",
+    "staffPlaceholder": "admin@sassy.studio",
+    "accessSigil": "Access Sigil",
+    "enter": "Enter",
+    "or": "Or",
+    "demoAccess": "Demo Access",
+    "invalidCredentials": "Invalid credentials. Use: admin@sassy.studio / gold",
+    "welcome": "Welcome",
+    "enteringMessage": "Entering the alchemy chamber..."
   },
   "dashboard": {
     "title": "Alchemy Dashboard",
     "subtitle": "Refining the Sassy Studio Brand Identity",
+    "adminAccess": "Admin Access",
+    "dashboard": "Dashboard",
+    "returnToSite": "← Return to Site",
     "posts": "posts",
     "portfolio": "portfolio",
     "assets": "assets",
     "style": "style",
+    "posts_tab": {
+      "refiningArtifact": "Refining Artifact",
+      "draftNewInsight": "Draft New Insight",
+      "discardChanges": "Discard Changes",
+      "artifactTitle": "Artifact Title",
+      "contentNarrative": "Content Narrative",
+      "heroAssetUrl": "Hero Asset URL",
+      "vault": "Vault",
+      "category": "Category",
+      "language": "Language",
+      "updateArtifact": "Update Alchemical Artifact",
+      "secureToLibrary": "Secure to Library",
+      "libraryOfInsights": "Library of Insights",
+      "noArtifacts": "No artifacts discovered yet.",
+      "refine": "Refine",
+      "confirmDelete": "Are you sure you want to return this to the void?",
+      "vanish": "Vanish"
+    },
+    "assets_tab": {
+      "searchVault": "Search Digital Vault...",
+      "creating": "Creating...",
+      "newFolder": "New Folder",
+      "uploadArtifact": "Upload Artifact",
+      "vault": "The Vault",
+      "collections": "Collections",
+      "folderName": "Folder name",
+      "looseArtifacts": "Loose Artifacts",
+      "contentsOf": "Contents of {folder}",
+      "backToVault": "← Back to Vault",
+      "voidEmpty": "This directory is currently a void.",
+      "selectedArtifacts": "Selected Artifacts",
+      "artifactsInFocus": "{count} artifacts in focus",
+      "clearSigils": "Clear Sigils",
+      "bulkVanish": "Bulk Vanish",
+      "uploadModal": "Upload Artifact",
+      "uploadDescription": "Add new images to your digital vault via Cloudinary",
+      "rename": "Rename",
+      "deleteFolder": "Delete"
+    },
+    "portfolio_tab": {
+      "addToCollection": "Add to Collection",
+      "clientIdentifier": "Client Identifier",
+      "projectType": "Project Type",
+      "hotel": "Hotel",
+      "restaurant": "Restaurant",
+      "lifestyle": "Lifestyle",
+      "heroImageUrl": "Hero Image Asset URL",
+      "browseVault": "Browse Vault",
+      "syncArtifact": "Sync Artifact"
+    },
+    "style_tab": {
+      "brandPalette": "Brand Palette",
+      "customizeDescription": "Customize the visual identity of your digital presence.",
+      "primaryColor": "Primary Color",
+      "secondaryColor": "Secondary Color (Accent)"
+    },
     "artifactTitle": "Artifact Title",
     "enterFolderPath": "Enter folder path...",
     "language": "Language",
     "selectLanguage": "Select language",
     "languageSpanish": "Spanish",
     "languageEnglish": "English"
+  },
+  "editor": {
+    "loadingEditor": "Loading editor...",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "bulletList": "• List",
+    "numberedList": "1. List",
+    "alignLeft": "⬅ Left",
+    "alignCenter": "⬍ Center",
+    "alignRight": "Right ➡",
+    "alignJustify": "⬌ Justify",
+    "link": "Link",
+    "enterUrl": "Enter URL:",
+    "linkPlaceholder": "https://example.com",
+    "applyLink": "Apply Link",
+    "removeLink": "Remove Link",
+    "editorTip": "Tip: Use keyboard shortcuts like Ctrl+B for bold, Ctrl+I for italic. Your content is auto-saved as HTML."
+  },
+  "errors": {
+    "generalError": "Something went wrong. Please try again.",
+    "networkError": "Network error. Please check your connection."
   }
 }
