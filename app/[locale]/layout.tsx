@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Providers } from '../providers';
+import { GTMScript } from '../components/GTMScript';
 import '../globals.css';
 import { getTranslations } from 'next-intl/server';
 
@@ -40,7 +41,20 @@ export default async function RootLayout({
 
   return (
     <html suppressHydrationWarning>
+      <head>
+        <GTMScript />
+      </head>
       <body>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5DPJZCZ4"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          ></iframe>
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
         <Providers locale={locale} messages={messages}>
           {children}
         </Providers>
