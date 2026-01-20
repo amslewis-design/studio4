@@ -61,7 +61,6 @@ export default function Admin() {
   const tPostsTab = useTranslations('dashboard.posts_tab');
   const tAssetsTab = useTranslations('dashboard.assets_tab');
   const tPortfolioTab = useTranslations('dashboard.portfolio_tab');
-  const tStyleTab = useTranslations('dashboard.style_tab');
   const [tab, setTab] = useState<'posts' | 'portfolio' | 'assets' | 'style'>('posts');
   const [posts, setPosts] = useState<Post[]>([]);
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
