@@ -472,28 +472,25 @@ export default function Preview() {
     window.addEventListener('settingsUpdated', handleSettingsUpdate);
     return () => window.removeEventListener('settingsUpdated', handleSettingsUpdate);  }, []);
 
-  const services = useMemo(
+const services = useMemo(
     () => [
       {
-        title: "Visual Alchemy",
-        description:
-          "High-res hotel and gastronomy photography that captures the essence of luxury.",
+        title: tServices('visualAlchemy'),
+        description: tServices('visualAlchemyDesc'),
         icon: "✧",
       },
       {
-        title: "Digital Narratives",
-        description:
-          "Strategic Reels and TikTok production designed for maximum brand prestige.",
+        title: tServices('digitalNarratives'),
+        description: tServices('digitalNarrativesDesc'),
         icon: "✦",
       },
       {
-        title: "Identity Refinement",
-        description:
-          "Bespoke brand positioning for Mexico City’s elite hospitality market.",
+        title: tServices('identityRefinement'),
+        description: tServices('identityRefinementDesc'),
         icon: "❂",
       },
     ],
-    []
+    [tServices]
   );
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
