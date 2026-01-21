@@ -3,6 +3,8 @@
  * Handles image uploads, transformations, and asset management
  */
 
+import { getAuthHeaders } from '@/lib/utils/clientAuth';
+
 export interface CloudinaryUploadResponse {
   public_id: string;
   url: string;
@@ -41,9 +43,10 @@ class CloudinaryService {
    */
   async getUploadSignature(): Promise<CloudinarySignature> {
     try {
+      const headers = await getAuthHeaders();
       const response = await fetch('/api/cloudinary/signature', {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
       });
 
       if (!response.ok) {
@@ -110,9 +113,10 @@ class CloudinaryService {
    */
   async deleteImage(publicId: string): Promise<boolean> {
     try {
+      const headers = await getAuthHeaders();
       const response = await fetch('/api/cloudinary/asset', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ publicId }),
       });
 

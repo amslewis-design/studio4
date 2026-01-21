@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { cloudinaryService } from '@/lib/services/cloudinaryService';
+import { getAuthHeaders } from '@/lib/utils/clientAuth';
 import { Asset } from '@/lib/types';
 
 interface ImageUploadManagerProps {
@@ -68,7 +69,8 @@ export default function ImageUploadManager({ onAssetUpload, folderContext }: Ima
       console.log('[ImageUploadManager] Getting upload signature from server...');
       
       // Get signature from server (required for signed uploads)
-      const signatureResponse = await fetch('/api/cloudinary/signature');
+      const headers = await getAuthHeaders();
+      const signatureResponse = await fetch('/api/cloudinary/signature', { headers });
       if (!signatureResponse.ok) {
         throw new Error('Failed to get upload signature');
       }

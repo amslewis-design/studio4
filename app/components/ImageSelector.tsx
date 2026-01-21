@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { getAuthHeaders } from '@/lib/utils/clientAuth';
 
 interface CloudinaryAsset {
   public_id: string;
@@ -34,7 +35,8 @@ export default function ImageSelector({
     const fetchAssets = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/assets');
+        const headers = await getAuthHeaders();
+        const response = await fetch('/api/assets', { headers });
         
         if (!response.ok) {
           throw new Error('Failed to fetch assets');

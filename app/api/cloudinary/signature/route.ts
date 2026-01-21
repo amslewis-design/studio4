@@ -1,42 +1,27 @@
 /**
  * GET /api/cloudinary/signature
  * Generates a secure upload signature for Cloudinary
- * Used for client-side uploads
+ * Requires authentication
  */
 
 import { NextResponse, NextRequest } from 'next/server';
 import crypto from 'crypto';
-import { createClient } from '@supabase/supabase-js';
+import { verifyAuthToken } from '@/lib/utils/apiAuth';
 
 export async function GET(request: NextRequest) {
   try {
-    // Verify the request is from an authenticated admin
-    const token = request.headers.get('authorization')?.replace('Bearer ', '');
+    // Verify authentication
+    const { user, error } = await verifyAuthToken(request);
     
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Unauthorized: Missing authentication token' },
-        { status: 401 }
-      );
+    if (error) {
+      return error;
     }
 
-    // Verify JWT token with Supabase
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseKey) {
-      console.warn('Supabase credentials not configured for auth verification');
-      // Allow request if Supabase not configured (development fallback)
-    } else {
-      const supabase = createClient(supabaseUrl, supabaseKey);
-      const { data: { user }, error } = await supabase.auth.getUser(token);
-      
-      if (error || !user) {
-        return NextResponse.json(
-          { error: 'Unauthorized: Invalid or expired token' },
-          { status: 401 }
-        );
-      }
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
     }
     
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -68,11 +53,7 @@ export async function GET(request: NextRequest) {
       .map(key => `${key}=${signatureParams[key as keyof typeof signatureParams]}`)
       .join('&') + apiSecret;
 
-    console.log('[Cloudinary Signature] Generating signature for:', {
-      folder,
-      timestamp,
-      upload_preset: uploadPreset,
-    });
+    console.log('[Cloudinary Signature] Generating signature for user:', user.userEmail);
 
     const signature = crypto
       .createHash('sha256')

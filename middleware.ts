@@ -22,13 +22,10 @@ export function middleware(request: NextRequest) {
     // Check for Supabase session token in cookies
     const authToken = request.cookies.get('sb-auth-token');
 
-    // If no auth token and trying to access protected route, redirect to login
+    // If no auth token and trying to access protected route, note that
+    // server-side components will verify and redirect to login if needed
     if (!authToken) {
-      // Extract locale from pathname (default to 'es' if not found)
-      const localeMatch = pathname.match(/\/(es|en)\//);
-      const locale = localeMatch ? localeMatch[1] : 'es';
-      
-      return intlResponse; // The server will check auth and redirect if needed
+      // Token missing - server-side auth check will handle redirect
     }
   }
 

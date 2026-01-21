@@ -12,11 +12,6 @@ interface LeadFormData {
 
 export async function POST(request: NextRequest) {
   try {
-    // Debug: log all env vars (without exposing secrets fully)
-    console.log('Available env vars:', Object.keys(process.env).filter(k => k.includes('RESEND') || k.includes('API')));
-    console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
-    console.log('RESEND_API_KEY value (first 10 chars):', process.env.RESEND_API_KEY?.substring(0, 10));
-    
     // Verify API key is configured
     if (!process.env.RESEND_API_KEY) {
       console.error('RESEND_API_KEY is not configured');

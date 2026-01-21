@@ -1,9 +1,24 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyAuthToken } from '@/lib/utils/apiAuth';
 
 const CLOUDINARY_API_BASE = 'https://api.cloudinary.com/v1_1';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    // Verify authentication
+    const { user, error } = await verifyAuthToken(request);
+    
+    if (error) {
+      return error;
+    }
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
     const apiSecret = process.env.CLOUDINARY_API_SECRET;
@@ -19,14 +34,12 @@ export async function GET() {
     const auth = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64');
 
     // Fetch all resources (images) from Cloudinary
-    // Using resources/image endpoint with pagination support
     const url = new URL(
       `${CLOUDINARY_API_BASE}/${cloudName}/resources/image`
     );
 
-    // Add query parameters for better performance
-    url.searchParams.append('max_results', '500'); // Fetch up to 500 at once
-    url.searchParams.append('type', 'upload'); // Only uploaded assets
+    url.searchParams.append('max_results', '500');
+    url.searchParams.append('type', 'upload');
 
     const response = await fetch(url.toString(), {
       method: 'GET',

@@ -1,10 +1,12 @@
 /**
- * GET /api/cloudinary/folders - List all folders
- * POST /api/cloudinary/folders - Create a new folder
- * PATCH /api/cloudinary/folders - Rename a folder
+ * GET /api/cloudinary/folders - List all folders (requires auth)
+ * POST /api/cloudinary/folders - Create a new folder (requires auth)
+ * PATCH /api/cloudinary/folders - Rename a folder (requires auth)
+ * DELETE /api/cloudinary/folders - Delete a folder (requires auth)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { verifyAuthToken } from '@/lib/utils/apiAuth';
 
 const CLOUDINARY_API_BASE = 'https://api.cloudinary.com/v1_1';
 
@@ -20,8 +22,22 @@ function getAuthHeader() {
   return `Basic ${auth}`;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    // Verify authentication
+    const { user, error } = await verifyAuthToken(request);
+    
+    if (error) {
+      return error;
+    }
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
     if (!cloudName) {
@@ -61,6 +77,20 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    // Verify authentication
+    const { user, error } = await verifyAuthToken(request);
+    
+    if (error) {
+      return error;
+    }
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const { folderPath } = await request.json();
 
@@ -81,7 +111,7 @@ export async function POST(request: NextRequest) {
     // Sanitize folder path
     const sanitizedPath = folderPath.trim().replace(/[^a-zA-Z0-9/_-]/g, '');
 
-    if (!sanitizedPath) {
+    if (!sanitizedPath || sanitizedPath.length > 255) {
       return NextResponse.json(
         { error: 'Invalid folder path' },
         { status: 400 }
@@ -114,7 +144,7 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await response.json();
-    console.log('[API] Folder created:', data);
+    console.log('[API] Folder created:', sanitizedPath);
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error('[API] Error creating folder:', error);
@@ -127,6 +157,20 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    // Verify authentication
+    const { user, error } = await verifyAuthToken(request);
+    
+    if (error) {
+      return error;
+    }
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const { path, toPath } = await request.json();
 
@@ -148,7 +192,7 @@ export async function PATCH(request: NextRequest) {
     const sanitizedPath = path.trim().replace(/[^a-zA-Z0-9/_-]/g, '');
     const sanitizedToPath = toPath.trim().replace(/[^a-zA-Z0-9/_-]/g, '');
 
-    if (!sanitizedPath || !sanitizedToPath) {
+    if (!sanitizedPath || !sanitizedToPath || sanitizedToPath.length > 255) {
       return NextResponse.json(
         { error: 'Invalid folder path' },
         { status: 400 }
@@ -180,7 +224,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const data = await response.json();
-    console.log('[API] Folder renamed:', data);
+    console.log('[API] Folder renamed:', sanitizedPath, '->', sanitizedToPath);
     return NextResponse.json(data);
   } catch (error) {
     console.error('[API] Error renaming folder:', error);
@@ -193,6 +237,20 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    // Verify authentication
+    const { user, error } = await verifyAuthToken(request);
+    
+    if (error) {
+      return error;
+    }
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const { path } = await request.json();
 

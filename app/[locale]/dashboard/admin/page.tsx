@@ -143,7 +143,10 @@ export default function Admin() {
 
   const fetchAssets = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/assets`);
+      const { getAuthHeaders } = await import('@/lib/utils/clientAuth');
+      const headers = await getAuthHeaders();
+      
+      const response = await fetch(`${BACKEND_URL}/api/assets`, { headers });
       if (response.ok) {
         const cloudData = await response.json();
         const localAssets = storageService.getAssets();
@@ -308,9 +311,12 @@ export default function Admin() {
 
     try {
       setIsLoadingFolders(true);
+      const { getAuthHeaders } = await import('@/lib/utils/clientAuth');
+      const headers = await getAuthHeaders();
+      
       const response = await fetch('/api/cloudinary/folders', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ folderPath: folderPath.trim() }),
       });
 
@@ -344,9 +350,12 @@ export default function Admin() {
 
     try {
       setIsLoadingFolders(true);
+      const { getAuthHeaders } = await import('@/lib/utils/clientAuth');
+      const headers = await getAuthHeaders();
+      
       const response = await fetch('/api/cloudinary/folders', {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ path: folderId, toPath: newName.trim() }),
       });
 
@@ -375,9 +384,12 @@ export default function Admin() {
 
     try {
       setIsLoadingFolders(true);
+      const { getAuthHeaders } = await import('@/lib/utils/clientAuth');
+      const headers = await getAuthHeaders();
+      
       const response = await fetch('/api/cloudinary/folders', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ path: folderId }),
       });
 
