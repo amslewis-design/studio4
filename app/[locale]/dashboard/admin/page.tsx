@@ -67,27 +67,7 @@ export default function Admin() {
   const router = useRouter();
   const { user, loading } = useAuth();
 
-  // Redirect to login if not authenticated
-  if (!loading && !user) {
-    router.push(`/login`);
-    return null;
-  }
-
-  // Show loading state while checking authentication
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-black">
-        <motion.div
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 1, repeat: Infinity }}
-          className="text-white text-2xl"
-        >
-          ✧
-        </motion.div>
-      </div>
-    );
-  }
-
+  // ALL useState HOOKS MUST BE CALLED BEFORE ANY CONDITIONAL RETURNS
   const [tab, setTab] = useState<'posts' | 'portfolio' | 'assets' | 'style'>('posts');
   const [posts, setPosts] = useState<Post[]>([]);
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
@@ -119,6 +99,28 @@ export default function Admin() {
   const [showAssetSelectorForPost, setShowAssetSelectorForPost] = useState(false);
   const [newPortfolio, setNewPortfolio] = useState({ clientName: '', category: 'Hotel' as any, imageUrl: '', description: '' });
   const [showAssetSelectorForPortfolio, setShowAssetSelectorForPortfolio] = useState(false);
+
+  // NOW we can do conditional returns after all hooks are defined
+  // Redirect to login if not authenticated
+  if (!loading && !user) {
+    router.push(`/login`);
+    return null;
+  }
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-black">
+        <motion.div
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 1, repeat: Infinity }}
+          className="text-white text-2xl"
+        >
+          ✧
+        </motion.div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     loadPosts();
