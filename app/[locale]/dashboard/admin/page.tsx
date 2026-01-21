@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/lib/hooks/useAuth';
+import { getAuthHeaders } from '@/lib/utils/clientAuth';
 import { storageService } from '@/lib/services/storageService';
 import { supabaseService } from '@/lib/services/supabaseService';
 import { cloudinaryService } from '@/lib/services/cloudinaryService';
@@ -143,7 +144,6 @@ export default function Admin() {
 
   const fetchAssets = async () => {
     try {
-      const { getAuthHeaders } = await import('@/lib/utils/clientAuth');
       const headers = await getAuthHeaders();
       
       const response = await fetch(`${BACKEND_URL}/api/assets`, { headers });
@@ -311,7 +311,6 @@ export default function Admin() {
 
     try {
       setIsLoadingFolders(true);
-      const { getAuthHeaders } = await import('@/lib/utils/clientAuth');
       const headers = await getAuthHeaders();
       
       const response = await fetch('/api/cloudinary/folders', {
@@ -350,7 +349,6 @@ export default function Admin() {
 
     try {
       setIsLoadingFolders(true);
-      const { getAuthHeaders } = await import('@/lib/utils/clientAuth');
       const headers = await getAuthHeaders();
       
       const response = await fetch('/api/cloudinary/folders', {
@@ -384,7 +382,6 @@ export default function Admin() {
 
     try {
       setIsLoadingFolders(true);
-      const { getAuthHeaders } = await import('@/lib/utils/clientAuth');
       const headers = await getAuthHeaders();
       
       const response = await fetch('/api/cloudinary/folders', {
