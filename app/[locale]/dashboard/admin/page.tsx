@@ -6,7 +6,9 @@ export const dynamic = 'force-dynamic';
 
 import React, { useState, useEffect, ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/lib/hooks/useAuth';
 import { storageService } from '@/lib/services/storageService';
 import { supabaseService } from '@/lib/services/supabaseService';
 import { cloudinaryService } from '@/lib/services/cloudinaryService';
@@ -61,6 +63,30 @@ export default function Admin() {
   const tPostsTab = useTranslations('dashboard.posts_tab');
   const tAssetsTab = useTranslations('dashboard.assets_tab');
   const tPortfolioTab = useTranslations('dashboard.portfolio_tab');
+  const router = useRouter();
+  const { user, loading } = useAuth();
+
+  // Redirect to login if not authenticated
+  if (!loading && !user) {
+    router.push(`/login`);
+    return null;
+  }
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-black">
+        <motion.div
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 1, repeat: Infinity }}
+          className="text-white text-2xl"
+        >
+          ✧
+        </motion.div>
+      </div>
+    );
+  }
+
   const [tab, setTab] = useState<'posts' | 'portfolio' | 'assets' | 'style'>('posts');
   const [posts, setPosts] = useState<Post[]>([]);
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
+import { authService } from '@/lib/services/authService';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,14 +18,21 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    // Demo credentials check
-    if (email.trim() === 'admin@sassy.studio' && password.trim() === 'gold') {
+    // Attempt to sign in with Supabase Auth
+    const { user, error: authError } = await authService.signIn(email, password);
+
+    if (authError) {
+      setError(authError.message);
       setLoading(false);
+      return;
+    }
+
+    if (user) {
       setSuccess(true);
       // Redirect to dashboard after animation
       setTimeout(() => {
@@ -33,20 +41,8 @@ export default function LoginPage() {
       return;
     }
 
-    setError(t('login.invalidCredentials'));
+    setError(tLogin('invalidCredentials'));
     setLoading(false);
-  };
-
-  const handleDemoAccess = () => {
-    setEmail('admin@sassy.studio');
-    setPassword('gold');
-    setLoading(true);
-    setTimeout(() => {
-      setSuccess(true);
-      setTimeout(() => {
-        router.push(`/${locale}/dashboard/admin`);
-      }, 800);
-    }, 400);
   };
 
   return (
@@ -125,22 +121,7 @@ export default function LoginPage() {
                 </button>
               </form>
 
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-white/10"></div>
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="px-2 bg-neutral-900/40 text-gray-500 tracking-wider">{tCommon('language') === 'Idioma' ? 'O' : 'Or'}</span>
-                </div>
-              </div>
-
-              <button 
-                type="button"
-                onClick={handleDemoAccess}
-                className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-3 uppercase tracking-[0.2em] text-xs transition-colors duration-300 rounded-sm"
-              >
-                {tLogin('demoAccess')}
-              </button>
+              {/* Demo Access button removed - using proper Supabase Auth */}
             </motion.div>
           ) : (
             <motion.div 

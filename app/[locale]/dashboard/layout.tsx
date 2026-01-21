@@ -3,6 +3,9 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/lib/hooks/useAuth';
+import { useState } from 'react';
 
 export default function DashboardLayout({
   children,
@@ -10,6 +13,35 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const locale = useLocale();
+  const router = useRouter();
+  const { user, loading, signOut } = useAuth();
+  const [signingOut, setSigningOut] = useState(false);
+
+  // Redirect to login if not authenticated
+  if (!loading && !user) {
+    router.push(`/${locale}/login`);
+    return null;
+  }
+
+  const handleSignOut = async () => {
+    setSigningOut(true);
+    await signOut();
+    router.push(`/${locale}/login`);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <motion.div
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 1, repeat: Infinity }}
+          className="text-white text-2xl"
+        >
+          ✧
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -28,14 +60,23 @@ export default function DashboardLayout({
             <div className="flex items-center gap-4 text-[10px] uppercase tracking-widest text-gray-500">
               <span>Admin Access</span>
               <span className="text-[#FC7CA4]">•</span>
-              <span>Dashboard</span>
+              <span className="text-white">{user?.email}</span>
             </div>
-            <Link
-              href={`/${locale}`}
-              className="text-[10px] uppercase tracking-widest text-gray-400 hover:text-white transition-colors border-l border-white/10 pl-6"
-            >
-              ← Return to Site
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link
+                href={`/${locale}`}
+                className="text-[10px] uppercase tracking-widest text-gray-400 hover:text-white transition-colors border-r border-white/10 pr-4"
+              >
+                ← Return to Site
+              </Link>
+              <button
+                onClick={handleSignOut}
+                disabled={signingOut}
+                className="text-[10px] uppercase tracking-widest text-gray-400 hover:text-[#FC7CA4] transition-colors disabled:opacity-50"
+              >
+                {signingOut ? 'Signing Out...' : 'Sign Out'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
