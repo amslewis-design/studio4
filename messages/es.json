@@ -96,12 +96,23 @@
     }
   },
   "metadata": {
-    "homeTitle": "Sassy Studio | Marketing de Contenido | Sitio de Previsualización",
-    "homeDescription": "Transformamos la hospitalidad boutique en oro digital a través de narrativa visual de lujo y refinamiento estratégico de marca.",
-    "blogTitle": "El Diario del Estudio | Blog",
-    "blogDescription": "Notas sobre marketing de hospitalidad boutique, narrativa visual y los pequeños detalles que convierten la atención en reservas.",
+    "homeTitle": "Marketing de Contenido Hotelero de Lujo | CDMX",
+    "homeDescription": "Especialistas en contenido para hoteles y restaurantes boutique en la CDMX. Fotografía de lujo, reels y estrategia de marca que transforman la hospitalidad en oro digital.",
+    "homeKeywords": "marketing de contenido, hospitalidad de lujo, Ciudad de México, CDMX, fotografía hotelera, marketing de restaurantes",
+    "blogTitle": "El Diario del Estudio | Marketing de Hospitalidad",
+    "blogDescription": "Perspectivas sobre marketing hotelero boutique, narrativa visual de lujo y estrategias de contenido que impulsan reservas directas en marcas de hospitalidad CDMX.",
+    "blogKeywords": "marketing de hospitalidad, contenido hotelero, marcas de lujo, Ciudad de México",
+    "portfolioTitle": "Portafolio | Proyectos de Hospitalidad Boutique",
+    "portfolioDescription": "Proyectos destacados mostrando nuestras transformaciones de hotel de lujo, restaurante y marcas de estilo de vida en la CDMX y más allá.",
+    "portfolioKeywords": "portafolio de hospitalidad, proyectos hoteleros, diseño de lujo, branding de restaurantes",
     "loginTitle": "Bóveda Sassy | Portal de Control de Alquimia Digital",
-    "dashboardTitle": "Panel de Alquimia | Refinando la Identidad de Marca de Sassy Studio"
+    "loginDescription": "Portal administrativo seguro para gestionar contenido, activos e identidad de marca. Acceso solo para personal.",
+    "dashboardTitle": "Panel de Alquimia | Gestión de Contenido y Marca",
+    "dashboardDescription": "Panel de administración para gestionar posts de blog, elementos de portafolio, activos digitales y configuración de marca.",
+    "postBaseTitle": "{{title}} | Blog Sassy Studio",
+    "postBaseDescription": "{{excerpt}}",
+    "notFoundTitle": "Página No Encontrada | Sassy Studio",
+    "notFoundDescription": "La página que buscas no existe. Explora nuestro blog de marketing de hospitalidad o portafolio en su lugar."
   },
   "login": {
     "title": "Bóveda Sassy",

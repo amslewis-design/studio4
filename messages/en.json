@@ -96,12 +96,23 @@
     }
   },
   "metadata": {
-    "homeTitle": "Sassy Studio | Content Marketing | Preview Site",
-    "homeDescription": "Transforming boutique hospitality into digital gold through high-end visual storytelling and strategic brand refinement.",
-    "blogTitle": "The Studio Journal | Blog",
-    "blogDescription": "Notes on boutique hospitality marketing, visual storytelling, and the small details that turn attention into bookings.",
+    "homeTitle": "Luxury Hospitality Content Marketing | Mexico City",
+    "homeDescription": "Boutique hotel & restaurant content specialists in CDMX. High-end photography, reels, and brand strategy that transform hospitality into digital gold.",
+    "homeKeywords": "content marketing, luxury hospitality, Mexico City, CDMX, hotel photography, restaurant marketing",
+    "blogTitle": "The Studio Journal | Hospitality Marketing",
+    "blogDescription": "Insights on boutique hotel marketing, luxury visual storytelling, and content strategies that drive direct bookings for CDMX hospitality brands.",
+    "blogKeywords": "hospitality marketing, hotel content, luxury brands, Mexico City",
+    "portfolioTitle": "Portfolio | Boutique Hospitality Projects",
+    "portfolioDescription": "Featured projects showcasing our luxury hotel, restaurant, and lifestyle brand transformations across Mexico City and beyond.",
+    "portfolioKeywords": "hospitality portfolio, hotel projects, luxury design, restaurant branding",
     "loginTitle": "Sassy Vault | Digital Alchemy Control Portal",
-    "dashboardTitle": "Alchemy Dashboard | Refining the Sassy Studio Brand Identity"
+    "loginDescription": "Secure admin portal for managing content, assets, and brand identity. Staff access only.",
+    "dashboardTitle": "Alchemy Dashboard | Content & Brand Management",
+    "dashboardDescription": "Admin dashboard for managing blog posts, portfolio items, digital assets, and brand settings.",
+    "postBaseTitle": "{{title}} | Sassy Studio Blog",
+    "postBaseDescription": "{{excerpt}}",
+    "notFoundTitle": "Page Not Found | Sassy Studio",
+    "notFoundDescription": "The page you're looking for doesn't exist. Explore our hospitality marketing blog or portfolio instead."
   },
   "login": {
     "title": "Sassy Vault",

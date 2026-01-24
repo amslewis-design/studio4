@@ -12,9 +12,43 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
+  const baseUrl = 'https://studio4.vercel.app';
+  const canonicalUrl = `${baseUrl}/${locale}`;
+
   return {
     title: t('homeTitle'),
     description: t('homeDescription'),
+    keywords: t('homeKeywords'),
+    openGraph: {
+      title: t('homeTitle'),
+      description: t('homeDescription'),
+      url: canonicalUrl,
+      type: 'website',
+      locale: locale === 'es' ? 'es_MX' : 'en_US',
+      siteName: 'Sassy Studio',
+      images: [
+        {
+          url: `${baseUrl}/og-home.jpg`,
+          width: 1200,
+          height: 630,
+          alt: t('homeTitle'),
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('homeTitle'),
+      description: t('homeDescription'),
+      images: [`${baseUrl}/og-home.jpg`],
+    },
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        en: `${baseUrl}/en`,
+        es: `${baseUrl}/es`,
+      },
+    },
+    viewport: 'width=device-width, initial-scale=1',
     icons: {
       icon: [
         { url: '/favicons_new/favicon.ico', sizes: 'any' },

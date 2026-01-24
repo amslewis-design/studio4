@@ -1,50 +1,98 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
-import { useLocale } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { supabaseService } from '@/lib/services/supabaseService';
 import type { Post } from '@/lib/types';
 
-export default function BlogPostPage() {
-  const params = useParams();
-  const slug = params?.slug as string;
-  const locale = useLocale();
-  const t = useTranslations();
-  const tBlog = useTranslations('blog');
-  const tCommon = useTranslations('common');
-  const [post, setPost] = useState<Post | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      if (!slug) return;
+  try {
+    const posts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
+    const post = posts.find((p) => p.slug === slug && p.published === true);
 
-      try {
-        setLoading(true);
-        const allPosts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
-        const foundPost = allPosts.find(p => p.slug === slug && p.published === true);
+    if (!post) {
+      return {
+        title: 'Post Not Found',
+        robots: 'noindex',
+      };
+    }
 
-        if (foundPost) {
-          setPost(foundPost);
-          setError(false);
-        } else {
-          setError(true);
-        }
-      } catch (err) {
-        console.error('Failed to fetch post:', err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
+    const baseUrl = 'https://studio4.vercel.app';
+    const canonicalUrl = `${baseUrl}/${locale}/blog/${slug}`;
+    const postImage = post.image || `${baseUrl}/og-blog.jpg`;
+
+    return {
+      title: `${post.title} | Sassy Studio Blog`,
+      description: post.excerpt || post.content?.substring(0, 160),
+      keywords: post.category ? [post.category, 'hospitality marketing', 'luxury content'] : undefined,
+      openGraph: {
+        title: post.title,
+        description: post.excerpt || post.content?.substring(0, 160),
+        url: canonicalUrl,
+        type: 'article',
+        locale: locale === 'es' ? 'es_MX' : 'en_US',
+        siteName: 'Sassy Studio',
+        images: [
+          {
+            url: postImage,
+            width: 1200,
+            height: 630,
+            alt: post.title,
+          },
+        ],
+        authors: post.author ? [post.author] : undefined,
+        publishedTime: post.published_at || post.created_at,
+        modifiedTime: post.updated_at || post.created_at,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: post.title,
+        description: post.excerpt || post.content?.substring(0, 160),
+        images: [postImage],
+      },
+      alternates: {
+        canonical: canonicalUrl,
+        languages: {
+          en: `${baseUrl}/en/blog/${slug}`,
+          es: `${baseUrl}/es/blog/${slug}`,
+        },
+      },
     };
+  } catch (error) {
+    console.error('Error generating metadata:', error);
+    return {
+      title: 'Blog Post | Sassy Studio',
+    };
+  }
+}
 
-    fetchPost();
-  }, [slug, locale]);
+async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
+  const { locale, slug } = await params;
+  const tBlog = await getTranslations('blog');
+
+  let post: Post | null = null;
+
+  try {
+    const posts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
+    post = posts.find((p) => p.slug === slug && p.published === true) || null;
+  } catch (error) {
+    console.error('Failed to fetch post:', error);
+  }
+
+  if (!post) {
+    notFound();
+  }
 
   // Format date
   const formatDate = (date: string | undefined) => {
@@ -55,34 +103,6 @@ export default function BlogPostPage() {
       year: 'numeric',
     });
   };
-
-  if (loading) {
-    return (
-      <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }} className="flex items-center justify-center">
-        <p className="text-gray-400">{tCommon('loading')}</p>
-      </div>
-    );
-  }
-
-  if (error || !post) {
-    return (
-      <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }}>
-        <div className="max-w-4xl mx-auto px-6 py-20 text-center">
-          <h1 className="text-4xl font-serif text-white mb-4" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-            {tBlog('postNotFound')}
-          </h1>
-          <p className="text-gray-400 mb-8">{tBlog('postNotFoundDesc')}</p>
-          <Link
-            href={`/${locale}/blog`}
-            className="inline-block border border-[#FC7CA4] text-[#FC7CA4] px-8 py-4 uppercase tracking-[0.3em] text-xs font-bold hover:bg-[#FC7CA4] hover:text-black transition-colors duration-300"
-            style={{ borderRadius: 'var(--btn-radius, 0px)' }}
-          >
-            {tBlog('backToAllPosts')}
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }}>
@@ -211,10 +231,12 @@ export default function BlogPostPage() {
             href={`/${locale}/blog`}
             className="text-[10px] uppercase tracking-[0.5em] text-white/60 hover:text-white transition-colors duration-300 inline-flex items-center gap-2"
           >
-            ← {t('blog.viewAllPosts')}
+            ← {tBlog('viewAllPosts')}
           </Link>
         </div>
       </section>
     </div>
   );
 }
+
+export default BlogPostPage;
