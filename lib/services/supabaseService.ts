@@ -65,13 +65,15 @@ export const supabaseService = {
   },
 
   /**
-   * Get all posts from the database
+   * Get all published posts from the database
+   * Only returns published posts (respects RLS policies for public access)
    */
   async getPosts(): Promise<Post[]> {
     try {
       const { data, error } = await supabase
         .from('posts')
         .select('*')
+        .eq('published', true)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -93,7 +95,8 @@ export const supabaseService = {
   },
 
   /**
-   * Get posts by language
+   * Get published posts by language
+   * Only returns published posts (respects RLS policies for public access)
    */
   async getPostsByLanguage(language: 'es' | 'en'): Promise<Post[]> {
     try {
@@ -101,6 +104,7 @@ export const supabaseService = {
         .from('posts')
         .select('*')
         .eq('language', language)
+        .eq('published', true)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -111,6 +115,30 @@ export const supabaseService = {
       return (data || []).map(mapPostFromDatabase);
     } catch (err) {
       console.error('Exception fetching posts by language:', err);
+      return [];
+    }
+  },
+
+  /**
+   * Get all posts including drafts (admin use only)
+   * This should only be called by authenticated users in the admin dashboard
+   * RLS will filter results based on the user's own posts
+   */
+  async getAllPostsIncludingDrafts(): Promise<Post[]> {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Error fetching all posts (including drafts):', error);
+        return [];
+      }
+
+      return (data || []).map(mapPostFromDatabase);
+    } catch (err) {
+      console.error('Exception fetching all posts:', err);
       return [];
     }
   },

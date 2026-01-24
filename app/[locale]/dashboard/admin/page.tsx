@@ -106,7 +106,7 @@ export default function Admin() {
   }, []);
 
   const loadPosts = async () => {
-    const supabasePosts = await supabaseService.getPosts();
+    const supabasePosts = await supabaseService.getAllPostsIncludingDrafts();
     if (supabasePosts.length > 0) {
       setPosts(supabasePosts);
     } else {
