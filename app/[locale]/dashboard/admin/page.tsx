@@ -50,8 +50,6 @@ class RichTextEditorErrorBoundary extends React.Component<
   }
 }
 
-const BACKEND_URL = '';
-
 // Mock Folders for initial UI experience
 const INITIAL_FOLDERS = [
   { id: 'f1', name: 'Hotel Ritz Campaign', count: 1 },
@@ -100,28 +98,7 @@ export default function Admin() {
   const [newPortfolio, setNewPortfolio] = useState({ clientName: '', category: 'Hotel' as any, imageUrl: '', description: '' });
   const [showAssetSelectorForPortfolio, setShowAssetSelectorForPortfolio] = useState(false);
 
-  // NOW we can do conditional returns after all hooks are defined
-  // Redirect to login if not authenticated
-  if (!loading && !user) {
-    router.push(`/login`);
-    return null;
-  }
-
-  // Show loading state while checking authentication
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-black">
-        <motion.div
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ duration: 1, repeat: Infinity }}
-          className="text-white text-2xl"
-        >
-          ✧
-        </motion.div>
-      </div>
-    );
-  }
-
+  // CRITICAL: All hooks MUST be called before any conditional returns (React rules of hooks)
   useEffect(() => {
     loadPosts();
     setPortfolio(storageService.getPortfolio());
@@ -146,27 +123,20 @@ export default function Admin() {
 
   const fetchAssets = async () => {
     try {
-      const headers = await getAuthHeaders();
+      // Just use local assets for now - don't call async getAuthHeaders in useEffect
+      // This avoids potential state update issues
+      const localAssets = storageService.getAssets();
       
-      const response = await fetch(`${BACKEND_URL}/api/assets`, { headers });
-      if (response.ok) {
-        const cloudData = await response.json();
-        const localAssets = storageService.getAssets();
-        // If empty, add some high-end placeholders with folder associations
-        const placeholders: (Asset & { folderId?: string })[] = localAssets.length === 0 ? [
-          { id: 'a1', name: 'Ritz Lobby.jpg', url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800', type: 'image', createdAt: 'Oct 2024', folderId: 'f1' },
-          { id: 'a2', name: 'Artisan Mezcal.png', url: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800', type: 'image', createdAt: 'Oct 2024', folderId: 'f2' },
-          { id: 'a3', name: 'Fine Dining Detail.jpg', url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800', type: 'image', createdAt: 'Oct 2024', folderId: 'f3' }
-        ] : [];
+      // If empty, add some high-end placeholders with folder associations
+      const placeholders: (Asset & { folderId?: string })[] = localAssets.length === 0 ? [
+        { id: 'a1', name: 'Ritz Lobby.jpg', url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800', type: 'image', createdAt: 'Oct 2024', folderId: 'f1' },
+        { id: 'a2', name: 'Artisan Mezcal.png', url: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800', type: 'image', createdAt: 'Oct 2024', folderId: 'f2' },
+        { id: 'a3', name: 'Fine Dining Detail.jpg', url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800', type: 'image', createdAt: 'Oct 2024', folderId: 'f3' }
+      ] : [];
 
-        const merged = [...cloudData, ...localAssets, ...placeholders].filter((v, i, a) => 
-            a.findIndex(t => t.url === v.url) === i
-        );
-        setAssets(merged);
-      } else {
-        setAssets(storageService.getAssets());
-      }
+      setAssets([...localAssets, ...placeholders]);
     } catch (e) {
+      console.error('Error fetching assets:', e);
       setAssets(storageService.getAssets());
     }
   };
@@ -418,6 +388,28 @@ export default function Admin() {
   });
 
   const currentFolder = folders.find(f => f.id === currentFolderId);
+
+  // NOW we can do conditional returns after all hooks are defined
+  // Redirect to login if not authenticated
+  if (!loading && !user) {
+    router.push(`/login`);
+    return null;
+  }
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-black">
+        <motion.div
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 1, repeat: Infinity }}
+          className="text-white text-2xl"
+        >
+          ✧
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto min-h-screen font-sans">
