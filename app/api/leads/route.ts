@@ -1,17 +1,55 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { z } from 'zod';
+import { checkRateLimit, getClientIP } from '@/lib/utils/rateLimit';
+import { RATE_LIMITS, isRateLimitingEnabled } from '@/lib/config/rateLimits';
 
-interface LeadFormData {
-  name: string;
-  email: string;
-  brand?: string;
-  projectType?: string;
-  message?: string;
-  companyWebsite?: string;
-}
+// Define validation schema for lead form submissions
+const LeadFormSchema = z.object({
+  name: z.string()
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be less than 100 characters')
+    .trim(),
+  email: z.string()
+    .email('Invalid email address')
+    .max(255, 'Email must be less than 255 characters'),
+  brand: z.string()
+    .max(100, 'Brand must be less than 100 characters')
+    .trim()
+    .optional()
+    .default(''),
+  projectType: z.string()
+    .max(100, 'Project type must be less than 100 characters')
+    .trim()
+    .optional()
+    .default(''),
+  message: z.string()
+    .min(10, 'Message must be at least 10 characters')
+    .max(5000, 'Message must be less than 5000 characters')
+    .trim(),
+  companyWebsite: z.string()
+    .max(0, 'Invalid submission') // Honeypot field - must be empty
+    .optional()
+    .default(''),
+});
 
 export async function POST(request: NextRequest) {
   try {
+    // Check rate limit by IP address
+    if (isRateLimitingEnabled()) {
+      const clientIP = getClientIP(request);
+      const rateLimit = RATE_LIMITS.LEADS_SUBMIT;
+      const limitCheck = checkRateLimit(
+        `leads:${clientIP}`,
+        rateLimit.requests,
+        rateLimit.windowMs
+      );
+
+      if (!limitCheck.allowed && limitCheck.response) {
+        return limitCheck.response;
+      }
+    }
+
     // Verify API key is configured
     if (!process.env.RESEND_API_KEY) {
       console.error('RESEND_API_KEY is not configured');
@@ -21,59 +59,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const body = await request.json();
+
+    // Validate request body against schema
+    const validationResult = LeadFormSchema.safeParse(body);
+    
+    if (!validationResult.success) {
+      const errors = validationResult.error.issues
+        .map((issue: any) => `${issue.path.join('.')}: ${issue.message}`)
+        .join('; ');
+      
+      return NextResponse.json(
+        { error: 'Invalid submission', details: errors },
+        { status: 400 }
+      );
+    }
+
+    const formData = validationResult.data;
+
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const body = await request.json() as LeadFormData;
-
-    // Validate honeypot field (should be empty to prevent spam)
-    if (body.companyWebsite && body.companyWebsite.trim() !== '') {
-      console.log('Honeypot field detected - likely spam');
-      return NextResponse.json(
-        { error: 'Invalid submission' },
-        { status: 400 }
-      );
-    }
-
-    // Validate required fields
-    if (!body.name || !body.name.trim()) {
-      return NextResponse.json(
-        { error: 'Name is required' },
-        { status: 400 }
-      );
-    }
-
-    if (!body.email || !body.email.trim()) {
-      return NextResponse.json(
-        { error: 'Email is required' },
-        { status: 400 }
-      );
-    }
-
-    if (!body.message || !body.message.trim()) {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
-    }
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(body.email)) {
-      return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
-      );
-    }
 
     // Prepare email content for admin
     const adminEmailContent = `New Contact Form Submission
 
-Name: ${body.name}
-Email: ${body.email}
-Brand/Hotel: ${body.brand || 'Not provided'}
-Project Type: ${body.projectType || 'Not specified'}
+Name: ${formData.name}
+Email: ${formData.email}
+Brand/Hotel: ${formData.brand || 'Not provided'}
+Project Type: ${formData.projectType || 'Not specified'}
 
 Message:
-${body.message}`;
+${formData.message}`;
 
     // Prepare email content for user
     const userEmailContent = `Thank you for reaching out!
@@ -87,14 +102,14 @@ Sassy Studio`;
     await resend.emails.send({
       from: 'amslewis@gmail.com',
       to: 'contacto@sassystudio.com.mx',
-      subject: `New Contact Form Submission from ${body.name}`,
+      subject: `New Contact Form Submission from ${formData.name}`,
       text: adminEmailContent,
     });
 
     // Send confirmation email to user
     await resend.emails.send({
       from: 'amslewis@gmail.com',
-      to: body.email,
+      to: formData.email,
       subject: 'We received your message',
       text: userEmailContent,
     });

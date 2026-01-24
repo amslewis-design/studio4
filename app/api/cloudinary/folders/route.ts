@@ -7,6 +7,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAuthToken } from '@/lib/utils/apiAuth';
+import { checkRateLimit } from '@/lib/utils/rateLimit';
+import { RATE_LIMITS, isRateLimitingEnabled } from '@/lib/config/rateLimits';
 
 const CLOUDINARY_API_BASE = 'https://api.cloudinary.com/v1_1';
 
@@ -36,6 +38,20 @@ export async function GET(request: NextRequest) {
         { error: 'Unauthorized' },
         { status: 401 }
       );
+    }
+
+    // Check rate limit by user ID
+    if (isRateLimitingEnabled()) {
+      const rateLimit = RATE_LIMITS.CLOUDINARY_FOLDERS_GET;
+      const limitCheck = checkRateLimit(
+        `cloudinary:folders:get:${user.userId}`,
+        rateLimit.requests,
+        rateLimit.windowMs
+      );
+
+      if (!limitCheck.allowed && limitCheck.response) {
+        return limitCheck.response;
+      }
     }
 
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -89,6 +105,20 @@ export async function POST(request: NextRequest) {
         { error: 'Unauthorized' },
         { status: 401 }
       );
+    }
+
+    // Check rate limit by user ID
+    if (isRateLimitingEnabled()) {
+      const rateLimit = RATE_LIMITS.CLOUDINARY_FOLDERS_POST;
+      const limitCheck = checkRateLimit(
+        `cloudinary:folders:post:${user.userId}`,
+        rateLimit.requests,
+        rateLimit.windowMs
+      );
+
+      if (!limitCheck.allowed && limitCheck.response) {
+        return limitCheck.response;
+      }
     }
 
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -171,6 +201,20 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
+    // Check rate limit by user ID
+    if (isRateLimitingEnabled()) {
+      const rateLimit = RATE_LIMITS.CLOUDINARY_FOLDERS_PATCH;
+      const limitCheck = checkRateLimit(
+        `cloudinary:folders:patch:${user.userId}`,
+        rateLimit.requests,
+        rateLimit.windowMs
+      );
+
+      if (!limitCheck.allowed && limitCheck.response) {
+        return limitCheck.response;
+      }
+    }
+
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
     const { path, toPath } = await request.json();
 
@@ -249,6 +293,20 @@ export async function DELETE(request: NextRequest) {
         { error: 'Unauthorized' },
         { status: 401 }
       );
+    }
+
+    // Check rate limit by user ID
+    if (isRateLimitingEnabled()) {
+      const rateLimit = RATE_LIMITS.CLOUDINARY_FOLDERS_DELETE;
+      const limitCheck = checkRateLimit(
+        `cloudinary:folders:delete:${user.userId}`,
+        rateLimit.requests,
+        rateLimit.windowMs
+      );
+
+      if (!limitCheck.allowed && limitCheck.response) {
+        return limitCheck.response;
+      }
     }
 
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;

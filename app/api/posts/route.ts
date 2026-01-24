@@ -1,8 +1,25 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabaseService } from '@/lib/services/supabaseService';
+import { checkRateLimit, getClientIP } from '@/lib/utils/rateLimit';
+import { RATE_LIMITS, isRateLimitingEnabled } from '@/lib/config/rateLimits';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    // Check rate limit by IP address
+    if (isRateLimitingEnabled()) {
+      const clientIP = getClientIP(request);
+      const rateLimit = RATE_LIMITS.POSTS_GET;
+      const limitCheck = checkRateLimit(
+        `posts:${clientIP}`,
+        rateLimit.requests,
+        rateLimit.windowMs
+      );
+
+      if (!limitCheck.allowed && limitCheck.response) {
+        return limitCheck.response;
+      }
+    }
+
     // Fetch all published posts from Supabase
     const posts = await supabaseService.getPosts();
 

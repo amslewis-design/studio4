@@ -7,6 +7,8 @@
 import { NextResponse, NextRequest } from 'next/server';
 import crypto from 'crypto';
 import { verifyAuthToken } from '@/lib/utils/apiAuth';
+import { checkRateLimit } from '@/lib/utils/rateLimit';
+import { RATE_LIMITS, isRateLimitingEnabled } from '@/lib/config/rateLimits';
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,6 +24,20 @@ export async function GET(request: NextRequest) {
         { error: 'Unauthorized' },
         { status: 401 }
       );
+    }
+
+    // Check rate limit by user ID
+    if (isRateLimitingEnabled()) {
+      const rateLimit = RATE_LIMITS.CLOUDINARY_SIGNATURE;
+      const limitCheck = checkRateLimit(
+        `cloudinary:signature:${user.userId}`,
+        rateLimit.requests,
+        rateLimit.windowMs
+      );
+
+      if (!limitCheck.allowed && limitCheck.response) {
+        return limitCheck.response;
+      }
     }
     
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;

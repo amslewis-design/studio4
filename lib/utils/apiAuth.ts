@@ -39,10 +39,14 @@ export async function verifyAuthToken(
 
     if (!supabaseUrl || !supabaseAnonKey) {
       console.error('Supabase credentials not configured');
+      // In development, provide a more helpful error; in production, fail securely
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Development mode: Supabase auth is required. Please configure environment variables.');
+      }
       return {
         user: null,
         error: NextResponse.json(
-          { error: 'Server misconfiguration' },
+          { error: 'Server misconfiguration: Authentication service unavailable' },
           { status: 500 }
         ),
       };

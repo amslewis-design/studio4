@@ -5,6 +5,8 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { checkRateLimit } from '@/lib/utils/rateLimit';
+import { RATE_LIMITS, isRateLimitingEnabled } from '@/lib/config/rateLimits';
 
 export async function DELETE(request: NextRequest) {
   try {
@@ -13,6 +15,14 @@ export async function DELETE(request: NextRequest) {
     if (!publicId) {
       return NextResponse.json(
         { error: 'Missing publicId' },
+        { status: 400 }
+      );
+    }
+
+    // Validate publicId format - must be alphanumeric with hyphens, underscores, and forward slashes
+    if (!/^[a-zA-Z0-9\-_/]+$/.test(publicId)) {
+      return NextResponse.json(
+        { error: 'Invalid publicId format' },
         { status: 400 }
       );
     }
@@ -32,17 +42,36 @@ export async function DELETE(request: NextRequest) {
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
-      console.warn('Supabase credentials not configured for auth verification');
-      // Allow request if Supabase not configured (development fallback)
-    } else {
-      const supabase = createClient(supabaseUrl, supabaseKey);
-      const { data: { user }, error } = await supabase.auth.getUser(token);
-      
-      if (error || !user) {
-        return NextResponse.json(
-          { error: 'Unauthorized: Invalid or expired token' },
-          { status: 401 }
-        );
+      console.error('Supabase credentials not configured for asset deletion');
+      // CRITICAL: Do NOT allow deletion without authentication verification
+      // Fail securely in all environments
+      return NextResponse.json(
+        { error: 'Server misconfiguration: Authentication service unavailable' },
+        { status: 500 }
+      );
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    
+    if (error || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Invalid or expired token' },
+        { status: 401 }
+      );
+    }
+
+    // Check rate limit by user ID (authenticated endpoints)
+    if (isRateLimitingEnabled()) {
+      const rateLimit = RATE_LIMITS.CLOUDINARY_ASSET_DELETE;
+      const limitCheck = checkRateLimit(
+        `cloudinary:asset:delete:${user.id}`,
+        rateLimit.requests,
+        rateLimit.windowMs
+      );
+
+      if (!limitCheck.allowed && limitCheck.response) {
+        return limitCheck.response;
       }
     }
 
