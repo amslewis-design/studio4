@@ -118,14 +118,11 @@ async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
-            generateBreadcrumbSchema(
-              [
-                { name: tBlog('journal'), url: `/${locale}/blog` },
-                { name: post.category || tBlog('updates'), url: `/${locale}/blog` },
-                { name: post.title, url: `/${locale}/blog/${post.slug}` },
-              ],
-              locale
-            )
+            generateBreadcrumbSchema([
+              { name: tBlog('journal'), url: `/${locale}/blog` },
+              { name: post.category || tBlog('updates'), url: `/${locale}/blog` },
+              { name: post.title, url: `/${locale}/blog/${post.slug}` },
+            ])
           ),
         }}
       />

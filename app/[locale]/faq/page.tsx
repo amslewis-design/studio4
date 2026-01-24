@@ -46,13 +46,10 @@ export default function FAQPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
-            generateBreadcrumbSchema(
-              [
-                { name: t('navigation.home'), url: `/${locale}` },
-                { name: tFaq('title'), url: `/${locale}/faq` },
-              ],
-              locale
-            )
+            generateBreadcrumbSchema([
+              { name: t('navigation.home'), url: `/${locale}` },
+              { name: tFaq('title'), url: `/${locale}/faq` },
+            ])
           ),
         }}
       />

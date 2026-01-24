@@ -3,10 +3,7 @@ interface BreadcrumbItem {
   url: string;
 }
 
-export function generateBreadcrumbSchema(
-  items: BreadcrumbItem[],
-  locale: string
-) {
+export function generateBreadcrumbSchema(items: BreadcrumbItem[]) {
   const baseUrl = 'https://studio4.vercel.app';
 
   return {

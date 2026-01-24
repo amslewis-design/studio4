@@ -94,13 +94,10 @@ export default function BlogPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(
-            generateBreadcrumbSchema(
-              [
-                { name: t('navigation.home'), url: `/${locale}` },
-                { name: t('blog.title'), url: `/${locale}/blog` },
-              ],
-              locale
-            )
+            generateBreadcrumbSchema([
+              { name: t('navigation.home'), url: `/${locale}` },
+              { name: t('blog.title'), url: `/${locale}/blog` },
+            ])
           ),
         }}
       />
