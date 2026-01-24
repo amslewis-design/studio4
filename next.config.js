@@ -63,4 +63,38 @@ const nextConfig = {
   },
 };
 
+async function sitemap() {
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://studio4.vercel.app';
+  const LOCALES = ['en', 'es'];
+
+  const entries = [];
+
+  // Static pages
+  LOCALES.forEach((locale) => {
+    entries.push({
+      url: `${BASE_URL}/${locale}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    });
+
+    entries.push({
+      url: `${BASE_URL}/${locale}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    });
+
+    entries.push({
+      url: `${BASE_URL}/${locale}/portfolio`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    });
+  });
+
+  return entries;
+}
+
 module.exports = withNextIntl(nextConfig);
+module.exports.sitemap = sitemap;
