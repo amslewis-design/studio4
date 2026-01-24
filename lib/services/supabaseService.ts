@@ -22,6 +22,13 @@ export const supabaseService = {
     try {
       const slug = generateSlug(postData.title);
       
+      // Get the current authenticated user
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) {
+        console.error('Error: Not authenticated. Cannot create post without an author.');
+        return null;
+      }
+      
       const { data, error } = await supabase
         .from('posts')
         .insert({
@@ -33,7 +40,7 @@ export const supabaseService = {
           excerpt: postData.excerpt,
           published: postData.published ?? false,
           published_at: postData.published ? new Date().toISOString() : null,
-          author: null, // Anonymous user
+          author: user.id, // Store the authenticated user's ID
           language: postData.language || 'es',
         })
         .select()
