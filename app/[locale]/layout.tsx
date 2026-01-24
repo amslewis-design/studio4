@@ -77,6 +77,11 @@ export default async function RootLayout({
     <html suppressHydrationWarning>
       <head>
         <GTMScript />
+        <script 
+          src="https://analytics.ahrefs.com/analytics.js" 
+          data-key="Qr1PMnwA75J915L4WGokBg" 
+          async
+        />
       </head>
       <body>
         {/* Google Tag Manager (noscript) */}
