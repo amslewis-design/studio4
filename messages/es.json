@@ -114,6 +114,32 @@
     "notFoundTitle": "Página No Encontrada | Sassy Studio",
     "notFoundDescription": "La página que buscas no existe. Explora nuestro blog de marketing de hospitalidad o portafolio en su lugar."
   },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "subtitle": "Todo lo que necesitas saber sobre nuestros servicios de contenido de hospitalidad de lujo",
+    "items": [
+      {
+        "question": "¿Qué servicios ofrece Sassy Studio?",
+        "answer": "Ofrecemos tres servicios principales: Alquimia Visual (fotografía hotelera y gastronómica de alta resolución), Narrativas Digitales (producción estratégica de Reels y TikTok), y Refinamiento de Identidad (posicionamiento de marca para el mercado de hospitalidad exclusivo)."
+      },
+      {
+        "question": "¿En qué área geográfica operan?",
+        "answer": "Operamos principalmente en la Ciudad de México (CDMX), atendiendo a hoteles boutique, restaurantes de lujo y marcas de estilo de vida en toda la región."
+      },
+      {
+        "question": "¿Cuánto tiempo toma un proyecto típico?",
+        "answer": "Los plazos varían según el alcance del proyecto. Una sesión de fotografía típica puede completarse en 1-2 días, mientras que las campañas de marca completas pueden tomar de 4 a 8 semanas. Contactanos para una consulta personalizada."
+      },
+      {
+        "question": "¿Trabajan con marcas fuera de la industria hotelera?",
+        "answer": "Si bien nos especializamos en hospitalidad boutique, también trabajamos con marcas de estilo de vida premium que compartan nuestra visión de contenido de lujo y refinamiento estratégico."
+      },
+      {
+        "question": "¿Cómo puedo solicitar una consulta?",
+        "answer": "Puedes contactarnos a través de nuestro formulario de contacto en el sitio web o enviarnos un correo electrónico a contacto@sassystudio.com.mx. Responderemos en un plazo de 24-48 horas para programar una consulta inicial."
+      }
+    ]
+  },
   "login": {
     "title": "Bóveda Sassy",
     "subtitle": "Portal de Control de Alquimia Digital",

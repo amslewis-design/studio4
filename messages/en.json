@@ -114,6 +114,32 @@
     "notFoundTitle": "Page Not Found | Sassy Studio",
     "notFoundDescription": "The page you're looking for doesn't exist. Explore our hospitality marketing blog or portfolio instead."
   },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about our luxury hospitality content services",
+    "items": [
+      {
+        "question": "What services does Sassy Studio offer?",
+        "answer": "We offer three main services: Visual Alchemy (high-resolution hotel and gastronomy photography), Digital Narratives (strategic Reels and TikTok production), and Identity Refinement (brand positioning for the exclusive hospitality market)."
+      },
+      {
+        "question": "What geographic area do you operate in?",
+        "answer": "We primarily operate in Mexico City (CDMX), serving boutique hotels, luxury restaurants, and lifestyle brands throughout the region."
+      },
+      {
+        "question": "How long does a typical project take?",
+        "answer": "Timelines vary based on project scope. A typical photography session can be completed in 1-2 days, while full brand campaigns may take 4-8 weeks. Contact us for a personalized consultation."
+      },
+      {
+        "question": "Do you work with brands outside the hospitality industry?",
+        "answer": "While we specialize in boutique hospitality, we also work with premium lifestyle brands that share our vision for luxury content and strategic refinement."
+      },
+      {
+        "question": "How can I request a consultation?",
+        "answer": "You can contact us through our website contact form or email us at contacto@sassystudio.com.mx. We'll respond within 24-48 hours to schedule an initial consultation."
+      }
+    ]
+  },
   "login": {
     "title": "Sassy Vault",
     "subtitle": "Digital Alchemy Control Portal",

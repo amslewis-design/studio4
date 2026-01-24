@@ -3,6 +3,11 @@ import { Providers } from '../providers';
 import { GTMScript } from '../components/GTMScript';
 import '../globals.css';
 import { getTranslations } from 'next-intl/server';
+import {
+  generateOrganizationSchema,
+  generateWebSiteSchema,
+  generateServiceSchemas,
+} from '@/lib/schemas';
 
 export async function generateMetadata({
   params,
@@ -81,6 +86,24 @@ export default async function RootLayout({
           src="https://analytics.ahrefs.com/analytics.js" 
           data-key="Qr1PMnwA75J915L4WGokBg" 
           async
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateOrganizationSchema(locale)),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateWebSiteSchema(locale)),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(generateServiceSchemas(locale)),
+          }}
         />
       </head>
       <body>

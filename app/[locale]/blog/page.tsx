@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
 import { supabaseService } from '@/lib/services/supabaseService';
 import type { Post } from '@/lib/types';
+import { generateBreadcrumbSchema } from '@/lib/schemas';
 
 const POSTS_PER_PAGE = 9;
 
@@ -88,6 +89,22 @@ export default function BlogPage() {
 
   return (
     <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }}>
+      {/* JSON-LD Breadcrumb Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            generateBreadcrumbSchema(
+              [
+                { name: t('navigation.home'), url: `/${locale}` },
+                { name: t('blog.title'), url: `/${locale}/blog` },
+              ],
+              locale
+            )
+          ),
+        }}
+      />
+
       {/* Header */}
       <section className="py-16 md:py-24 px-6 border-b border-white/5">
         <div className="max-w-7xl mx-auto text-center">

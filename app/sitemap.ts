@@ -30,6 +30,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.8,
     });
+
+    // FAQ
+    routes.push({
+      url: `${BASE_URL}/${locale}/faq`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    });
   });
 
   // Fetch published blog posts for dynamic entries

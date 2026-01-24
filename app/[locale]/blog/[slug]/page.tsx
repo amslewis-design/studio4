@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { getTranslations } from 'next-intl/server';
 import { supabaseService } from '@/lib/services/supabaseService';
 import type { Post } from '@/lib/types';
+import { generateArticleSchema, generateBreadcrumbSchema } from '@/lib/schemas';
 
 export async function generateMetadata({
   params,
@@ -106,6 +107,29 @@ async function BlogPostPage({
 
   return (
     <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }}>
+      {/* JSON-LD Schemas */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateArticleSchema(post, locale)),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            generateBreadcrumbSchema(
+              [
+                { name: tBlog('journal'), url: `/${locale}/blog` },
+                { name: post.category || tBlog('updates'), url: `/${locale}/blog` },
+                { name: post.title, url: `/${locale}/blog/${post.slug}` },
+              ],
+              locale
+            )
+          ),
+        }}
+      />
+
       {/* Hero Section with Featured Image */}
       <motion.div
         initial={{ opacity: 0 }}
