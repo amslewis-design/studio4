@@ -27,9 +27,9 @@
     "noData": "Sin datos disponibles"
   },
   "hero": {
-    "tagline": "Sassy Studio CDMX",
-    "heading": "Tu experiencia, contada con estética editorial.",
-    "description": "Somos un estudio boutique de contenido y branding para marcas de hospitalidad y lifestyle. Creamos contenido visual para redes sociales y optimizamos tu presencia digital para que tu marca refleje su esencia de forma coherente, internacional y elevada.",
+    "tagline": "Sassy: Tu marca con enfoque editorial",
+    "heading": "Alquimistas del Contenido",
+    "description": "Creamos contenido visual para redes sociales y optimizamos tu presencia digital para que tu marca refleje su esencia de forma coherente, internacional y elevada.",
     "cta": "Contáctanos"
   },
   "services": {
@@ -46,6 +46,11 @@
     "title": "Nuestro Oficio",
     "quote": "En el corazón de la Ciudad de México, refinamos el potencial bruto de tu marca en el oro puro de la distinción digital.",
     "philosophy": "La Filosofía Sassy"
+  },
+  "editorialPhilosophy": {
+    "heading": "Contenido que refleja tu marca",
+    "body": "Definimos el criterio editorial de tu marca y lo convertimos en contenido visual que se nota en redes, con una presencia digital coherente y bien ejecutada. Dirigimos el trabajo como estudio boutique y lo implementamos con una red curada entre Ciudad de México, Los Ángeles y Reino Unido, para que tu marca se vea internacional sin perder su esencia.",
+    "cta": "Conoce nuestros servicios"
   },
   "blog": {
     "title": "El Diario del Estudio",

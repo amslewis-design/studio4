@@ -250,6 +250,7 @@ function ConsultationModal({
 export default function Preview() {
   const tServices = useTranslations('services');
   const tApproach = useTranslations('approach');
+  const tEditorial = useTranslations('editorialPhilosophy');
   const tBlog = useTranslations('blog');
   const tContact = useTranslations('contact');
   const tHero = useTranslations('hero');
@@ -560,6 +561,229 @@ const services = useMemo(
               <div className="w-16 h-[1px] bg-white/10" />
               <span>{tApproach('philosophy')}</span>
               <div className="w-16 h-[1px] bg-white/10" />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Editorial Philosophy */}
+      <section
+        id="editorial"
+        className="py-28 md:py-40 px-6"
+        style={{ backgroundColor: "var(--section-bg)" }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col md:flex-row md:items-center gap-12 md:gap-16"
+          >
+            {/* Text Column */}
+            <div className="md:w-1/2 space-y-8">
+              <h2
+                className="text-4xl md:text-6xl font-serif tracking-tight text-white leading-tight"
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+              >
+                {tEditorial('heading')}
+              </h2>
+              <p className="text-gray-400 text-lg leading-relaxed">
+                {tEditorial('body')}
+              </p>
+              <a
+                href="#services"
+                className="inline-block border border-white/15 text-white/80 px-8 py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300"
+                style={{ borderRadius: "var(--btn-radius)" }}
+              >
+                {tEditorial('cta')}
+              </a>
+            </div>
+
+            {/* Visual Column - SVG Network Pattern */}
+            <div className="md:w-1/2 flex items-center justify-center">
+              <svg
+                viewBox="0 0 400 400"
+                className="w-full max-w-md h-auto"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* Background subtle grid */}
+                <defs>
+                  <pattern
+                    id="grid"
+                    width="40"
+                    height="40"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <path
+                      d="M 40 0 L 0 0 0 40"
+                      fill="none"
+                      stroke="white"
+                      strokeOpacity="0.03"
+                      strokeWidth="0.5"
+                    />
+                  </pattern>
+                </defs>
+                <rect width="400" height="400" fill="url(#grid)" />
+
+                {/* Network Nodes - representing CDMX, LA, UK */}
+                {/* Mexico City - Center */}
+                <circle
+                  cx="200"
+                  cy="200"
+                  r="12"
+                  fill="none"
+                  stroke="white"
+                  strokeOpacity="0.2"
+                  strokeWidth="2"
+                />
+                <circle
+                  cx="200"
+                  cy="200"
+                  r="6"
+                  fill="white"
+                  fillOpacity="0.15"
+                />
+
+                {/* Los Angeles - Left */}
+                <circle
+                  cx="80"
+                  cy="150"
+                  r="10"
+                  fill="none"
+                  stroke="white"
+                  strokeOpacity="0.15"
+                  strokeWidth="2"
+                />
+                <circle
+                  cx="80"
+                  cy="150"
+                  r="5"
+                  fill="white"
+                  fillOpacity="0.12"
+                />
+
+                {/* United Kingdom - Right */}
+                <circle
+                  cx="320"
+                  cy="180"
+                  r="10"
+                  fill="none"
+                  stroke="white"
+                  strokeOpacity="0.15"
+                  strokeWidth="2"
+                />
+                <circle
+                  cx="320"
+                  cy="180"
+                  r="5"
+                  fill="white"
+                  fillOpacity="0.12"
+                />
+
+                {/* Connection Lines */}
+                {/* CDMX to LA */}
+                <line
+                  x1="200"
+                  y1="200"
+                  x2="80"
+                  y2="150"
+                  stroke="white"
+                  strokeOpacity="0.1"
+                  strokeWidth="1"
+                  strokeDasharray="4 4"
+                />
+                {/* CDMX to UK */}
+                <line
+                  x1="200"
+                  y1="200"
+                  x2="320"
+                  y2="180"
+                  stroke="white"
+                  strokeOpacity="0.1"
+                  strokeWidth="1"
+                  strokeDasharray="4 4"
+                />
+                {/* LA to UK */}
+                <line
+                  x1="80"
+                  y1="150"
+                  x2="320"
+                  y2="180"
+                  stroke="white"
+                  strokeOpacity="0.08"
+                  strokeWidth="1"
+                  strokeDasharray="4 4"
+                />
+
+                {/* Additional decorative nodes */}
+                <circle
+                  cx="150"
+                  cy="100"
+                  r="3"
+                  fill="white"
+                  fillOpacity="0.1"
+                />
+                <circle
+                  cx="250"
+                  cy="120"
+                  r="3"
+                  fill="white"
+                  fillOpacity="0.1"
+                />
+                <circle
+                  cx="180"
+                  cy="280"
+                  r="3"
+                  fill="white"
+                  fillOpacity="0.1"
+                />
+                <circle
+                  cx="260"
+                  cy="260"
+                  r="3"
+                  fill="white"
+                  fillOpacity="0.1"
+                />
+
+                {/* Connecting lines to decorative nodes */}
+                <line
+                  x1="200"
+                  y1="200"
+                  x2="150"
+                  y2="100"
+                  stroke="white"
+                  strokeOpacity="0.05"
+                  strokeWidth="0.5"
+                />
+                <line
+                  x1="200"
+                  y1="200"
+                  x2="250"
+                  y2="120"
+                  stroke="white"
+                  strokeOpacity="0.05"
+                  strokeWidth="0.5"
+                />
+                <line
+                  x1="200"
+                  y1="200"
+                  x2="180"
+                  y2="280"
+                  stroke="white"
+                  strokeOpacity="0.05"
+                  strokeWidth="0.5"
+                />
+                <line
+                  x1="200"
+                  y1="200"
+                  x2="260"
+                  y2="260"
+                  stroke="white"
+                  strokeOpacity="0.05"
+                  strokeWidth="0.5"
+                />
+              </svg>
             </div>
           </motion.div>
         </div>
