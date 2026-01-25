@@ -7,7 +7,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { SiteSettings } from "@/lib/types";
 import HeroCarousel from "./HeroCarousel";
 import HeroSlideshow from "./HeroSlideshow";
-import LanguageSwitcher from "./LanguageSwitcher";
 import Navbar from "./Navbar";
 
 type ConsultationStatus = "idle" | "loading" | "success" | "error";
