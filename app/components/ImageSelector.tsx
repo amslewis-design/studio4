@@ -107,7 +107,7 @@ export default function ImageSelector({
               <div key={url} className="relative group">
                 <img
                   src={url}
-                  alt="selected"
+                  alt={`Preview of selected image: ${url.split('/').pop()?.split('.')[0] || 'image'}`}
                   className="w-full h-32 object-cover rounded-sm border border-[#FC7CA4]/50"
                 />
                 <button

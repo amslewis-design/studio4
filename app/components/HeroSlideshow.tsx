@@ -35,6 +35,7 @@ export const HeroSlideshow: React.FC<HeroSlideshowProps> = ({
           key={index}
           src={image}
           alt={`Slideshow image ${index}`}
+          loading={index === 0 ? 'eager' : 'lazy'}
           className="absolute inset-0 w-full h-full object-cover grayscale"
           animate={{
             opacity: index === currentIndex ? opacity : 0,

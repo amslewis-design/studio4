@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
@@ -205,10 +206,13 @@ export default function BlogPage() {
             >
               {/* Image */}
               <div className="relative overflow-hidden rounded-sm h-96 md:h-full">
-                <img
+                <Image
                   src={featuredPost.image || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1600'}
                   alt={featuredPost.title}
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  fill
+                  priority
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
 

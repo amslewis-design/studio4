@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { getTranslations } from 'next-intl/server';
 import { supabaseService } from '@/lib/services/supabaseService';
@@ -135,10 +136,13 @@ async function BlogPostPage({
         className="px-6 mx-auto max-w-6xl"
       >
         <div className="relative h-96 md:h-[500px] overflow-hidden rounded-sm">
-          <img
+          <Image
             src={post.image || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1600'}
             alt={post.title}
-            className="w-full h-full object-cover"
+            fill
+            priority
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 1200px"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         </div>

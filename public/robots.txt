@@ -2,8 +2,9 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Sitemap locations
 Sitemap: https://studio4.vercel.app/sitemap.xml
+Sitemap: https://studio4.vercel.app/image-sitemap.xml
 
 # Crawl delay (in seconds) - optional, helps with server load
 Crawl-delay: 1

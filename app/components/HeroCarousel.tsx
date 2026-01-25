@@ -35,6 +35,7 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
           key={currentIndex}
           src={images[currentIndex]}
           alt={`Carousel image ${currentIndex}`}
+          loading={currentIndex === 0 ? 'eager' : 'lazy'}
           className="absolute inset-0 w-full h-full object-cover grayscale"
           initial={{ scale: 1.2, opacity: 0 }}
           animate={{ scale: 1, opacity }}

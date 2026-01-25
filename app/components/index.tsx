@@ -409,6 +409,7 @@ const services = useMemo(
               <img
                 src={settings.heroImage || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070"}
                 alt="Luxury hotel"
+                loading="eager"
                 className="w-full h-full object-cover grayscale"
               />
             </motion.div>
@@ -716,6 +717,7 @@ const services = useMemo(
                       <img
                         src={item.imageUrl}
                         alt={item.clientName}
+                        loading="lazy"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 grayscale group-hover:grayscale-0"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
@@ -770,6 +772,7 @@ const services = useMemo(
           transition={{ duration: 2 }}
           src={settings.galleryImages?.[0] || "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2070"}
           alt="Gastronomy"
+          loading="lazy"
           className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
         />
         <div className="relative z-10 text-center px-6">
