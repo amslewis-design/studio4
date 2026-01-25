@@ -21,13 +21,27 @@ export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest' | 'alphabetical'>('newest');
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Fetch posts on mount
   useEffect(() => {
     const fetchPosts = async () => {
-      const posts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
-      const publishedPosts = posts.filter(p => p.published === true);
-      setAllPosts(publishedPosts);
+      try {
+        setIsLoading(true);
+        setError(null);
+        const posts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
+        const publishedPosts = posts.filter(p => p.published === true);
+        setAllPosts(publishedPosts);
+      } catch (err) {
+        console.error('Failed to fetch blog posts:', err);
+        setError(locale === 'es' 
+          ? 'No se pudieron cargar los artículos. Por favor, inténtalo más tarde.' 
+          : 'Failed to load blog posts. Please try again later.');
+        setAllPosts([]);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchPosts();
   }, [locale]);
@@ -194,8 +208,35 @@ export default function BlogPage() {
         </div>
       </section>
 
+      {/* Loading State */}
+      {isLoading && (
+        <section className="py-20 px-6">
+          <div className="max-w-7xl mx-auto text-center">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-white/20 border-t-[#FC7CA4]"></div>
+            <p className="text-gray-500 mt-4">{t('common.loading')}</p>
+          </div>
+        </section>
+      )}
+
+      {/* Error State */}
+      {error && !isLoading && (
+        <section className="py-20 px-6">
+          <div className="max-w-7xl mx-auto text-center">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-sm p-8 max-w-2xl mx-auto">
+              <p className="text-red-400 text-lg">{error}</p>
+              <button
+                onClick={() => window.location.reload()}
+                className="mt-6 px-6 py-3 bg-[#FC7CA4] text-black uppercase text-xs font-bold tracking-wider hover:bg-[#ff9fc0] transition-colors"
+              >
+                {locale === 'es' ? 'Reintentar' : 'Retry'}
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Featured Post */}
-      {featuredPost && (
+      {featuredPost && !isLoading && !error && (
         <section className="py-20 px-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -252,7 +293,7 @@ export default function BlogPage() {
       )}
 
       {/* Posts Grid */}
-      {paginatedPosts.length > 0 && (
+      {paginatedPosts.length > 0 && !isLoading && !error && (
         <section className="py-20 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-3 gap-10">
@@ -316,7 +357,7 @@ export default function BlogPage() {
       )}
 
       {/* Pagination */}
-      {totalPages > 1 && (
+      {totalPages > 1 && !isLoading && !error && (
         <section className="py-16 px-6 border-t border-white/5">
           <div className="max-w-7xl mx-auto flex justify-center items-center gap-4">
             <button
@@ -355,7 +396,7 @@ export default function BlogPage() {
       )}
 
       {/* No results */}
-      {filteredPosts.length === 0 && (
+      {filteredPosts.length === 0 && !isLoading && !error && (
         <section className="py-20 px-6">
           <div className="max-w-7xl mx-auto text-center">
             <p className="text-gray-500 text-lg">{t('blog.noPostsFound')}</p>

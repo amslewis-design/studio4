@@ -8,6 +8,35 @@ import { supabaseService } from '@/lib/services/supabaseService';
 import type { Post } from '@/lib/types';
 import { generateArticleSchema, generateBreadcrumbSchema } from '@/lib/schemas';
 
+// Enable ISR - revalidate every hour
+export const revalidate = 3600;
+
+// Generate static params for all blog posts
+export async function generateStaticParams() {
+  const locales = ['en', 'es'] as const;
+  const params = [];
+
+  for (const locale of locales) {
+    try {
+      const posts = await supabaseService.getPostsByLanguage(locale);
+      const publishedPosts = posts.filter(p => p.published === true);
+      
+      for (const post of publishedPosts) {
+        if (post.slug) {
+          params.push({
+            locale,
+            slug: post.slug,
+          });
+        }
+      }
+    } catch (error) {
+      console.error(`Failed to generate static params for locale ${locale}:`, error);
+    }
+  }
+
+  return params;
+}
+
 export async function generateMetadata({
   params,
 }: {

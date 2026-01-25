@@ -22,6 +22,20 @@ export async function generateMetadata({
       type: 'website',
       locale: locale === 'es' ? 'es_MX' : 'en_US',
       siteName: 'Sassy Studio',
+      images: [
+        {
+          url: `${baseUrl}/og-faq.jpg`,
+          width: 1200,
+          height: 630,
+          alt: `${t('title')} | Sassy Studio`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${t('title')} | Sassy Studio`,
+      description: t('subtitle'),
+      images: [`${baseUrl}/og-faq.jpg`],
     },
     alternates: {
       canonical: canonicalUrl,

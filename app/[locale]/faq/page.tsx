@@ -1,38 +1,41 @@
-'use client';
-
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { generateFAQSchema, generateBreadcrumbSchema } from '@/lib/schemas';
-import { useEffect, useState } from 'react';
 import Navbar from '@/app/components/Navbar';
 
-export default function FAQPage() {
-  const locale = useLocale();
-  const t = useTranslations();
-  const tFaq = useTranslations('faq');
-  const [faqs, setFaqs] = useState<any[]>([]);
-
-  useEffect(() => {
-    // Load FAQ items from translations
-    const items = [];
-    let index = 0;
-    while (true) {
-      try {
-        const question = tFaq(`items.${index}.question`);
-        const answer = tFaq(`items.${index}.answer`);
-        if (question && answer) {
-          items.push({ question, answer });
-          index++;
-        } else {
-          break;
-        }
-      } catch {
+async function getFAQItems(locale: string) {
+  const tFaq = await getTranslations({ locale, namespace: 'faq' });
+  const items = [];
+  let index = 0;
+  
+  while (true) {
+    try {
+      const question = tFaq(`items.${index}.question`);
+      const answer = tFaq(`items.${index}.answer`);
+      if (question && answer) {
+        items.push({ question, answer });
+        index++;
+      } else {
         break;
       }
+    } catch {
+      break;
     }
-    setFaqs(items);
-  }, [tFaq]);
+  }
+  
+  return items;
+}
+
+export default async function FAQPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale });
+  const tFaq = await getTranslations({ locale, namespace: 'faq' });
+  const faqs = await getFAQItems(locale);
 
   return (
     <>
