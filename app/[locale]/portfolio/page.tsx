@@ -6,6 +6,7 @@ import { storageService } from '@/lib/services/storageService';
 import PortfolioFilters from '@/components/portfolio/PortfolioFilters';
 import PortfolioGrid from '@/components/portfolio/PortfolioGrid';
 import { motion } from 'framer-motion';
+import Navbar from '@/app/components/Navbar';
 
 export default function PortfolioPage() {
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
@@ -28,9 +29,11 @@ export default function PortfolioPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] text-white py-12 sm:py-20">
-      {/* Hero Section */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
+    <>
+      <Navbar isHomepage={false} />
+      <div className="min-h-screen bg-[#1a1a1a] text-white pt-28 sm:pt-32 pb-12 sm:pb-20">
+        {/* Hero Section */}
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -72,7 +75,8 @@ export default function PortfolioPage() {
         ) : (
           <PortfolioGrid items={portfolio} activeFilter={activeFilter} />
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

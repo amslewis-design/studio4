@@ -8,6 +8,7 @@ import { useLocale } from 'next-intl';
 import { supabaseService } from '@/lib/services/supabaseService';
 import type { Post } from '@/lib/types';
 import { generateBreadcrumbSchema } from '@/lib/schemas';
+import Navbar from '@/app/components/Navbar';
 
 const POSTS_PER_PAGE = 9;
 
@@ -88,9 +89,11 @@ export default function BlogPage() {
   };
 
   return (
-    <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }}>
-      {/* JSON-LD Breadcrumb Schema */}
-      <script
+    <>
+      <Navbar isHomepage={false} />
+      <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }}>
+        {/* JSON-LD Breadcrumb Schema */}
+        <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(

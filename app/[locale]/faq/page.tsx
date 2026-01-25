@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useLocale, useTranslations } from 'next-intl';
 import { generateFAQSchema, generateBreadcrumbSchema } from '@/lib/schemas';
 import { useEffect, useState } from 'react';
+import Navbar from '@/app/components/Navbar';
 
 export default function FAQPage() {
   const locale = useLocale();
@@ -35,6 +36,7 @@ export default function FAQPage() {
 
   return (
     <>
+      <Navbar isHomepage={false} />
       {/* JSON-LD Schemas */}
       <script
         type="application/ld+json"
