@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from "framer-motion";
 import { SiteSettings } from "@/lib/types";
@@ -600,190 +601,15 @@ const services = useMemo(
               </a>
             </div>
 
-            {/* Visual Column - SVG Network Pattern */}
+            {/* Visual Column - Cafe Image */}
             <div className="md:w-1/2 flex items-center justify-center">
-              <svg
-                viewBox="0 0 400 400"
-                className="w-full max-w-md h-auto"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {/* Background subtle grid */}
-                <defs>
-                  <pattern
-                    id="grid"
-                    width="40"
-                    height="40"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <path
-                      d="M 40 0 L 0 0 0 40"
-                      fill="none"
-                      stroke="white"
-                      strokeOpacity="0.03"
-                      strokeWidth="0.5"
-                    />
-                  </pattern>
-                </defs>
-                <rect width="400" height="400" fill="url(#grid)" />
-
-                {/* Network Nodes - representing CDMX, LA, UK */}
-                {/* Mexico City - Center */}
-                <circle
-                  cx="200"
-                  cy="200"
-                  r="12"
-                  fill="none"
-                  stroke="white"
-                  strokeOpacity="0.2"
-                  strokeWidth="2"
-                />
-                <circle
-                  cx="200"
-                  cy="200"
-                  r="6"
-                  fill="white"
-                  fillOpacity="0.15"
-                />
-
-                {/* Los Angeles - Left */}
-                <circle
-                  cx="80"
-                  cy="150"
-                  r="10"
-                  fill="none"
-                  stroke="white"
-                  strokeOpacity="0.15"
-                  strokeWidth="2"
-                />
-                <circle
-                  cx="80"
-                  cy="150"
-                  r="5"
-                  fill="white"
-                  fillOpacity="0.12"
-                />
-
-                {/* United Kingdom - Right */}
-                <circle
-                  cx="320"
-                  cy="180"
-                  r="10"
-                  fill="none"
-                  stroke="white"
-                  strokeOpacity="0.15"
-                  strokeWidth="2"
-                />
-                <circle
-                  cx="320"
-                  cy="180"
-                  r="5"
-                  fill="white"
-                  fillOpacity="0.12"
-                />
-
-                {/* Connection Lines */}
-                {/* CDMX to LA */}
-                <line
-                  x1="200"
-                  y1="200"
-                  x2="80"
-                  y2="150"
-                  stroke="white"
-                  strokeOpacity="0.1"
-                  strokeWidth="1"
-                  strokeDasharray="4 4"
-                />
-                {/* CDMX to UK */}
-                <line
-                  x1="200"
-                  y1="200"
-                  x2="320"
-                  y2="180"
-                  stroke="white"
-                  strokeOpacity="0.1"
-                  strokeWidth="1"
-                  strokeDasharray="4 4"
-                />
-                {/* LA to UK */}
-                <line
-                  x1="80"
-                  y1="150"
-                  x2="320"
-                  y2="180"
-                  stroke="white"
-                  strokeOpacity="0.08"
-                  strokeWidth="1"
-                  strokeDasharray="4 4"
-                />
-
-                {/* Additional decorative nodes */}
-                <circle
-                  cx="150"
-                  cy="100"
-                  r="3"
-                  fill="white"
-                  fillOpacity="0.1"
-                />
-                <circle
-                  cx="250"
-                  cy="120"
-                  r="3"
-                  fill="white"
-                  fillOpacity="0.1"
-                />
-                <circle
-                  cx="180"
-                  cy="280"
-                  r="3"
-                  fill="white"
-                  fillOpacity="0.1"
-                />
-                <circle
-                  cx="260"
-                  cy="260"
-                  r="3"
-                  fill="white"
-                  fillOpacity="0.1"
-                />
-
-                {/* Connecting lines to decorative nodes */}
-                <line
-                  x1="200"
-                  y1="200"
-                  x2="150"
-                  y2="100"
-                  stroke="white"
-                  strokeOpacity="0.05"
-                  strokeWidth="0.5"
-                />
-                <line
-                  x1="200"
-                  y1="200"
-                  x2="250"
-                  y2="120"
-                  stroke="white"
-                  strokeOpacity="0.05"
-                  strokeWidth="0.5"
-                />
-                <line
-                  x1="200"
-                  y1="200"
-                  x2="180"
-                  y2="280"
-                  stroke="white"
-                  strokeOpacity="0.05"
-                  strokeWidth="0.5"
-                />
-                <line
-                  x1="200"
-                  y1="200"
-                  x2="260"
-                  y2="260"
-                  stroke="white"
-                  strokeOpacity="0.05"
-                  strokeWidth="0.5"
-                />
-              </svg>
+              <Image
+                src="https://res.cloudinary.com/ds86m2xm0/image/upload/v1769605842/sassy-studio/cafe_tjpt9a.webp"
+                alt="a young woman reading in a cafe"
+                width={400}
+                height={400}
+                className="w-full max-w-md h-auto rounded-lg"
+              />
             </div>
           </motion.div>
         </div>
