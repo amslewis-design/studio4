@@ -41,7 +41,7 @@ export default function ServicesPage() {
               index={0}
               title={t('plans.plan1.title')}
               description={t('plans.plan1.body')}
-              image="/og-portfolio.jpg"
+              image="https://res.cloudinary.com/ds86m2xm0/image/upload/v1769605842/sassy-studio/cafe_tjpt9a.webp"
               sigil="✦"
               className="h-[500px]"
             />
@@ -51,7 +51,7 @@ export default function ServicesPage() {
               index={1}
               title={t('plans.plan2.title')}
               description={t('plans.plan2.body')}
-              image="/og-blog.jpg"
+              image="https://res.cloudinary.com/ds86m2xm0/image/upload/v1768343750/IMG_4098_nbgkvo.jpg"
               sigil="❂"
               className="h-[550px]"
             />
@@ -65,7 +65,7 @@ export default function ServicesPage() {
             title={t('bespoke.title')}
             description={t('bespoke.body')}
             sigil="✧"
-            image="/og-home.jpg"
+            image="https://res.cloudinary.com/ds86m2xm0/image/upload/v1769302516/sassy-studio/Gemini_Generated_Image_ynrk3jynrk3jynrk_zzxlco.png"
             className="md:col-span-2 min-h-[400px] border-[#D4AF37]/20"
           />
         </div>
