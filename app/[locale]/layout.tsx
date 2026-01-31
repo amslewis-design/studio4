@@ -111,6 +111,21 @@ export default async function RootLayout({
             __html: JSON.stringify(generateServiceSchemas(locale)),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              'itemListElement': [{
+                '@type': 'ListItem',
+                'position': 1,
+                'name': locale === 'es' ? 'Inicio' : 'Home',
+                'item': `https://www.sassystudio.co.uk/${locale}`
+              }]
+            }),
+          }}
+        />
       </head>
       <body>
         {/* Google Tag Manager (noscript) */}

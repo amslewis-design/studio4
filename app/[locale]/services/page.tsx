@@ -25,10 +25,10 @@ export default function ServicesPage() {
           <span className="text-[10px] uppercase tracking-[0.4em] text-[#D4AF37] mb-6 block font-bold">
             The Alchemist's Menu
           </span>
-          <h1 className="text-5xl md:text-7xl font-serif font-thin mb-8 leading-[0.9]">
+          <h2 className="text-5xl md:text-7xl font-serif font-thin mb-8 leading-[0.9]">
             It's time to turn <br />
             <span className="text-gold-gradient italic pr-4">content into gold.</span>
-          </h1>
+          </h2>
           <p className="text-xl text-gray-400 leading-relaxed font-light max-w-2xl mx-auto">
             {t('hero.intro')}
           </p>

@@ -4,7 +4,7 @@ export function generateOrganizationSchema(locale: string) {
 
   return {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': ['Organization', 'LocalBusiness', 'ProfessionalService'],
     '@id': `${baseUrl}/#organization`,
     name: 'Sassy Studio',
     alternateName: 'Sassy Studio CDMX',
@@ -20,10 +20,28 @@ export function generateOrganizationSchema(locale: string) {
       ? 'Especialistas en contenido para hoteles y restaurantes boutique en la CDMX. Fotografía de lujo, reels y estrategia de marca que transforman la hospitalidad en oro digital.'
       : 'Specialists in content for boutique hotels and restaurants in Mexico City. Luxury photography, reels and brand strategy that transform hospitality into digital gold.',
     slogan: isSpanish ? 'Alquimistas del Contenido' : 'Content Alchemists',
-    areaServed: {
-      '@type': 'Country',
-      name: 'Mexico',
+    areaServed: [
+      {
+        '@type': 'City',
+        name: 'Mexico City',
+      },
+      {
+        '@type': 'Country',
+        name: 'Mexico',
+      },
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Mexico City',
+      addressRegion: 'CDMX',
+      addressCountry: 'MX',
     },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '19.4326',
+      longitude: '-99.1332',
+    },
+    priceRange: '$$$',
     email: 'contacto@sassystudio.com.mx',
     sameAs: ['https://www.instagram.com/sassydigitalcontent/'],
     knowsAbout: [

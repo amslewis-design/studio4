@@ -467,7 +467,7 @@ const services = useMemo(
             >
               <Image
                 src={settings.heroImage || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070"}
-                alt="Luxury hotel"
+                alt="Luxury boutique hotel interior in Mexico City - Professional hospitality photography by Sassy Studio"
                 fill
                 priority
                 quality={85}
@@ -589,6 +589,21 @@ const services = useMemo(
               </motion.div>
             ))}
           </div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mt-16"
+          >
+            <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto mb-8">
+              Our luxury hospitality content services combine high-end photography with strategic brand 
+              positioning to help boutique hotels and restaurants in Mexico City stand out in the competitive 
+              hospitality market. <Link href="/en/services" className="text-[var(--accent)] hover:underline">
+                Explore our services
+              </Link> to transform your brand's digital presence.
+            </p>
+          </motion.div>
         </div>
       </section>
 
@@ -725,7 +740,7 @@ const services = useMemo(
                   <div className="h-48 w-full overflow-hidden relative">
                     <Image
                       src={post.image}
-                      alt={post.title}
+                      alt={`${post.title} - Hospitality marketing insights from Sassy Studio CDMX`}
                       fill
                       className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
                       sizes="(max-width: 768px) 100vw, 33vw"
