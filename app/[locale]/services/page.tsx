@@ -1,13 +1,12 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import Navbar from '../../../components/Navbar';
+import Navbar from '../../components/Navbar';
 import ServiceCard from '@/components/services/ServiceCard';
 import { motion } from 'framer-motion';
 
 export default function ServicesPage() {
-  const t = useTranslations('services'); // Using the services namespace
-  const plans = t.raw('plans');
+  const t = useTranslations('services');
 
   return (
     <main className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#FC7CA4] selection:text-white">
