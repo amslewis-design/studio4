@@ -3,11 +3,17 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from "framer-motion";
 import { SiteSettings } from "@/lib/types";
-import HeroCarousel from "./HeroCarousel";
-import HeroSlideshow from "./HeroSlideshow";
+
+const HeroCarousel = dynamic(() => import("./HeroCarousel"), {
+  loading: () => <div className="w-full h-full bg-[#1a1a1a]" />,
+});
+const HeroSlideshow = dynamic(() => import("./HeroSlideshow"), {
+  loading: () => <div className="w-full h-full bg-[#1a1a1a]" />,
+});
 import Navbar from "./Navbar";
 
 type ConsultationStatus = "idle" | "loading" | "success" | "error";
@@ -264,19 +270,39 @@ export default function Preview() {
     galleryImages: [],
   });
 
-  // Load settings from localStorage on mount
+  // Load settings from localStorage on mount (lazy to prevent blocking)
   useEffect(() => {
-    const storedSettings = localStorage.getItem('sassy_settings');
-    if (storedSettings) {
-      try {
-        const parsed = JSON.parse(storedSettings);
-        setSettings(prev => ({
-          ...prev,
-          ...parsed
-        }));
-      } catch (error) {
-        console.error('Failed to parse stored settings:', error);
-      }
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        const storedSettings = localStorage.getItem('sassy_settings');
+        if (storedSettings) {
+          try {
+            const parsed = JSON.parse(storedSettings);
+            setSettings(prev => ({
+              ...prev,
+              ...parsed
+            }));
+          } catch (error) {
+            console.error('Failed to parse stored settings:', error);
+          }
+        }
+      });
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      setTimeout(() => {
+        const storedSettings = localStorage.getItem('sassy_settings');
+        if (storedSettings) {
+          try {
+            const parsed = JSON.parse(storedSettings);
+            setSettings(prev => ({
+              ...prev,
+              ...parsed
+            }));
+          } catch (error) {
+            console.error('Failed to parse stored settings:', error);
+          }
+        }
+      }, 100);
     }
     // Listen for settings updates from admin dashboard
     const handleSettingsUpdate = () => {
@@ -319,6 +345,32 @@ const services = useMemo(
   );
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [portfolio, setPortfolio] = useState<any[]>([]);
+
+  // Lazy load portfolio from localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        try {
+          const portfolioData = JSON.parse(localStorage.getItem('sassy_portfolio') || '[]').slice(0, 6);
+          setPortfolio(portfolioData);
+        } catch (error) {
+          console.error('Failed to load portfolio:', error);
+          setPortfolio([]);
+        }
+      });
+    } else {
+      setTimeout(() => {
+        try {
+          const portfolioData = JSON.parse(localStorage.getItem('sassy_portfolio') || '[]').slice(0, 6);
+          setPortfolio(portfolioData);
+        } catch (error) {
+          console.error('Failed to load portfolio:', error);
+          setPortfolio([]);
+        }
+      }, 100);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -338,7 +390,12 @@ const services = useMemo(
       }
     };
 
-    fetchBlogPosts();
+    // Defer blog post fetching to avoid blocking initial render
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      requestIdleCallback(fetchBlogPosts);
+    } else {
+      setTimeout(fetchBlogPosts, 100);
+    }
   }, []);
 
   // Lightweight self-checks (dev only). Helps catch accidental anchor regressions.
@@ -665,12 +722,13 @@ const services = useMemo(
               >
                 {/* Image */}
                 <div className="relative">
-                  <div className="h-48 w-full overflow-hidden">
-                    <img
+                  <div className="h-48 w-full overflow-hidden relative">
+                    <Image
                       src={post.image}
                       alt={post.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                      fill
+                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
 
@@ -747,17 +805,12 @@ const services = useMemo(
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
-            {(() => {
-              try {
-                const portfolio = JSON.parse(localStorage.getItem('sassy_portfolio') || '[]').slice(0, 6);
-                if (portfolio.length === 0) {
-                  return (
-                    <div className="col-span-full text-center text-gray-400 py-12">
-                      <p>No portfolio items yet. Check back soon for our latest work.</p>
-                    </div>
-                  );
-                }
-                return portfolio.map((item: any, idx: number) => (
+            {portfolio.length === 0 ? (
+              <div className="col-span-full text-center text-gray-400 py-12">
+                <p>No portfolio items yet. Check back soon for our latest work.</p>
+              </div>
+            ) : (
+              portfolio.map((item: any, idx: number) => (
                   <motion.div
                     key={item.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -767,11 +820,12 @@ const services = useMemo(
                     className="group relative overflow-hidden bg-[#0a0a0a] border border-white/10 cursor-pointer"
                   >
                     <div className="relative w-full aspect-square overflow-hidden bg-[#1a1a1a]">
-                      <img
+                      <Image
                         src={item.imageUrl}
                         alt={item.clientName}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 grayscale group-hover:grayscale-0"
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300 grayscale group-hover:grayscale-0"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
                     </div>
@@ -790,15 +844,8 @@ const services = useMemo(
                       </div>
                     </div>
                   </motion.div>
-                ));
-              } catch (error) {
-                return (
-                  <div className="col-span-full text-center text-gray-400 py-12">
-                    <p>Unable to load portfolio. Please refresh the page.</p>
-                  </div>
-                );
-              }
-            })()}
+                ))
+            )}
           </div>
 
           <div className="text-center">

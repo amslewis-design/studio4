@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Providers } from '../providers';
 import { GTMScript } from '../components/GTMScript';
 import '../globals.css';
@@ -87,10 +88,10 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         
         <GTMScript />
-        <script 
-          src="https://analytics.ahrefs.com/analytics.js" 
-          data-key="Qr1PMnwA75J915L4WGokBg" 
-          async
+        <Script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="Qr1PMnwA75J915L4WGokBg"
+          strategy="lazyOnload"
         />
         <script
           type="application/ld+json"
