@@ -1,0 +1,337 @@
+# Sassy Studio CDMX - AI Assistant Documentation
+
+> Content Alchemists specializing in luxury hospitality marketing and brand storytelling
+
+## Business Overview
+
+**Name:** Sassy Studio CDMX  
+**Tagline:** Content Alchemists  
+**Location:** Mexico City, Mexico (19.4326, -99.1332)  
+**Contact:** contacto@sassystudio.com.mx  
+**Website:** https://sassystudio.com.mx  
+**Languages:** Spanish (primary), English  
+**Price Range:** $$$ (luxury tier)
+
+### Mission & Philosophy
+
+Sassy Studio CDMX transforms boutique hotels and restaurants into visual experiences through editorial-quality content. We believe in the alchemy of storytelling—converting raw moments into refined narratives that resonate with discerning audiences. Our approach blends artistic vision with strategic marketing, creating content that doesn't just showcase properties but evokes the essence of luxury hospitality.
+
+### Target Market
+
+- Boutique hotels and luxury accommodations in Mexico City and Latin America
+- High-end restaurants and culinary experiences
+- Hospitality brands seeking editorial-quality visual content
+- Properties with 10-50 rooms looking for authentic storytelling
+- International hospitality clients (CDMX, Los Angeles, United Kingdom network)
+
+---
+
+## Services & Offerings
+
+### Core Services
+
+1. **Visual Alchemy** - Luxury Photography & Videography
+   - Editorial-quality photography for hotel interiors, exteriors, and amenities
+   - Lifestyle videography capturing the essence of hospitality experiences
+   - Curated visual libraries for brand consistency
+   - Grain texture and cinematic post-processing
+
+2. **Digital Narratives** - Social Media Content
+   - Vertical video production (Instagram Reels, TikTok)
+   - Platform-optimized content for hospitality marketing
+   - Storytelling through motion and sound
+   - Trend-aware content strategies for modern audiences
+
+3. **Identity Refinement** - Brand Positioning
+   - Visual identity development and refinement
+   - Content strategy aligned with brand values
+   - Tone of voice calibration for luxury audiences
+   - Editorial guidelines and style direction
+
+### Service Plans
+
+1. **Monthly Content Kit** (Subscription)
+   - Regular content creation and delivery
+   - Consistent brand presence across platforms
+   - Scheduled photography and video sessions
+   - Ideal for ongoing hospitality marketing
+
+2. **Digital Brand Maintenance** (Retainer)
+   - Continuous content strategy support
+   - Asset management and optimization
+   - Performance monitoring and refinement
+   - Long-term partnership model
+
+3. **Bespoke Projects** (Custom)
+   - One-time campaigns and launches
+   - Special events and property openings
+   - Seasonal content packages
+   - Tailored solutions for unique needs
+
+---
+
+## Technical Architecture
+
+### Framework & Core Technologies
+
+- **Next.js:** 16.1.1 (App Router, Server Components, Metadata API)
+- **React:** 19.2.3 (Client Components, Hooks)
+- **TypeScript:** Latest (strict mode enabled)
+- **Tailwind CSS:** 4.1.18 (utility-first styling with custom design tokens)
+- **Deployment:** Vercel (edge functions, automatic deployments)
+
+### Backend & Services
+
+- **Supabase:** 2.90.1 (PostgreSQL database, authentication, storage, row-level security)
+- **Cloudinary:** Image CDN with auto-optimization (f_auto, q_auto parameters)
+- **Resend:** 6.7.0 (email service for contact forms)
+- **Google Tag Manager:** Analytics and tracking
+- **Ahrefs Analytics:** SEO monitoring
+
+### Key Features
+
+- **Internationalization:** next-intl 4.7.0 (Spanish default, English secondary)
+- **Rich Text Editing:** TipTap 3.15.3 (blog content management)
+- **Animations:** Framer Motion 11.15.0 (page transitions, component reveals)
+- **SEO:** Schema.org structured data (Organization, LocalBusiness, Service, Breadcrumbs)
+- **Security:** Rate limiting, honeypot protection, environment variables for secrets
+- **Performance:** Next.js Image optimization, lazy loading, dynamic imports, preconnect hints
+
+### Design System
+
+**Color Palette:**
+- Primary Accent: #FC7CA4 (Sassy Pink)
+- Gold Accent: #D4AF37 (Luxury Gold)
+- Backgrounds: White (#FFFFFF), Warm Off-White (#FAFAF8)
+- Text: Charcoal (#333333), Soft Gray (#666666)
+
+**Typography:**
+- System font stack with fallbacks for optimal performance
+- Font optimization enabled in Next.js config
+
+**Visual Effects:**
+- Noise overlay texture (0.04 opacity) for film grain aesthetic
+- Gold gradient animations with shimmer effect
+- Grayscale-to-color hover transitions
+
+---
+
+## Site Structure & Pages
+
+### Public Pages
+
+- **/** - Homepage with hero carousel/slideshow, services overview, blog preview, portfolio grid, contact form
+- **/blog** - Blog listing with category filters, search, pagination
+- **/blog/[slug]** - Individual blog posts with rich text content, images, SEO metadata
+- **/services** - "Alchemist's Menu" themed service showcase with asymmetrical grid layout
+- **/portfolio** - Portfolio grid with client work, category filters
+- **/faq** - Frequently asked questions with schema markup
+- **/login** - "Sassy Vault" authentication portal
+
+### Protected Pages (Admin)
+
+- **/dashboard** - "Alchemy Dashboard" with tabbed interface
+  - **Posts Tab:** Blog post creation and management with TipTap editor
+  - **Portfolio Tab:** Client work management with Cloudinary integration
+  - **Assets Tab:** Cloudinary asset browser with folder navigation
+  - **Style Tab:** Site-wide style settings (colors, hero configuration)
+
+### API Endpoints
+
+#### Content Management
+- `POST /api/posts` - Create blog post (authenticated)
+- `GET /api/posts` - List blog posts (public, supports language filter)
+- `PUT /api/posts` - Update blog post (authenticated)
+- `DELETE /api/posts` - Delete blog post (authenticated)
+
+#### Lead Generation
+- `POST /api/leads` - Submit contact form (rate-limited, honeypot protected)
+  - Fields: name, email, message, phone (optional)
+  - Sends email via Resend to contacto@sassystudio.com.mx
+  - Returns 200 on success, 429 on rate limit
+
+#### Asset Management
+- `POST /api/cloudinary/signature` - Generate upload signature (authenticated)
+- `GET /api/cloudinary/folders` - List Cloudinary folder structure (authenticated)
+- `GET /api/cloudinary/asset` - Fetch asset by public_id (authenticated)
+- `GET /api/assets` - Legacy asset endpoint (may be deprecated)
+
+#### SEO & Discovery
+- `GET /api/sitemap.xml` - Dynamic XML sitemap generation
+- `GET /api/image-sitemap` - Image sitemap for search engines
+- `GET /sitemap.ts` - Next.js app router sitemap configuration
+
+---
+
+## Content Types & Data Models
+
+### Blog Post (Post)
+```typescript
+{
+  id: string;              // UUID
+  slug: string;            // URL-friendly identifier
+  title: string;           // Post title
+  content: string;         // Rich text HTML (TipTap)
+  image?: string;          // Cloudinary URL
+  category?: string;       // Blog category
+  excerpt?: string;        // SEO description
+  published: boolean;      // Visibility flag
+  language: 'es' | 'en';   // Content language
+  created_at: timestamp;
+  updated_at: timestamp;
+}
+```
+
+### Portfolio Item (PortfolioItem)
+```typescript
+{
+  id: string;              // UUID
+  clientName: string;      // Client/project name
+  category: string;        // Service category
+  imageUrl: string;        // Cloudinary URL
+  description?: string;    // Project description
+  created_at: timestamp;
+}
+```
+
+### Asset (Cloudinary Metadata)
+```typescript
+{
+  public_id: string;       // Cloudinary identifier
+  url: string;             // Delivery URL
+  secure_url: string;      // HTTPS URL
+  format: string;          // File format (jpg, png, webp)
+  width: number;
+  height: number;
+  folder?: string;         // Cloudinary folder path
+}
+```
+
+### Site Settings (SiteSettings)
+```typescript
+{
+  colors: {
+    accent?: string;       // Primary brand color
+  };
+  heroMode?: 'carousel' | 'slideshow';
+  heroImages?: string[];   // Array of Cloudinary URLs
+}
+```
+
+### Contact Lead (Lead Submission)
+```typescript
+{
+  name: string;            // Required
+  email: string;           // Required, validated
+  message: string;         // Required
+  phone?: string;          // Optional
+  companyWebsite?: string; // Honeypot field (must be empty)
+}
+```
+
+---
+
+## Authentication & Security
+
+### Authentication
+- **Provider:** Supabase Auth
+- **Protected Routes:** /dashboard/* (requires session)
+- **Session Management:** Cookie-based with httpOnly flag
+- **Login Portal:** /login (branded as "Sassy Vault")
+
+### Security Measures
+- **Rate Limiting:** 5 requests per 60 seconds on /api/leads
+- **Honeypot Protection:** companyWebsite field in contact form (must be empty)
+- **Environment Variables:** All API keys and secrets in .env.local
+- **Row-Level Security:** Supabase RLS policies on database tables
+- **CORS:** Configured for sassystudio.com.mx domain
+- **Input Validation:** Zod schemas on all API endpoints
+
+---
+
+## Content Guidelines & Voice
+
+### Tone of Voice
+- **Sophisticated yet approachable:** Luxury without pretension
+- **Poetic and evocative:** "Alchemy" metaphor throughout brand language
+- **Confident and editorial:** Authority in hospitality storytelling
+- **Bilingual fluency:** Seamless Spanish/English transitions
+
+### Terminology (Brand Lexicon)
+- "Content Alchemists" (not "content creators")
+- "Artifacts" (blog posts in admin UI)
+- "Sassy Vault" (admin login portal)
+- "Alchemy Dashboard" (admin interface)
+- "Sigils" (service tier markers: ✦, ❂, ✧)
+- "Visual Alchemy" / "Digital Narratives" / "Identity Refinement" (service names)
+
+### Content Categories
+- **Blog Topics:** Hospitality marketing insights, boutique hotel strategies, content trends, luxury travel, Mexico City focus
+- **Portfolio Categories:** Hotels, Restaurants, Brand Identity, Editorial Content
+- **SEO Focus:** "luxury hospitality content", "boutique hotel photography Mexico City", "hospitality marketing CDMX"
+
+### Bilingual Approach
+- **Primary:** Spanish (es) - default locale, primary audience in Mexico/Latin America
+- **Secondary:** English (en) - international clients, expat community, tourism industry
+- **URL Structure:** /es/[page] (default), /en/[page] (explicit locale)
+- **Hreflang:** Proper alternate language tags for SEO
+- **Translation Keys:** All UI text in messages/es.json and messages/en.json
+
+---
+
+## Integration & Development Notes
+
+### Image Optimization
+- All images served via Cloudinary with automatic format conversion (WebP/AVIF)
+- Standard parameters: `f_auto,q_auto` for optimal delivery
+- Next.js Image component used throughout for lazy loading and responsive sizing
+- Priority loading on hero images, lazy loading on below-fold content
+
+### Performance Optimization
+- Google Tag Manager loaded with `afterInteractive` strategy (non-blocking)
+- Preconnect hints for res.cloudinary.com and analytics.ahrefs.com
+- Dynamic imports for hero components (HeroCarousel, HeroSlideshow)
+- requestIdleCallback for non-critical localStorage reads and blog fetches
+- Font optimization enabled in Next.js config
+
+### SEO Best Practices
+- One H1 per page (semantic hierarchy enforced)
+- LocalBusiness schema with Mexico City geo coordinates
+- Breadcrumb navigation with schema markup
+- Metadata API for per-page OpenGraph and Twitter cards
+- Canonical URLs with hreflang alternates
+- Internal linking strategy with contextual anchors
+
+### Known Issues & Limitations
+- Contact form email requires Resend domain verification (sassystudio.com.mx)
+- Dashboard requires admin authentication (no public API access)
+- Blog images must be uploaded to Cloudinary (no direct file uploads)
+- Locale switching refreshes page (client-side navigation not preserved)
+
+---
+
+## AI Assistant Interaction Guidelines
+
+When assisting with this codebase:
+
+1. **Respect the brand voice:** Use "alchemy" metaphor, sophisticated tone, avoid generic marketing language
+2. **Prioritize bilingual context:** Always consider Spanish/English translations when editing content
+3. **Maintain visual hierarchy:** Gold accents for luxury tier, pink for brand identity, noise texture for editorial feel
+4. **Follow Next.js 16 patterns:** Server components by default, 'use client' only when needed, metadata export in layouts
+5. **Optimize for performance:** Use Next.js Image, lazy loading, dynamic imports, avoid render-blocking scripts
+6. **SEO consciousness:** Schema markup, semantic HTML, keyword-rich headings, internal linking
+7. **Security first:** Never expose API keys, validate all inputs, maintain rate limiting on public endpoints
+
+### Common Tasks
+
+- **Adding a blog post:** Use dashboard /api/posts endpoint, requires authentication, TipTap editor for rich content
+- **Updating services:** Edit messages/es.json and messages/en.json translation files, update ServiceCard components
+- **Portfolio management:** Use /api/assets or dashboard Assets tab, Cloudinary integration required
+- **Style changes:** Update app/globals.css for global styles, Tailwind classes for component-level styling
+- **Translation updates:** Edit messages/*.json files, ensure key parity across es/en
+
+---
+
+**Last Updated:** January 31, 2026  
+**Version:** 1.0.0  
+**Maintained By:** Sassy Studio CDMX Development Team
