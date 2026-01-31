@@ -41,7 +41,7 @@ export default function ServicesPage() {
               index={0}
               title={t('plans.plan1.title')}
               description={t('plans.plan1.body')}
-              image="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1600&auto=format&fit=crop"
+              image="/og-portfolio.jpg"
               sigil="✦"
               className="h-[500px]"
             />
@@ -51,7 +51,7 @@ export default function ServicesPage() {
               index={1}
               title={t('plans.plan2.title')}
               description={t('plans.plan2.body')}
-              image="https://images.unsplash.com/photo-1550418290-a8d86ad85ab4?q=80&w=1600&auto=format&fit=crop"
+              image="/og-blog.jpg"
               sigil="❂"
               className="h-[550px]"
             />
@@ -65,7 +65,7 @@ export default function ServicesPage() {
             title={t('bespoke.title')}
             description={t('bespoke.body')}
             sigil="✧"
-            image="https://images.unsplash.com/photo-1534120247760-c44c3e4a62f1?q=80&w=2698&auto=format&fit=crop"
+            image="/og-home.jpg"
             className="md:col-span-2 min-h-[400px] border-[#D4AF37]/20"
           />
         </div>
