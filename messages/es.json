@@ -35,6 +35,13 @@
   "services": {
     "pageTitle": "Servicios | Sassy Studio | Kit de Contenido Mensual y Mantenimiento Digital",
     "metaDescription": "Dos planes para elevar tu marca mes con mes: contenido para redes y un plan más completo de presencia digital. Proyectos a la medida disponibles. Base en CDMX, proyectos en Los Ángeles y Reino Unido.",
+    "ourCraft": "Nuestro Oficio",
+    "visualAlchemy": "Alquimia Visual",
+    "visualAlchemyDesc": "Fotografía hotelera y gastronómica de alta resolución que transforma espacios en historias visuales irresistibles.",
+    "digitalNarratives": "Narrativas Digitales",
+    "digitalNarrativesDesc": "Producción estratégica de Reels y TikTok que captura atención y genera reservas a través de narrativa auténtica.",
+    "identityRefinement": "Refinamiento de Identidad",
+    "identityRefinementDesc": "Posicionamiento de marca para el mercado de hospitalidad exclusivo, refinando tu identidad en pura distinción.",
     "hero": {
       "title": "Dos planes para elevar tu marca mes con mes.",
       "intro": "Elige entre un plan enfocado en contenido para redes sociales o un plan más completo para cuidar tu presencia digital. Si tu marca necesita algo distinto, lo armamos a la medida."
