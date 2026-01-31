@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 interface HeroCarouselProps {
   images: string[];
@@ -31,12 +32,9 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
   return (
     <div className="relative w-full h-full overflow-hidden">
       <AnimatePresence mode="wait">
-        <motion.img
+        <motion.div
           key={currentIndex}
-          src={images[currentIndex]}
-          alt={`Carousel image ${currentIndex}`}
-          loading={currentIndex === 0 ? 'eager' : 'lazy'}
-          className="absolute inset-0 w-full h-full object-cover grayscale"
+          className="absolute inset-0 w-full h-full"
           initial={{ scale: 1.2, opacity: 0 }}
           animate={{ scale: 1, opacity }}
           exit={{ opacity: 0 }}
@@ -44,7 +42,17 @@ export const HeroCarousel: React.FC<HeroCarouselProps> = ({
             duration: 2.5,
             ease: 'easeOut',
           }}
-        />
+        >
+          <Image
+            src={images[currentIndex]}
+            alt={`Carousel image ${currentIndex}`}
+            fill
+            priority={currentIndex === 0}
+            quality={85}
+            className="object-cover grayscale"
+            sizes="100vw"
+          />
+        </motion.div>
       </AnimatePresence>
     </div>
   );

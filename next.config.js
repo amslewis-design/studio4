@@ -5,6 +5,7 @@ const withNextIntl = createNextIntlPlugin('./i18n.ts');
 
 const nextConfig = {
   reactStrictMode: true,
+  optimizeFonts: true,
   images: {
     remotePatterns: [
       {

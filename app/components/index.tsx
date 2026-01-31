@@ -408,11 +408,14 @@ const services = useMemo(
               transition={{ duration: 2.5, ease: "easeOut" }}
               className="w-full h-full"
             >
-              <img
+              <Image
                 src={settings.heroImage || "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2070"}
                 alt="Luxury hotel"
-                loading="eager"
-                className="w-full h-full object-cover grayscale"
+                fill
+                priority
+                quality={85}
+                className="object-cover grayscale"
+                sizes="100vw"
               />
             </motion.div>
           )}

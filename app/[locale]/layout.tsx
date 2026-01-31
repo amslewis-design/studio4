@@ -81,6 +81,11 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
+        {/* Preconnect to critical origins */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="preconnect" href="https://analytics.ahrefs.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        
         <GTMScript />
         <script 
           src="https://analytics.ahrefs.com/analytics.js" 

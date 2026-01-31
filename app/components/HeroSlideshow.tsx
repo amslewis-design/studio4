@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface HeroSlideshowProps {
   images: string[];
@@ -31,12 +32,9 @@ export const HeroSlideshow: React.FC<HeroSlideshowProps> = ({
   return (
     <div className="relative w-full h-full">
       {images.map((image, index) => (
-        <motion.img
+        <motion.div
           key={index}
-          src={image}
-          alt={`Slideshow image ${index}`}
-          loading={index === 0 ? 'eager' : 'lazy'}
-          className="absolute inset-0 w-full h-full object-cover grayscale"
+          className="absolute inset-0 w-full h-full"
           animate={{
             opacity: index === currentIndex ? opacity : 0,
           }}
@@ -44,7 +42,17 @@ export const HeroSlideshow: React.FC<HeroSlideshowProps> = ({
             duration: 2.5,
             ease: 'easeInOut',
           }}
-        />
+        >
+          <Image
+            src={image}
+            alt={`Slideshow image ${index}`}
+            fill
+            priority={index === 0}
+            quality={85}
+            className="object-cover grayscale"
+            sizes="100vw"
+          />
+        </motion.div>
       ))}
     </div>
   );
