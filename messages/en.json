@@ -33,14 +33,27 @@
     "cta": "Enter the Studio"
   },
   "services": {
-    "title": "Services",
-    "ourCraft": "Our Craft",
-    "visualAlchemy": "Visual Alchemy",
-    "visualAlchemyDesc": "High-res hotel and gastronomy photography that captures the essence of luxury.",
-    "digitalNarratives": "Digital Narratives",
-    "digitalNarrativesDesc": "Strategic Reels and TikTok production designed for maximum brand prestige.",
-    "identityRefinement": "Identity Refinement",
-    "identityRefinementDesc": "Bespoke brand positioning for Mexico City's elite hospitality market."
+    "pageTitle": "Services | Sassy Studio | Monthly Content Kit & Digital Maintenance",
+    "metaDescription": "Two plans to elevate your brand month by month: social media content and a more complete digital presence plan. Bespoke projects available. Based in CDMX, projects in LA and UK.",
+    "hero": {
+      "title": "Two plans to elevate your brand month by month.",
+      "intro": "Choose between a plan focused on social media content or a more complete plan to take care of your digital presence. If your brand needs something different, we build it to measure."
+    },
+    "plans": {
+      "plan1": {
+        "title": "Monthly Content Kit",
+        "body": "For brands that want consistency. We define the concept of the month, the style and the plan. We produce and edit the material according to the agreed scope and deliver pieces ready to publish, with a library of assets useful for social and web."
+      },
+      "plan2": {
+        "title": "Digital Brand Maintenance",
+        "body": "For brands that want to elevate their standard in everything seen digitally. Includes monthly social content, social media management. Page optimizations, blog and newsletter creation, always under the same editorial criteria."
+      }
+    },
+    "cta": "Schedule a call with us",
+    "bespoke": {
+      "title": "Bespoke Projects",
+      "body": "For openings, relaunches, key seasons or specific needs. We define the scope with you and execute it with the same editorial standard."
+    }
   },
   "approach": {
     "title": "Our Craft",

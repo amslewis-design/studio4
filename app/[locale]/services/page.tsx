@@ -1,85 +1,72 @@
 'use client';
 
-import { useTranslations, useLocale } from 'next-intl';
-import Navbar from '@/app/components/Navbar';
+import { useTranslations } from 'next-intl';
+import Navbar from '../../../components/Navbar';
 import ServiceCard from '@/components/services/ServiceCard';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 
 export default function ServicesPage() {
-  const t = useTranslations();
-  const locale = useLocale();
-
-  const servicesList = [
-    {
-      titleKey: 'services.visualAlchemy',
-      descKey: 'services.visualAlchemyDesc',
-    },
-    {
-      titleKey: 'services.digitalNarratives',
-      descKey: 'services.digitalNarrativesDesc',
-    },
-    {
-      titleKey: 'services.identityRefinement',
-      descKey: 'services.identityRefinementDesc',
-    },
-  ];
+  const t = useTranslations('services'); // Using the services namespace
+  const plans = t.raw('plans');
 
   return (
-    <>
-      <Navbar isHomepage={false} />
-      <main className="min-h-screen bg-[#1a1a1a] text-white pt-28 sm:pt-32 pb-12 sm:pb-20">
-        
-        {/* Header Section */}
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 mb-16 sm:mb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
-          >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold mb-6 text-white">
-              {t('services.title')}
-            </h1>
-            <p className="text-gray-400 text-lg sm:text-xl leading-relaxed">
-              {t('hero.description')}
-            </p>
-          </motion.div>
-        </section>
+    <main className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#FC7CA4] selection:text-white">
+      <Navbar />
+      
+      <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl mx-auto text-center mb-20"
+        >
+          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
+            {t('hero.title')}
+          </h1>
+          <p className="text-xl text-gray-300 leading-relaxed font-light">
+            {t('hero.intro')}
+          </p>
+        </motion.div>
 
-        {/* Services Grid */}
-        <section className="container mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {servicesList.map((service, index) => (
-              <ServiceCard
-                key={service.titleKey}
-                index={index}
-                title={t(service.titleKey)}
-                description={t(service.descKey)}
-              />
-            ))}
-          </div>
-        </section>
+        {/* Two Plans Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <ServiceCard
+            index={0}
+            title={t('plans.plan1.title')}
+            description={t('plans.plan1.body')}
+          />
+          <ServiceCard
+            index={1}
+            title={t('plans.plan2.title')}
+            description={t('plans.plan2.body')}
+          />
+        </div>
+
+        {/* Bespoke Project - Full Width */}
+        <div className="mb-20">
+          <ServiceCard
+            index={2}
+            title={t('bespoke.title')}
+            description={t('bespoke.body')}
+            className="md:col-span-2 border-[#FC7CA4]/30 bg-gradient-to-r from-[#0a0a0a] to-[#1a1a1a]"
+          />
+        </div>
 
         {/* CTA Section */}
-        <section className="container mx-auto px-4 text-center">
-            <motion.div 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="max-w-2xl mx-auto py-16 border-t border-[#333333]"
-            >
-                <h2 className="text-3xl font-serif mb-6">{t('contact.title')}</h2>
-                <p className="text-gray-400 mb-8">{t('contact.subtitle')}</p>
-                 <Link 
-                    href={`/${locale}#contact`}
-                    className="inline-block bg-white text-black px-8 py-3 font-medium hover:bg-[#FC7CA4] hover:text-white transition-colors duration-300"
-                  >
-                    {t('common.enterTheStudio')}
-                  </Link>
-            </motion.div>
-        </section>
-      </main>
-    </>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-center pb-20"
+        >
+          <a 
+            href="mailto:consult@sassystudio.com"
+            className="inline-block px-8 py-4 bg-[#FC7CA4] text-white font-bold tracking-widest uppercase text-sm hover:bg-white hover:text-[#FC7CA4] transition-colors duration-300"
+          >
+            {t('cta')}
+          </a>
+        </motion.div>
+      </div>
+    </main>
   );
 }

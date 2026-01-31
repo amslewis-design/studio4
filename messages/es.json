@@ -33,14 +33,27 @@
     "cta": "Contáctanos"
   },
   "services": {
-    "title": "Servicios",
-    "ourCraft": "Nuestro Oficio",
-    "visualAlchemy": "Alquimia Visual",
-    "visualAlchemyDesc": "Fotografía hotelera y gastronómica de alta resolución que captura la esencia del lujo.",
-    "digitalNarratives": "Narrativas Digitales",
-    "digitalNarrativesDesc": "Producción estratégica de Reels y TikTok diseñada para maximizar el prestigio de tu marca.",
-    "identityRefinement": "Refinamiento de Identidad",
-    "identityRefinementDesc": "Posicionamiento de marca a la medida para el mercado exclusivo de hospitalidad en la CDMX."
+    "pageTitle": "Servicios | Sassy Studio | Kit de Contenido Mensual y Mantenimiento Digital",
+    "metaDescription": "Dos planes para elevar tu marca mes con mes: contenido para redes y un plan más completo de presencia digital. Proyectos a la medida disponibles. Base en CDMX, proyectos en Los Ángeles y Reino Unido.",
+    "hero": {
+      "title": "Dos planes para elevar tu marca mes con mes.",
+      "intro": "Elige entre un plan enfocado en contenido para redes sociales o un plan más completo para cuidar tu presencia digital. Si tu marca necesita algo distinto, lo armamos a la medida."
+    },
+    "plans": {
+      "plan1": {
+        "title": "Kit Mensual de Contenido",
+        "body": "Para marcas que quieren consistencia. Definimos el concepto del mes, el estilo y el plan. Producimos y editamos el material según el alcance acordado y entregamos piezas listas para publicar, con una librería de assets útil para social y web."
+      },
+      "plan2": {
+        "title": "Mantenimiento Digital de Marca",
+        "body": "Para marcas que quieren elevar su estándar en todo lo que se ve en digital. Incluye contenido mensual para redes, manejo de redes sociales. Optimizaciones en página, creación de blogs y newsletter, siempre bajo el mismo criterio editorial."
+      }
+    },
+    "cta": "Agenda una llamada con nosotros",
+    "bespoke": {
+      "title": "Proyectos a la medida",
+      "body": "Para aperturas, relanzamientos, temporadas clave o necesidades específicas. Definimos el alcance contigo y lo ejecutamos con el mismo estándar editorial."
+    }
   },
   "approach": {
     "title": "Nuestro Oficio",

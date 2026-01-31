@@ -41,6 +41,8 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Define navigation items with their destinations
+  // Note: Services always points to /services page, creating a "clean" URL
   const navItems: NavItem[] = useMemo(
     () => [
       { label: t('home'), href: isHomepage ? "#top" : `/${locale}` },
@@ -60,23 +62,11 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleNav = (href: string) => {
+  const handleScroll = (href: string) => {
     setIsOpen(false);
-    
-    if (isHomepage) {
-      // On homepage, use smooth scroll
-      const id = href.replace("#", "");
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else {
-      // On other pages, navigate using Link
-      if (href.startsWith('#')) {
-        // If it's just a hash, go to homepage first
-        window.location.href = `/${locale}${href}`;
-      } else {
-        window.location.href = href;
-      }
-    }
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleConsultClick = () => {
@@ -88,12 +78,19 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
     }
   };
 
-  // Behaviour:
-  // - Default: pink navbar
-  // - Scrolled: transparent navbar, but logo + text switch to theme pink
   const headerSurface =
     "transition-all duration-500 " +
     (isScrolled ? "bg-transparent" : "bg-[var(--accent)] backdrop-blur-xl");
+
+  const linkClass = "text-[11px] uppercase tracking-[0.45em] font-bold transition-colors " +
+  (isScrolled
+    ? "text-[var(--accent)] hover:opacity-80"
+    : "text-white hover:opacity-90");
+
+  const mobileLinkClass = "text-left text-[12px] uppercase tracking-[0.4em] font-bold transition-colors py-2 " +
+  (isScrolled
+    ? "text-[var(--accent)] hover:opacity-80"
+    : "text-white hover:opacity-90");
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[60]">
@@ -105,7 +102,7 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
           {/* Brand */}
           {isHomepage ? (
             <button
-              onClick={() => handleNav("#top")}
+              onClick={() => handleScroll("#top")}
               className="group inline-flex items-center"
               aria-label="Sassy Studio Home"
             >
@@ -124,17 +121,16 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-10">
             {navItems.map((item) => {
-              if (isHomepage) {
+              const isHash = item.href.startsWith("#");
+              // Only use scroll behavior if we are on homepage AND the link is a hash
+              const isLocalScroll = isHomepage && isHash;
+
+              if (isLocalScroll) {
                 return (
                   <button
                     key={item.label}
-                    onClick={() => handleNav(item.href)}
-                    className={
-                      "text-[11px] uppercase tracking-[0.45em] font-bold transition-colors " +
-                      (isScrolled
-                        ? "text-[var(--accent)] hover:opacity-80"
-                        : "text-white hover:opacity-90")
-                    }
+                    onClick={() => handleScroll(item.href)}
+                    className={linkClass}
                   >
                     {item.label}
                   </button>
@@ -144,12 +140,7 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className={
-                      "text-[11px] uppercase tracking-[0.45em] font-bold transition-colors " +
-                      (isScrolled
-                        ? "text-[var(--accent)] hover:opacity-80"
-                        : "text-white hover:opacity-90")
-                    }
+                    className={linkClass}
                   >
                     {item.label}
                   </Link>
@@ -206,17 +197,15 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
             >
               <div className="px-6 py-6 flex flex-col gap-4">
                 {navItems.map((item) => {
-                  if (isHomepage) {
+                  const isHash = item.href.startsWith("#");
+                  const isLocalScroll = isHomepage && isHash;
+
+                  if (isLocalScroll) {
                     return (
                       <button
                         key={item.label}
-                        onClick={() => handleNav(item.href)}
-                        className={
-                          "text-left text-[12px] uppercase tracking-[0.4em] font-bold transition-colors py-2 " +
-                          (isScrolled
-                            ? "text-[var(--accent)] hover:opacity-80"
-                            : "text-white hover:opacity-90")
-                        }
+                        onClick={() => handleScroll(item.href)}
+                        className={mobileLinkClass}
                       >
                         {item.label}
                       </button>
@@ -226,12 +215,7 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
                       <Link
                         key={item.label}
                         href={item.href}
-                        className={
-                          "text-left text-[12px] uppercase tracking-[0.4em] font-bold transition-colors py-2 " +
-                          (isScrolled
-                            ? "text-[var(--accent)] hover:opacity-80"
-                            : "text-white hover:opacity-90")
-                        }
+                        className={mobileLinkClass}
                         onClick={() => setIsOpen(false)}
                       >
                         {item.label}

@@ -6,9 +6,10 @@ interface ServiceCardProps {
   title: string;
   description: string;
   index: number;
+  className?: string;
 }
 
-export default function ServiceCard({ title, description, index }: ServiceCardProps) {
+export default function ServiceCard({ title, description, index, className = "" }: ServiceCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -16,7 +17,7 @@ export default function ServiceCard({ title, description, index }: ServiceCardPr
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ scale: 1.02 }}
-      className="group relative flex flex-col justify-between p-8 min-h-[300px] bg-[#0a0a0a] border border-[#333333] hover:border-[#FC7CA4]/50 transition-colors duration-300"
+      className={`group relative flex flex-col justify-between p-8 min-h-[300px] bg-[#0a0a0a] border border-[#333333] hover:border-[#FC7CA4]/50 transition-colors duration-300 ${className}`}
     >
       <div className="space-y-4">
         <h3 className="text-2xl font-serif font-bold text-white group-hover:text-[#FC7CA4] transition-colors duration-300">
