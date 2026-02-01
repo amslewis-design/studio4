@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React from 'react';
 import Image from 'next/image';
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
+import { motion, MotionValue } from 'framer-motion';
 import { PortfolioItem } from '@/lib/types';
 
 interface ParallaxCardProps {
