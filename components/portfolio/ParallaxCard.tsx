@@ -7,11 +7,10 @@ import { PortfolioItem } from '@/lib/types';
 
 interface ParallaxCardProps {
   item: PortfolioItem;
+  isCentered?: boolean;
 }
 
-export default function ParallaxCard({ item }: ParallaxCardProps) {
-  // Use local state for hover effects
-  const [isHovered, setIsHovered] = React.useState(false);
+export default function ParallaxCard({ item, isCentered = false }: ParallaxCardProps) {
 
   return (
     <motion.div
@@ -23,12 +22,10 @@ export default function ParallaxCard({ item }: ParallaxCardProps) {
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Pink Accent Border */}
       <div 
-        className={`absolute inset-0 border-2 border-[var(--accent)] z-20 pointer-events-none transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-0 border-2 border-[var(--accent)] z-20 pointer-events-none transition-opacity duration-500 ${isCentered ? 'opacity-100' : 'opacity-0'}`}
       />
 
       {/* Image Container with Scale Effect */}
@@ -36,8 +33,8 @@ export default function ParallaxCard({ item }: ParallaxCardProps) {
         <motion.div
           className="relative w-full h-full"
           animate={{
-            scale: isHovered ? 1.05 : 1,
-            filter: isHovered ? 'grayscale(0%)' : 'grayscale(100%)',
+            scale: isCentered ? 1.05 : 1,
+            filter: isCentered ? 'grayscale(0%)' : 'grayscale(100%)',
           }}
           transition={{ duration: 0.7, ease: [0.33, 1, 0.68, 1] }}
         >
@@ -50,11 +47,8 @@ export default function ParallaxCard({ item }: ParallaxCardProps) {
           />
         </motion.div>
         
-        {/* Noise Overlay (reusing global class) */}
-        <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
-        
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 transition-opacity duration-500" />
       </div>
 
       {/* Content */}
@@ -62,7 +56,7 @@ export default function ParallaxCard({ item }: ParallaxCardProps) {
         <div className="overflow-hidden">
           <motion.div
             initial={{ y: 0 }}
-            animate={{ y: isHovered ? -10 : 0 }}
+            animate={{ y: isCentered ? -10 : 0 }}
             transition={{ duration: 0.5 }}
           >
             <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--accent)] mb-3">
@@ -76,7 +70,7 @@ export default function ParallaxCard({ item }: ParallaxCardProps) {
         
         <motion.div
           initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0, height: isHovered ? 'auto' : 0 }}
+          animate={{ opacity: isCentered ? 1 : 0, height: isCentered ? 'auto' : 0 }}
           transition={{ duration: 0.5 }}
           className="overflow-hidden"
         >

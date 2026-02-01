@@ -3,13 +3,11 @@
 import { useState, useEffect } from 'react';
 import { PortfolioItem } from '@/lib/types';
 import { storageService } from '@/lib/services/storageService';
-import PortfolioFilters from '@/components/portfolio/PortfolioFilters';
 import HorizontalGallery from '@/components/portfolio/HorizontalGallery';
 import Navbar from '@/app/components/Navbar';
 
 export default function PortfolioPage() {
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
-  const [activeFilter, setActiveFilter] = useState('All');
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -31,18 +29,6 @@ export default function PortfolioPage() {
     <>
       <Navbar isHomepage={false} />
       <div className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#FC7CA4] selection:text-black">
-        <div className="noise-overlay" />
-        
-        {/* Filters - Sticky Positioning */}
-        <div className="fixed top-24 left-0 right-0 z-40 flex justify-center pointer-events-none">
-           <div className="bg-[#1a1a1a]/80 backdrop-blur-md px-8 py-4 rounded-full border border-white/5 pointer-events-auto shadow-2xl">
-              <PortfolioFilters
-                activeFilter={activeFilter}
-                onFilterChange={setActiveFilter}
-              />
-           </div>
-        </div>
-
         {/* Gallery */}
         {isLoading ? (
           <div className="flex h-screen items-center justify-center">
@@ -56,7 +42,7 @@ export default function PortfolioPage() {
             </div>
           </div>
         ) : (
-          <HorizontalGallery items={portfolio} activeFilter={activeFilter} />
+          <HorizontalGallery items={portfolio} />
         )}
       </div>
     </>

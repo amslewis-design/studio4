@@ -7,21 +7,15 @@ import ParallaxCard from './ParallaxCard';
 
 interface HorizontalGalleryProps {
   items: PortfolioItem[];
-  activeFilter: string;
 }
 
-export default function HorizontalGallery({ items, activeFilter }: HorizontalGalleryProps) {
+export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
   const controls = useAnimationControls();
+  const [centeredIndex, setCenteredIndex] = useState(0);
   
-  // Filter items
-  const filteredItems = activeFilter === 'All'
-    ? items
-    : items.filter((item) => item.category === activeFilter);
-
   // Duplicate items for seamless loop
-  const loopedItems = [...filteredItems, ...filteredItems];
+  const loopedItems = [...items, ...items];
 
   // Mobile check
   const [isMobile, setIsMobile] = useState(false);
@@ -37,14 +31,14 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
 
   // Continuous auto-scroll animation
   useEffect(() => {
-    if (isMobile || filteredItems.length === 0 || isPaused) return;
+    if (isMobile || items.length === 0) return;
 
     const cardWidth = window.innerHeight * 0.45; // 45vh width per card
-    const totalWidth = cardWidth * filteredItems.length;
-    const duration = filteredItems.length * 5; // 5 seconds per card
+    const totalWidth = cardWidth * items.length;
+    const duration = items.length * 5; // 5 seconds per card
 
     const animate = async () => {
-      while (!isPaused) {
+      while (true) {
         await controls.start({
           x: -totalWidth,
           transition: {
@@ -62,23 +56,41 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
     return () => {
       controls.stop();
     };
-  }, [isMobile, filteredItems.length, controls, isPaused]);
+  }, [isMobile, items.length, controls]);
 
-  // Pause/resume functions
-  const handleMouseEnter = () => {
-    setIsPaused(true);
-    controls.stop();
-  };
+  // Track centered item
+  useEffect(() => {
+    if (isMobile || items.length === 0) return;
 
-  const handleMouseLeave = () => {
-    setIsPaused(false);
-  };
+    const updateCenteredItem = () => {
+      if (!scrollRef.current) return;
+      
+      const cardWidth = window.innerHeight * 0.45;
+      const offsetLeft = window.innerHeight * 0.275; // pl-[27.5vh]
+      const centerX = window.innerWidth / 2;
+      
+      // Get current animation x position
+      const computedStyle = window.getComputedStyle(scrollRef.current);
+      const matrix = new DOMMatrix(computedStyle.transform);
+      const currentX = matrix.m41;
+      
+      // Calculate which card is closest to center
+      const adjustedCenter = centerX - offsetLeft - currentX;
+      const index = Math.round(adjustedCenter / cardWidth) % items.length;
+      const normalizedIndex = ((index % items.length) + items.length) % items.length;
+      
+      setCenteredIndex(normalizedIndex);
+    };
+
+    const interval = setInterval(updateCenteredItem, 100);
+    return () => clearInterval(interval);
+  }, [isMobile, items.length]);
 
   if (isMobile) {
     // Mobile View: Standard Horizontal Snap Scroll (Native)
     return (
       <div className="flex overflow-x-auto px-6 py-10 snap-x snap-mandatory hide-scrollbar">
-        {filteredItems.map((item) => (
+        {items.map((item) => (
           <div key={item.id} className="snap-center shrink-0 w-[85vw] h-[75vh]">
             <ParallaxCard item={item} />
           </div>
@@ -89,40 +101,25 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
 
   return (
     <section className="relative bg-[#1a1a1a] h-screen overflow-hidden">
-      <div className="noise-overlay" />
-      
       {/* Gallery Track */}
       <div className="flex h-screen items-center overflow-hidden">
         <motion.div 
           ref={scrollRef}
           animate={controls}
           className="flex pl-[27.5vh]"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
         >
-          {loopedItems.map((item, index) => (
-            <ParallaxCard 
-              key={`${item.id}-${index}`}
-              item={item}
-            />
-          ))}
+          {loopedItems.map((item, index) => {
+            const actualIndex = index % items.length;
+            const isCentered = actualIndex === centeredIndex;
+            return (
+              <ParallaxCard 
+                key={`${item.id}-${index}`}
+                item={item}
+                isCentered={isCentered}
+              />
+            );
+          })}
         </motion.div>
-      </div>
-
-      {/* Status Indicator */}
-      <div className="fixed bottom-12 left-12 z-50 pointer-events-none">
-        <div className="text-white/60 text-[10px] uppercase tracking-[0.3em]">
-          {filteredItems.length} Projects
-          {!isPaused && <span className="ml-3 text-[var(--accent)] animate-pulse">●</span>}
-          {isPaused && <span className="ml-3 text-white/40">Paused</span>}
-        </div>
-      </div>
-
-      {/* Interaction Hint */}
-      <div className="fixed bottom-12 right-12 z-50 pointer-events-none">
-        <div className="text-white/40 text-[10px] uppercase tracking-[0.3em]">
-          Hover to Pause
-        </div>
       </div>
     </section>
   );
