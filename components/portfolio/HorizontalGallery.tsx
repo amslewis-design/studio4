@@ -49,7 +49,7 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
   }, []);
 
   // Auto-scroll animation
-  useAnimationFrame((t) => {
+  useAnimationFrame((_t) => {
     if (isAutoScrolling && scrollRef.current && !isMobile) {
       // Slow automatic scroll - moves 20px per second
       const scrollSpeed = 0.02; // Adjust this value to change speed
