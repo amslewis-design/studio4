@@ -12,7 +12,6 @@ interface HorizontalGalleryProps {
 
 export default function HorizontalGallery({ items, activeFilter }: HorizontalGalleryProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const controls = useAnimationControls();
   
@@ -38,14 +37,14 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
 
   // Continuous auto-scroll animation
   useEffect(() => {
-    if (!isAutoScrolling || isMobile || filteredItems.length === 0 || isPaused) return;
+    if (isMobile || filteredItems.length === 0 || isPaused) return;
 
     const cardWidth = window.innerHeight * 0.45; // 45vh width per card
     const totalWidth = cardWidth * filteredItems.length;
     const duration = filteredItems.length * 5; // 5 seconds per card
 
     const animate = async () => {
-      while (isAutoScrolling && !isPaused) {
+      while (!isPaused) {
         await controls.start({
           x: -totalWidth,
           transition: {
@@ -63,7 +62,7 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
     return () => {
       controls.stop();
     };
-  }, [isAutoScrolling, isMobile, filteredItems.length, controls, isPaused]);
+  }, [isMobile, filteredItems.length, controls, isPaused]);
 
   // Pause/resume functions
   const handleMouseEnter = () => {
@@ -114,7 +113,7 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
       <div className="fixed bottom-12 left-12 z-50 pointer-events-none">
         <div className="text-white/60 text-[10px] uppercase tracking-[0.3em]">
           {filteredItems.length} Projects
-          {isAutoScrolling && !isPaused && <span className="ml-3 text-[var(--accent)] animate-pulse">●</span>}
+          {!isPaused && <span className="ml-3 text-[var(--accent)] animate-pulse">●</span>}
           {isPaused && <span className="ml-3 text-white/40">Paused</span>}
         </div>
       </div>
