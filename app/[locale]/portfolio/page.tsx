@@ -5,7 +5,6 @@ import { PortfolioItem } from '@/lib/types';
 import { storageService } from '@/lib/services/storageService';
 import PortfolioFilters from '@/components/portfolio/PortfolioFilters';
 import HorizontalGallery from '@/components/portfolio/HorizontalGallery';
-import { motion } from 'framer-motion';
 import Navbar from '@/app/components/Navbar';
 
 export default function PortfolioPage() {
