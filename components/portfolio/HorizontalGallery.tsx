@@ -88,7 +88,8 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
     const interval = setInterval(updateCenteredItem, 100);
     return () => clearInterval(interval);
   }, [isMobile, items.length]);
-// Manual navigation functions
+
+  // Manual navigation functions
   const handlePrevious = () => {
     if (isMobile) return;
     setIsPlaying(false);
@@ -123,6 +124,52 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
           duration: 0.6,
           ease: [0.33, 1, 0.68, 1],
         },
+      });
+    }
+  };
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+    if (isPlaying) {
+      controls.stop();
+    }
+  };
+
+  if (isMobile) {
+    // Mobile View: Standard Horizontal Snap Scroll (Native)
+    return (
+      <div className="flex overflow-x-auto px-6 py-10 snap-x snap-mandatory hide-scrollbar">
+        {items.map((item) => (
+          <div key={item.id} className="snap-center shrink-0 w-[85vw] h-[75vh]">
+            <ParallaxCard item={item} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <section className="relative bg-[#1a1a1a] h-screen overflow-hidden">
+      {/* Gallery Track */}
+      <div className="flex h-screen items-center overflow-hidden">
+        <motion.div 
+          ref={scrollRef}
+          animate={controls}
+          className="flex pl-[27.5vh]"
+        >
+          {loopedItems.map((item, index) => {
+            const actualIndex = index % items.length;
+            const isCentered = actualIndex === centeredIndex;
+            return (
+              <ParallaxCard 
+                key={`${item.id}-${index}`}
+                item={item}
+                isCentered={isCentered}
+              />
+            );
+          })}
+        </motion.div>
+      </div>
 
       {/* Navigation Controls */}
       <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 flex items-center gap-6">
@@ -165,53 +212,6 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>
         </button>
-      </div>
-      });
-    }
-  };
-
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-    if (isPlaying) {
-      controls.stop();
-    }
-  };
-
-  
-  if (isMobile) {
-    // Mobile View: Standard Horizontal Snap Scroll (Native)
-    return (
-      <div className="flex overflow-x-auto px-6 py-10 snap-x snap-mandatory hide-scrollbar">
-        {items.map((item) => (
-          <div key={item.id} className="snap-center shrink-0 w-[85vw] h-[75vh]">
-            <ParallaxCard item={item} />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <section className="relative bg-[#1a1a1a] h-screen overflow-hidden">
-      {/* Gallery Track */}
-      <div className="flex h-screen items-center overflow-hidden">
-        <motion.div 
-          ref={scrollRef}
-          animate={controls}
-          className="flex pl-[27.5vh]"
-        >
-          {loopedItems.map((item, index) => {
-            const actualIndex = index % items.length;
-            const isCentered = actualIndex === centeredIndex;
-            return (
-              <ParallaxCard 
-                key={`${item.id}-${index}`}
-                item={item}
-                isCentered={isCentered}
-              />
-            );
-          })}
-        </motion.div>
       </div>
     </section>
   );
