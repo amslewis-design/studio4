@@ -79,8 +79,7 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
           {filteredItems.map((item) => (
             <ParallaxCard 
               key={item.id} 
-              item={item} 
-              containerScrollProgress={scrollYProgress}
+              item={item}
             />
           ))}
           {/* Decorative end spacer */}

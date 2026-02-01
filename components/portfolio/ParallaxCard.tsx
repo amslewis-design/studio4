@@ -2,15 +2,14 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { motion, MotionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { PortfolioItem } from '@/lib/types';
 
 interface ParallaxCardProps {
   item: PortfolioItem;
-  containerScrollProgress?: MotionValue<number>;
 }
 
-export default function ParallaxCard({ item, containerScrollProgress }: ParallaxCardProps) {
+export default function ParallaxCard({ item }: ParallaxCardProps) {
   // Use local state for hover effects
   const [isHovered, setIsHovered] = React.useState(false);
 
