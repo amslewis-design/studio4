@@ -48,7 +48,6 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
       { label: t('home'), href: isHomepage ? "#top" : `/${locale}` },
       { label: t('portfolio'), href: isHomepage ? "#portfolio" : `/${locale}#portfolio` },
       { label: t('services'), href: `/${locale}/services` },
-      { label: t('approach'), href: isHomepage ? "#approach" : `/${locale}#approach` },
       { label: t('blog'), href: isHomepage ? "#blog" : `/${locale}/blog` },
       { label: t('contact'), href: isHomepage ? "#contact" : `/${locale}#contact` },
     ],
