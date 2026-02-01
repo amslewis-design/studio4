@@ -13,6 +13,8 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
   const [centeredIndex, setCenteredIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [currentPosition, setCurrentPosition] = useState(0);
   
   // Duplicate items for seamless loop
   const loopedItems = [...items, ...items];
@@ -29,16 +31,14 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Continuous auto-scroll animation
-  useEffect(() => {
-    if (isMobile || items.length === 0) return;
+  // Continuous auto-scroll animation || !isPlaying) return;
 
     const cardWidth = window.innerHeight * 0.45; // 45vh width per card
     const totalWidth = cardWidth * items.length;
     const duration = items.length * 5; // 5 seconds per card
 
     const animate = async () => {
-      while (true) {
+      while (isPlaying) {
         await controls.start({
           x: -totalWidth,
           transition: {
@@ -48,6 +48,7 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
         });
         // Reset to start instantly
         controls.set({ x: 0 });
+        setCurrentPosition(0);
       }
     };
 
@@ -55,6 +56,8 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
 
     return () => {
       controls.stop();
+    };
+  }, [isMobile, items.length, controls, isPlaying
     };
   }, [isMobile, items.length, controls]);
 
@@ -85,7 +88,96 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
     const interval = setInterval(updateCenteredItem, 100);
     return () => clearInterval(interval);
   }, [isMobile, items.length]);
+// Manual navigation functions
+  const handlePrevious = () => {
+    if (isMobile) return;
+    setIsPlaying(false);
+    const cardWidth = window.innerHeight * 0.45;
+    const newPosition = currentPosition + cardWidth;
+    setCurrentPosition(newPosition);
+    controls.start({
+      x: newPosition,
+      transition: {
+        duration: 0.6,
+        ease: [0.33, 1, 0.68, 1],
+      },
+    });
+  };
 
+  const handleNext = () => {
+    if (isMobile) return;
+    setIsPlaying(false);
+    const cardWidth = window.innerHeight * 0.45;
+    const totalWidth = cardWidth * items.length;
+    const newPosition = currentPosition - cardWidth;
+    
+    // If we've gone past the end, reset to start
+    if (Math.abs(newPosition) >= totalWidth) {
+      setCurrentPosition(0);
+      controls.set({ x: 0 });
+    } else {
+      setCurrentPosition(newPosition);
+      controls.start({
+        x: newPosition,
+        transition: {
+          duration: 0.6,
+          ease: [0.33, 1, 0.68, 1],
+        },
+
+      {/* Navigation Controls */}
+      <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-50 flex items-center gap-6">
+        {/* Previous Button */}
+        <button
+          onClick={handlePrevious}
+          className="w-12 h-12 rounded-full border border-white/20 bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-all duration-300 hover:scale-110"
+          aria-label="Previous project"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        {/* Play/Pause Button */}
+        <button
+          onClick={togglePlayPause}
+          className="w-16 h-16 rounded-full border-2 border-[var(--accent)] bg-black/60 backdrop-blur-sm flex items-center justify-center text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-all duration-300 hover:scale-110"
+          aria-label={isPlaying ? 'Pause' : 'Play'}
+        >
+          {isPlaying ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+              <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+            </svg>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="8 5 19 12 8 19"></polygon>
+            </svg>
+          )}
+        </button>
+
+        {/* Next Button */}
+        <button
+          onClick={handleNext}
+          className="w-12 h-12 rounded-full border border-white/20 bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60 hover:text-white hover:border-white/40 transition-all duration-300 hover:scale-110"
+          aria-label="Next project"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+      });
+    }
+  };
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying);
+    if (isPlaying) {
+      controls.stop();
+    }
+  };
+
+  
   if (isMobile) {
     // Mobile View: Standard Horizontal Snap Scroll (Native)
     return (
