@@ -31,7 +31,9 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Continuous auto-scroll animation || !isPlaying) return;
+  // Continuous auto-scroll animation
+  useEffect(() => {
+    if (isMobile || items.length === 0 || !isPlaying) return;
 
     const cardWidth = window.innerHeight * 0.45; // 45vh width per card
     const totalWidth = cardWidth * items.length;
@@ -57,9 +59,7 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
     return () => {
       controls.stop();
     };
-  }, [isMobile, items.length, controls, isPlaying
-    };
-  }, [isMobile, items.length, controls]);
+  }, [isMobile, items.length, controls, isPlaying]);
 
   // Track centered item
   useEffect(() => {
