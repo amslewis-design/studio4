@@ -14,7 +14,7 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
   const controls = useAnimationControls();
   const [centeredIndex, setCenteredIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [currentPosition, setCurrentPosition] = useState(0);
+  const animationRef = useRef<any>(null);
   
   // Duplicate items for seamless loop
   const loopedItems = [...items, ...items];
@@ -33,14 +33,22 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
 
   // Continuous auto-scroll animation
   useEffect(() => {
-    if (isMobile || items.length === 0 || !isPlaying) return;
+    if (isMobile || items.length === 0 || !isPlaying) {
+      if (animationRef.current) {
+        animationRef.current = null;
+      }
+      return;
+    }
 
-    const cardWidth = window.innerHeight * 0.45; // 45vh width per card
+    const cardWidth = window.innerHeight * 0.45;
     const totalWidth = cardWidth * items.length;
-    const duration = items.length * 5; // 5 seconds per card
+    const duration = items.length * 5;
+
+    let isActive = true;
+    animationRef.current = { isActive: true };
 
     const animate = async () => {
-      while (isPlaying) {
+      while (isActive && isPlaying) {
         await controls.start({
           x: -totalWidth,
           transition: {
@@ -48,15 +56,18 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
             ease: 'linear',
           },
         });
-        // Reset to start instantly
+        if (!isActive || !isPlaying) break;
         controls.set({ x: 0 });
-        setCurrentPosition(0);
       }
     };
 
     animate();
 
     return () => {
+      isActive = false;
+      if (animationRef.current) {
+        animationRef.current.isActive = false;
+      }
       controls.stop();
     };
   }, [isMobile, items.length, controls, isPlaying]);
@@ -90,14 +101,24 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
   }, [isMobile, items.length]);
 
   // Manual navigation functions
-  const handlePrevious = () => {
-    if (isMobile) return;
+  const handlePrevious = async () => {
+    if (isMobile || !scrollRef.current) return;
+    
+    // Stop auto-scroll
     setIsPlaying(false);
+    controls.stop();
+    
+    // Get current position
+    const computedStyle = window.getComputedStyle(scrollRef.current);
+    const matrix = new DOMMatrix(computedStyle.transform);
+    const currentX = matrix.m41;
+    
+    // Move one card forward (right)
     const cardWidth = window.innerHeight * 0.45;
-    const newPosition = currentPosition + cardWidth;
-    setCurrentPosition(newPosition);
-    controls.start({
-      x: newPosition,
+    const newX = currentX + cardWidth;
+    
+    await controls.start({
+      x: newX,
       transition: {
         duration: 0.6,
         ease: [0.33, 1, 0.68, 1],
@@ -105,21 +126,29 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
     });
   };
 
-  const handleNext = () => {
-    if (isMobile) return;
+  const handleNext = async () => {
+    if (isMobile || !scrollRef.current) return;
+    
+    // Stop auto-scroll
     setIsPlaying(false);
+    controls.stop();
+    
+    // Get current position
+    const computedStyle = window.getComputedStyle(scrollRef.current);
+    const matrix = new DOMMatrix(computedStyle.transform);
+    const currentX = matrix.m41;
+    
+    // Move one card backward (left)
     const cardWidth = window.innerHeight * 0.45;
     const totalWidth = cardWidth * items.length;
-    const newPosition = currentPosition - cardWidth;
+    const newX = currentX - cardWidth;
     
-    // If we've gone past the end, reset to start
-    if (Math.abs(newPosition) >= totalWidth) {
-      setCurrentPosition(0);
+    // If we've gone past the end, loop back
+    if (Math.abs(newX) >= totalWidth) {
       controls.set({ x: 0 });
     } else {
-      setCurrentPosition(newPosition);
-      controls.start({
-        x: newPosition,
+      await controls.start({
+        x: newX,
         transition: {
           duration: 0.6,
           ease: [0.33, 1, 0.68, 1],
@@ -129,9 +158,13 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
   };
 
   const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
     if (isPlaying) {
+      // Pause
       controls.stop();
+      setIsPlaying(false);
+    } else {
+      // Resume - will restart from current position
+      setIsPlaying(true);
     }
   };
 
