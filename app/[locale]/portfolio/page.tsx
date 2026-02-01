@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { PortfolioItem } from '@/lib/types';
 import { storageService } from '@/lib/services/storageService';
 import PortfolioFilters from '@/components/portfolio/PortfolioFilters';
-import PortfolioGrid from '@/components/portfolio/PortfolioGrid';
+import HorizontalGallery from '@/components/portfolio/HorizontalGallery';
 import { motion } from 'framer-motion';
 import Navbar from '@/app/components/Navbar';
 
@@ -31,51 +31,34 @@ export default function PortfolioPage() {
   return (
     <>
       <Navbar isHomepage={false} />
-      <div className="min-h-screen bg-[#1a1a1a] text-white pt-28 sm:pt-32 pb-12 sm:pb-20">
-        {/* Hero Section */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold mb-4 sm:mb-6">
-            Our Portfolio
-          </h1>
-          <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto">
-            Explore our latest projects and see how we transform spaces into
-            unforgettable experiences.
-          </p>
-        </motion.div>
-      </div>
-
-      {/* Filters and Grid */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Filters */}
-        <div className="mb-8 sm:mb-12">
-          <PortfolioFilters
-            activeFilter={activeFilter}
-            onFilterChange={setActiveFilter}
-          />
+      <div className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#FC7CA4] selection:text-black">
+        <div className="noise-overlay" />
+        
+        {/* Filters - Sticky Positioning */}
+        <div className="fixed top-24 left-0 right-0 z-40 flex justify-center pointer-events-none">
+           <div className="bg-[#1a1a1a]/80 backdrop-blur-md px-8 py-4 rounded-full border border-white/5 pointer-events-auto shadow-2xl">
+              <PortfolioFilters
+                activeFilter={activeFilter}
+                onFilterChange={setActiveFilter}
+              />
+           </div>
         </div>
 
-        {/* Grid */}
+        {/* Gallery */}
         {isLoading ? (
-          <div className="flex items-center justify-center min-h-[400px]">
-            <div className="text-gray-400">Loading portfolio...</div>
+          <div className="flex h-screen items-center justify-center">
+            <div className="text-[var(--accent)] animate-pulse uppercase tracking-widest text-xs">Loading artifacts...</div>
           </div>
         ) : portfolio.length === 0 ? (
-          <div className="flex items-center justify-center min-h-[400px]">
+          <div className="flex h-screen items-center justify-center">
             <div className="text-gray-400 text-center">
               <p className="text-lg mb-2">No portfolio items yet</p>
               <p className="text-sm">Check back soon for our latest work</p>
             </div>
           </div>
         ) : (
-          <PortfolioGrid items={portfolio} activeFilter={activeFilter} />
+          <HorizontalGallery items={portfolio} activeFilter={activeFilter} />
         )}
-        </div>
       </div>
     </>
   );
