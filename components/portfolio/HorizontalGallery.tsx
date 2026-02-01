@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useTransform, useScroll, useSpring } from 'framer-motion';
+import { motion, useTransform, useScroll, useSpring, useAnimationFrame } from 'framer-motion';
 import { PortfolioItem } from '@/lib/types';
 import ParallaxCard from './ParallaxCard';
 
@@ -13,6 +13,8 @@ interface HorizontalGalleryProps {
 export default function HorizontalGallery({ items, activeFilter }: HorizontalGalleryProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(true);
+  const [autoScrollX, setAutoScrollX] = useState(0);
   
   // Filter items
   const filteredItems = activeFilter === 'All'
@@ -25,11 +27,7 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
   });
 
   // Convert vertical scroll to horizontal movement
-  // We need to calculate the actual width to scroll accurately
-  // Standard approximation: Scroll 100vh vertically = 100vw horizontally (ish)
-  // Logic: 0% scroll = 0% x, 100% scroll = -(totalWidth - viewportWidth)
-  
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-90%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
   
   // Smooth out the scroll
   const smoothX = useSpring(x, {
@@ -50,10 +48,55 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Auto-scroll animation
+  useAnimationFrame((t) => {
+    if (isAutoScrolling && scrollRef.current && !isMobile) {
+      // Slow automatic scroll - moves 20px per second
+      const scrollSpeed = 0.02; // Adjust this value to change speed
+      setAutoScrollX((prev) => {
+        const maxScroll = scrollRef.current?.scrollWidth || 0;
+        const viewportWidth = window.innerWidth;
+        const newX = prev - scrollSpeed;
+        
+        // Reset when we've scrolled through all items
+        if (Math.abs(newX) >= (maxScroll - viewportWidth) * 0.85) {
+          return 0;
+        }
+        return newX;
+      });
+    }
+  });
+
+  // Pause auto-scroll on user interaction
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsAutoScrolling(false);
+      // Resume after 5 seconds of inactivity
+      setTimeout(() => setIsAutoScrolling(true), 5000);
+    };
+
+    const handleMouseEnter = () => setIsAutoScrolling(false);
+    const handleMouseLeave = () => setIsAutoScrolling(true);
+
+    if (targetRef.current) {
+      targetRef.current.addEventListener('scroll', handleScroll);
+      targetRef.current.addEventListener('mouseenter', handleMouseEnter);
+      targetRef.current.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    return () => {
+      if (targetRef.current) {
+        targetRef.current.removeEventListener('scroll', handleScroll);
+        targetRef.current.removeEventListener('mouseenter', handleMouseEnter);
+        targetRef.current.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, []);
+
   if (isMobile) {
     // Mobile View: Standard Horizontal Snap Scroll (Native)
     return (
-      <div className="flex overflow-x-auto gap-4 px-6 py-10 snap-x snap-mandatory hide-scrollbar">
+      <div className="flex overflow-x-auto px-6 py-10 snap-x snap-mandatory hide-scrollbar">
         {filteredItems.map((item) => (
           <div key={item.id} className="snap-center shrink-0 w-[85vw] h-[75vh]">
             <ParallaxCard item={item} />
@@ -63,9 +106,7 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
     );
   }
 
-  // Desktop View: Scroll Jack
-  // Height calculation: (number of items * item width) / generic divisor + viewport height
-  // This estimate allows the scroll container to be deep enough to scroll through all items
+  // Desktop View: Scroll Jack with auto-scroll
   const ghostHeight = `${Math.max(200, filteredItems.length * 60)}vh`;
 
   return (
@@ -73,8 +114,10 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div 
           ref={scrollRef}
-          style={{ x: smoothX }} 
-          className="flex gap-16 pl-[10vw] pr-[10vw]"
+          style={{ 
+            x: isAutoScrolling ? autoScrollX : smoothX 
+          }} 
+          className="flex pl-[5vw] pr-[5vw]"
         >
           {filteredItems.map((item) => (
             <ParallaxCard 
@@ -93,8 +136,8 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
       
       {/* Scroll indicator */}
       <div className="fixed bottom-12 left-12 z-50 pointer-events-none mix-blend-difference">
-         <div className="text-white text-[10px] uppercase tracking-[0.3em] animate-pulse">
-           Scroll to Explore
+         <div className="text-white text-[10px] uppercase tracking-[0.3em]">
+           {isAutoScrolling ? 'Auto-scrolling...' : 'Scroll to Explore'}
          </div>
       </div>
     </section>
