@@ -12,7 +12,6 @@ interface HorizontalGalleryProps {
 
 export default function HorizontalGallery({ items, activeFilter }: HorizontalGalleryProps) {
   const targetRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   
   // Filter items
