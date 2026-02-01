@@ -9,7 +9,7 @@ export default function ServicesPage() {
   const t = useTranslations('services');
 
   return (
-    <main className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#D4AF37] selection:text-black">
+    <main className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#FC7CA4] selection:text-black">
       <Navbar />
       <div className="noise-overlay" />
       
@@ -22,12 +22,12 @@ export default function ServicesPage() {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto text-center mb-32"
         >
-          <span className="text-[10px] uppercase tracking-[0.4em] text-[#D4AF37] mb-6 block font-bold">
+          <span className="text-[10px] uppercase tracking-[0.4em] text-[#FC7CA4] mb-6 block font-bold">
             The Alchemist's Menu
           </span>
           <h2 className="text-5xl md:text-7xl font-serif font-thin mb-8 leading-[0.9]">
             It's time to turn <br />
-            <span className="text-gold-gradient italic pr-4">content into gold.</span>
+            <span className="text-[#FC7CA4] italic pr-4">content into gold.</span>
           </h2>
           <p className="text-xl text-gray-400 leading-relaxed font-light max-w-2xl mx-auto">
             {t('hero.intro')}
@@ -109,7 +109,7 @@ export default function ServicesPage() {
           <a 
             href="#"
             onClick={(e) => { e.preventDefault(); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }}
-            className="inline-block relative z-10 px-12 py-5 border border-white/20 text-white font-bold tracking-[0.3em] uppercase text-xs hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-black transition-all duration-300"
+            className="inline-block relative z-10 px-12 py-5 border border-white/20 text-white font-bold tracking-[0.3em] uppercase text-xs hover:bg-[#FC7CA4] hover:border-[#FC7CA4] hover:text-black transition-all duration-300"
           >
             {t('cta')}
           </a>
