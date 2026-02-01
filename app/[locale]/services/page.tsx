@@ -34,11 +34,39 @@ export default function ServicesPage() {
           </p>
         </motion.div>
 
+        {/* New Services Trio */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
+          <ServiceCard
+            index={0}
+            title={t('visualAlchemy')}
+            description={t('visualAlchemyDesc')}
+            image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769605842/sassy-studio/cafe_tjpt9a.webp"
+            sigil="◉"
+            className="h-[500px]"
+          />
+          <ServiceCard
+            index={1}
+            title={t('digitalNarratives')}
+            description={t('digitalNarrativesDesc')}
+            image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1768343750/IMG_4098_nbgkvo.jpg"
+            sigil="⌇"
+            className="h-[500px]"
+          />
+          <ServiceCard
+            index={2}
+            title={t('identityRefinement')}
+            description={t('identityRefinementDesc')}
+            image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769302516/sassy-studio/Gemini_Generated_Image_ynrk3jynrk3jynrk_zzxlco.png"
+            sigil="◊"
+            className="h-[500px]"
+          />
+        </div>
+
         {/* Asymmetrical Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12 items-start">
           <div className="md:mt-0">
             <ServiceCard
-              index={0}
+              index={3}
               title={t('plans.plan1.title')}
               description={t('plans.plan1.body')}
               image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769605842/sassy-studio/cafe_tjpt9a.webp"
@@ -48,7 +76,7 @@ export default function ServicesPage() {
           </div>
           <div className="md:mt-24">
             <ServiceCard
-              index={1}
+              index={4}
               title={t('plans.plan2.title')}
               description={t('plans.plan2.body')}
               image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1768343750/IMG_4098_nbgkvo.jpg"
@@ -61,7 +89,7 @@ export default function ServicesPage() {
         {/* Bespoke Project - Full Width Cinema */}
         <div className="mb-32">
           <ServiceCard
-            index={2}
+            index={5}
             title={t('bespoke.title')}
             description={t('bespoke.body')}
             sigil="✧"
