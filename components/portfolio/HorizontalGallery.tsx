@@ -76,7 +76,7 @@ export default function HorizontalGallery({ items, activeFilter }: HorizontalGal
           style={{ x: smoothX }} 
           className="flex gap-16 pl-[10vw] pr-[10vw]"
         >
-          {filteredItems.map((item, index) => (
+          {filteredItems.map((item) => (
             <ParallaxCard 
               key={item.id} 
               item={item} 
