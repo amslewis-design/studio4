@@ -495,7 +495,7 @@ const services = useMemo(
             </motion.span>
 
             <h1
-              className="text-6xl md:text-[10rem] font-serif mb-10 leading-[0.85] tracking-tighter text-white"
+              className="text-6xl md:text-[clamp(4.5rem,11vw,10rem)] font-serif mb-10 leading-[0.85] tracking-tighter text-white"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             >
               {tHero('heading')}
