@@ -55,8 +55,8 @@ export default function ParallaxCard({ item, isCentered = false }: ParallaxCardP
       <div className="absolute bottom-0 left-0 right-0 p-8 z-10 transform transition-transform duration-500">
         <div className="overflow-hidden">
           <motion.div
-            initial={{ y: 0 }}
-            animate={{ y: isCentered ? -10 : 0 }}
+            initial={{ y: 0, opacity: 0 }}
+            animate={{ y: isCentered ? -10 : 0, opacity: isCentered ? 1 : 0 }}
             transition={{ duration: 0.5 }}
           >
             <p className="text-[10px] uppercase tracking-[0.3em] text-[var(--accent)] mb-3">

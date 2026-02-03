@@ -174,7 +174,7 @@ export default function HorizontalGallery({ items }: HorizontalGalleryProps) {
       <div className="flex overflow-x-auto px-6 py-10 snap-x snap-mandatory hide-scrollbar">
         {items.map((item) => (
           <div key={item.id} className="snap-center shrink-0 w-[85vw] h-[75vh]">
-            <ParallaxCard item={item} />
+            <ParallaxCard item={item} isCentered={true} />
           </div>
         ))}
       </div>
