@@ -442,7 +442,7 @@ const services = useMemo(
 
       {/* Hero */}
       <section
-        className="relative h-[92vh] md:h-screen flex items-center justify-center overflow-hidden pt-24 md:pt-28"
+        className="relative min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-16 md:pt-28 md:pb-0"
         style={{ backgroundColor: "var(--primary)" }}
       >
         <div className="absolute inset-0 z-0">
