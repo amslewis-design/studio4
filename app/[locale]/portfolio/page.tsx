@@ -1,14 +1,11 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
 import { Postcard } from '@/components/portfolio/Postcard';
 import ChatWidget from '@/components/ChatWidget'; // Default import
 import { PORTFOLIO_PROJECTS } from '@/app/constants/portfolio';
 
 export default function PortfolioPage() {
-  const t = useTranslations('portfolio'); // Assuming translation namespace exists, fallback is fine if not strict
-
   return (
     <main className="min-h-screen bg-stone-50 pb-20 relative">
       {/* Sticky Header / Hero Section */}
