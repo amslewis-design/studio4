@@ -46,7 +46,7 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
   const navItems: NavItem[] = useMemo(
     () => [
       { label: t('home'), href: isHomepage ? "#top" : `/${locale}` },
-      { label: t('portfolio'), href: isHomepage ? "#portfolio" : `/${locale}#portfolio` },
+      { label: t('portfolio'), href: `/${locale}/portfolio` },
       { label: t('services'), href: `/${locale}/services` },
       { label: t('blog'), href: isHomepage ? "#blog" : `/${locale}/blog` },
       { label: t('contact'), href: isHomepage ? "#contact" : `/${locale}#contact` },
