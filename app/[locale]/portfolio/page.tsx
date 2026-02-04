@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Postcard } from '@/components/portfolio/Postcard';
-import ChatWidget from '@/components/ChatWidget'; // Default import
 import { PORTFOLIO_PROJECTS } from '@/app/constants/portfolio';
 
 export default function PortfolioPage() {
@@ -45,9 +44,6 @@ export default function PortfolioPage() {
           Start a Project
         </button>
       </section>
-
-      {/* AI Chat Widget */}
-      <ChatWidget />
     </main>
   );
 }
