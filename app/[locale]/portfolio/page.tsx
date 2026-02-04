@@ -1,50 +1,56 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { PortfolioItem } from '@/lib/types';
-import { storageService } from '@/lib/services/storageService';
-import HorizontalGallery from '@/components/portfolio/HorizontalGallery';
-import Navbar from '@/app/components/Navbar';
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { Postcard } from '@/components/portfolio/Postcard';
+import ChatWidget from '@/components/ChatWidget'; // Default import
+import { PORTFOLIO_PROJECTS } from '@/app/constants/portfolio';
 
 export default function PortfolioPage() {
-  const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const loadPortfolio = async () => {
-      try {
-        const data = storageService.getPortfolio();
-        setPortfolio(data);
-      } catch (error) {
-        console.error('Failed to load portfolio:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPortfolio();
-  }, []);
+  const t = useTranslations('portfolio'); // Assuming translation namespace exists, fallback is fine if not strict
 
   return (
-    <>
-      <Navbar isHomepage={false} />
-      <div className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#FC7CA4] selection:text-black">
-        {/* Gallery */}
-        {isLoading ? (
-          <div className="flex h-screen items-center justify-center">
-            <div className="text-[var(--accent)] animate-pulse uppercase tracking-widest text-xs">Loading artifacts...</div>
+    <main className="min-h-screen bg-stone-50 pb-20 relative">
+      {/* Sticky Header / Hero Section */}
+      <section className="sticky top-0 z-40 bg-stone-50/90 backdrop-blur-md border-b border-stone-200 py-12 px-6 md:px-12 transition-all duration-300">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-6">
+          <div className="max-w-2xl">
+            <h1 className="font-serif text-4xl md:text-6xl text-stone-900 leading-tight">
+              Curating digital experiences for the world's most extraordinary destinations.
+            </h1>
           </div>
-        ) : portfolio.length === 0 ? (
-          <div className="flex h-screen items-center justify-center">
-            <div className="text-gray-400 text-center">
-              <p className="text-lg mb-2">No portfolio items yet</p>
-              <p className="text-sm">Check back soon for our latest work</p>
-            </div>
+          <div className="flex flex-col items-end">
+            <p className="font-sans text-sm tracking-widest uppercase text-stone-500 mb-2">
+              Selected Works
+            </p>
+            <p className="font-serif italic text-stone-400">
+              2023 — 2026
+            </p>
           </div>
-        ) : (
-          <HorizontalGallery items={portfolio} />
-        )}
-      </div>
-    </>
+        </div>
+      </section>
+
+      {/* Grid Section */}
+      <section className="px-6 md:px-12 py-16 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+          {PORTFOLIO_PROJECTS.map((project) => (
+            <Postcard key={project.id} project={project} />
+          ))}
+        </div>
+      </section>
+
+      {/* Footer / Contact teaser */}
+      <section className="px-6 py-24 text-center">
+        <p className="font-serif text-2xl text-stone-600 italic mb-6">
+          "The journey is the destination."
+        </p>
+        <button className="px-8 py-3 bg-stone-900 text-stone-50 font-sans text-sm tracking-widest uppercase hover:bg-stone-700 transition-colors duration-300">
+          Start a Project
+        </button>
+      </section>
+
+      {/* AI Chat Widget */}
+      <ChatWidget />
+    </main>
   );
 }
