@@ -12,9 +12,9 @@ export interface Project {
 export const PORTFOLIO_PROJECTS_EN: Project[] = [
   {
     id: '1',
-    clientName: 'Azulik',
-    location: 'Tulum, Mexico',
-    imageUrl: 'https://picsum.photos/id/10/800/1200', // Forest/Nature
+    clientName: 'UGC & TRAVEL CONTENT',
+    location: 'TRAVEL BLOG CONTENT & COLLABORATIONS',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/1_vd47a8.jpg', // Forest/Nature
     testimonial: "Wanderlust Creative captured the soul of our sanctuary. The visual narrative they wove is as organic as our architecture.",
     testimonialAuthor: 'Eduardo Neira, Founder',
     services: ['Brand Strategy', 'Visual Identity', 'Social Curation'],
@@ -75,9 +75,9 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
 export const PORTFOLIO_PROJECTS_ES: Project[] = [
   {
     id: '1',
-    clientName: 'Azulik',
-    location: 'Tulum, México',
-    imageUrl: 'https://picsum.photos/id/10/800/1200',
+    clientName: 'UGC & TRAVEL CONTENT',
+    location: 'TRAVEL BLOG CONTENT & COLLABORATIONS',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/1_vd47a8.jpg',
     testimonial: "Wanderlust Creative capturó el alma de nuestro santuario. La narrativa visual que tejieron es tan orgánica como nuestra arquitectura.",
     testimonialAuthor: 'Eduardo Neira, Fundador',
     services: ['Estrategia de Marca', 'Identidad Visual', 'Curaduría Social'],
