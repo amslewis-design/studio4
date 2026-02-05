@@ -32,9 +32,9 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
   },
   {
     id: '3',
-    clientName: 'Scarabeo Camp',
-    location: 'Agafay Desert, Morocco',
-    imageUrl: 'https://picsum.photos/id/1044/800/1200', // Desert/Horizon
+    clientName: 'EXPRESSARTE UK',
+    location: 'SOCIAL MEDIA MANAGEMENT, PHOTOGRAPHY AND VIDEO',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261223/3_oopuab.jpg', // Desert/Horizon
     testimonial: "They translated the silence of the desert into a digital language. Minimalist, impactful, and beautiful.",
     testimonialAuthor: 'Florence & Vincent, Owners',
     services: ['Photography', 'Website Redesign', 'Booking Integration'],
@@ -95,9 +95,9 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
   },
   {
     id: '3',
-    clientName: 'Scarabeo Camp',
-    location: 'Desierto de Agafay, Marruecos',
-    imageUrl: 'https://picsum.photos/id/1044/800/1200',
+    clientName: 'EXPRESSARTE UK',
+    location: 'SOCIAL MEDIA MANAGEMENT, PHOTOGRAPHY AND VIDEO',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261223/3_oopuab.jpg',
     testimonial: "Tradujeron el silencio del desierto a un lenguaje digital. Minimalista, impactante y hermoso.",
     testimonialAuthor: 'Florence & Vincent, Propietarios',
     services: ['Fotografía', 'Rediseño Web', 'Integración de Reservas'],
