@@ -52,9 +52,9 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
   },
   {
     id: '5',
-    clientName: 'Amangiri',
-    location: 'Utah, USA',
-    imageUrl: 'https://picsum.photos/id/1016/800/1200', // Canyons
+    clientName: 'ESTUDIA EN IRLANDA',
+    location: 'LIFESTYLE CONTENT',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/4_zgubqk.jpg', // Canyons
     testimonial: "Our guests expect perfection. Wanderlust Creative delivered a seamless digital extension of our guest experience.",
     testimonialAuthor: 'General Manager',
     services: ['App Development', 'UX/UI', 'Member Portal'],
@@ -115,9 +115,9 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
   },
   {
     id: '5',
-    clientName: 'Amangiri',
-    location: 'Utah, EE. UU.',
-    imageUrl: 'https://picsum.photos/id/1016/800/1200',
+    clientName: 'ESTUDIA EN IRLANDA',
+    location: 'LIFESTYLE CONTENT',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/4_zgubqk.jpg',
     testimonial: "Nuestros huéspedes esperan perfección. Wanderlust Creative entregó una extensión digital perfecta de nuestra experiencia.",
     testimonialAuthor: 'Gerente General',
     services: ['Desarrollo de Apps', 'UX/UI', 'Portal de Miembros'],
