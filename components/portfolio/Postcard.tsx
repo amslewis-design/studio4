@@ -67,8 +67,13 @@ export function Postcard({ project }: PostcardProps) {
                 {/* Right Side: Address/Stamp Area */}
                 <div className="w-1/3 flex flex-col items-center pt-2">
                     {/* Stamp Placeholder */}
-                    <div className="w-16 h-20 border border-white/20 border-dashed bg-white/5 flex items-center justify-center mb-12 self-end mr-2">
-                        <span className="text-[10px] text-white/30 uppercase rotate-45">Postage</span>
+                    <div className="w-16 h-16 relative mb-12 self-end mr-2 opacity-80 rotate-12">
+                         <Image 
+                            src="https://res.cloudinary.com/ds86m2xm0/image/upload/v1770262399/Sassy-studio_blanco_dws1ux.png" 
+                            alt="Sassy Studio Stamp" 
+                            fill
+                            className="object-contain drop-shadow-md"
+                        />
                     </div>
 
                     {/* Services Tags */}
