@@ -30,7 +30,7 @@ export function Postcard({ project }: PostcardProps) {
               src={project.imageUrl}
               alt={project.clientName}
               fill
-              className="object-cover transition-all duration-700 filter grayscale group-hover:grayscale-0"
+              className="object-cover transition-all duration-700"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             {/* Gradient Overlay */}

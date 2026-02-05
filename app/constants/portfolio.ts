@@ -22,9 +22,9 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
   },
   {
     id: '2',
-    clientName: 'The Retreat',
-    location: 'Blue Lagoon, Iceland',
-    imageUrl: 'https://picsum.photos/id/1036/800/1200', // Snow/Ice
+    clientName: 'SOTA LOS ANGELES',
+    location: 'LIFESTYLE CONTENT',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/2_lvrwrq.jpg', // Snow/Ice
     testimonial: "An ethereal digital presence that mirrors our volcanic landscape. Truly sophisticated storytelling.",
     testimonialAuthor: 'Sigríður Sigurðardóttir, CMO',
     services: ['Web Design', 'Content Direction', 'SEO'],
@@ -85,9 +85,9 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
   },
   {
     id: '2',
-    clientName: 'The Retreat',
-    location: 'Blue Lagoon, Islandia',
-    imageUrl: 'https://picsum.photos/id/1036/800/1200',
+    clientName: 'SOTA LOS ANGELES',
+    location: 'LIFESTYLE CONTENT',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/2_lvrwrq.jpg',
     testimonial: "Una presencia digital etérea que refleja nuestro paisaje volcánico. Una narración verdaderamente sofisticada.",
     testimonialAuthor: 'Sigríður Sigurðardóttir, CMO',
     services: ['Diseño Web', 'Dirección de Contenido', 'SEO'],
