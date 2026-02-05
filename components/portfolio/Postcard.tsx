@@ -86,7 +86,7 @@ export function Postcard({ project }: PostcardProps) {
 
             {/* Bottom Branding */}
             <div className="w-full text-center mt-4 pt-4 border-t border-white/10">
-                <span className="font-serif text-white/30 text-xs italic">Wanderlust Creative Co.</span>
+                <span className="font-serif text-white/30 text-xs italic">Sassy Studio - Digital Stories</span>
             </div>
         </div>
       </div>
