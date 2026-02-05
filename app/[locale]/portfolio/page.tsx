@@ -1,49 +1,62 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { PortfolioItem } from '@/lib/types';
-import { storageService } from '@/lib/services/storageService';
-import HorizontalGallery from '@/components/portfolio/HorizontalGallery';
+import React from 'react';
+import { useLocale } from 'next-intl';
 import Navbar from '@/app/components/Navbar';
+import { Postcard } from '@/components/portfolio/Postcard';
+import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from '@/app/constants/portfolio';
+
+// Custom hook to map locale to projects
+const usePortfolioProjects = () => {
+  const locale = useLocale();
+  return locale === 'es' ? PORTFOLIO_PROJECTS_ES : PORTFOLIO_PROJECTS_EN;
+};
 
 export default function PortfolioPage() {
-  const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const loadPortfolio = async () => {
-      try {
-        const data = storageService.getPortfolio();
-        setPortfolio(data);
-      } catch (error) {
-        console.error('Failed to load portfolio:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadPortfolio();
-  }, []);
+  const projects = usePortfolioProjects();
 
   return (
     <>
       <Navbar isHomepage={false} />
-      <div className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#FC7CA4] selection:text-black">
-        {/* Gallery */}
-        {isLoading ? (
-          <div className="flex h-screen items-center justify-center">
-            <div className="text-[var(--accent)] animate-pulse uppercase tracking-widest text-xs">Loading artifacts...</div>
-          </div>
-        ) : portfolio.length === 0 ? (
-          <div className="flex h-screen items-center justify-center">
-            <div className="text-gray-400 text-center">
-              <p className="text-lg mb-2">No portfolio items yet</p>
-              <p className="text-sm">Check back soon for our latest work</p>
+      <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-rose-500/30 selection:text-rose-200 overflow-x-hidden">
+        
+        {/* Hero Section */}
+        <section className="relative px-6 pt-32 pb-16 md:px-12 md:pt-48 md:pb-32 max-w-[1800px] mx-auto">
+             <div className="max-w-4xl">
+                <span className="font-sans text-xs font-bold tracking-[0.2em] text-[var(--accent)] uppercase mb-6 block">
+                  Selected Work (2023 — 2025)
+                </span>
+                <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-white/90 mb-8 max-w-3xl">
+                  Curating digital <br />
+                  destinations.
+                </h1>
+                <p className="font-sans text-sm md:text-base tracking-wide text-white/60 max-w-xl leading-relaxed border-l border-white/10 pl-6">
+                  A collection of digital artifacts designed for the world's most exclusive hospitality brands. 
+                  We don't just build websites; we craft stamps in your passport.
+                </p>
             </div>
-          </div>
-        ) : (
-          <HorizontalGallery items={portfolio} />
-        )}
+        </section>
+
+        {/* Postcard Grid */}
+        <section className="px-6 pb-32 md:px-12 max-w-[1800px] mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-24">
+                {projects.map((project, index) => (
+                    <div 
+                        key={project.id} 
+                        className={`${index % 2 === 1 ? 'md:translate-y-24' : ''} ${index % 3 === 1 ? 'lg:translate-y-32' : ''}`}
+                    >
+                        <Postcard project={project} />
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        {/* Footer Note */}
+        <section className="py-24 border-t border-white/5 text-center">
+             <p className="font-serif italic text-white/30 text-2xl">
+                "To travel is to live."
+             </p>
+        </section>
       </div>
     </>
   );
