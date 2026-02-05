@@ -59,9 +59,11 @@ export function Postcard({ project }: PostcardProps) {
                     <p className="font-serif italic text-white/80 text-sm leading-relaxed">
                         "{project.testimonial}"
                     </p>
-                    <p className="font-sans text-xs font-bold text-[var(--accent)] uppercase tracking-wider">
-                         — {project.testimonialAuthor}
-                    </p>
+                    {project.testimonialAuthor && (
+                        <p className="font-sans text-xs font-bold text-[var(--accent)] uppercase tracking-wider">
+                            — {project.testimonialAuthor}
+                        </p>
+                    )}
                 </div>
 
                 {/* Right Side: Address/Stamp Area */}

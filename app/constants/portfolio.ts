@@ -4,7 +4,7 @@ export interface Project {
   location: string;
   imageUrl: string;
   testimonial: string;
-  testimonialAuthor: string;
+  testimonialAuthor?: string;
   services: string[];
   year: string;
 }
@@ -36,7 +36,6 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
     location: 'SOCIAL MEDIA MANAGEMENT, PHOTOGRAPHY AND VIDEO',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261223/3_oopuab.jpg', // Desert/Horizon
     testimonial: "We spearheaded the digital promotion for London’s premier Mexican Independence Day celebration. We developed a comprehensive strategic content framework and social media calendar, collaborating closely with guest artists and sponsors to amplify the event's reach. Our team executed end-to-end content production and managed targeted Facebook ad campaigns designed to drive ticket sales and brand awareness. Furthermore, we provided comprehensive live coverage, capturing the energy of the event through professional photography and videography for real-time social engagement.",
-    testimonialAuthor: 'Expressarte UK Team',
     services: ['Strategy', 'Content Production', 'Ads', 'Live Coverage'],
     year: '2023'
   },
@@ -98,9 +97,8 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     clientName: 'EXPRESSARTE UK',
     location: 'SOCIAL MEDIA MANAGEMENT, PHOTOGRAPHY AND VIDEO',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261223/3_oopuab.jpg',
-    testimonial: "Tradujeron el silencio del desierto a un lenguaje digital. Minimalista, impactante y hermoso.",
-    testimonialAuthor: 'Florence & Vincent, Propietarios',
-    services: ['Fotografía', 'Rediseño Web', 'Integración de Reservas'],
+    testimonial: "Lideramos la promoción digital para la celebración más importante del Día de la Independencia de México en Londres. Desarrollamos un marco estratégico integral de contenido y un calendario de redes sociales, colaborando estrechamente con artistas invitados y patrocinadores para amplificar el alcance del evento. Nuestro equipo ejecutó la producción de contenido de principio a fin y gestionó campañas publicitarias específicas en Facebook diseñadas para impulsar la venta de entradas y el reconocimiento de la marca. Además, proporcionamos una cobertura en vivo completa, capturando la energía del evento a través de fotografía y videografía profesional para la interacción social en tiempo real.",
+    services: ['Estrategia', 'Producción de Contenido', 'Anuncios', 'Cobertura en Vivo'],
     year: '2025'
   },
   {
