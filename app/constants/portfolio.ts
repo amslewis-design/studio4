@@ -42,9 +42,9 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
   },
   {
     id: '4',
-    clientName: 'Fogo Island Inn',
-    location: 'Newfoundland, Canada',
-    imageUrl: 'https://picsum.photos/id/1015/800/1200', // Rocky coast/Sea
+    clientName: 'CASAS DEL ACANTILADO',
+    location: 'LIFESTYLE PHOTOGRAPHY',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261224/5_cfkwxi.jpg', // Rocky coast/Sea
     testimonial: "A masterclass in restraint. They let the raw beauty of our island speak through the design.",
     testimonialAuthor: 'Zita Cobb, Innkeeper',
     services: ['Digital Strategy', 'Editorial Content', 'Film'],
@@ -105,9 +105,9 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
   },
   {
     id: '4',
-    clientName: 'Fogo Island Inn',
-    location: 'Terranova, Canadá',
-    imageUrl: 'https://picsum.photos/id/1015/800/1200',
+    clientName: 'CASAS DEL ACANTILADO',
+    location: 'LIFESTYLE PHOTOGRAPHY',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261224/5_cfkwxi.jpg',
     testimonial: "Una clase magistral de moderación. Dejaron que la belleza cruda de nuestra isla hablara a través del diseño.",
     testimonialAuthor: 'Zita Cobb, Posadera',
     services: ['Estrategia Digital', 'Contenido Editorial', 'Cine'],
