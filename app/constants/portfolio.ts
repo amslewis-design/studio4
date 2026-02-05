@@ -35,10 +35,10 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
     clientName: 'EXPRESSARTE UK',
     location: 'SOCIAL MEDIA MANAGEMENT, PHOTOGRAPHY AND VIDEO',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261223/3_oopuab.jpg', // Desert/Horizon
-    testimonial: "They translated the silence of the desert into a digital language. Minimalist, impactful, and beautiful.",
-    testimonialAuthor: 'Florence & Vincent, Owners',
-    services: ['Photography', 'Website Redesign', 'Booking Integration'],
-    year: '2025'
+    testimonial: "We spearheaded the digital promotion for London’s premier Mexican Independence Day celebration. We developed a comprehensive strategic content framework and social media calendar, collaborating closely with guest artists and sponsors to amplify the event's reach. Our team executed end-to-end content production and managed targeted Facebook ad campaigns designed to drive ticket sales and brand awareness. Furthermore, we provided comprehensive live coverage, capturing the energy of the event through professional photography and videography for real-time social engagement.",
+    testimonialAuthor: 'Expressarte UK Team',
+    services: ['Strategy', 'Content Production', 'Ads', 'Live Coverage'],
+    year: '2023'
   },
   {
     id: '4',
