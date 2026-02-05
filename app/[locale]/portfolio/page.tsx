@@ -26,14 +26,11 @@ export default function PortfolioPage() {
                 <span className="font-sans text-xs font-bold tracking-[0.2em] text-[var(--accent)] uppercase mb-6 block">
                   Selected Work (2023 — 2025)
                 </span>
+
                 <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-white/90 mb-8 max-w-3xl">
                   Curating digital <br />
                   destinations.
                 </h1>
-                <p className="font-sans text-sm md:text-base tracking-wide text-white/60 max-w-xl leading-relaxed border-l border-white/10 pl-6">
-                  A collection of digital artifacts designed for the world's most exclusive hospitality brands. 
-                  We don't just build websites; we craft stamps in your passport.
-                </p>
             </div>
         </section>
 
