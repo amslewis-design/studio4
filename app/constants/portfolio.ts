@@ -9,7 +9,7 @@ export interface Project {
   year: string;
 }
 
-export const PORTFOLIO_PROJECTS: Project[] = [
+export const PORTFOLIO_PROJECTS_EN: Project[] = [
   {
     id: '1',
     clientName: 'Azulik',
@@ -68,6 +68,69 @@ export const PORTFOLIO_PROJECTS: Project[] = [
     testimonial: "Warmth, history, and modernity tailored into one cohesive brand story. Exceptional work.",
     testimonialAuthor: 'Sofia Silva, Marketing Director',
     services: ['Rebranding', 'Print Collateral', 'Digital Marketing'],
+    year: '2025'
+  }
+];
+
+export const PORTFOLIO_PROJECTS_ES: Project[] = [
+  {
+    id: '1',
+    clientName: 'Azulik',
+    location: 'Tulum, México',
+    imageUrl: 'https://picsum.photos/id/10/800/1200',
+    testimonial: "Wanderlust Creative capturó el alma de nuestro santuario. La narrativa visual que tejieron es tan orgánica como nuestra arquitectura.",
+    testimonialAuthor: 'Eduardo Neira, Fundador',
+    services: ['Estrategia de Marca', 'Identidad Visual', 'Curaduría Social'],
+    year: '2025'
+  },
+  {
+    id: '2',
+    clientName: 'The Retreat',
+    location: 'Blue Lagoon, Islandia',
+    imageUrl: 'https://picsum.photos/id/1036/800/1200',
+    testimonial: "Una presencia digital etérea que refleja nuestro paisaje volcánico. Una narración verdaderamente sofisticada.",
+    testimonialAuthor: 'Sigríður Sigurðardóttir, CMO',
+    services: ['Diseño Web', 'Dirección de Contenido', 'SEO'],
+    year: '2024'
+  },
+  {
+    id: '3',
+    clientName: 'Scarabeo Camp',
+    location: 'Desierto de Agafay, Marruecos',
+    imageUrl: 'https://picsum.photos/id/1044/800/1200',
+    testimonial: "Tradujeron el silencio del desierto a un lenguaje digital. Minimalista, impactante y hermoso.",
+    testimonialAuthor: 'Florence & Vincent, Propietarios',
+    services: ['Fotografía', 'Rediseño Web', 'Integración de Reservas'],
+    year: '2025'
+  },
+  {
+    id: '4',
+    clientName: 'Fogo Island Inn',
+    location: 'Terranova, Canadá',
+    imageUrl: 'https://picsum.photos/id/1015/800/1200',
+    testimonial: "Una clase magistral de moderación. Dejaron que la belleza cruda de nuestra isla hablara a través del diseño.",
+    testimonialAuthor: 'Zita Cobb, Posadera',
+    services: ['Estrategia Digital', 'Contenido Editorial', 'Cine'],
+    year: '2023'
+  },
+  {
+    id: '5',
+    clientName: 'Amangiri',
+    location: 'Utah, EE. UU.',
+    imageUrl: 'https://picsum.photos/id/1016/800/1200',
+    testimonial: "Nuestros huéspedes esperan perfección. Wanderlust Creative entregó una extensión digital perfecta de nuestra experiencia.",
+    testimonialAuthor: 'Gerente General',
+    services: ['Desarrollo de Apps', 'UX/UI', 'Portal de Miembros'],
+    year: '2024'
+  },
+  {
+    id: '6',
+    clientName: 'Six Senses',
+    location: 'Valle del Duero, Portugal',
+    imageUrl: 'https://picsum.photos/id/114/800/1200',
+    testimonial: "Calidez, historia y modernidad adaptadas en una historia de marca cohesiva. Un trabajo excepcional.",
+    testimonialAuthor: 'Sofia Silva, Directora de Marketing',
+    services: ['Rebranding', 'Material Impreso', 'Marketing Digital'],
     year: '2025'
   }
 ];
