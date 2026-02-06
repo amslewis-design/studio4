@@ -72,6 +72,11 @@
     "body": "Definimos el criterio editorial de tu marca y lo convertimos en contenido visual que se nota en redes, con una presencia digital coherente y bien ejecutada. Dirigimos el trabajo como estudio boutique y lo implementamos con una red curada entre Ciudad de México, Los Ángeles y Reino Unido, para que tu marca se vea internacional sin perder su esencia.",
     "cta": "Conoce nuestros servicios"
   },
+  "portfolio": {
+    "title": "Nuestro Portafolio",
+    "description": "Explora nuestros proyectos y transformaciones más recientes en espacios de hospitalidad y lifestyle.",
+    "viewFullPortfolio": "Ver Portafolio Completo"
+  },
   "blog": {
     "title": "El Diario del Estudio",
     "journal": "Diario",
@@ -111,7 +116,8 @@
       "sendMessage": "Enviar mensaje",
       "sending": "Enviando...",
       "successMessage": "Mensaje recibido",
-      "successText": "Gracias. Hemos recibido tus detalles y nos pondremos en contacto en {email}."
+      "successText": "Gracias. Hemos recibido tus detalles y nos pondremos en contacto en {email}.",
+      "errorMessage": "Algo salió mal. Por favor, inténtalo de nuevo."
     },
     "projectTypes": {
       "photography": "Fotografía y Video",

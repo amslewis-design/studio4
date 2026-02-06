@@ -72,6 +72,11 @@
     "body": "We define your brand's editorial criteria and transform it into visual content that stands out on social media, with a coherent and well-executed digital presence. We direct the work as a boutique studio and implement it with a curated network spanning Mexico City, Los Angeles, and the United Kingdom, so your brand looks international without losing its essence.",
     "cta": "Explore our services"
   },
+  "portfolio": {
+    "title": "Our Portfolio",
+    "description": "Explore our latest projects and transformations across hospitality and lifestyle spaces.",
+    "viewFullPortfolio": "View Full Portfolio"
+  },
   "blog": {
     "title": "The Studio Journal",
     "journal": "Journal",
@@ -111,7 +116,8 @@
       "sendMessage": "Send message",
       "sending": "Sending...",
       "successMessage": "Message received",
-      "successText": "Thank you. We've received your details and will contact you at {email}."
+      "successText": "Thank you. We've received your details and will contact you at {email}.",
+      "errorMessage": "Something went wrong. Please try again."
     },
     "projectTypes": {
       "photography": "Photography & Video",

@@ -243,7 +243,7 @@ function ConsultationModal({
 
                   {status === "error" && (
                     <p className="text-red-400 text-[10px] uppercase tracking-widest text-center">
-                      Something went wrong. Please try again.
+                      {tContact('form.errorMessage')}
                     </p>
                   )}
                 </form>
@@ -261,6 +261,7 @@ export default function Preview() {
   const tApproach = useTranslations('approach');
   const tEditorial = useTranslations('editorialPhilosophy');
   const tBlog = useTranslations('blog');
+  const tPortfolio = useTranslations('portfolio');
   const tContact = useTranslations('contact');
   const tHero = useTranslations('hero');
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
@@ -789,10 +790,10 @@ const services = useMemo(
               className="text-5xl md:text-7xl font-serif mb-8 tracking-tight text-white"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             >
-              Our Portfolio
+              {tPortfolio('title')}
             </h2>
             <p className="text-gray-500 font-light leading-relaxed max-w-2xl mx-auto mb-8">
-              Explore our latest projects and transformations across hospitality and lifestyle spaces.
+              {tPortfolio('description')}
             </p>
             <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
           </motion.div>
@@ -818,7 +819,7 @@ const services = useMemo(
               className="border border-white/15 text-white/80 px-8 md:px-12 py-3 md:py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
               style={{ borderRadius: "var(--btn-radius)" }}
             >
-              View Full Portfolio
+              {tPortfolio('viewFullPortfolio')}
             </Link>
           </div>
         </div>
