@@ -576,11 +576,9 @@ const services = useMemo(
             className="text-center mt-16"
           >
             <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto mb-8">
-              Our luxury hospitality content services combine high-end photography with strategic brand 
-              positioning to help boutique hotels and restaurants in Mexico City stand out in the competitive 
-              hospitality market. <Link href="/en/services" className="text-[var(--accent)] hover:underline">
-                Explore our services
-              </Link> to transform your brand's digital presence.
+              {tServices('servicesDescription')} <Link href="/services" className="text-[var(--accent)] hover:underline">
+                {tServices('exploreServices')}
+              </Link> {tServices('transformPresence')}
             </p>
           </motion.div>
         </div>
