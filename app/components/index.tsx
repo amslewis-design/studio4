@@ -4,9 +4,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from 'next/dynamic';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { AnimatePresence, motion } from "framer-motion";
 import { SiteSettings } from "@/lib/types";
+import { Postcard } from "@/components/portfolio/Postcard";
+import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from "@/app/constants/portfolio";
 
 const HeroCarousel = dynamic(() => import("./HeroCarousel"), {
   loading: () => <div className="w-full h-full bg-[#1a1a1a]" />,
@@ -345,32 +347,8 @@ const services = useMemo(
   );
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [portfolio, setPortfolio] = useState<any[]>([]);
-
-  // Lazy load portfolio from localStorage
-  useEffect(() => {
-    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      requestIdleCallback(() => {
-        try {
-          const portfolioData = JSON.parse(localStorage.getItem('sassy_portfolio') || '[]').slice(0, 6);
-          setPortfolio(portfolioData);
-        } catch (error) {
-          console.error('Failed to load portfolio:', error);
-          setPortfolio([]);
-        }
-      });
-    } else {
-      setTimeout(() => {
-        try {
-          const portfolioData = JSON.parse(localStorage.getItem('sassy_portfolio') || '[]').slice(0, 6);
-          setPortfolio(portfolioData);
-        } catch (error) {
-          console.error('Failed to load portfolio:', error);
-          setPortfolio([]);
-        }
-      }, 100);
-    }
-  }, []);
+  const locale = useLocale();
+  const portfolioProjects = locale === 'es' ? PORTFOLIO_PROJECTS_ES : PORTFOLIO_PROJECTS_EN;
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -819,48 +797,19 @@ const services = useMemo(
             <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
-            {portfolio.length === 0 ? (
-              <div className="col-span-full text-center text-gray-400 py-12">
-                <p>No portfolio items yet. Check back soon for our latest work.</p>
-              </div>
-            ) : (
-              portfolio.map((item: any, idx: number) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: idx * 0.1 }}
-                    className="group relative overflow-hidden bg-[#0a0a0a] border border-white/10 cursor-pointer"
-                  >
-                    <div className="relative w-full aspect-square overflow-hidden bg-[#1a1a1a]">
-                      <Image
-                        src={item.imageUrl}
-                        alt={item.clientName}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300 grayscale group-hover:grayscale-0"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
-                    </div>
-
-                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black via-black/80 to-transparent translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <div className="space-y-2">
-                        <span className="text-xs md:text-sm font-medium uppercase tracking-wider text-[var(--accent)]">
-                          {item.category}
-                        </span>
-                        <h3 className="text-lg md:text-xl font-serif font-semibold text-white group-hover:text-[var(--accent)] transition-colors duration-300">
-                          {item.clientName}
-                        </h3>
-                        <p className="text-sm text-gray-300 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))
-            )}
+          <div className="flex overflow-x-auto gap-6 md:gap-8 pb-12 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+            {portfolioProjects.slice(0, 6).map((project, idx) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="min-w-[85vw] md:min-w-[400px] snap-center flex-shrink-0"
+              >
+                <Postcard project={project} />
+              </motion.div>
+            ))}
           </div>
 
           <div className="text-center">
