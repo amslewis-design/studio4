@@ -35,7 +35,6 @@ function ConsultationModal({
   onClose: () => void;
 }) {
   const tContact = useTranslations('contact');
-  const tCommon = useTranslations('common');
   const [result, setResult] = useState("");
 
   const onSubmit = async (event: any) => {
