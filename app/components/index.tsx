@@ -4,11 +4,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from 'next/dynamic';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from "framer-motion";
 import { SiteSettings } from "@/lib/types";
-import { Postcard } from "@/components/portfolio/Postcard";
-import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from "@/app/constants/portfolio";
 
 const HeroCarousel = dynamic(() => import("./HeroCarousel"), {
   loading: () => <div className="w-full h-full bg-[#1a1a1a]" />,
@@ -17,6 +15,8 @@ const HeroSlideshow = dynamic(() => import("./HeroSlideshow"), {
   loading: () => <div className="w-full h-full bg-[#1a1a1a]" />,
 });
 import Navbar from "./Navbar";
+
+type ConsultationStatus = "idle" | "loading" | "success" | "error";
 
 type BlogPost = {
   title: string;
@@ -35,27 +35,33 @@ function ConsultationModal({
   onClose: () => void;
 }) {
   const tContact = useTranslations('contact');
-  const [result, setResult] = useState("");
+  const tCommon = useTranslations('common');
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    brand: "",
+    projectType: tContact('projectTypes.photography'),
+    message: "",
+    // Honeypot (should remain empty)
+    companyWebsite: "",
+  });
+  const [status, setStatus] = useState<ConsultationStatus>("idle");
 
-  const onSubmit = async (event: any) => {
-    event.preventDefault();
-    setResult("Sending...");
-    const formData = new FormData(event.target);
-    formData.append("access_key", "ecc15eb8-54e8-4e41-ab55-4420220a880f");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
 
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData
-    });
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    const data = await response.json();
-    setResult(data.success ? "Success!" : "Error");
-    
-    if (data.success) {
-      setTimeout(() => {
-        onClose();
-        setResult("");
-      }, 3000);
+      if (!res.ok) throw new Error("Request failed");
+      setStatus("success");
+    } catch {
+      setStatus("error");
     }
   };
 
@@ -96,7 +102,7 @@ function ConsultationModal({
             </div>
 
             <div className="flex-1 p-8 md:p-12 overflow-y-auto max-h-[85vh]">
-              {result === "Success!" ? (
+              {status === "success" ? (
                 <div className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12">
                   <div className="w-20 h-20 bg-[var(--accent)]/10 rounded-full flex items-center justify-center text-[var(--accent)] text-4xl">
                     ✧
@@ -108,33 +114,106 @@ function ConsultationModal({
                     >
                       {tContact('form.successMessage')}
                     </h3>
+                    <p className="text-sm text-gray-400 max-w-sm mx-auto leading-relaxed">
+                      {tContact('form.successText').replace('{email}', formData.email || "your email")}
+                    </p>
                   </div>
+                  <button
+                    onClick={() => {
+                      setStatus("idle");
+                      onClose();
+                    }}
+                    className="w-full max-w-xs bg-[var(--accent)] text-white py-5 uppercase tracking-[0.4em] text-[10px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl"
+                    style={{ borderRadius: "var(--btn-radius)" }}
+                  >
+                    {tCommon('backToSite')}
+                  </button>
                 </div>
               ) : (
-                <form onSubmit={onSubmit} className="space-y-8">
-                  <div className="space-y-2">
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  {/* Honeypot field (anti-spam). Keep hidden from users. */}
+                  <div className="hidden" aria-hidden="true">
                     <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                      {tContact('form.name')}
+                      Company website
                     </label>
                     <input
-                      type="text"
-                      name="name"
-                      required
-                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
-                      placeholder={tContact('form.namePlaceholder')}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      className="w-full bg-black/40 border border-white/10 p-4 text-sm"
+                      value={formData.companyWebsite}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          companyWebsite: e.target.value,
+                        })
+                      }
+                      placeholder="https://"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                      {tContact('form.email')}
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
-                      placeholder={tContact('form.emailPlaceholder')}
-                    />
+
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                        {tContact('form.name')}
+                      </label>
+                      <input
+                        required
+                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                        placeholder={tContact('form.namePlaceholder')}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                        {tContact('form.email')}
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                        placeholder={tContact('form.emailPlaceholder')}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                        {tContact('form.brand')}
+                      </label>
+                      <input
+                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
+                        value={formData.brand}
+                        onChange={(e) =>
+                          setFormData({ ...formData, brand: e.target.value })
+                        }
+                        placeholder={tContact('form.brandPlaceholder')}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                        {tContact('form.projectType')}
+                      </label>
+                      <select
+                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300 uppercase tracking-widest"
+                        value={formData.projectType}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            projectType: e.target.value,
+                          })
+                        }
+                      >
+                        <option>{tContact('projectTypes.photography')}</option>
+                        <option>{tContact('projectTypes.socialContent')}</option>
+                        <option>{tContact('projectTypes.brandStrategy')}</option>
+                        <option>{tContact('projectTypes.websiteContent')}</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div className="space-y-2">
@@ -142,23 +221,29 @@ function ConsultationModal({
                       {tContact('form.message')}
                     </label>
                     <textarea
-                      name="message"
-                      required
                       rows={4}
                       className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300 resize-none"
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
                       placeholder={tContact('form.messagePlaceholder')}
                     />
                   </div>
 
                   <button
-                    type="submit"
-                    className="w-full bg-[var(--accent)] text-white py-5 uppercase tracking-[0.5em] text-[11px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl"
+                    disabled={status === "loading"}
+                    className="w-full bg-[var(--accent)] text-white py-5 uppercase tracking-[0.5em] text-[11px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl disabled:opacity-50"
                     style={{ borderRadius: "var(--btn-radius)" }}
                   >
-                    Submit
+                    {status === "loading" ? tCommon('sending') : tContact('form.sendMessage')}
                   </button>
-                  <p>{result}</p>
 
+                  {status === "error" && (
+                    <p className="text-red-400 text-[10px] uppercase tracking-widest text-center">
+                      Something went wrong. Please try again.
+                    </p>
+                  )}
                 </form>
               )}
             </div>
@@ -174,7 +259,6 @@ export default function Preview() {
   const tApproach = useTranslations('approach');
   const tEditorial = useTranslations('editorialPhilosophy');
   const tBlog = useTranslations('blog');
-  const tPortfolio = useTranslations('portfolio');
   const tContact = useTranslations('contact');
   const tHero = useTranslations('hero');
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
@@ -261,8 +345,32 @@ const services = useMemo(
   );
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const locale = useLocale();
-  const portfolioProjects = locale === 'es' ? PORTFOLIO_PROJECTS_ES : PORTFOLIO_PROJECTS_EN;
+  const [portfolio, setPortfolio] = useState<any[]>([]);
+
+  // Lazy load portfolio from localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        try {
+          const portfolioData = JSON.parse(localStorage.getItem('sassy_portfolio') || '[]').slice(0, 6);
+          setPortfolio(portfolioData);
+        } catch (error) {
+          console.error('Failed to load portfolio:', error);
+          setPortfolio([]);
+        }
+      });
+    } else {
+      setTimeout(() => {
+        try {
+          const portfolioData = JSON.parse(localStorage.getItem('sassy_portfolio') || '[]').slice(0, 6);
+          setPortfolio(portfolioData);
+        } catch (error) {
+          console.error('Failed to load portfolio:', error);
+          setPortfolio([]);
+        }
+      }, 100);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -489,9 +597,11 @@ const services = useMemo(
             className="text-center mt-16"
           >
             <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto mb-8">
-              {tServices('servicesDescription')} <Link href="/services" className="text-[var(--accent)] hover:underline">
-                {tServices('exploreServices')}
-              </Link> {tServices('transformPresence')}
+              Our luxury hospitality content services combine high-end photography with strategic brand 
+              positioning to help boutique hotels and restaurants in Mexico City stand out in the competitive 
+              hospitality market. <Link href="/en/services" className="text-[var(--accent)] hover:underline">
+                Explore our services
+              </Link> to transform your brand's digital presence.
             </p>
           </motion.div>
         </div>
@@ -701,27 +811,56 @@ const services = useMemo(
               className="text-5xl md:text-7xl font-serif mb-8 tracking-tight text-white"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             >
-              {tPortfolio('title')}
+              Our Portfolio
             </h2>
             <p className="text-gray-500 font-light leading-relaxed max-w-2xl mx-auto mb-8">
-              {tPortfolio('description')}
+              Explore our latest projects and transformations across hospitality and lifestyle spaces.
             </p>
             <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
           </motion.div>
 
-          <div className="flex overflow-x-auto gap-6 md:gap-8 pb-12 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-            {portfolioProjects.slice(0, 6).map((project, idx) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="min-w-[85vw] md:min-w-[400px] snap-center flex-shrink-0"
-              >
-                <Postcard project={project} />
-              </motion.div>
-            ))}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+            {portfolio.length === 0 ? (
+              <div className="col-span-full text-center text-gray-400 py-12">
+                <p>No portfolio items yet. Check back soon for our latest work.</p>
+              </div>
+            ) : (
+              portfolio.map((item: any, idx: number) => (
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: idx * 0.1 }}
+                    className="group relative overflow-hidden bg-[#0a0a0a] border border-white/10 cursor-pointer"
+                  >
+                    <div className="relative w-full aspect-square overflow-hidden bg-[#1a1a1a]">
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.clientName}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300 grayscale group-hover:grayscale-0"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-black via-black/80 to-transparent translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                      <div className="space-y-2">
+                        <span className="text-xs md:text-sm font-medium uppercase tracking-wider text-[var(--accent)]">
+                          {item.category}
+                        </span>
+                        <h3 className="text-lg md:text-xl font-serif font-semibold text-white group-hover:text-[var(--accent)] transition-colors duration-300">
+                          {item.clientName}
+                        </h3>
+                        <p className="text-sm text-gray-300 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+            )}
           </div>
 
           <div className="text-center">
@@ -730,7 +869,7 @@ const services = useMemo(
               className="border border-white/15 text-white/80 px-8 md:px-12 py-3 md:py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
               style={{ borderRadius: "var(--btn-radius)" }}
             >
-              {tPortfolio('viewFullPortfolio')}
+              View Full Portfolio
             </Link>
           </div>
         </div>

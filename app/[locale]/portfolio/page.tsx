@@ -1,60 +1,56 @@
 'use client';
 
 import React from 'react';
-import { useLocale } from 'next-intl';
-import Navbar from '@/app/components/Navbar';
+import { useTranslations } from 'next-intl';
 import { Postcard } from '@/components/portfolio/Postcard';
-import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from '@/app/constants/portfolio';
-
-// Custom hook to map locale to projects
-const usePortfolioProjects = () => {
-  const locale = useLocale();
-  return locale === 'es' ? PORTFOLIO_PROJECTS_ES : PORTFOLIO_PROJECTS_EN;
-};
+import ChatWidget from '@/components/ChatWidget'; // Default import
+import { PORTFOLIO_PROJECTS } from '@/app/constants/portfolio';
 
 export default function PortfolioPage() {
-  const projects = usePortfolioProjects();
+  const t = useTranslations('portfolio'); // Assuming translation namespace exists, fallback is fine if not strict
 
   return (
-    <>
-      <Navbar isHomepage={false} />
-      <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-rose-500/30 selection:text-rose-200 overflow-x-hidden">
-        
-        {/* Hero Section */}
-        <section className="relative px-6 pt-32 pb-16 md:px-12 md:pt-48 md:pb-32 max-w-[1800px] mx-auto">
-             <div className="max-w-4xl">
-                <span className="font-sans text-xs font-bold tracking-[0.2em] text-[var(--accent)] uppercase mb-6 block">
-                  Selected Work (2023 — 2025)
-                </span>
+    <main className="min-h-screen bg-stone-50 pb-20 relative">
+      {/* Sticky Header / Hero Section */}
+      <section className="sticky top-0 z-40 bg-stone-50/90 backdrop-blur-md border-b border-stone-200 py-12 px-6 md:px-12 transition-all duration-300">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-6">
+          <div className="max-w-2xl">
+            <h1 className="font-serif text-4xl md:text-6xl text-stone-900 leading-tight">
+              Curating digital experiences for the world's most extraordinary destinations.
+            </h1>
+          </div>
+          <div className="flex flex-col items-end">
+            <p className="font-sans text-sm tracking-widest uppercase text-stone-500 mb-2">
+              Selected Works
+            </p>
+            <p className="font-serif italic text-stone-400">
+              2023 — 2026
+            </p>
+          </div>
+        </div>
+      </section>
 
-                <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-white/90 mb-8 max-w-3xl">
-                  Curating digital <br />
-                  destinations.
-                </h1>
-            </div>
-        </section>
+      {/* Grid Section */}
+      <section className="px-6 md:px-12 py-16 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+          {PORTFOLIO_PROJECTS.map((project) => (
+            <Postcard key={project.id} project={project} />
+          ))}
+        </div>
+      </section>
 
-        {/* Postcard Grid */}
-        <section className="px-6 pb-32 md:px-12 max-w-[1800px] mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-24">
-                {projects.map((project, index) => (
-                    <div 
-                        key={project.id} 
-                        className={`${index % 2 === 1 ? 'md:translate-y-24' : ''} ${index % 3 === 1 ? 'lg:translate-y-32' : ''}`}
-                    >
-                        <Postcard project={project} />
-                    </div>
-                ))}
-            </div>
-        </section>
+      {/* Footer / Contact teaser */}
+      <section className="px-6 py-24 text-center">
+        <p className="font-serif text-2xl text-stone-600 italic mb-6">
+          "The journey is the destination."
+        </p>
+        <button className="px-8 py-3 bg-stone-900 text-stone-50 font-sans text-sm tracking-widest uppercase hover:bg-stone-700 transition-colors duration-300">
+          Start a Project
+        </button>
+      </section>
 
-        {/* Footer Note */}
-        <section className="py-24 border-t border-white/5 text-center">
-             <p className="font-serif italic text-white/30 text-2xl">
-                "To travel is to live."
-             </p>
-        </section>
-      </div>
-    </>
+      {/* AI Chat Widget */}
+      <ChatWidget />
+    </main>
   );
 }
