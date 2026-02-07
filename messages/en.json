@@ -42,6 +42,9 @@
     "digitalNarrativesDesc": "Strategic Reels and TikTok production that captures attention and drives bookings through authentic storytelling.",
     "identityRefinement": "Identity Refinement",
     "identityRefinementDesc": "Brand positioning for the exclusive hospitality market, refining your identity into pure distinction.",
+    "servicesDescription": "Discover our comprehensive suite of services designed to elevate your brand presence.",
+    "exploreServices": "Explore Services",
+    "transformPresence": "to start your transformation.",
     "hero": {
       "title": "Two plans to elevate your brand month by month.",
       "intro": "Choose between a plan focused on social media content or a more complete plan to take care of your digital presence. If your brand needs something different, we build it to measure."
@@ -92,7 +95,13 @@
     "updates": "Updates",
     "backToAllPosts": "Back to All Posts",
     "postNotFound": "Post Not Found",
-    "postNotFoundDesc": "The blog post you're looking for doesn't exist or has been removed."
+    "postNotFoundDesc": "The blog post you're looking for doesn't exist or has been removed.",
+    "readMore": "Read more"
+  },
+  "portfolio": {
+    "title": "Selected Works",
+    "description": "Featured projects showcasing our luxury hotel, restaurant, and lifestyle brand transformations.",
+    "viewFullPortfolio": "View full portfolio"
   },
   "contact": {
     "title": "Ready for the Transformation?",
