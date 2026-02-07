@@ -36,9 +36,6 @@
     "pageTitle": "Services | Sassy Studio | Monthly Content Kit & Digital Maintenance",
     "metaDescription": "Two plans to elevate your brand month by month: social media content and a more complete digital presence plan. Bespoke projects available. Based in CDMX, projects in LA and UK.",
     "ourCraft": "Luxury Hospitality Content Services in Mexico City",
-    "servicesDescription": "Our luxury hospitality content services combine high-end photography with strategic brand positioning to help boutique hotels and restaurants in Mexico City stand out in the competitive hospitality market.",
-    "exploreServices": "Explore our services",
-    "transformPresence": "to transform your brand's digital presence.",
     "visualAlchemy": "Visual Alchemy",
     "visualAlchemyDesc": "High-resolution hotel and gastronomy photography that transforms spaces into irresistible visual stories.",
     "digitalNarratives": "Digital Narratives",
@@ -74,11 +71,6 @@
     "heading": "Content that reflects your brand",
     "body": "We define your brand's editorial criteria and transform it into visual content that stands out on social media, with a coherent and well-executed digital presence. We direct the work as a boutique studio and implement it with a curated network spanning Mexico City, Los Angeles, and the United Kingdom, so your brand looks international without losing its essence.",
     "cta": "Explore our services"
-  },
-  "portfolio": {
-    "title": "Our Portfolio",
-    "description": "Explore our latest projects and transformations across hospitality and lifestyle spaces.",
-    "viewFullPortfolio": "View Full Portfolio"
   },
   "blog": {
     "title": "The Studio Journal",
@@ -119,8 +111,7 @@
       "sendMessage": "Send message",
       "sending": "Sending...",
       "successMessage": "Message received",
-      "successText": "Thank you. We've received your details and will contact you at {email}.",
-      "errorMessage": "Something went wrong. Please try again."
+      "successText": "Thank you. We've received your details and will contact you at {email}."
     },
     "projectTypes": {
       "photography": "Photography & Video",

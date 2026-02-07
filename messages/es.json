@@ -36,9 +36,6 @@
     "pageTitle": "Servicios | Sassy Studio | Kit de Contenido Mensual y Mantenimiento Digital",
     "metaDescription": "Dos planes para elevar tu marca mes con mes: contenido para redes y un plan más completo de presencia digital. Proyectos a la medida disponibles. Base en CDMX, proyectos en Los Ángeles y Reino Unido.",
     "ourCraft": "Servicios de Contenido para Hospitalidad de Lujo en CDMX",
-    "servicesDescription": "Nuestros servicios de contenido para hospitalidad de lujo combinan fotografía de alta gama con posicionamiento estratégico de marca para ayudar a hoteles boutique y restaurantes en la Ciudad de México a destacar en el competitivo mercado de hospitalidad.",
-    "exploreServices": "Conoce nuestros servicios",
-    "transformPresence": "para transformar la presencia digital de tu marca.",
     "visualAlchemy": "Alquimia Visual",
     "visualAlchemyDesc": "Fotografía hotelera y gastronómica de alta resolución que transforma espacios en historias visuales irresistibles.",
     "digitalNarratives": "Narrativas Digitales",
@@ -74,11 +71,6 @@
     "heading": "Contenido que refleja tu marca",
     "body": "Definimos el criterio editorial de tu marca y lo convertimos en contenido visual que se nota en redes, con una presencia digital coherente y bien ejecutada. Dirigimos el trabajo como estudio boutique y lo implementamos con una red curada entre Ciudad de México, Los Ángeles y Reino Unido, para que tu marca se vea internacional sin perder su esencia.",
     "cta": "Conoce nuestros servicios"
-  },
-  "portfolio": {
-    "title": "Nuestro Portafolio",
-    "description": "Explora nuestros proyectos y transformaciones más recientes en espacios de hospitalidad y lifestyle.",
-    "viewFullPortfolio": "Ver Portafolio Completo"
   },
   "blog": {
     "title": "El Diario del Estudio",
@@ -119,8 +111,7 @@
       "sendMessage": "Enviar mensaje",
       "sending": "Enviando...",
       "successMessage": "Mensaje recibido",
-      "successText": "Gracias. Hemos recibido tus detalles y nos pondremos en contacto en {email}.",
-      "errorMessage": "Algo salió mal. Por favor, inténtalo de nuevo."
+      "successText": "Gracias. Hemos recibido tus detalles y nos pondremos en contacto en {email}."
     },
     "projectTypes": {
       "photography": "Fotografía y Video",

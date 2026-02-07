@@ -38,32 +38,27 @@ function ConsultationModal({
 }) {
   const tContact = useTranslations('contact');
   const tCommon = useTranslations('common');
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    brand: "",
-    projectType: tContact('projectTypes.photography'),
-    message: "",
-    // Honeypot (should remain empty)
-    companyWebsite: "",
-  });
-  const [status, setStatus] = useState<ConsultationStatus>("idle");
+  const [result, setResult] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("loading");
+  const onSubmit = async (event: any) => {
+    event.preventDefault();
+    setResult("Sending...");
+    const formData = new FormData(event.target);
+    formData.append("access_key", "ecc15eb8-54e8-4e41-ab55-4420220a880f");
 
-    try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData
+    });
 
-      if (!res.ok) throw new Error("Request failed");
-      setStatus("success");
-    } catch {
-      setStatus("error");
+    const data = await response.json();
+    setResult(data.success ? "Success!" : "Error");
+    
+    if (data.success) {
+      setTimeout(() => {
+        onClose();
+        setResult("");
+      }, 3000);
     }
   };
 
@@ -104,7 +99,7 @@ function ConsultationModal({
             </div>
 
             <div className="flex-1 p-8 md:p-12 overflow-y-auto max-h-[85vh]">
-              {status === "success" ? (
+              {result === "Success!" ? (
                 <div className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12">
                   <div className="w-20 h-20 bg-[var(--accent)]/10 rounded-full flex items-center justify-center text-[var(--accent)] text-4xl">
                     ✧
@@ -116,106 +111,33 @@ function ConsultationModal({
                     >
                       {tContact('form.successMessage')}
                     </h3>
-                    <p className="text-sm text-gray-400 max-w-sm mx-auto leading-relaxed">
-                      {tContact('form.successText').replace('{email}', formData.email || "your email")}
-                    </p>
                   </div>
-                  <button
-                    onClick={() => {
-                      setStatus("idle");
-                      onClose();
-                    }}
-                    className="w-full max-w-xs bg-[var(--accent)] text-white py-5 uppercase tracking-[0.4em] text-[10px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl"
-                    style={{ borderRadius: "var(--btn-radius)" }}
-                  >
-                    {tCommon('backToSite')}
-                  </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  {/* Honeypot field (anti-spam). Keep hidden from users. */}
-                  <div className="hidden" aria-hidden="true">
+                <form onSubmit={onSubmit} className="space-y-8">
+                  <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                      Company website
+                      {tContact('form.name')}
                     </label>
                     <input
-                      tabIndex={-1}
-                      autoComplete="off"
-                      className="w-full bg-black/40 border border-white/10 p-4 text-sm"
-                      value={formData.companyWebsite}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          companyWebsite: e.target.value,
-                        })
-                      }
-                      placeholder="https://"
+                      type="text"
+                      name="name"
+                      required
+                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
+                      placeholder={tContact('form.namePlaceholder')}
                     />
                   </div>
-
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div className="space-y-2">
-                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        {tContact('form.name')}
-                      </label>
-                      <input
-                        required
-                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
-                        value={formData.name}
-                        onChange={(e) =>
-                          setFormData({ ...formData, name: e.target.value })
-                        }
-                        placeholder={tContact('form.namePlaceholder')}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        {tContact('form.email')}
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
-                        value={formData.email}
-                        onChange={(e) =>
-                          setFormData({ ...formData, email: e.target.value })
-                        }
-                        placeholder={tContact('form.emailPlaceholder')}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        {tContact('form.brand')}
-                      </label>
-                      <input
-                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
-                        value={formData.brand}
-                        onChange={(e) =>
-                          setFormData({ ...formData, brand: e.target.value })
-                        }
-                        placeholder={tContact('form.brandPlaceholder')}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                        {tContact('form.projectType')}
-                      </label>
-                      <select
-                        className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300 uppercase tracking-widest"
-                        value={formData.projectType}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            projectType: e.target.value,
-                          })
-                        }
-                      >
-                        <option>{tContact('projectTypes.photography')}</option>
-                        <option>{tContact('projectTypes.socialContent')}</option>
-                        <option>{tContact('projectTypes.brandStrategy')}</option>
-                        <option>{tContact('projectTypes.websiteContent')}</option>
-                      </select>
-                    </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                      {tContact('form.email')}
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
+                      placeholder={tContact('form.emailPlaceholder')}
+                    />
                   </div>
 
                   <div className="space-y-2">
@@ -223,29 +145,23 @@ function ConsultationModal({
                       {tContact('form.message')}
                     </label>
                     <textarea
+                      name="message"
+                      required
                       rows={4}
                       className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300 resize-none"
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
                       placeholder={tContact('form.messagePlaceholder')}
                     />
                   </div>
 
                   <button
-                    disabled={status === "loading"}
-                    className="w-full bg-[var(--accent)] text-white py-5 uppercase tracking-[0.5em] text-[11px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl disabled:opacity-50"
+                    type="submit"
+                    className="w-full bg-[var(--accent)] text-white py-5 uppercase tracking-[0.5em] text-[11px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl"
                     style={{ borderRadius: "var(--btn-radius)" }}
                   >
-                    {status === "loading" ? tCommon('sending') : tContact('form.sendMessage')}
+                    Submit
                   </button>
+                  <p>{result}</p>
 
-                  {status === "error" && (
-                    <p className="text-red-400 text-[10px] uppercase tracking-widest text-center">
-                      {tContact('form.errorMessage')}
-                    </p>
-                  )}
                 </form>
               )}
             </div>
