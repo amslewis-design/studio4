@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from 'next/dynamic';
 import { useTranslations, useLocale } from 'next-intl';
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { SiteSettings } from "@/lib/types";
 import { Postcard } from "@/components/portfolio/Postcard";
 import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from "@/app/constants/portfolio";
