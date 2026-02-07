@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import Navbar from '@/app/components/Navbar';
 import { Postcard } from '@/components/portfolio/Postcard';
 import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from '@/app/constants/portfolio';
