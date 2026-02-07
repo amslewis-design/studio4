@@ -37,9 +37,7 @@ export function Postcard({ project }: PostcardProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent opacity-90" />
             
             {/* Stamp - Top Right */}
-            <div className="absolute top-4 right-4 h-16 w-16 border-2 border-white/30 rounded-full flex items-center justify-center rotate-12 opacity-80 backdrop-blur-sm">
-              <span className="font-serif text-white text-xs tracking-widest">{project.year}</span>
-            </div>
+            {/* Year stamp removed */}
 
             {/* Content - Bottom */}
             <div className="absolute bottom-0 left-0 p-6 w-full text-left">

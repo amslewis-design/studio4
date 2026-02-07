@@ -11,16 +11,6 @@ export interface Project {
 
 export const PORTFOLIO_PROJECTS_EN: Project[] = [
   {
-    id: '1',
-    clientName: 'UGC & TRAVEL CONTENT',
-    location: 'TRAVEL BLOG CONTENT & COLLABORATIONS',
-    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/1_vd47a8.jpg', // Forest/Nature
-    testimonial: "Wanderlust Creative captured the soul of our sanctuary. The visual narrative they wove is as organic as our architecture.",
-    testimonialAuthor: 'Eduardo Neira, Founder',
-    services: ['Brand Strategy', 'Visual Identity', 'Social Curation'],
-    year: '2025'
-  },
-  {
     id: '2',
     clientName: 'SOTA LOS ANGELES',
     location: 'LIFESTYLE CONTENT',
@@ -68,20 +58,20 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
     testimonialAuthor: 'Sofia Silva, Marketing Director',
     services: ['Rebranding', 'Print Collateral', 'Digital Marketing'],
     year: '2025'
-  }
-];
-
-export const PORTFOLIO_PROJECTS_ES: Project[] = [
+  },
   {
     id: '1',
     clientName: 'UGC & TRAVEL CONTENT',
     location: 'TRAVEL BLOG CONTENT & COLLABORATIONS',
-    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/1_vd47a8.jpg',
-    testimonial: "Wanderlust Creative capturó el alma de nuestro santuario. La narrativa visual que tejieron es tan orgánica como nuestra arquitectura.",
-    testimonialAuthor: 'Eduardo Neira, Fundador',
-    services: ['Estrategia de Marca', 'Identidad Visual', 'Curaduría Social'],
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/1_vd47a8.jpg', // Forest/Nature
+    testimonial: "Wanderlust Creative captured the soul of our sanctuary. The visual narrative they wove is as organic as our architecture.",
+    testimonialAuthor: 'Eduardo Neira, Founder',
+    services: ['Brand Strategy', 'Visual Identity', 'Social Curation'],
     year: '2025'
-  },
+  }
+];
+
+export const PORTFOLIO_PROJECTS_ES: Project[] = [
   {
     id: '2',
     clientName: 'SOTA LOS ANGELES',
@@ -97,7 +87,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     clientName: 'EXPRESSARTE UK',
     location: 'SOCIAL MEDIA MANAGEMENT, PHOTOGRAPHY AND VIDEO',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261223/3_oopuab.jpg',
-    testimonial: "Lideramos la promoción digital para la celebración más importante del Día de la Independencia de México en Londres. Desarrollamos un marco estratégico integral de contenido y un calendario de redes sociales, colaborando estrechamente con artistas invitados y patrocinadores para amplificar el alcance del evento. Nuestro equipo ejecutó la producción de contenido de principio a fin y gestionó campañas publicitarias específicas en Facebook diseñadas para impulsar la venta de entradas y el reconocimiento de la marca. Además, proporcionamos una cobertura en vivo completa, capturando la energía del evento a través de fotografía y videografía profesional para la interacción social en tiempo real.",
+    testimonial: "Lideramos la promoción digital del evento más importante de la Independencia de México en Londres. Gestionamos la estrategia de contenido 360°, colaboraciones y campañas de Facebook Ads para impulsar ventas. Además, realizamos la cobertura audiovisual en vivo para maximizar la interacción en tiempo real.",
     services: ['Estrategia', 'Producción de Contenido', 'Anuncios', 'Cobertura en Vivo'],
     year: '2025'
   },
@@ -129,6 +119,16 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     testimonial: "Calidez, historia y modernidad adaptadas en una historia de marca cohesiva. Un trabajo excepcional.",
     testimonialAuthor: 'Sofia Silva, Directora de Marketing',
     services: ['Rebranding', 'Material Impreso', 'Marketing Digital'],
+    year: '2025'
+  },
+  {
+    id: '1',
+    clientName: 'UGC & TRAVEL CONTENT',
+    location: 'TRAVEL BLOG CONTENT & COLLABORATIONS',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/1_vd47a8.jpg',
+    testimonial: "Wanderlust Creative capturó el alma de nuestro santuario. La narrativa visual que tejieron es tan orgánica como nuestra arquitectura.",
+    testimonialAuthor: 'Eduardo Neira, Fundador',
+    services: ['Estrategia de Marca', 'Identidad Visual', 'Curaduría Social'],
     year: '2025'
   }
 ];

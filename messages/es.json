@@ -281,5 +281,8 @@
   "errors": {
     "generalError": "Algo salió mal. Por favor intenta de nuevo.",
     "networkError": "Error de red. Por favor verifica tu conexión."
+  },
+  "portfolioPage": {
+    "heroTitle": "Curaduría de destinos <br> digitales."
   }
 }

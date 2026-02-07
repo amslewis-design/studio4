@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Navbar from '@/app/components/Navbar';
 import { Postcard } from '@/components/portfolio/Postcard';
 import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from '@/app/constants/portfolio';
@@ -14,6 +14,7 @@ const usePortfolioProjects = () => {
 
 export default function PortfolioPage() {
   const projects = usePortfolioProjects();
+  const t = useTranslations('portfolioPage');
 
   return (
     <>
@@ -23,13 +24,8 @@ export default function PortfolioPage() {
         {/* Hero Section */}
         <section className="relative px-6 pt-32 pb-16 md:px-12 md:pt-48 md:pb-32 max-w-[1800px] mx-auto">
              <div className="max-w-4xl">
-                <span className="font-sans text-xs font-bold tracking-[0.2em] text-[var(--accent)] uppercase mb-6 block">
-                  Selected Work (2023 — 2025)
-                </span>
-
                 <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-white/90 mb-8 max-w-3xl">
-                  Curating digital <br />
-                  destinations.
+                  {t.rich('heroTitle', { br: () => <br /> })}
                 </h1>
             </div>
         </section>

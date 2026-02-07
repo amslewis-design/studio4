@@ -281,5 +281,8 @@
   "errors": {
     "generalError": "Something went wrong. Please try again.",
     "networkError": "Network error. Please check your connection."
+  },
+  "portfolioPage": {
+    "heroTitle": "Curating digital <br> destinations."
   }
 }
