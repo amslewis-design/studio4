@@ -18,8 +18,6 @@ const HeroSlideshow = dynamic(() => import("./HeroSlideshow"), {
 });
 import Navbar from "./Navbar";
 
-type ConsultationStatus = "idle" | "loading" | "success" | "error";
-
 type BlogPost = {
   title: string;
   date: string;
