@@ -4,13 +4,20 @@ import { useTranslations } from 'next-intl';
 import Navbar from '../../components/Navbar';
 import ServiceCard from '@/components/services/ServiceCard';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import ConsultationModal from '@/app/components/ConsultationModal';
 
 export default function ServicesPage() {
   const t = useTranslations('services');
+  const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
 
   return (
     <main className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#FC7CA4] selection:text-black">
-      <Navbar />
+      <Navbar onConsult={() => setIsConsultModalOpen(true)} />
+      <ConsultationModal
+        isOpen={isConsultModalOpen}
+        onClose={() => setIsConsultModalOpen(false)}
+      />
       <div className="noise-overlay" />
       
       <div className="pt-40 pb-20 px-6 max-w-7xl mx-auto relative z-10">
@@ -106,13 +113,15 @@ export default function ServicesPage() {
           className="text-center pb-20 relative"
         >
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#FC7CA4]/20 blur-[100px] pointer-events-none" />
-          <a 
-            href="#"
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }}
-            className="inline-block relative z-10 px-12 py-5 border border-white/20 text-white font-bold tracking-[0.3em] uppercase text-xs hover:bg-[#FC7CA4] hover:border-[#FC7CA4] hover:text-black transition-all duration-300"
+          <button 
+            onClick={(e) => { 
+                e.preventDefault(); 
+                setIsConsultModalOpen(true);
+            }}
+            className="inline-block relative z-10 px-12 py-5 border border-white/20 text-white font-bold tracking-[0.3em] uppercase text-xs hover:bg-[#FC7CA4] hover:border-[#FC7CA4] hover:text-black transition-all duration-300 cursor-pointer"
           >
             {t('cta')}
-          </a>
+          </button>
         </motion.div>
       </div>
     </main>
