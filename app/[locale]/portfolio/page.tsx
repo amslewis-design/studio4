@@ -14,7 +14,7 @@ const usePortfolioProjects = () => {
 
 export default function PortfolioPage() {
   const projects = usePortfolioProjects();
-  const t = useTranslations('portfolioPage');
+  const locale = useLocale();
 
   return (
     <>
@@ -25,7 +25,11 @@ export default function PortfolioPage() {
         <section className="relative px-6 pt-32 pb-16 md:px-12 md:pt-48 md:pb-32 max-w-[1800px] mx-auto">
              <div className="max-w-4xl">
                 <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-white/90 mb-8 max-w-3xl">
-                  {t.rich('heroTitle', { br: () => <br /> })}
+                  {locale === 'es' ? (
+                    <>Curaduría de destinos <br /> digitales.</>
+                  ) : (
+                    <>Curating digital <br /> destinations.</>
+                  )}
                 </h1>
             </div>
         </section>
