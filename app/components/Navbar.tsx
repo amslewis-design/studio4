@@ -222,17 +222,6 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
                     );
                   }
                 })}
-
-                <button
-                  onClick={() => {
-                    setIsOpen(false);
-                    handleConsultClick();
-                  }}
-                  className="mt-3 bg-white text-[var(--accent)] py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:bg-black hover:text-white transition-colors duration-300"
-                  style={{ borderRadius: "var(--btn-radius)" }}
-                >
-                  {tCommon('requestConsultation')}
-                </button>
               </div>
             </motion.div>
           )}
