@@ -30,11 +30,13 @@ export default function ServicesPage() {
           className="max-w-4xl mx-auto text-center mb-32"
         >
           <span className="text-[10px] uppercase tracking-[0.4em] text-[#FC7CA4] mb-6 block font-bold">
-            The Alchemist's Menu
+            {t('menuTitle')}
           </span>
           <h2 className="text-5xl md:text-7xl font-serif font-thin mb-8 leading-[0.9]">
-            It's time to turn <br />
-            <span className="text-[#FC7CA4] italic pr-4">content into gold.</span>
+            {t.rich('menuHeading', {
+              span: (chunks) => <span className="text-[#FC7CA4] italic pr-4">{chunks}</span>,
+              br: () => <br />
+            })}
           </h2>
           <p className="text-xl text-gray-400 leading-relaxed font-light max-w-2xl mx-auto">
             {t('hero.intro')}

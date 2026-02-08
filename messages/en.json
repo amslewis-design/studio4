@@ -33,6 +33,8 @@
     "cta": "Enter the Studio"
   },
   "services": {
+    "menuTitle": "The Alchemist's Menu",
+    "menuHeading": "It's time to turn <br><span>content into gold.</span>",
     "pageTitle": "Services | Sassy Studio | Monthly Content Kit & Digital Maintenance",
     "metaDescription": "Two plans to elevate your brand month by month: social media content and a more complete digital presence plan. Bespoke projects available. Based in CDMX, projects in LA and UK.",
     "ourCraft": "Luxury Hospitality Content Services in Mexico City",

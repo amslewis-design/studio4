@@ -33,37 +33,39 @@
     "cta": "Contáctanos"
   },
   "services": {
+    "menuTitle": "The Studio Menu",
+    "menuHeading": "Servicios para marcas de hospitalidad y lifestyle con estándar editorial",
     "pageTitle": "Servicios | Sassy Studio | Kit de Contenido Mensual y Mantenimiento Digital",
     "metaDescription": "Dos planes para elevar tu marca mes con mes: contenido para redes y un plan más completo de presencia digital. Proyectos a la medida disponibles. Base en CDMX, proyectos en Los Ángeles y Reino Unido.",
     "ourCraft": "Servicios de Contenido para Hospitalidad y Marcas Lifestyle",
     "ourCraftSubtitle": "Los Angeles, Londres, Irlanda, Acapulco y Ciudad de México",
-    "visualAlchemy": "Contenido Social First",
-    "visualAlchemyDesc": "Edición social-first (Reels, feed, stories) + refinamiento de tu presencia digital (bio, highlights, links, feed) para convertir atención en acción: mensajes, leads y reservas.",
-    "digitalNarratives": "Producción Editorial",
-    "digitalNarrativesDesc": "Fotografía y video de alta resolución para hospitalidad y lifestyle: espacios, producto, gastronomía y momentos capturados con criterio editorial y listos para usarse en redes y web.",
-    "identityRefinement": "Estrategia Digital",
-    "identityRefinementDesc": "Optimizamos tu presencia digital para que el customer journey sea fluido, claro y efectivo: auditoría y mejora de tu sitio/landings (estructura, copy, CTAs y navegación), gestión y actualización continua, y campañas de marketing digital con medición real (UTMs, eventos, píxeles). El objetivo: reducir fricción y convertir visitas en acción: mensajes, leads y reservas.",
+    "visualAlchemy": "Estrategia Digital",
+    "visualAlchemyDesc": "Mantenimiento y optimización web, diseño/ajustes de páginas, blog (estructura + publicación), newsletter, soporte para campañas (lanzamientos/temporadas), mejoras de UX, estructura de links y CTAs.",
+    "digitalNarratives": "Producción Editorial (Foto + Video)",
+    "digitalNarrativesDesc": "Capturamos espacios, producto, gastronomía y momentos con un estándar editorial pensado para redes, web y campañas.",
+    "identityRefinement": "Contenido Social",
+    "identityRefinementDesc": "Fotos, reels, carruseles y stories con narrativa consistente.\n\nOptimización continua de perfiles para que el feed se sienta intencional y premium.",
     "servicesDescription": "Descubre nuestro conjunto integral de servicios diseñados para elevar la presencia de tu marca.",
     "exploreServices": "Conoce nuestros servicios",
     "transformPresence": "para comenzar tu transformación.",
     "hero": {
       "title": "Dos planes para elevar tu marca mes con mes.",
-      "intro": "Elige entre un plan enfocado en contenido para redes sociales o un plan más completo para cuidar tu presencia digital. Si tu marca necesita algo distinto, lo armamos a la medida."
+      "intro": "Elige entre un plan enfocado en contenido mensual para redes o un plan integral para operar tu presencia digital completa. Si tu marca necesita algo distinto, lo armamos a la medida."
     },
     "plans": {
       "plan1": {
         "title": "Kit Mensual de Contenido",
-        "body": "Para marcas que quieren consistencia. Definimos el concepto del mes, el estilo y el plan. Producimos y editamos el material según el alcance acordado y entregamos piezas listas para publicar, con una librería de assets útil para social y web."
+        "body": "Para marcas que quieren consistencia en redes con estándar editorial.\nQué incluye: concepto del mes + plan, producción según alcance, edición social-first, y entrega de piezas listas para publicar + librería de assets útil para social y web.\nIdeal si: tienes equipo interno para publicar o buscas entregábles listos sin operación completa."
       },
       "plan2": {
         "title": "Mantenimiento Digital de Marca",
-        "body": "Para marcas que quieren elevar su estándar en todo lo que se ve en digital. Incluye contenido mensual para redes, manejo de redes sociales. Optimizaciones en página, creación de blogs y newsletter, siempre bajo el mismo criterio editorial."
+        "body": "Para marcas que quieren elevar su estándar en todo lo que se ve en digital con un partner continuo.\nQué incluye: contenido mensual para redes + manejo de redes + optimización continua del ecosistema digital (website/landings/blog/newsletter/campañas) para que todo se sienta coherente y cuidado.\nIdeal si: necesitas operación completa: contenido + redes + presencia digital integral."
       }
     },
     "cta": "Agenda una llamada con nosotros",
     "bespoke": {
       "title": "Proyectos a la medida",
-      "body": "Para aperturas, relanzamientos, temporadas clave o necesidades específicas. Definimos el alcance contigo y lo ejecutamos con el mismo estándar editorial."
+      "body": "Para aperturas, relanzamientos, temporadas clave o necesidades específicas.\n\nQué incluye: definimos alcance, entregables y timing contigo, y lo ejecutamos con el mismo estándar editorial y metodología."
     }
   },
   "approach": {
