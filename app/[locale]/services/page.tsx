@@ -96,13 +96,25 @@ export default function ServicesPage() {
         </div>
 
         {/* Bespoke Project - Full Width Cinema */}
-        <div className="mb-32">
+        <div className="mb-8">
           <ServiceCard
             index={5}
             title={t('bespoke.title')}
             description={t('bespoke.body')}
             sigil="✧"
             image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769302516/sassy-studio/Gemini_Generated_Image_ynrk3jynrk3jynrk_zzxlco.png"
+            className="md:col-span-2 min-h-[400px] border-[#D4AF37]/20"
+          />
+        </div>
+
+        {/* Methodology - New Card */}
+        <div className="mb-32">
+          <ServiceCard
+            index={6}
+            title={t('methodology.title')}
+            description={t('methodology.body')}
+            sigil="✺"
+            image="https://images.unsplash.com/photo-1542621334-a254cf47733d?q=80&w=2069&auto=format&fit=crop" // Abstract/Process visual
             className="md:col-span-2 min-h-[400px] border-[#D4AF37]/20"
           />
         </div>
