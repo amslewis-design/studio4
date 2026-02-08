@@ -73,7 +73,7 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
     id: '7',
     clientName: 'ISDIN',
     location: 'UGC CONTENT',
-    imageUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6fb0342?q=80&w=2070&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6fb0342?q=80&w=2070&auto=format&fit=crop', // Placeholder
     testimonial: "UGC content creation for their sunscreen line for social media.",
     testimonialAuthor: '',
     services: ['UGC Content', 'Social Strategy', 'Video'],
@@ -83,8 +83,8 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
     id: '8',
     clientName: 'HOTEL IN MEXICO CITY',
     location: 'LIFESTYLE PHOTOGRAPHY & VIDEO',
-    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop',
-    testimonial: "Lifestyle photo and video session for social media, capturing the experience the hotel offers to the modern traveler.",
+    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop', // Placeholder
+    testimonial: "Lifestyle photo and video session for social media, aiming to reflect the experience the hotel offers to the modern traveler.",
     testimonialAuthor: '',
     services: ['Photography', 'Video', 'Art Direction'],
     year: '2025'
@@ -98,7 +98,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     location: 'LIFESTYLE CONTENT',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/2_lvrwrq.jpg',
     testimonial: "Sesiones de fotos tipo lifestyle para redes sociales que reflejan la experiencia de hospedarse en el Coliving Sota en Los Angeles California.",
-    testimonialAuthor: 'Sigríður Sigurðardóttir, CMO',
+    testimonialAuthor: '',
     services: ['Diseño Web', 'Dirección de Contenido', 'SEO'],
     year: '2024'
   },
@@ -117,7 +117,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     location: 'LIFESTYLE PHOTOGRAPHY',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261224/5_cfkwxi.jpg',
     testimonial: "Sesión de fotos y video lifestyle de la experiencia de hospedarse en las Casa del Acantilado. Generando fotos para website y redes sociales, así como reels listos para publicarse.",
-    testimonialAuthor: 'Zita Cobb, Posadera',
+    testimonialAuthor: '',
     services: ['Estrategia Digital', 'Contenido Editorial', 'Cine'],
     year: '2023'
   },
@@ -127,7 +127,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     location: 'LIFESTYLE CONTENT',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/4_zgubqk.jpg',
     testimonial: "Generación de UGC, campañas en Meta, para generación de leads, optimización de redes sociales, fotografía lifestyle para sus redes, campañas y página web.",
-    testimonialAuthor: 'Gerente General',
+    testimonialAuthor: '',
     services: ['Desarrollo de Apps', 'UX/UI', 'Portal de Miembros'],
     year: '2024'
   },
@@ -137,7 +137,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     location: 'TRAVEL PHOTOGRAPHY AND CONTENT',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770262107/6_qjdlbt.jpg',
     testimonial: "Toma de fotografías para redes sociales que reflejan la experiencia de hospedarse en su hotel en una de las zonas más céntricas de Londres.",
-    testimonialAuthor: 'Sofia Silva, Directora de Marketing',
+    testimonialAuthor: '',
     services: ['Rebranding', 'Material Impreso', 'Marketing Digital'],
     year: '2025'
   },
@@ -147,14 +147,15 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     location: 'TRAVEL BLOG CONTENT & COLLABORATIONS',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/1_vd47a8.jpg',
     testimonial: "Optimización de página web, nuevo logo que refleja la experiencia de brinda a sus clientes, contenido UGC para redes sociales.",
-    testimonialAuthor: 'Eduardo Neira, Fundador',
+    testimonialAuthor: '',
     services: ['Estrategia de Marca', 'Identidad Visual', 'Curaduría Social'],
-    year: '2025'  },
+    year: '2025'
+  },
   {
     id: '7',
     clientName: 'ISDIN',
     location: 'UGC CONTENT',
-    imageUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6fb0342?q=80&w=2070&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6fb0342?q=80&w=2070&auto=format&fit=crop', // Placeholder
     testimonial: "Creación de contenido UGC para su linea de bloqueadores para redes sociales.",
     testimonialAuthor: '',
     services: ['Contenido UGC', 'Estrategia Social', 'Video'],
@@ -164,9 +165,10 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     id: '8',
     clientName: 'HOTEL EN CIUDAD DE MÉXICO',
     location: 'LIFESTYLE PHOTOGRAPHY & VIDEO',
-    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop',
+    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop', // Placeholder
     testimonial: "Sesión de foto y video tipo lifestyle para redes sociales, donde se buscó reflejar la experiencia que ofrece el hotel al viajero moderno.",
     testimonialAuthor: '',
     services: ['Fotografía', 'Video', 'Dirección de Arte'],
-    year: '2025'  }
+    year: '2025'
+  }
 ];
