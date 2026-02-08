@@ -57,15 +57,15 @@ export async function generateMetadata({
     viewport: 'width=device-width, initial-scale=1',
     icons: {
       icon: [
-        { url: '/favicons_new/favicon.ico', sizes: 'any' },
-        { url: '/favicons_new/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-        { url: '/favicons_new/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+        { url: '/favicos/favicon.ico', sizes: 'any' },
+        { url: '/favicos/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+        { url: '/favicos/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       ],
       apple: [
-        { url: '/favicons_new/apple-touch-icon.png', sizes: '180x180' },
+        { url: '/favicos/apple-icon-180x180.png', sizes: '180x180' },
       ],
     },
-    manifest: '/favicons_new/site.webmanifest',
+    manifest: '/favicos/manifest.json',
   };
 }
 
