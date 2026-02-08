@@ -36,6 +36,7 @@ export default function Preview() {
   const tPortfolio = useTranslations('portfolio');
   const tContact = useTranslations('contact');
   const tHero = useTranslations('hero');
+  const locale = useLocale();
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings>({
     primaryColor: "#1a1a1a",
@@ -103,24 +104,23 @@ const services = useMemo(
       {
         title: tServices('visualAlchemy'),
         description: tServices('visualAlchemyDesc'),
-        icon: "✧",
+        icon: locale === 'es' ? "❂" : "✧",
       },
       {
         title: tServices('digitalNarratives'),
         description: tServices('digitalNarrativesDesc'),
-        icon: "✦",
+        icon: locale === 'es' ? "✧" : "✦",
       },
       {
         title: tServices('identityRefinement'),
         description: tServices('identityRefinementDesc'),
-        icon: "❂",
+        icon: locale === 'es' ? "✦" : "❂",
       },
     ],
-    [tServices]
+    [tServices, locale]
   );
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const locale = useLocale();
   const portfolioProjects = locale === 'es' ? PORTFOLIO_PROJECTS_ES : PORTFOLIO_PROJECTS_EN;
 
   useEffect(() => {
@@ -309,6 +309,9 @@ const services = useMemo(
             >
               {tServices('ourCraft')}
             </h2>
+            <p className="font-sans text-xs md:text-sm tracking-[0.2em] font-medium text-white/60 uppercase mb-10">
+              {tServices('ourCraftSubtitle')}
+            </p>
             <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
           </motion.div>
 
