@@ -36,7 +36,7 @@ export default function PortfolioPage() {
 
         {/* Postcard Grid */}
         <section className="px-6 pb-32 md:px-12 max-w-[1800px] mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-24">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-40">
                 {projects.map((project, index) => (
                     <div 
                         key={project.id} 
