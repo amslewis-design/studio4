@@ -73,7 +73,7 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
     id: '7',
     clientName: 'ISDIN',
     location: 'UGC CONTENT',
-    imageUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6fb0342?q=80&w=2070&auto=format&fit=crop', // Placeholder
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770518003/8_wpbxgi.webp', // Placeholder
     testimonial: "UGC content creation for their sunscreen line for social media.",
     testimonialAuthor: '',
     services: ['UGC Content', 'Social Strategy', 'Video'],
@@ -83,7 +83,7 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
     id: '8',
     clientName: 'HOTEL IN MEXICO CITY',
     location: 'LIFESTYLE PHOTOGRAPHY & VIDEO',
-    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop', // Placeholder
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770517992/7_rqcm14.webp', // Placeholder
     testimonial: "Lifestyle photo and video session for social media, aiming to reflect the experience the hotel offers to the modern traveler.",
     testimonialAuthor: '',
     services: ['Photography', 'Video', 'Art Direction'],
@@ -155,7 +155,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     id: '7',
     clientName: 'ISDIN',
     location: 'UGC CONTENT',
-    imageUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6fb0342?q=80&w=2070&auto=format&fit=crop', // Placeholder
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770518003/8_wpbxgi.webp', // Placeholder
     testimonial: "Creación de contenido UGC para su linea de bloqueadores para redes sociales.",
     testimonialAuthor: '',
     services: ['Contenido UGC', 'Estrategia Social', 'Video'],
@@ -165,7 +165,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     id: '8',
     clientName: 'HOTEL EN CIUDAD DE MÉXICO',
     location: 'LIFESTYLE PHOTOGRAPHY & VIDEO',
-    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop', // Placeholder
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770517992/7_rqcm14.webp', // Placeholder
     testimonial: "Sesión de foto y video tipo lifestyle para redes sociales, donde se buscó reflejar la experiencia que ofrece el hotel al viajero moderno.",
     testimonialAuthor: '',
     services: ['Fotografía', 'Video', 'Dirección de Arte'],
