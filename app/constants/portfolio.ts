@@ -68,6 +68,26 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
     testimonialAuthor: 'Eduardo Neira, Founder',
     services: ['Brand Strategy', 'Visual Identity', 'Social Curation'],
     year: '2025'
+  },
+  {
+    id: '7',
+    clientName: 'ISDIN',
+    location: 'UGC CONTENT',
+    imageUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6fb0342?q=80&w=2070&auto=format&fit=crop',
+    testimonial: "UGC content creation for their sunscreen line for social media.",
+    testimonialAuthor: '',
+    services: ['UGC Content', 'Social Strategy', 'Video'],
+    year: '2025'
+  },
+  {
+    id: '8',
+    clientName: 'HOTEL IN MEXICO CITY',
+    location: 'LIFESTYLE PHOTOGRAPHY & VIDEO',
+    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop',
+    testimonial: "Lifestyle photo and video session for social media, capturing the experience the hotel offers to the modern traveler.",
+    testimonialAuthor: '',
+    services: ['Photography', 'Video', 'Art Direction'],
+    year: '2025'
   }
 ];
 
@@ -129,6 +149,24 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     testimonial: "Optimización de página web, nuevo logo que refleja la experiencia de brinda a sus clientes, contenido UGC para redes sociales.",
     testimonialAuthor: 'Eduardo Neira, Fundador',
     services: ['Estrategia de Marca', 'Identidad Visual', 'Curaduría Social'],
+    year: '2025'  },
+  {
+    id: '7',
+    clientName: 'ISDIN',
+    location: 'UGC CONTENT',
+    imageUrl: 'https://images.unsplash.com/photo-1556228578-8c89e6fb0342?q=80&w=2070&auto=format&fit=crop',
+    testimonial: "Creación de contenido UGC para su linea de bloqueadores para redes sociales.",
+    testimonialAuthor: '',
+    services: ['Contenido UGC', 'Estrategia Social', 'Video'],
     year: '2025'
-  }
+  },
+  {
+    id: '8',
+    clientName: 'HOTEL EN CIUDAD DE MÉXICO',
+    location: 'LIFESTYLE PHOTOGRAPHY & VIDEO',
+    imageUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop',
+    testimonial: "Sesión de foto y video tipo lifestyle para redes sociales, donde se buscó reflejar la experiencia que ofrece el hotel al viajero moderno.",
+    testimonialAuthor: '',
+    services: ['Fotografía', 'Video', 'Dirección de Arte'],
+    year: '2025'  }
 ];
