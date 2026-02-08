@@ -77,7 +77,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     clientName: 'SOTA LOS ANGELES',
     location: 'LIFESTYLE CONTENT',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/2_lvrwrq.jpg',
-    testimonial: "Una presencia digital etérea que refleja nuestro paisaje volcánico. Una narración verdaderamente sofisticada.",
+    testimonial: "Sesiones de fotos tipo lifestyle para redes sociales que reflejan la experiencia de hospedarse en el Coliving Sota en Los Angeles California.",
     testimonialAuthor: 'Sigríður Sigurðardóttir, CMO',
     services: ['Diseño Web', 'Dirección de Contenido', 'SEO'],
     year: '2024'
@@ -96,7 +96,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     clientName: 'CASAS DEL ACANTILADO',
     location: 'LIFESTYLE PHOTOGRAPHY',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261224/5_cfkwxi.jpg',
-    testimonial: "Una clase magistral de moderación. Dejaron que la belleza cruda de nuestra isla hablara a través del diseño.",
+    testimonial: "Sesión de fotos y video lifestyle de la experiencia de hospedarse en las Casa del Acantilado. Generando fotos para website y redes sociales, así como reels listos para publicarse.",
     testimonialAuthor: 'Zita Cobb, Posadera',
     services: ['Estrategia Digital', 'Contenido Editorial', 'Cine'],
     year: '2023'
@@ -106,27 +106,27 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     clientName: 'ESTUDIA EN IRLANDA',
     location: 'LIFESTYLE CONTENT',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/4_zgubqk.jpg',
-    testimonial: "Nuestros huéspedes esperan perfección. Wanderlust Creative entregó una extensión digital perfecta de nuestra experiencia.",
+    testimonial: "Generación de UGC, campañas en Meta, para generación de leads, optimización de redes sociales, fotografía lifestyle para sus redes, campañas y página web.",
     testimonialAuthor: 'Gerente General',
     services: ['Desarrollo de Apps', 'UX/UI', 'Portal de Miembros'],
     year: '2024'
   },
   {
     id: '6',
-    clientName: 'TRAVEL BLOG OF LOS ANGELES',
+    clientName: 'NEW ROAD LONDON',
     location: 'TRAVEL PHOTOGRAPHY AND CONTENT',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770262107/6_qjdlbt.jpg',
-    testimonial: "Calidez, historia y modernidad adaptadas en una historia de marca cohesiva. Un trabajo excepcional.",
+    testimonial: "Toma de fotografías para redes sociales que reflejan la experiencia de hospedarse en su hotel en una de las zonas más céntricas de Londres.",
     testimonialAuthor: 'Sofia Silva, Directora de Marketing',
     services: ['Rebranding', 'Material Impreso', 'Marketing Digital'],
     year: '2025'
   },
   {
     id: '1',
-    clientName: 'UGC & TRAVEL CONTENT',
+    clientName: 'LOVE LONDRES',
     location: 'TRAVEL BLOG CONTENT & COLLABORATIONS',
     imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770261222/1_vd47a8.jpg',
-    testimonial: "Wanderlust Creative capturó el alma de nuestro santuario. La narrativa visual que tejieron es tan orgánica como nuestra arquitectura.",
+    testimonial: "Optimización de página web, nuevo logo que refleja la experiencia de brinda a sus clientes, contenido UGC para redes sociales.",
     testimonialAuthor: 'Eduardo Neira, Fundador',
     services: ['Estrategia de Marca', 'Identidad Visual', 'Curaduría Social'],
     year: '2025'

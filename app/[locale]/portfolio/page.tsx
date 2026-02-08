@@ -26,7 +26,7 @@ export default function PortfolioPage() {
              <div className="max-w-4xl">
                 <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-white/90 mb-8 max-w-3xl">
                   {locale === 'es' ? (
-                    <>Curaduría de destinos <br /> digitales.</>
+                    <>Proyectos ejecutados <br /> con estándar editorial.</>
                   ) : (
                     <>Curating digital <br /> destinations.</>
                   )}
