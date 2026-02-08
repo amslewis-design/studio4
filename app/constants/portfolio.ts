@@ -53,7 +53,7 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
     id: '6',
     clientName: 'TRAVEL BLOG OF LOS ANGELES',
     location: 'TRAVEL PHOTOGRAPHY AND CONTENT',
-    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770262107/6_qjdlbt.jpg', // Vineyard/Green
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770518643/9_s4chha.webp', // Vineyard/Green
     testimonial: "Warmth, history, and modernity tailored into one cohesive brand story. Exceptional work.",
     testimonialAuthor: 'Sofia Silva, Marketing Director',
     services: ['Rebranding', 'Print Collateral', 'Digital Marketing'],
@@ -135,7 +135,7 @@ export const PORTFOLIO_PROJECTS_ES: Project[] = [
     id: '6',
     clientName: 'NEW ROAD LONDON',
     location: 'TRAVEL PHOTOGRAPHY AND CONTENT',
-    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770262107/6_qjdlbt.jpg',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1770518643/9_s4chha.webp',
     testimonial: "Toma de fotografías para redes sociales que reflejan la experiencia de hospedarse en su hotel en una de las zonas más céntricas de Londres.",
     testimonialAuthor: '',
     services: ['Rebranding', 'Material Impreso', 'Marketing Digital'],
