@@ -6,6 +6,7 @@ import Image from "next/image";
 import dynamic from 'next/dynamic';
 import { useTranslations, useLocale } from 'next-intl';
 import { motion } from "framer-motion";
+import { Instagram } from 'lucide-react';
 import { SiteSettings } from "@/lib/types";
 import { Postcard } from "@/components/portfolio/Postcard";
 import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from "@/app/constants/portfolio";
@@ -647,12 +648,23 @@ const services = useMemo(
           <div className="text-[10px] uppercase tracking-[0.4em] text-white/40">
             {tHero('tagline')}
           </div>
-          <button
-            onClick={() => setIsConsultModalOpen(true)}
-            className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
-          >
-            Request consultation
-          </button>
+          <div className="flex items-center gap-6">
+            <a
+              href="https://www.instagram.com/sassydigitalcontent/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/60 hover:text-white transition-colors"
+              aria-label="Follow us on Instagram"
+            >
+              <Instagram size={20} />
+            </a>
+            <button
+              onClick={() => setIsConsultModalOpen(true)}
+              className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
+            >
+              Request consultation
+            </button>
+          </div>
         </div>
       </footer>
     </div>
