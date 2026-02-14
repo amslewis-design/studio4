@@ -2,27 +2,24 @@
 
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 export default function CoyoacanHero() {
   const t = useTranslations('coyoacan.hero');
+  const tCta = useTranslations('coyoacan.cta');
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      {/* Background Image Carousel/Slideshow */}
+      {/* Background Hero Image */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black z-10" />
-        {/* Placeholder for hero image - replace with actual Coyoacán imagery */}
-        <div className="relative w-full h-full bg-gradient-to-br from-[#FC7CA4]/20 via-black to-[#D4AF37]/20" />
-        
-        {/* Optional: Add actual image when ready
         <Image
-          src="/coyoacan-hero.jpg"
+          src="https://res.cloudinary.com/ds86m2xm0/image/upload/v1771109435/coyoacanhero_hacfvs.webp"
           alt="Coyoacán"
           fill
           className="object-cover opacity-60"
           priority
         />
-        */}
       </div>
 
       {/* Content */}
@@ -74,7 +71,7 @@ export default function CoyoacanHero() {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 border border-white/20 text-white font-light tracking-wide hover:border-[#D4AF37] hover:bg-[#D4AF37]/10 transition-all duration-300 w-full sm:w-auto text-center"
             >
-              {t.rich('..cta.secondary', { defaultValue: 'Ver proyectos en Coyoacán' })}
+              {tCta('secondary')}
             </motion.a>
           </div>
 
