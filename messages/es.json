@@ -291,5 +291,90 @@
   },
   "portfolioPage": {
     "heroTitle": "Curaduría de destinos <br /> digitales."
+  },
+  "coyoacan": {
+    "pageTitle": "Fotografía y Contenido para Hoteles y Restaurantes en Coyoacán | Sassy Studio",
+    "metaDescription": "Estudio boutique de contenido editorial para marcas de hospitalidad en Coyoacán. Fotografía, video y estrategia digital que captura la esencia cultural del barrio.",
+    "metaKeywords": "fotografía Coyoacán, contenido restaurantes Coyoacán, marketing hoteles Coyoacán, fotografía gastronómica CDMX",
+    "hero": {
+      "title": "Contenido con Alma de Coyoacán",
+      "subtitle": "Fotografía y video editorial para hoteles boutique, restaurantes y espacios culturales en el corazón bohemio de la CDMX",
+      "cta": "Trabajemos juntos en Coyoacán"
+    },
+    "localValue": {
+      "heading": "Tu Estudio Local en Coyoacán",
+      "proximity": {
+        "title": "A minutos de tu negocio",
+        "description": "Sesiones flexibles entre semana o fin de semana. Respuesta rápida y disponibilidad inmediata para tu proyecto."
+      },
+      "knowledge": {
+        "title": "Conocemos el barrio",
+        "description": "Los mejores ángulos, la luz perfecta en cada plaza, y el timing ideal para capturar la esencia bohemia de Coyoacán."
+      },
+      "community": {
+        "title": "Parte de la comunidad",
+        "description": "Trabajamos con negocios locales, conocemos la cultura del barrio y sus eventos especiales."
+      }
+    },
+    "services": {
+      "title": "Servicios Especiales para Coyoacán",
+      "subtitle": "Paquetes diseñados para capturar la esencia única del barrio más icónico de la CDMX",
+      "weekend": {
+        "name": "Paquete Fin de Semana Coyoacán",
+        "description": "Captura la energía vibrante del barrio cuando está más vivo: mercados artesanales, terrazas llenas, murales y ambiente bohemio. Incluye sesión de 3 horas, 30+ fotos editadas y 5 reels verticales."
+      },
+      "cultural": {
+        "name": "Paquete Cultural",
+        "description": "Para galerías, museos y espacios culturales. Cobertura de eventos, inauguraciones y exposiciones con estándar editorial. Perfecto para posicionar tu espacio en la escena artística de Coyoacán."
+      },
+      "gastro": {
+        "name": "Paquete Gastronómico",
+        "description": "Contenido especializado para restaurantes y cafés. Fotografía de platillos, ambiente, y la experiencia completa. Captamos la fusión entre tu cocina y la cultura de Coyoacán."
+      },
+      "location": {
+        "name": "Sesiones en Locación",
+        "description": "Aprovecha las icónicas locaciones de Coyoacán: Jardín Centenario, Plaza Hidalgo, calles empedradas, fachadas coloridas y rincones bohemios para contenido único."
+      }
+    },
+    "localKnowledge": {
+      "title": "Conocemos Coyoacán Como Nuestro Barrio",
+      "subtitle": "Años de experiencia capturando la magia de este rincón de la CDMX",
+      "lightTiming": {
+        "title": "La luz perfecta",
+        "description": "Golden hour en Plaza Hidalgo, sombras ideales en las calles empedradas, y timing perfecto para cada locación."
+      },
+      "crowdPattern": {
+        "title": "Conocemos los tiempos",
+        "description": "Evitamos las multitudes del fin de semana cuando es necesario, o las aprovechamos para contenido vibrante y auténtico."
+      },
+      "seasonal": {
+        "title": "Momentos únicos",
+        "description": "Jacarandas en primavera, Día de Muertos, mercados artesanales, y eventos culturales que hacen de Coyoacán un escenario vivo."
+      },
+      "hiddenGems": {
+        "title": "Rincones secretos",
+        "description": "Más allá de las plazas principales: callejones, jardines escondidos y locaciones que solo los locales conocemos."
+      }
+    },
+    "portfolio": {
+      "title": "Proyectos en Coyoacán",
+      "subtitle": "Marcas locales que han confiado en nosotros",
+      "viewAll": "Ver todo el portafolio"
+    },
+    "cta": {
+      "main": "Agenda tu sesión en Coyoacán",
+      "secondary": "Ver proyectos en Coyoacán",
+      "whatsapp": "WhatsApp directo"
+    },
+    "trust": {
+      "spanishService": "Servicio en Español",
+      "basedInCDMX": "Con base en CDMX",
+      "responseTime": "Respondemos en 24 horas",
+      "localExpertise": "Expertos locales en Coyoacán"
+    },
+    "pricing": {
+      "startingFrom": "Paquetes desde",
+      "contact": "Contáctanos para cotización personalizada"
+    }
   }
 }

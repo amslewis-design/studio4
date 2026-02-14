@@ -290,6 +290,89 @@
     "networkError": "Network error. Please check your connection."
   },
   "portfolioPage": {
-    "heroTitle": "Curating digital <br /> destinations."
-  }
+    "heroTitle": "Curating digital <br /> destinations."  },
+  "coyoacan": {
+    "pageTitle": "Photography & Content for Hotels and Restaurants in Coyoacán | Sassy Studio",
+    "metaDescription": "Boutique editorial content studio for hospitality brands in Coyoacán. Photography, video and digital strategy that captures the cultural essence of the neighborhood.",
+    "metaKeywords": "Coyoacán photography, restaurant content Coyoacán, hotel marketing Coyoacán, gastronomic photography CDMX",
+    "hero": {
+      "title": "Content with Coyoacán Soul",
+      "subtitle": "Editorial photography and video for boutique hotels, restaurants and cultural spaces in the bohemian heart of Mexico City",
+      "cta": "Let's work together in Coyoacán"
+    },
+    "localValue": {
+      "heading": "Your Local Studio in Coyoacán",
+      "proximity": {
+        "title": "Minutes from your business",
+        "description": "Flexible weekday or weekend sessions. Quick response and immediate availability for your project."
+      },
+      "knowledge": {
+        "title": "We know the neighborhood",
+        "description": "The best angles, perfect light in every plaza, and ideal timing to capture Coyoacán's bohemian essence."
+      },
+      "community": {
+        "title": "Part of the community",
+        "description": "We work with local businesses, know the neighborhood culture and its special events."
+      }
+    },
+    "services": {
+      "title": "Special Services for Coyoacán",
+      "subtitle": "Packages designed to capture the unique essence of CDMX's most iconic neighborhood",
+      "weekend": {
+        "name": "Coyoacán Weekend Package",
+        "description": "Capture the vibrant energy when the neighborhood is most alive: artisan markets, bustling terraces, murals and bohemian atmosphere. Includes 3-hour session, 30+ edited photos and 5 vertical reels."
+      },
+      "cultural": {
+        "name": "Cultural Package",
+        "description": "For galleries, museums and cultural spaces. Event coverage, openings and exhibitions with editorial standards. Perfect for positioning your space in Coyoacán's art scene."
+      },
+      "gastro": {
+        "name": "Gastronomic Package",
+        "description": "Specialized content for restaurants and cafés. Dish photography, ambiance, and the complete experience. We capture the fusion between your cuisine and Coyoacán's culture."
+      },
+      "location": {
+        "name": "Location Sessions",
+        "description": "Leverage Coyoacán's iconic locations: Jardín Centenario, Plaza Hidalgo, cobblestone streets, colorful facades and bohemian corners for unique content."
+      }
+    },
+    "localKnowledge": {
+      "title": "We Know Coyoacán Like Our Own Neighborhood",
+      "subtitle": "Years of experience capturing the magic of this CDMX corner",
+      "lightTiming": {
+        "title": "Perfect light",
+        "description": "Golden hour at Plaza Hidalgo, ideal shadows on cobblestone streets, and perfect timing for each location."
+      },
+      "crowdPattern": {
+        "title": "We know the rhythms",
+        "description": "Avoid weekend crowds when necessary, or leverage them for vibrant and authentic content."
+      },
+      "seasonal": {
+        "title": "Unique moments",
+        "description": "Jacarandas in spring, Day of the Dead, artisan markets, and cultural events that make Coyoacán a living stage."
+      },
+      "hiddenGems": {
+        "title": "Secret corners",
+        "description": "Beyond the main plazas: alleyways, hidden gardens and locations only locals know."
+      }
+    },
+    "portfolio": {
+      "title": "Coyoacán Projects",
+      "subtitle": "Local brands that have trusted us",
+      "viewAll": "View full portfolio"
+    },
+    "cta": {
+      "main": "Schedule your Coyoacán session",
+      "secondary": "View Coyoacán projects",
+      "whatsapp": "Direct WhatsApp"
+    },
+    "trust": {
+      "spanishService": "Spanish Service",
+      "basedInCDMX": "Based in CDMX",
+      "responseTime": "We respond within 24 hours",
+      "localExpertise": "Local Coyoacán Experts"
+    },
+    "pricing": {
+      "startingFrom": "Packages from",
+      "contact": "Contact us for personalized quote"
+    }  }
 }
