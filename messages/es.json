@@ -119,6 +119,8 @@
       "namePlaceholder": "ej. Julian Ross",
       "email": "Correo Electrónico",
       "emailPlaceholder": "contacto@marca.com",
+      "website": "Sitio Web",
+      "websitePlaceholder": "www.tumarca.com",
       "brand": "Marca / Hotel",
       "brandPlaceholder": "Hotel Boutique CDMX",
       "projectType": "Tipo de Proyecto",

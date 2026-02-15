@@ -119,6 +119,8 @@
       "namePlaceholder": "e.g. Julian Ross",
       "email": "Email Address",
       "emailPlaceholder": "contact@brand.com",
+      "website": "Website",
+      "websitePlaceholder": "www.yourbrand.com",
       "brand": "Brand / Hotel",
       "brandPlaceholder": "Hotel Boutique CDMX",
       "projectType": "Project Type",

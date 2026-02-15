@@ -116,6 +116,18 @@ export default function ConsultationModal({
 
                   <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                      {tContact('form.website')}
+                    </label>
+                    <input
+                      type="url"
+                      name="website"
+                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
+                      placeholder={tContact('form.websitePlaceholder')}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
                       {tContact('form.message')}
                     </label>
                     <textarea
