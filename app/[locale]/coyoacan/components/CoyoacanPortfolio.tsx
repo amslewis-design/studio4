@@ -1,33 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
+import Image from 'next/image';
+import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from '@/app/constants/portfolio';
 
 export default function CoyoacanPortfolio() {
   const t = useTranslations('coyoacan.portfolio');
-
-  // Placeholder portfolio items - replace with actual Coyoacán projects
-  const portfolioItems = [
-    {
-      id: 1,
-      title: 'Hotel Boutique Coyoacán',
-      category: 'Hospitality',
-      image: '/placeholder-1.jpg',
-    },
-    {
-      id: 2,
-      title: 'Café Cultural',
-      category: 'Gastronomía',
-      image: '/placeholder-2.jpg',
-    },
-    {
-      id: 3,
-      title: 'Galería de Arte',
-      category: 'Cultural',
-      image: '/placeholder-3.jpg',
-    },
-  ];
+  const locale = useLocale();
+  const portfolioItems = (locale === 'es' ? PORTFOLIO_PROJECTS_ES : PORTFOLIO_PROJECTS_EN).slice(0, 3);
 
   return (
     <section id="portfolio" className="relative py-24 md:py-32 bg-black">
@@ -60,8 +42,13 @@ export default function CoyoacanPortfolio() {
               transition={{ duration: 0.6, delay: index * 0.15 }}
               className="group relative aspect-[4/5] overflow-hidden border border-white/10 hover:border-[#D4AF37]/40 transition-all duration-500"
             >
-              {/* Placeholder background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#FC7CA4]/20 via-black to-[#D4AF37]/20" />
+              <Image
+                src={item.imageUrl}
+                alt={item.clientName}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
               
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
@@ -69,21 +56,12 @@ export default function CoyoacanPortfolio() {
               {/* Content */}
               <div className="absolute bottom-0 left-0 right-0 p-6 z-10 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                 <p className="text-[#D4AF37] text-sm mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  {item.category}
+                  {item.location}
                 </p>
                 <h3 className="text-white text-xl font-serif font-light">
-                  {item.title}
+                  {item.clientName}
                 </h3>
               </div>
-
-              {/* Replace with actual image when ready
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              */}
             </motion.div>
           ))}
         </div>
