@@ -4,10 +4,12 @@ import CoyoacanServices from './components/CoyoacanServices';
 import LocalKnowledge from './components/LocalKnowledge';
 import CoyoacanPortfolio from './components/CoyoacanPortfolio';
 import CoyoacanContact from './components/CoyoacanContact';
+import Navbar from '@/app/components/Navbar';
 
 export default function CoyoacanPage() {
   return (
     <main className="bg-black">
+      <Navbar />
       <CoyoacanHero />
       <LocalValueProps />
       <CoyoacanServices />
