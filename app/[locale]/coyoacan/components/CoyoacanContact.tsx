@@ -21,8 +21,14 @@ export default function CoyoacanContact() {
         body: formData,
       });
 
-      const data = await response.json();
-      if (data.success) {
+      let data: { success?: boolean } = {};
+      try {
+        data = await response.json();
+      } catch {
+        data = {};
+      }
+
+      if (response.ok && data.success !== false) {
         setResult('Form Submitted Successfully');
         event.currentTarget.reset();
       } else {
@@ -109,7 +115,7 @@ export default function CoyoacanContact() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-white text-sm mb-2">
-                  Nombre
+                  Name:
                 </label>
                 <input
                   type="text"
@@ -117,13 +123,13 @@ export default function CoyoacanContact() {
                   name="name"
                   required
                   className="w-full bg-black/50 border border-white/20 px-4 py-3 text-white focus:border-[#D4AF37] focus:outline-none transition-colors"
-                  placeholder="Tu nombre"
+                  placeholder="Your name"
                 />
               </div>
 
               <div>
                 <label htmlFor="email" className="block text-white text-sm mb-2">
-                  Email
+                  Email:
                 </label>
                 <input
                   type="email"
@@ -131,46 +137,27 @@ export default function CoyoacanContact() {
                   name="email"
                   required
                   className="w-full bg-black/50 border border-white/20 px-4 py-3 text-white focus:border-[#D4AF37] focus:outline-none transition-colors"
-                  placeholder="tu@email.com"
+                  placeholder="you@email.com"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="business" className="block text-white text-sm mb-2">
-                Negocio en Coyoacán
+              <label htmlFor="website" className="block text-white text-sm mb-2">
+                Website:
               </label>
               <input
-                type="text"
-                id="business"
-                name="business"
-                required
+                type="url"
+                id="website"
+                name="website"
                 className="w-full bg-black/50 border border-white/20 px-4 py-3 text-white focus:border-[#D4AF37] focus:outline-none transition-colors"
-                placeholder="Nombre de tu hotel, restaurante o negocio"
+                placeholder="https://yourwebsite.com"
               />
             </div>
 
             <div>
-              <label htmlFor="package" className="block text-white text-sm mb-2">
-                Paquete de interés
-              </label>
-              <select
-                id="package"
-                name="package"
-                className="w-full bg-black/50 border border-white/20 px-4 py-3 text-white focus:border-[#D4AF37] focus:outline-none transition-colors"
-              >
-                <option value="">Selecciona un paquete</option>
-                <option value="weekend">Paquete Fin de Semana Coyoacán</option>
-                <option value="cultural">Paquete Cultural</option>
-                <option value="gastro">Paquete Gastronómico</option>
-                <option value="location">Sesiones en Locación</option>
-                <option value="custom">Proyecto personalizado</option>
-              </select>
-            </div>
-
-            <div>
               <label htmlFor="message" className="block text-white text-sm mb-2">
-                Mensaje
+                Message:
               </label>
               <textarea
                 id="message"
@@ -178,7 +165,7 @@ export default function CoyoacanContact() {
                 rows={5}
                 required
                 className="w-full bg-black/50 border border-white/20 px-4 py-3 text-white focus:border-[#D4AF37] focus:outline-none transition-colors resize-none"
-                placeholder="Cuéntanos sobre tu proyecto, necesidades y fechas ideales..."
+                placeholder="Tell us about your project..."
               />
             </div>
 
