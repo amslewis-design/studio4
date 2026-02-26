@@ -5,7 +5,7 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-const serviceFaqs = [
+const serviceFaqsEs = [
   {
     q: '¿Qué incluye la preproducción?',
     a: 'Incluye brief, objetivos por canal, moodboard, shot list, logística, cronograma y lineamientos de styling para que la producción sea eficiente y consistente.',
@@ -48,15 +48,66 @@ const serviceFaqs = [
   },
 ];
 
+const serviceFaqsEn = [
+  {
+    q: 'What is included in pre-production?',
+    a: 'It includes brief alignment, channel goals, moodboard, shot list, logistics, timeline, and styling guidelines so production runs efficiently and consistently.',
+  },
+  {
+    q: 'How many photos and videos do you deliver?',
+    a: 'It depends on scope. We define an estimated range per production block and confirm final deliverables in your proposal.',
+  },
+  {
+    q: 'Which formats do you deliver for social and web?',
+    a: 'We deliver 9:16, 4:5, 1:1, and 16:9 based on channel needs, plus optimized exports for web/ecommerce and masters for campaigns.',
+  },
+  {
+    q: 'What is your delivery timeline?',
+    a: 'Initial delivery is usually within 5 to 10 business days depending on volume. We can also work with phased delivery schedules.',
+  },
+  {
+    q: 'Do you work with models or talent?',
+    a: 'Yes. We can coordinate casting, talent, and on-set direction based on campaign needs and budget.',
+  },
+  {
+    q: 'Do you include props or food styling?',
+    a: 'Yes, as an add-on or within defined packages. We adjust styling depth to brand goals and publishing channels.',
+  },
+  {
+    q: 'What usage licensing is included?',
+    a: 'We define commercial usage by channel, duration, and territory to avoid legal friction in paid campaigns.',
+  },
+  {
+    q: 'Can production happen across multiple locations?',
+    a: 'Yes. We design location logistics and route planning to maximize coverage without sacrificing editorial quality.',
+  },
+  {
+    q: 'Do you shoot clean-background ecommerce photos?',
+    a: 'Yes. We produce editorial product photography and clean-background variants for ecommerce catalog consistency.',
+  },
+  {
+    q: 'Can you adapt content for Meta/Google ads?',
+    a: 'Yes. We produce cutdowns and channel-specific versions by duration, framing, and message.',
+  },
+];
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const baseUrl = 'https://studio4.vercel.app';
   const canonicalUrl = `${baseUrl}/${locale}/servicios/produccion-editorial`;
+  const isEn = locale === 'en';
+
+  const metaTitle = isEn
+    ? 'Editorial production (Photo + Video) for brands | Sassy Studio'
+    : 'Producción editorial (Foto + Video) para marcas | Sassy Studio';
+
+  const metaDescription = isEn
+    ? 'Editorial photo and video for spaces, product, and gastronomy. Content ready for social, web, and campaigns with creative direction and agile delivery.'
+    : 'Foto y video editorial para espacios, producto y gastronomía. Contenido listo para redes, web y campañas. Dirección creativa y entrega ágil.';
 
   return {
-    title: 'Producción editorial (Foto + Video) para marcas | Sassy Studio',
-    description:
-      'Foto y video editorial para espacios, producto y gastronomía. Contenido listo para redes, web y campañas. Dirección creativa y entrega ágil.',
+    title: metaTitle,
+    description: metaDescription,
     alternates: {
       canonical: canonicalUrl,
       languages: {
@@ -65,9 +116,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     },
     openGraph: {
-      title: 'Producción editorial (Foto + Video) para marcas | Sassy Studio',
-      description:
-        'Foto y video editorial para espacios, producto y gastronomía. Contenido listo para redes, web y campañas. Dirección creativa y entrega ágil.',
+      title: metaTitle,
+      description: metaDescription,
       url: canonicalUrl,
       locale: locale === 'es' ? 'es_MX' : 'en_US',
       type: 'website',
@@ -77,15 +127,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: `${baseUrl}/og-home.jpg`,
           width: 1200,
           height: 630,
-          alt: 'Producción editorial (Foto + Video) para marcas',
+          alt: isEn ? 'Editorial production (Photo + Video) for brands' : 'Producción editorial (Foto + Video) para marcas',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Producción editorial (Foto + Video) para marcas | Sassy Studio',
-      description:
-        'Foto y video editorial para espacios, producto y gastronomía. Contenido listo para redes, web y campañas. Dirección creativa y entrega ágil.',
+      title: metaTitle,
+      description: metaDescription,
       images: [`${baseUrl}/og-home.jpg`],
     },
   };
@@ -95,14 +144,17 @@ export default async function ProduccionEditorialPage({ params }: Props) {
   const { locale } = await params;
   const baseUrl = 'https://studio4.vercel.app';
   const pageUrl = `${baseUrl}/${locale}/servicios/produccion-editorial`;
+  const isEn = locale === 'en';
+  const serviceFaqs = isEn ? serviceFaqsEn : serviceFaqsEs;
 
   const serviceSchema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'Producción editorial (Foto + Video)',
-    serviceType: 'Producción editorial foto y video',
-    description:
-      'Producción editorial foto y video para marcas: espacios, producto, gastronomía y momentos. Entregables optimizados para redes sociales, web y campañas.',
+    name: isEn ? 'Editorial production (Photo + Video)' : 'Producción editorial (Foto + Video)',
+    serviceType: isEn ? 'Editorial photo and video production' : 'Producción editorial foto y video',
+    description: isEn
+      ? 'Editorial photo and video production for brands: spaces, product, gastronomy, and moments. Optimized deliverables for social media, web, and campaigns.'
+      : 'Producción editorial foto y video para marcas: espacios, producto, gastronomía y momentos. Entregables optimizados para redes sociales, web y campañas.',
     areaServed: {
       '@type': 'Country',
       name: 'México',
@@ -116,28 +168,28 @@ export default async function ProduccionEditorialPage({ params }: Props) {
     url: pageUrl,
     offers: {
       '@type': 'OfferCatalog',
-      name: 'Paquetes de producción editorial',
+      name: isEn ? 'Editorial production packages' : 'Paquetes de producción editorial',
       itemListElement: [
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Contenido esencial (half-day)' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Campaña (full-day)' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Library mensual' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: isEn ? 'Essential content (half-day)' : 'Contenido esencial (half-day)' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: isEn ? 'Campaign (full-day)' : 'Campaña (full-day)' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: isEn ? 'Monthly library' : 'Library mensual' } },
       ],
     },
     hasPart: [
       {
         '@type': 'CreativeWork',
-        headline: 'Caso hospitalidad premium',
-        about: 'Foto y video para hoteles y restaurantes',
+        headline: isEn ? 'Premium hospitality case' : 'Caso hospitalidad premium',
+        about: isEn ? 'Photo and video for hotels and restaurants' : 'Foto y video para hoteles y restaurantes',
       },
       {
         '@type': 'CreativeWork',
-        headline: 'Caso ecommerce de producto',
-        about: 'Fotografía de producto editorial y contenido para ecommerce',
+        headline: isEn ? 'Ecommerce product case' : 'Caso ecommerce de producto',
+        about: isEn ? 'Editorial product photography and ecommerce content' : 'Fotografía de producto editorial y contenido para ecommerce',
       },
       {
         '@type': 'CreativeWork',
-        headline: 'Caso gastronomía de alto ticket',
-        about: 'Fotografía gastronómica profesional y video editorial para redes sociales',
+        headline: isEn ? 'High-ticket gastronomy case' : 'Caso gastronomía de alto ticket',
+        about: isEn ? 'Professional food photography and editorial social video' : 'Fotografía gastronómica profesional y video editorial para redes sociales',
       },
     ],
   };
