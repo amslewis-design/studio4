@@ -21,18 +21,20 @@ export default function CoyoacanContact() {
         body: formData,
       });
 
-      let data: { success?: boolean } = {};
+      let data: { success?: boolean; message?: string } = {};
       try {
         data = await response.json();
       } catch {
         data = {};
       }
 
-      if (data.success !== false) {
+      const isSuccess = Boolean(data.success) || response.ok;
+
+      if (isSuccess) {
         setResult('Form Submitted Successfully');
         event.currentTarget.reset();
       } else {
-        setResult('Error');
+        setResult(data.message || 'Error');
       }
     } catch {
       setResult('Error');
