@@ -56,14 +56,16 @@ export default function ServicesPage() {
             sigil="◉"
             className="h-[500px]"
           />
-          <ServiceCard
-            index={1}
-            title={t('digitalNarratives')}
-            description={t('digitalNarrativesDesc')}
-            image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1768343750/IMG_4098_nbgkvo.jpg"
-            sigil="⌇"
-            className="h-[500px]"
-          />
+          <Link href={`/${locale}/servicios/produccion-editorial`} className="block">
+            <ServiceCard
+              index={1}
+              title={t('digitalNarratives')}
+              description={t('digitalNarrativesDesc')}
+              image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1768343750/IMG_4098_nbgkvo.jpg"
+              sigil="⌇"
+              className="h-[500px]"
+            />
+          </Link>
           <ServiceCard
             index={2}
             title={t('identityRefinement')}
