@@ -62,50 +62,6 @@ export default function CoyoacanContact() {
           <div className="w-24 h-[1px] bg-[#D4AF37] mx-auto mt-8" />
         </motion.div>
 
-        {/* Contact Options */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
-        >
-          <a
-            href="https://wa.me/525512345678"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex flex-col items-center gap-3 p-6 border border-white/10 hover:border-[#25D366]/40 bg-gradient-to-br from-white/5 to-transparent hover:from-[#25D366]/10 transition-all duration-300"
-          >
-            <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
-              💬
-            </div>
-            <h3 className="text-white font-serif text-lg">WhatsApp</h3>
-            <p className="text-gray-400 text-sm text-center">Respuesta inmediata</p>
-          </a>
-
-          <a
-            href="mailto:contacto@sassystudio.com.mx"
-            className="group flex flex-col items-center gap-3 p-6 border border-white/10 hover:border-[#D4AF37]/40 bg-gradient-to-br from-white/5 to-transparent hover:from-[#D4AF37]/10 transition-all duration-300"
-          >
-            <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
-              ✉️
-            </div>
-            <h3 className="text-white font-serif text-lg">Email</h3>
-            <p className="text-gray-400 text-sm text-center">contacto@sassystudio.com.mx</p>
-          </a>
-
-          <a
-            href="tel:+525512345678"
-            className="group flex flex-col items-center gap-3 p-6 border border-white/10 hover:border-[#FC7CA4]/40 bg-gradient-to-br from-white/5 to-transparent hover:from-[#FC7CA4]/10 transition-all duration-300"
-          >
-            <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
-              📞
-            </div>
-            <h3 className="text-white font-serif text-lg">Teléfono</h3>
-            <p className="text-gray-400 text-sm text-center">+52 55 1234 5678</p>
-          </a>
-        </motion.div>
-
         {/* Contact Form */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -200,6 +156,50 @@ export default function CoyoacanContact() {
               <span>{t('trust.basedInCDMX')}</span>
             </div>
           </div>
+        </motion.div>
+
+        {/* Contact Options */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12"
+        >
+          <a
+            href="https://wa.me/525512345678"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col items-center gap-3 p-6 border border-white/10 hover:border-[#25D366]/40 bg-gradient-to-br from-white/5 to-transparent hover:from-[#25D366]/10 transition-all duration-300"
+          >
+            <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
+              💬
+            </div>
+            <h3 className="text-white font-serif text-lg">WhatsApp</h3>
+            <p className="text-gray-400 text-sm text-center">Disponible próximamente</p>
+          </a>
+
+          <a
+            href="mailto:contacto@sassystudio.com.mx"
+            className="group flex flex-col items-center gap-3 p-6 border border-white/10 hover:border-[#D4AF37]/40 bg-gradient-to-br from-white/5 to-transparent hover:from-[#D4AF37]/10 transition-all duration-300"
+          >
+            <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
+              ✉️
+            </div>
+            <h3 className="text-white font-serif text-lg">Email</h3>
+            <p className="text-gray-400 text-sm text-center">contacto@sassystudio.com.mx</p>
+          </a>
+
+          <a
+            href="tel:+525512345678"
+            className="group flex flex-col items-center gap-3 p-6 border border-white/10 hover:border-[#FC7CA4]/40 bg-gradient-to-br from-white/5 to-transparent hover:from-[#FC7CA4]/10 transition-all duration-300"
+          >
+            <div className="text-4xl group-hover:scale-110 transition-transform duration-300">
+              📞
+            </div>
+            <h3 className="text-white font-serif text-lg">Teléfono</h3>
+            <p className="text-gray-400 text-sm text-center">Disponible próximamente</p>
+          </a>
         </motion.div>
       </div>
     </section>
