@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 interface KnowledgeItemProps {
   icon: string;
@@ -87,22 +88,14 @@ export default function LocalKnowledge() {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="mt-12 relative"
             >
-              <div className="aspect-[4/3] bg-gradient-to-br from-[#FC7CA4]/20 via-black to-[#D4AF37]/20 border border-white/10 flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  <div className="text-6xl">🏛️</div>
-                  <p className="text-white/60 text-sm px-8">
-                    Jardín Centenario • Plaza Hidalgo • Calles empedradas
-                  </p>
-                </div>
-              </div>
-              {/* Replace with actual image when ready
+              <div className="aspect-[4/3] border border-white/10 overflow-hidden relative">
               <Image
-                src="/coyoacan-knowledge.jpg"
+                src="https://res.cloudinary.com/ds86m2xm0/image/upload/v1772129448/COYOAC%C3%81N-placeholder_qucawx.webp"
                 alt="Coyoacán neighborhood"
                 fill
                 className="object-cover"
               />
-              */}
+              </div>
             </motion.div>
           </motion.div>
 
