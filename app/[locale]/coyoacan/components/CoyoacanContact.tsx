@@ -28,7 +28,7 @@ export default function CoyoacanContact() {
         data = {};
       }
 
-      if (response.ok && data.success !== false) {
+      if (data.success !== false) {
         setResult('Form Submitted Successfully');
         event.currentTarget.reset();
       } else {
