@@ -7,18 +7,35 @@ import { useState } from 'react';
 export default function CoyoacanContact() {
   const t = useTranslations('coyoacan');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [result, setResult] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Add your form submission logic here
-    // This is a placeholder - integrate with your existing contact form logic
-    
-    setTimeout(() => {
+    setResult('Sending...');
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    formData.append('access_key', 'ecc15eb8-54e8-4e41-ab55-4420220a880f');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+      const isSuccess = Boolean(data?.success);
+      setResult(isSuccess ? 'Success!' : 'Error');
+
+      if (isSuccess) {
+        form.reset();
+      }
+    } catch {
+      setResult('Error');
+    } finally {
       setIsSubmitting(false);
-      alert('Gracias por tu interés. Te contactaremos pronto.');
-    }, 1500);
+    }
   };
 
   return (
@@ -177,6 +194,16 @@ export default function CoyoacanContact() {
             >
               {isSubmitting ? 'Enviando...' : 'Enviar Solicitud'}
             </button>
+
+            {result && (
+              <p className="text-center text-sm text-gray-300">
+                {result === 'Sending...'
+                  ? 'Enviando...'
+                  : result === 'Success!'
+                    ? 'Mensaje enviado. Te contactaremos pronto.'
+                    : 'Hubo un error al enviar. Intenta de nuevo.'}
+              </p>
+            )}
           </form>
 
           {/* Trust Badges */}

@@ -319,23 +319,23 @@
       }
     },
     "services": {
-      "title": "Servicios Especiales para Coyoacán",
-      "subtitle": "Paquetes diseñados para capturar la esencia única del barrio más icónico de la CDMX",
-      "weekend": {
-        "name": "Paquete Fin de Semana Coyoacán",
-        "description": "Captura la energía vibrante del barrio cuando está más vivo: mercados artesanales, terrazas llenas, murales y ambiente bohemio. Incluye sesión de 3 horas, 30+ fotos editadas y 5 reels verticales."
+      "title": "Servicios para Marcas en Coyoacán",
+      "subtitle": "Los mismos servicios estratégicos de nuestro plan principal, adaptados al contexto cultural y comercial de Coyoacán.",
+      "visualAlchemy": {
+        "name": "Estrategia Digital",
+        "description": "Optimización de web, landings, blog y newsletter para hoteles, restaurantes y marcas lifestyle en Coyoacán. Mejoramos estructura SEO local, UX y CTAs para convertir visitas en clientes reales."
       },
-      "cultural": {
-        "name": "Paquete Cultural",
-        "description": "Para galerías, museos y espacios culturales. Cobertura de eventos, inauguraciones y exposiciones con estándar editorial. Perfecto para posicionar tu espacio en la escena artística de Coyoacán."
+      "digitalNarratives": {
+        "name": "Producción Editorial (Foto + Video)",
+        "description": "Producción social-first para redes y campañas: fotografía y video editorial en locación, capturando la esencia visual de Coyoacán para destacar tu marca frente a la competencia en CDMX."
       },
-      "gastro": {
-        "name": "Paquete Gastronómico",
-        "description": "Contenido especializado para restaurantes y cafés. Fotografía de platillos, ambiente, y la experiencia completa. Captamos la fusión entre tu cocina y la cultura de Coyoacán."
+      "identityRefinement": {
+        "name": "Contenido Social",
+        "description": "Reels, carruseles y stories con narrativa consistente para marcas de hospitalidad en Coyoacán. Creamos contenido que mantiene presencia constante y fortalece reconocimiento local."
       },
-      "location": {
-        "name": "Sesiones en Locación",
-        "description": "Aprovecha las icónicas locaciones de Coyoacán: Jardín Centenario, Plaza Hidalgo, calles empedradas, fachadas coloridas y rincones bohemios para contenido único."
+      "digitalMaintenance": {
+        "name": "Mantenimiento Digital de Marca",
+        "description": "Operación mensual continua: contenido + gestión de redes + mejoras de ecosistema digital. Ideal para negocios en Coyoacán que buscan crecimiento sostenido y posicionamiento orgánico local."
       }
     },
     "localKnowledge": {

@@ -49,23 +49,23 @@ export default function CoyoacanServices() {
   const services = [
     {
       sigil: '☀️',
-      name: t('weekend.name'),
-      description: t('weekend.description'),
+      name: t('visualAlchemy.name'),
+      description: t('visualAlchemy.description'),
     },
     {
       sigil: '🎭',
-      name: t('cultural.name'),
-      description: t('cultural.description'),
+      name: t('digitalNarratives.name'),
+      description: t('digitalNarratives.description'),
     },
     {
       sigil: '🍽️',
-      name: t('gastro.name'),
-      description: t('gastro.description'),
+      name: t('identityRefinement.name'),
+      description: t('identityRefinement.description'),
     },
     {
       sigil: '📸',
-      name: t('location.name'),
-      description: t('location.description'),
+      name: t('digitalMaintenance.name'),
+      description: t('digitalMaintenance.description'),
     },
   ];
 

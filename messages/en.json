@@ -318,23 +318,23 @@
       }
     },
     "services": {
-      "title": "Special Services for Coyoacán",
-      "subtitle": "Packages designed to capture the unique essence of CDMX's most iconic neighborhood",
-      "weekend": {
-        "name": "Coyoacán Weekend Package",
-        "description": "Capture the vibrant energy when the neighborhood is most alive: artisan markets, bustling terraces, murals and bohemian atmosphere. Includes 3-hour session, 30+ edited photos and 5 vertical reels."
+      "title": "Services for Brands in Coyoacán",
+      "subtitle": "The same strategic services from our primary offering, adapted to Coyoacán's cultural and commercial context.",
+      "visualAlchemy": {
+        "name": "Digital Strategy",
+        "description": "Website, landing page, blog and newsletter optimisation for hotels, restaurants and lifestyle brands in Coyoacán. We improve local SEO structure, UX and CTAs to turn visits into real enquiries."
       },
-      "cultural": {
-        "name": "Cultural Package",
-        "description": "For galleries, museums and cultural spaces. Event coverage, openings and exhibitions with editorial standards. Perfect for positioning your space in Coyoacán's art scene."
+      "digitalNarratives": {
+        "name": "Editorial Production (Photo + Video)",
+        "description": "Social-first photo and video production for feeds and campaigns, shot on location to capture Coyoacán's visual character and make your brand stand out in CDMX search and social discovery."
       },
-      "gastro": {
-        "name": "Gastronomic Package",
-        "description": "Specialized content for restaurants and cafés. Dish photography, ambiance, and the complete experience. We capture the fusion between your cuisine and Coyoacán's culture."
+      "identityRefinement": {
+        "name": "Social Content",
+        "description": "Reels, carousels and stories with a consistent narrative for hospitality brands in Coyoacán. We build always-on content that strengthens local recognition and trust."
       },
-      "location": {
-        "name": "Location Sessions",
-        "description": "Leverage Coyoacán's iconic locations: Jardín Centenario, Plaza Hidalgo, cobblestone streets, colorful facades and bohemian corners for unique content."
+      "digitalMaintenance": {
+        "name": "Digital Brand Maintenance",
+        "description": "Monthly ongoing operation: content + social media management + digital ecosystem improvements. Ideal for businesses in Coyoacán that need sustained growth and stronger local organic visibility."
       }
     },
     "localKnowledge": {
