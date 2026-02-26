@@ -343,12 +343,6 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
           ))}
         </div>
 
-        <div className="border border-dashed border-white/20 p-4 mb-8 text-sm text-gray-400">
-          {isEn
-            ? 'Workflow: Brief → Concept → Pre-production → Production → Post'
-            : 'Flujo de trabajo: Brief → Concepto → Preproducción → Producción → Post'}
-        </div>
-
         <a href="#enquiry" className="inline-block px-8 py-3 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition-colors text-sm">
           {isEn ? 'Do you have a date? Let’s reserve production.' : '¿Tienes fecha? Reservemos producción.'}
         </a>
