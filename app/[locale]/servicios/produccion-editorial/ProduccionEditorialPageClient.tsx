@@ -54,19 +54,19 @@ const galleryItems: GalleryItem[] = [
 const videoPlaceholders = [
   {
     title: 'Video editorial · Espacios',
-    spec: 'Vertical 9:16 · 8–10s · Reel de apertura',
+    spec: 'Cobertura de atmósfera y recorrido para piezas de descubrimiento.',
   },
   {
     title: 'Video editorial · Producto',
-    spec: '4:5 · 10s · Cutdown para ads',
+    spec: 'Secuencias enfocadas en detalle, textura y propuesta de valor.',
   },
   {
     title: 'Video editorial · Gastronomía',
-    spec: '9:16 · 6s · Hook para campañas',
+    spec: 'Narrativa visual de preparación, emplatado y experiencia en mesa.',
   },
   {
     title: 'Video editorial · Momentos',
-    spec: '16:9 · 15s · Hero web/video cover',
+    spec: 'Momentos de marca y equipo para construir confianza y cercanía.',
   },
 ];
 
@@ -271,28 +271,24 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
               body: 'Foto y video para hoteles y restaurantes con enfoque en experiencia, atmósfera y decisión de compra.',
               image: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770261224/5_cfkwxi.jpg',
               alt: 'Fotografía editorial de espacios de hotel con composición arquitectónica y luz cálida.',
-              spec: '4:5 · WebP · sujeto: interior/exterior con profundidad y textura',
             },
             {
               title: 'Producto (ecommerce y campañas)',
               body: 'Fotografía de producto editorial con variantes para catálogo, landing y contenido para ecommerce.',
               image: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770517992/7_rqcm14.webp',
               alt: 'Fotografía de producto editorial con set minimal para ecommerce y anuncios digitales.',
-              spec: '1:1 y 4:5 · WebP · sujeto: producto hero + detalle de textura',
             },
             {
               title: 'Gastronomía (restaurantes, marcas de food)',
               body: 'Fotografía gastronómica profesional para menús visuales, campañas estacionales y redes.',
               image: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769605842/sassy-studio/cafe_tjpt9a.webp',
               alt: 'Fotografía gastronómica profesional de platillo principal con luz natural lateral.',
-              spec: '4:5 · WebP · sujeto: platillo hero + contexto de mesa',
             },
             {
               title: 'Momentos (people, eventos, behind-the-scenes)',
               body: 'Cobertura de momentos reales para construir credibilidad de marca y contenido visual para campañas.',
               image: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770261222/1_vd47a8.jpg',
               alt: 'Foto editorial de momento humano en producción con interacción natural de equipo.',
-              spec: '9:16 y 16:9 · WebP · sujeto: interacción humana y dinámica de marca',
             },
           ].map((card) => (
             <article key={card.title} className="border border-white/10 overflow-hidden bg-white/[0.02]">
@@ -302,7 +298,6 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
               <div className="p-6 space-y-3">
                 <h3 className="text-2xl font-serif">{card.title}</h3>
                 <p className="text-gray-300 text-sm leading-relaxed">{card.body}</p>
-                <p className="text-xs text-gray-500">Formato recomendado: {card.spec}</p>
               </div>
             </article>
           ))}
