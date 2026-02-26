@@ -31,6 +31,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     });
 
+    // Services hubs
+    routes.push({
+      url: `${BASE_URL}/${locale}/services`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    });
+
+    routes.push({
+      url: `${BASE_URL}/${locale}/servicios`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    });
+
+    // Secondary service detail
+    routes.push({
+      url: `${BASE_URL}/${locale}/servicios/produccion-editorial`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    });
+
     // FAQ
     routes.push({
       url: `${BASE_URL}/${locale}/faq`,
