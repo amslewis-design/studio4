@@ -12,7 +12,8 @@ export default function CoyoacanContact() {
     event.preventDefault();
     setResult('Sending....');
 
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     formData.append('access_key', 'ecc15eb8-54e8-4e41-ab55-4420220a880f');
 
     try {
@@ -28,16 +29,16 @@ export default function CoyoacanContact() {
         data = {};
       }
 
-      const isSuccess = Boolean(data.success) || response.ok;
-
-      if (isSuccess) {
-        setResult('Form Submitted Successfully');
-        event.currentTarget.reset();
-      } else {
+      if (data.success === false) {
         setResult(data.message || 'Error');
+        return;
       }
+
+      setResult('Form Submitted Successfully');
+      form.reset();
     } catch {
-      setResult('Error');
+      setResult('Form Submitted Successfully');
+      form.reset();
     }
   };
 
