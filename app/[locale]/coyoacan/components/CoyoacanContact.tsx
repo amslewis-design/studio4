@@ -6,16 +6,13 @@ import { useState } from 'react';
 
 export default function CoyoacanContact() {
   const t = useTranslations('coyoacan');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setResult('Sending...');
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setResult('Sending....');
 
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+    const formData = new FormData(event.currentTarget);
     formData.append('access_key', 'ecc15eb8-54e8-4e41-ab55-4420220a880f');
 
     try {
@@ -25,16 +22,14 @@ export default function CoyoacanContact() {
       });
 
       const data = await response.json();
-      const isSuccess = Boolean(data?.success);
-      setResult(isSuccess ? 'Success!' : 'Error');
-
-      if (isSuccess) {
-        form.reset();
+      if (data.success) {
+        setResult('Form Submitted Successfully');
+        event.currentTarget.reset();
+      } else {
+        setResult('Error');
       }
     } catch {
       setResult('Error');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -110,7 +105,7 @@ export default function CoyoacanContact() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="bg-gradient-to-br from-white/5 to-transparent border border-white/10 p-8 md:p-10"
         >
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={onSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-white text-sm mb-2">
@@ -189,20 +184,14 @@ export default function CoyoacanContact() {
 
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={result === 'Sending....'}
               className="w-full px-8 py-4 bg-[#D4AF37] text-black font-medium tracking-wide hover:bg-[#FC7CA4] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Enviando...' : 'Enviar Solicitud'}
+              {result === 'Sending....' ? 'Enviando...' : 'Enviar Solicitud'}
             </button>
 
             {result && (
-              <p className="text-center text-sm text-gray-300">
-                {result === 'Sending...'
-                  ? 'Enviando...'
-                  : result === 'Success!'
-                    ? 'Mensaje enviado. Te contactaremos pronto.'
-                    : 'Hubo un error al enviar. Intenta de nuevo.'}
-              </p>
+              <span className="block text-center text-sm text-gray-300">{result}</span>
             )}
           </form>
 
