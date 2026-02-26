@@ -22,7 +22,6 @@ type GalleryItem = {
   category: GalleryCategory;
   caption: string;
   alt: string;
-  filename: string;
 };
 
 const galleryItems: GalleryItem[] = [
@@ -31,46 +30,42 @@ const galleryItems: GalleryItem[] = [
     category: 'Espacios',
     caption: 'Lobby boutique con narrativa visual editorial para hospitality.',
     alt: 'Fotografía editorial de hotel boutique con luz natural en lobby y textura arquitectónica.',
-    filename: 'produccion-editorial-foto-video-espacios-hotel.webp',
   },
   {
     src: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770517992/7_rqcm14.webp',
     category: 'Producto',
     caption: 'Producto premium con set limpio para ecommerce y campañas.',
     alt: 'Fotografía de producto editorial para ecommerce con composición limpia y color controlado.',
-    filename: 'produccion-editorial-fotografia-producto-ecommerce.webp',
   },
   {
     src: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769605842/sassy-studio/cafe_tjpt9a.webp',
     category: 'Gastronomía',
     caption: 'Mesa editorial para restaurante, pensada para feed y pauta.',
     alt: 'Fotografía editorial de restaurante con luz natural y detalle de mesa.',
-    filename: 'produccion-editorial-foto-video-gastronomia.webp',
   },
   {
     src: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770261222/1_vd47a8.jpg',
     category: 'Momentos',
     caption: 'Momentos reales de marca para video editorial para redes sociales.',
     alt: 'Foto documental de equipo y cliente durante producción de contenido para marcas.',
-    filename: 'produccion-editorial-momentos-marca.webp',
   },
 ];
 
 const videoPlaceholders = [
   {
-    title: 'Sample 01 · Espacios',
+    title: 'Video editorial · Espacios',
     spec: 'Vertical 9:16 · 8–10s · Reel de apertura',
   },
   {
-    title: 'Sample 02 · Producto',
+    title: 'Video editorial · Producto',
     spec: '4:5 · 10s · Cutdown para ads',
   },
   {
-    title: 'Sample 03 · Gastronomía',
+    title: 'Video editorial · Gastronomía',
     spec: '9:16 · 6s · Hook para campañas',
   },
   {
-    title: 'Sample 04 · Momentos',
+    title: 'Video editorial · Momentos',
     spec: '16:9 · 15s · Hero web/video cover',
   },
 ];
@@ -176,7 +171,7 @@ function ContactForm() {
         type="submit"
         className="w-full bg-[#D4AF37] text-black py-4 uppercase tracking-[0.35em] text-xs font-bold hover:bg-[#FC7CA4] transition-colors"
       >
-        Submit Form
+        Enviar solicitud
       </button>
       <span className="block text-sm text-gray-300 text-center">{result}</span>
     </form>
@@ -240,7 +235,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 text-xs text-white/80 bg-black/50 border border-white/10 p-3">
-                Hero media spec: 4:5 (ideal), alternativa 16:9 · sujeto: espacio + producto + gastronomía + momento humano.
+                Dirección editorial en set: espacios, producto, gastronomía y momentos de marca.
               </div>
             </div>
           </div>
@@ -307,7 +302,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
               <div className="p-6 space-y-3">
                 <h3 className="text-2xl font-serif">{card.title}</h3>
                 <p className="text-gray-300 text-sm leading-relaxed">{card.body}</p>
-                <p className="text-xs text-gray-500">Media spec: {card.spec}</p>
+                <p className="text-xs text-gray-500">Formato recomendado: {card.spec}</p>
               </div>
             </article>
           ))}
@@ -327,7 +322,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
         </div>
 
         <div className="border border-dashed border-white/20 p-4 mb-8 text-sm text-gray-400">
-          Placeholder gráfico horizontal (5 pasos): Brief → Concepto → Preproducción → Producción → Post
+          Flujo de trabajo: Brief → Concepto → Preproducción → Producción → Post
         </div>
 
         <a href="#enquiry" className="inline-block px-8 py-3 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition-colors text-sm">
@@ -358,8 +353,11 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
             </ul>
           </div>
         </div>
-        <div className="border border-white/10 p-6 text-sm text-gray-400">
-          Placeholder gráfico ratios + formats: 9:16 · 4:5 · 1:1 · 16:9
+        <div className="border border-white/10 p-6 text-sm text-gray-400 flex flex-wrap gap-3">
+          <span className="border border-white/20 px-3 py-1">9:16</span>
+          <span className="border border-white/20 px-3 py-1">4:5</span>
+          <span className="border border-white/20 px-3 py-1">1:1</span>
+          <span className="border border-white/20 px-3 py-1">16:9</span>
         </div>
       </section>
 
@@ -394,7 +392,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
 
       <section id="portfolio" className="px-6 max-w-7xl mx-auto py-16">
         <h2 className="text-4xl md:text-5xl font-serif font-thin mb-3">Portafolio: foto + video editorial</h2>
-        <p className="text-gray-400 mb-6">Alt text recomendado en español descriptivo, orientado al sujeto y al contexto visual.</p>
+        <p className="text-gray-400 mb-6">Selección de proyectos para espacios, producto, gastronomía y momentos de marca.</p>
 
         <div className="flex flex-wrap gap-3 mb-8">
           {(['Espacios', 'Producto', 'Gastronomía', 'Momentos'] as GalleryCategory[]).map((tab) => (
@@ -411,7 +409,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
           {filteredItems.map((item, index) => (
             <button
-              key={item.filename}
+              key={item.src}
               onClick={() => setLightboxIndex(index)}
               className="text-left border border-white/10 bg-white/[0.02] overflow-hidden"
             >
@@ -427,7 +425,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
               </div>
               <div className="p-4">
                 <p className="text-white text-sm mb-1">{item.caption}</p>
-                <p className="text-xs text-gray-500">Filename sugerido: {item.filename}</p>
+                <p className="text-xs text-gray-500">{item.alt}</p>
               </div>
             </button>
           ))}
@@ -471,7 +469,6 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
               <p className="text-sm text-gray-300 mb-2"><strong>Objetivo:</strong> {study.objective}</p>
               <p className="text-sm text-gray-300 mb-2"><strong>Qué se produjo:</strong> {study.produced}</p>
               <p className="text-sm text-gray-300"><strong>Resultado:</strong> {study.result}</p>
-              <div className="mt-4 border border-dashed border-white/15 p-3 text-xs text-gray-500">Placeholder visual: before/after o mockup de anuncio.</div>
             </article>
           ))}
         </div>
