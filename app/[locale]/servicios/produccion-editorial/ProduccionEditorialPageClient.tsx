@@ -400,7 +400,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
                   <p className="text-xs uppercase tracking-[0.2em] text-[#D4AF37] mb-2">{isEn ? 'Outcomes' : 'Outcomes'}</p>
                   <ul className="list-disc pl-5 text-gray-300 space-y-1">
                     {(isEn
-                      ? 'We lead creative direction, styling, and on-set execution to deliver publish-ready assets. Formats are optimised from day one for IG, TikTok, landing pages, and paid ads.'
+                      ? {
                           'Hoteles y hospitalidad': ['Stronger premium perception', 'Higher reel engagement', 'Reusable visual library'],
                           'Restaurantes y cafeterías': ['Higher visit intent', 'Better CTR on menu/campaigns', 'Consistent visual identity'],
                           'Marcas de producto / ecommerce': ['Higher visual conversion', 'Less catalog friction', 'Better ad creative performance'],
@@ -438,7 +438,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
         <h2 className="text-4xl md:text-5xl font-serif font-thin mb-3">{isEn ? 'Portfolio: editorial photo + video' : 'Portafolio: foto + video editorial'}</h2>
         <p className="text-gray-400 mb-6">{isEn ? 'Project selection across spaces, product, gastronomy, and branded moments.' : 'Selección de proyectos para espacios, producto, gastronomía y momentos de marca.'}</p>
 
-            [isEn ? 'On-location production' : 'Producción en locación', 'M3 11l9-8l9 8v9H3z'],
+        <div className="flex flex-wrap gap-3 mb-8">
           {(['spaces', 'product', 'gastronomy', 'moments'] as GalleryCategory[]).map((tab) => (
             <button
               key={tab}
