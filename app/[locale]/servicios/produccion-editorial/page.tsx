@@ -59,7 +59,7 @@ const serviceFaqsEn = [
   },
   {
     q: 'Which formats do you deliver for social and web?',
-    a: 'We deliver 9:16, 4:5, 1:1, and 16:9 based on channel needs, plus optimized exports for web/ecommerce and masters for campaigns.',
+    a: 'We deliver 9:16, 4:5, 1:1, and 16:9 based on channel needs, plus optimised exports for web/ecommerce and masters for campaigns.',
   },
   {
     q: 'What is your delivery timeline?',
@@ -79,7 +79,7 @@ const serviceFaqsEn = [
   },
   {
     q: 'Can production happen across multiple locations?',
-    a: 'Yes. We design location logistics and route planning to maximize coverage without sacrificing editorial quality.',
+    a: 'Yes. We design location logistics and route planning to maximise coverage without sacrificing editorial quality.',
   },
   {
     q: 'Do you shoot clean-background ecommerce photos?',
@@ -112,14 +112,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: canonicalUrl,
       languages: {
         'es-MX': `${baseUrl}/es/servicios/produccion-editorial`,
-        'en-US': `${baseUrl}/en/servicios/produccion-editorial`,
+        'en-GB': `${baseUrl}/en/servicios/produccion-editorial`,
       },
     },
     openGraph: {
       title: metaTitle,
       description: metaDescription,
       url: canonicalUrl,
-      locale: locale === 'es' ? 'es_MX' : 'en_US',
+      locale: locale === 'es' ? 'es_MX' : 'en_GB',
       type: 'website',
       siteName: 'Sassy Studio',
       images: [
@@ -153,13 +153,13 @@ export default async function ProduccionEditorialPage({ params }: Props) {
     name: isEn ? 'Editorial production (Photo + Video)' : 'Producción editorial (Foto + Video)',
     serviceType: isEn ? 'Editorial photo and video production' : 'Producción editorial foto y video',
     description: isEn
-      ? 'Editorial photo and video production for brands: spaces, product, gastronomy, and moments. Optimized deliverables for social media, web, and campaigns.'
+      ? 'Editorial photo and video production for brands: spaces, product, gastronomy, and moments. Optimised deliverables for social media, web, and campaigns.'
       : 'Producción editorial foto y video para marcas: espacios, producto, gastronomía y momentos. Entregables optimizados para redes sociales, web y campañas.',
     areaServed: {
       '@type': 'Country',
       name: 'México',
     },
-    inLanguage: 'es-MX',
+    inLanguage: isEn ? 'en-GB' : 'es-MX',
     provider: {
       '@type': 'Organization',
       name: 'Sassy Studio',

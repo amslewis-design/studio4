@@ -15,7 +15,7 @@ type Props = {
   faqs: FaqItem[];
 };
 
-type GalleryCategory = 'Espacios' | 'Producto' | 'Gastronomía' | 'Momentos';
+type GalleryCategory = 'spaces' | 'product' | 'gastronomy' | 'moments';
 
 type GalleryItem = {
   src: string;
@@ -27,25 +27,25 @@ type GalleryItem = {
 const galleryItems: GalleryItem[] = [
   {
     src: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770261224/5_cfkwxi.jpg',
-    category: 'Espacios',
+    category: 'spaces',
     caption: 'Lobby boutique con narrativa visual editorial para hospitality.',
     alt: 'Fotografía editorial de hotel boutique con luz natural en lobby y textura arquitectónica.',
   },
   {
     src: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770517992/7_rqcm14.webp',
-    category: 'Producto',
+    category: 'product',
     caption: 'Producto premium con set limpio para ecommerce y campañas.',
     alt: 'Fotografía de producto editorial para ecommerce con composición limpia y color controlado.',
   },
   {
     src: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769605842/sassy-studio/cafe_tjpt9a.webp',
-    category: 'Gastronomía',
+    category: 'gastronomy',
     caption: 'Mesa editorial para restaurante, pensada para feed y pauta.',
     alt: 'Fotografía editorial de restaurante con luz natural y detalle de mesa.',
   },
   {
     src: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770261222/1_vd47a8.jpg',
-    category: 'Momentos',
+    category: 'moments',
     caption: 'Momentos reales de marca para video editorial para redes sociales.',
     alt: 'Foto documental de equipo y cliente durante producción de contenido para marcas.',
   },
@@ -188,7 +188,7 @@ function TrustIcon({ path }: { path: string }) {
 
 export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
   const isEn = locale === 'en';
-  const [activeFilter, setActiveFilter] = useState<GalleryCategory>('Espacios');
+  const [activeFilter, setActiveFilter] = useState<GalleryCategory>('spaces');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const filteredItems = useMemo(
@@ -236,7 +236,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
             <div className="aspect-[4/5] border border-white/10 overflow-hidden relative bg-black">
               <Image
                 src="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1768343750/IMG_4098_nbgkvo.jpg"
-                alt="Producción editorial de foto y video para marca de hospitalidad en set con dirección creativa"
+                alt={isEn ? 'Editorial photo and video production for a hospitality brand on set with creative direction' : 'Producción editorial de foto y video para marca de hospitalidad en set con dirección creativa'}
                 fill
                 priority
                 className="object-cover opacity-85"
@@ -400,7 +400,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
                   <p className="text-xs uppercase tracking-[0.2em] text-[#D4AF37] mb-2">{isEn ? 'Outcomes' : 'Outcomes'}</p>
                   <ul className="list-disc pl-5 text-gray-300 space-y-1">
                     {(isEn
-                      ? {
+                      ? 'We lead creative direction, styling, and on-set execution to deliver publish-ready assets. Formats are optimised from day one for IG, TikTok, landing pages, and paid ads.'
                           'Hoteles y hospitalidad': ['Stronger premium perception', 'Higher reel engagement', 'Reusable visual library'],
                           'Restaurantes y cafeterías': ['Higher visit intent', 'Better CTR on menu/campaigns', 'Consistent visual identity'],
                           'Marcas de producto / ecommerce': ['Higher visual conversion', 'Less catalog friction', 'Better ad creative performance'],
@@ -438,14 +438,26 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
         <h2 className="text-4xl md:text-5xl font-serif font-thin mb-3">{isEn ? 'Portfolio: editorial photo + video' : 'Portafolio: foto + video editorial'}</h2>
         <p className="text-gray-400 mb-6">{isEn ? 'Project selection across spaces, product, gastronomy, and branded moments.' : 'Selección de proyectos para espacios, producto, gastronomía y momentos de marca.'}</p>
 
-        <div className="flex flex-wrap gap-3 mb-8">
-          {(['Espacios', 'Producto', 'Gastronomía', 'Momentos'] as GalleryCategory[]).map((tab) => (
+            [isEn ? 'On-location production' : 'Producción en locación', 'M3 11l9-8l9 8v9H3z'],
+          {(['spaces', 'product', 'gastronomy', 'moments'] as GalleryCategory[]).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveFilter(tab)}
               className={`px-4 py-2 border text-sm transition-colors ${activeFilter === tab ? 'border-[#D4AF37] text-[#D4AF37]' : 'border-white/20 text-white/80 hover:border-white/50'}`}
             >
-              {tab}
+              {isEn
+                ? {
+                    spaces: 'Spaces',
+                    product: 'Product',
+                    gastronomy: 'Gastronomy',
+                    moments: 'Moments',
+                  }[tab]
+                : {
+                    spaces: 'Espacios',
+                    product: 'Producto',
+                    gastronomy: 'Gastronomía',
+                    moments: 'Momentos',
+                  }[tab]}
             </button>
           ))}
         </div>
