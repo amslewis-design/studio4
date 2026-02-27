@@ -378,5 +378,90 @@
       "startingFrom": "Paquetes desde",
       "contact": "Contáctanos para cotización personalizada"
     }
+  },
+  "mexicoCity": {
+    "pageTitle": "Fotografía y Contenido para Hoteles y Restaurantes en Ciudad de México | Sassy Studio",
+    "metaDescription": "Estudio boutique de contenido editorial para marcas de hospitalidad en Ciudad de México. Fotografía, video y estrategia digital diseñados para destacar en CDMX.",
+    "metaKeywords": "fotografía Ciudad de México, contenido restaurantes CDMX, marketing hoteles CDMX, fotografía gastronómica México",
+    "hero": {
+      "title": "Contenido Editorial para Marcas en Ciudad de México",
+      "subtitle": "Fotografía, video y estrategia digital para hoteles boutique, restaurantes y marcas lifestyle en toda la CDMX",
+      "cta": "Trabajemos juntos en CDMX"
+    },
+    "localValue": {
+      "heading": "Tu Estudio Local en Ciudad de México",
+      "coverage": {
+        "title": "Cobertura en toda la ciudad",
+        "description": "Desde Roma y Condesa hasta Polanco, Juárez, Santa Fe y Coyoacán: nos movemos con agilidad para producir en cualquier zona de CDMX."
+      },
+      "knowledge": {
+        "title": "Conocemos cada contexto",
+        "description": "Entendemos cómo adaptar dirección visual y narrativa según el ritmo, audiencia y estética de cada barrio y tipo de marca."
+      },
+      "network": {
+        "title": "Red local confiable",
+        "description": "Trabajamos con talento y proveedores locales para producir contenido de alto estándar con ejecución eficiente y consistente."
+      }
+    },
+    "services": {
+      "title": "Servicios para Marcas en CDMX",
+      "subtitle": "Nuestros servicios editoriales y de estrategia digital adaptados al mercado competitivo de Ciudad de México.",
+      "visualAlchemy": {
+        "name": "Estrategia Digital",
+        "description": "Optimización de web, landings, blog y newsletter para marcas de hospitalidad en CDMX. Mejoramos SEO local, UX y estructura de conversión para generar más oportunidades reales."
+      },
+      "digitalNarratives": {
+        "name": "Producción Editorial (Foto + Video)",
+        "description": "Producción social-first para redes y campañas en locación. Capturamos contenido con estándar editorial para que tu marca destaque en una ciudad de alta competencia visual."
+      },
+      "identityRefinement": {
+        "name": "Contenido Social",
+        "description": "Reels, carruseles y stories con narrativa consistente para mantener presencia constante, coherente y diferenciada en el ecosistema digital de CDMX."
+      },
+      "digitalMaintenance": {
+        "name": "Mantenimiento Digital de Marca",
+        "description": "Operación mensual continua: contenido + gestión de redes + mejoras del ecosistema digital para sostener crecimiento y fortalecer posicionamiento de marca local."
+      }
+    },
+    "localKnowledge": {
+      "title": "Entendemos el Ritmo Real de CDMX",
+      "subtitle": "Producción estratégica basada en timing, movilidad y contexto urbano",
+      "lightTiming": {
+        "title": "Luz por zona y horario",
+        "description": "Planificamos cada shoot según orientación, sombras y horas pico para lograr tomas limpias y consistentes en exteriores e interiores."
+      },
+      "crowdPattern": {
+        "title": "Flujo y movilidad",
+        "description": "Ajustamos horarios y rutas para evitar fricción logística y aprovechar momentos de mayor valor visual y comercial."
+      },
+      "seasonal": {
+        "title": "Calendario de oportunidades",
+        "description": "Activamos contenido alrededor de temporadas clave, eventos de ciudad y fechas estratégicas para marcas de hospitalidad."
+      },
+      "hiddenGems": {
+        "title": "Locaciones con intención",
+        "description": "Seleccionamos spots que sí elevan la narrativa de marca, no solo lugares populares, para construir diferenciación real."
+      }
+    },
+    "portfolio": {
+      "title": "Proyectos en Ciudad de México",
+      "subtitle": "Marcas que han confiado en nuestro enfoque editorial",
+      "viewAll": "Ver todo el portafolio"
+    },
+    "cta": {
+      "main": "Agenda tu sesión en Ciudad de México",
+      "secondary": "Ver proyectos en CDMX",
+      "whatsapp": "WhatsApp directo"
+    },
+    "trust": {
+      "spanishService": "Servicio en Español",
+      "basedInCDMX": "Con base en CDMX",
+      "responseTime": "Respondemos en 24 horas",
+      "localExpertise": "Expertos locales en Ciudad de México"
+    },
+    "pricing": {
+      "startingFrom": "Paquetes desde",
+      "contact": "Contáctanos para cotización personalizada"
+    }
   }
 }

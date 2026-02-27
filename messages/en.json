@@ -376,5 +376,91 @@
     "pricing": {
       "startingFrom": "Packages from",
       "contact": "Contact us for personalized quote"
-    }  }
+    }
+  },
+  "mexicoCity": {
+    "pageTitle": "Photography & Content for Hotels and Restaurants in Mexico City | Sassy Studio",
+    "metaDescription": "Boutique editorial content studio for hospitality brands in Mexico City. Photography, video and digital strategy designed to help your brand stand out in CDMX.",
+    "metaKeywords": "Mexico City photography, restaurant content CDMX, hotel marketing Mexico City, food photography Mexico",
+    "hero": {
+      "title": "Editorial Content for Hospitality Brands in Mexico City",
+      "subtitle": "Photography, video and digital strategy for boutique hotels, restaurants and lifestyle brands across CDMX",
+      "cta": "Let's work together in CDMX"
+    },
+    "localValue": {
+      "heading": "Your Local Studio in Mexico City",
+      "coverage": {
+        "title": "City-wide coverage",
+        "description": "From Roma and Condesa to Polanco, Juárez, Santa Fe and Coyoacán, we move quickly to produce in any CDMX zone."
+      },
+      "knowledge": {
+        "title": "Context-first production",
+        "description": "We adapt visual direction and storytelling to each neighborhood's pace, audience and aesthetic so your content feels precise and relevant."
+      },
+      "network": {
+        "title": "Reliable local network",
+        "description": "We collaborate with trusted local talent and vendors to deliver premium content with efficient, consistent execution."
+      }
+    },
+    "services": {
+      "title": "Services for Brands in CDMX",
+      "subtitle": "Our editorial and digital strategy services adapted to Mexico City's competitive hospitality market.",
+      "visualAlchemy": {
+        "name": "Digital Strategy",
+        "description": "Website, landing page, blog and newsletter optimisation for hospitality brands in CDMX. We improve local SEO, UX and conversion structure to generate real enquiries."
+      },
+      "digitalNarratives": {
+        "name": "Editorial Production (Photo + Video)",
+        "description": "Social-first photo and video production for feeds and campaigns, shot on location with a premium editorial standard tailored to CDMX audiences."
+      },
+      "identityRefinement": {
+        "name": "Social Content",
+        "description": "Reels, carousels and stories with a consistent narrative to keep your brand visible, coherent and differentiated in a crowded digital market."
+      },
+      "digitalMaintenance": {
+        "name": "Digital Brand Maintenance",
+        "description": "Monthly ongoing operation: content + social media management + digital ecosystem improvements to sustain growth and strengthen local brand positioning."
+      }
+    },
+    "localKnowledge": {
+      "title": "We Understand the Real Rhythm of CDMX",
+      "subtitle": "Strategic production based on timing, mobility and urban context",
+      "lightTiming": {
+        "title": "Light by zone and schedule",
+        "description": "We plan each shoot around orientation, shadows and traffic patterns to get clean, consistent visuals in every setting."
+      },
+      "crowdPattern": {
+        "title": "Flow and mobility",
+        "description": "We adjust schedules and routes to avoid logistical friction and capture moments with higher visual and commercial value."
+      },
+      "seasonal": {
+        "title": "Seasonal opportunities",
+        "description": "We activate content around key seasons, city events and strategic dates for hospitality brands."
+      },
+      "hiddenGems": {
+        "title": "Purposeful locations",
+        "description": "We select spots that truly support your brand narrative, not just popular places, so your positioning stays distinctive."
+      }
+    },
+    "portfolio": {
+      "title": "Mexico City Projects",
+      "subtitle": "Brands that have trusted our editorial approach",
+      "viewAll": "View full portfolio"
+    },
+    "cta": {
+      "main": "Schedule your Mexico City session",
+      "secondary": "View CDMX projects",
+      "whatsapp": "Direct WhatsApp"
+    },
+    "trust": {
+      "spanishService": "Spanish Service",
+      "basedInCDMX": "Based in CDMX",
+      "responseTime": "We respond within 24 hours",
+      "localExpertise": "Local Mexico City Experts"
+    },
+    "pricing": {
+      "startingFrom": "Packages from",
+      "contact": "Contact us for personalized quote"
+    }
+  }
 }
