@@ -12,6 +12,7 @@ import { useLocale } from 'next-intl';
 export default function ServicesPage() {
   const t = useTranslations('services');
   const locale = useLocale();
+  const isEn = locale === 'en';
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
 
   return (
@@ -129,15 +130,17 @@ export default function ServicesPage() {
         </div>
 
         <div className="mb-20 border border-white/10 bg-white/[0.02] p-8">
-          <h3 className="text-2xl md:text-3xl font-serif font-thin mb-3 text-white">Servicio destacado</h3>
+          <h3 className="text-2xl md:text-3xl font-serif font-thin mb-3 text-white">{isEn ? 'Featured service' : 'Servicio destacado'}</h3>
           <p className="text-gray-400 max-w-3xl mb-5">
-            Si buscas producción editorial foto y video para marcas, revisa nuestra página dedicada con entregables, formatos, proceso y FAQ orientado a conversión.
+            {isEn
+              ? 'If you need editorial photo and video production for brands, review our dedicated page with deliverables, formats, process and conversion-focused FAQs.'
+              : 'Si buscas producción editorial foto y video para marcas, revisa nuestra página dedicada con entregables, formatos, proceso y FAQ orientado a conversión.'}
           </p>
           <Link
             href={`/${locale}/servicios/produccion-editorial`}
             className="inline-block px-8 py-3 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition-colors text-xs uppercase tracking-[0.3em] font-bold"
           >
-            Ver Producción Editorial
+            {isEn ? 'View Editorial Production' : 'Ver Producción Editorial'}
           </Link>
         </div>
 

@@ -33,18 +33,18 @@
     "cta": "Enter the Studio"
   },
   "services": {
-    "menuTitle": "The Alchemist's Menu",
+    "menuTitle": "The Studio Menu",
     "menuHeading": "Services for hospitality & lifestyle brands with editorial standards",
     "pageTitle": "Services | Sassy Studio | Monthly Content Kit & Digital Maintenance",
     "metaDescription": "Two plans to elevate your brand month by month: social media content and a more complete digital presence plan. Bespoke projects available. Based in CDMX, projects in LA and UK.",
     "ourCraft": "Content Services for Hospitality and Lifestyle Brands",
     "ourCraftSubtitle": "Los Angeles, London, Ireland, Acapulco & Mexico City",
-    "visualAlchemy": "Visual Alchemy",
-    "visualAlchemyDesc": "High-resolution hotel and gastronomy photography that transforms spaces into irresistible visual stories.",
-    "digitalNarratives": "Digital Narratives",
-    "digitalNarrativesDesc": "Strategic Reels and TikTok production that captures attention and drives bookings through authentic storytelling.",
-    "identityRefinement": "Identity Refinement",
-    "identityRefinementDesc": "Brand positioning for the exclusive hospitality market, refining your identity into pure distinction.",
+    "visualAlchemy": "Digital Strategy",
+    "visualAlchemyDesc": "Website maintenance and optimisation, page design and updates, blog operations (structure + publishing), newsletter, campaign support (launches and seasonal windows), UX improvements, internal linking, and CTA structure.",
+    "digitalNarratives": "Editorial Production (Photo + Video)",
+    "digitalNarrativesDesc": "We capture spaces, product, gastronomy and moments with an editorial standard designed for social, website and campaign performance.",
+    "identityRefinement": "Social Content",
+    "identityRefinementDesc": "Photos, reels, carousels and stories with consistent narrative.\n\nContinuous profile optimisation so the feed feels intentional and premium.",
     "servicesDescription": "Discover our comprehensive suite of services designed to elevate your brand presence.",
     "exploreServices": "Explore Services",
     "transformPresence": "to start your transformation.",
@@ -55,17 +55,17 @@
     "plans": {
       "plan1": {
         "title": "Monthly Content Kit",
-        "body": "For brands that want consistency. We define the concept of the month, the style and the plan. We produce and edit the material according to the agreed scope and deliver pieces ready to publish, with a library of assets useful for social and web."
+        "body": "For brands that want consistency on social with an editorial standard.\nWhat it includes: monthly concept + plan, production by scope, social-first editing, and delivery of publish-ready pieces + an asset library useful for social and website.\nIdeal if: you have an internal publishing team or need ready deliverables without full channel operation."
       },
       "plan2": {
         "title": "Digital Brand Maintenance",
-        "body": "For brands that want to elevate their standard in everything seen digitally. Includes monthly social content, social media management. Page optimizations, blog and newsletter creation, always under the same editorial criteria."
+        "body": "For brands that want to elevate the standard of everything seen in digital with an ongoing partner.\nWhat it includes: monthly social content + social media management + continuous optimisation of the digital ecosystem (website/landings/blog/newsletter/campaigns) so everything feels coherent and intentional.\nIdeal if: you need complete operation, content + social + integrated digital presence."
       }
     },
     "cta": "Schedule a call with us",
     "bespoke": {
       "title": "Bespoke Projects",
-      "body": "For openings, relaunches, key seasons or specific needs. We define the scope with you and execute it with the same editorial standard."
+      "body": "For openings, relaunches, key seasons, or specific needs.\n\nWhat it includes: we define scope, deliverables and timing with you, and execute with the same editorial standard and methodology."
     },
     "methodology": {
       "title": "Sassy Methodology",
