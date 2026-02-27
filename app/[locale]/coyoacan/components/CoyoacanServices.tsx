@@ -1,17 +1,19 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface ServicePackageProps {
   sigil: string;
   name: string;
   description: string;
   index: number;
+  href?: string;
 }
 
-function ServicePackage({ sigil, name, description, index }: ServicePackageProps) {
-  return (
+function ServicePackage({ sigil, name, description, index, href }: ServicePackageProps) {
+  const card = (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -29,38 +31,52 @@ function ServicePackage({ sigil, name, description, index }: ServicePackageProps
         <h3 className="text-2xl md:text-3xl font-serif font-thin text-white group-hover:text-[#D4AF37] transition-colors duration-300 tracking-wide">
           {name}
         </h3>
-        
+
         <div className="w-12 h-[1px] bg-white/20 group-hover:bg-[#D4AF37] transition-colors duration-500" />
-        
+
         <p className="text-gray-400 text-sm md:text-base leading-relaxed group-hover:text-gray-200 transition-colors duration-300 font-light">
           {description}
         </p>
       </div>
-      
+
       {/* Background glow effect */}
       <div className="absolute inset-0 bg-gradient-to-tr from-[#FC7CA4]/0 via-transparent to-[#D4AF37]/0 group-hover:to-[#D4AF37]/10 transition-all duration-500 pointer-events-none" />
     </motion.div>
+  );
+
+  if (!href) {
+    return card;
+  }
+
+  return (
+    <Link href={href} aria-label={name} className="block">
+      {card}
+    </Link>
   );
 }
 
 export default function CoyoacanServices() {
   const t = useTranslations('coyoacan.services');
+  const locale = useLocale();
 
   const services = [
     {
       sigil: '☀️',
       name: t('visualAlchemy.name'),
       description: t('visualAlchemy.description'),
+      href: `/${locale}/servicios/estrategia-digital`,
     },
     {
       sigil: '🎭',
       name: t('digitalNarratives.name'),
       description: t('digitalNarratives.description'),
+      href: `/${locale}/servicios/produccion-editorial`,
     },
     {
       sigil: '🍽️',
       name: t('identityRefinement.name'),
       description: t('identityRefinement.description'),
+      href: `/${locale}/servicios/contenido-social`,
     },
     {
       sigil: '📸',
