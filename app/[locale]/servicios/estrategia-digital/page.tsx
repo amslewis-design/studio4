@@ -5,7 +5,7 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-const faqs = [
+const faqsEs = [
   {
     q: '¿Esto incluye rediseño completo del sitio?',
     a: 'No necesariamente. Primero priorizamos mejoras de alto impacto sobre la estructura actual. Si se requiere rediseño, lo planteamos como fase adicional.',
@@ -48,14 +48,65 @@ const faqs = [
   },
 ];
 
+const faqsEn = [
+  {
+    q: 'Does this include a full website redesign?',
+    a: 'Not necessarily. We prioritise high-impact improvements on your existing structure first. If a redesign is needed, we scope it as an additional phase.',
+  },
+  {
+    q: 'How quickly can we see improvements?',
+    a: 'Quick wins are usually visible within 2 to 4 weeks, depending on site condition, implementation speed, and adjustment volume.',
+  },
+  {
+    q: 'Do you work project-based or monthly?',
+    a: 'Both. Project mode for audit and action plan, and monthly mode for continuous optimisation and campaign support.',
+  },
+  {
+    q: 'Do you include technical maintenance (updates, fixes)?',
+    a: 'Yes, within the agreed website maintenance scope: fixes, functionality checks, and ongoing improvements.',
+  },
+  {
+    q: 'Who publishes the blog and in which CMS?',
+    a: 'We can publish directly in your current CMS or deliver structured content for your team. We define the workflow based on your internal operation.',
+  },
+  {
+    q: 'Can you run newsletters if our database is not clean?',
+    a: 'Yes. We first recommend a basic clean-up and segmentation step to protect deliverability and improve early results.',
+  },
+  {
+    q: 'How do you define and improve CTAs?',
+    a: 'We align CTAs to user intent, journey stage, and business objective, then iterate based on behaviour and conversion signals.',
+  },
+  {
+    q: 'Do you include SEO?',
+    a: 'Yes. We include operational on-page SEO: structure, interlinking, headings, metadata, and search-intent alignment.',
+  },
+  {
+    q: 'Can you support campaigns without ad spend?',
+    a: 'Yes. We can design and optimise the organic side of campaigns: landing pages, messaging, newsletter flow, and conversion structure.',
+  },
+  {
+    q: 'What do you need from our team?',
+    a: 'Access, business priorities, commercial calendar, and timely feedback. With that, we run clear optimisation cycles.',
+  },
+];
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
+  const isEn = locale === 'en';
   const pageUrl = `https://sassystudio.com.mx/${locale}/servicios/estrategia-digital`;
 
+  const title = isEn
+    ? 'Digital strategy for website, content and campaigns | Sassy Studio'
+    : 'Estrategia digital para web, contenido y campañas | Sassy Studio';
+
+  const description = isEn
+    ? 'Website maintenance and optimisation, UX, blog and newsletter, internal linking and CTAs. Support for campaigns, launches and seasonal windows.'
+    : 'Mantenimiento y optimización web, UX, blog y newsletter, estructura de enlaces y CTAs. Soporte para campañas, lanzamientos y temporadas.';
+
   return {
-    title: 'Estrategia digital para web, contenido y campañas | Sassy Studio',
-    description:
-      'Mantenimiento y optimización web, UX, blog y newsletter, estructura de enlaces y CTAs. Soporte para campañas, lanzamientos y temporadas.',
+    title,
+    description,
     robots: {
       index: true,
       follow: true,
@@ -64,31 +115,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: 'https://sassystudio.com.mx/servicios/estrategia-digital',
       languages: {
         'es-MX': 'https://sassystudio.com.mx/es/servicios/estrategia-digital',
-        'en-US': 'https://sassystudio.com.mx/en/servicios/estrategia-digital',
+        'en-GB': 'https://sassystudio.com.mx/en/servicios/estrategia-digital',
       },
     },
     openGraph: {
-      title: 'Estrategia digital para web, contenido y campañas | Sassy Studio',
-      description:
-        'Mantenimiento y optimización web, UX, blog y newsletter, estructura de enlaces y CTAs. Soporte para campañas, lanzamientos y temporadas.',
+      title,
+      description,
       url: pageUrl,
       type: 'website',
-      locale: locale === 'en' ? 'en_US' : 'es_MX',
+      locale: locale === 'en' ? 'en_GB' : 'es_MX',
       siteName: 'Sassy Studio',
       images: [
         {
           url: 'https://sassystudio.com.mx/og-home.jpg',
           width: 1200,
           height: 630,
-          alt: 'Estrategia digital para marcas',
+          alt: isEn ? 'Digital strategy for brands' : 'Estrategia digital para marcas',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Estrategia digital para web, contenido y campañas | Sassy Studio',
-      description:
-        'Mantenimiento y optimización web, UX, blog y newsletter, estructura de enlaces y CTAs. Soporte para campañas, lanzamientos y temporadas.',
+      title,
+      description,
       images: ['https://sassystudio.com.mx/og-home.jpg'],
     },
   };
@@ -96,23 +145,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function EstrategiaDigitalPage({ params }: Props) {
   const { locale } = await params;
+  const isEn = locale === 'en';
   const url = `https://sassystudio.com.mx/${locale}/servicios/estrategia-digital`;
+  const faqs = isEn ? faqsEn : faqsEs;
 
   const serviceSchema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'Estrategia digital',
-    serviceType: 'Estrategia digital para marcas',
-    description:
-      'Estrategia digital para marcas con mantenimiento web, optimización web, mejoras UX, estructura de enlaces internos, CTAs, blog, newsletter y soporte para campañas.',
-    inLanguage: 'es-MX',
+    name: isEn ? 'Digital strategy' : 'Estrategia digital',
+    serviceType: isEn ? 'Digital strategy for brands' : 'Estrategia digital para marcas',
+    description: isEn
+      ? 'Digital strategy for brands with website maintenance, website optimisation, UX improvements, internal linking structure, CTAs, blog, newsletter and campaign support.'
+      : 'Estrategia digital para marcas con mantenimiento web, optimización web, mejoras UX, estructura de enlaces internos, CTAs, blog, newsletter y soporte para campañas.',
+    inLanguage: isEn ? 'en-GB' : 'es-MX',
     areaServed: {
       '@type': 'Country',
       name: 'MX',
     },
     audience: {
       '@type': 'BusinessAudience',
-      audienceType: 'Marcas y empresas',
+      audienceType: isEn ? 'Brands and businesses' : 'Marcas y empresas',
     },
     provider: {
       '@type': 'Organization',
@@ -122,10 +174,22 @@ export default async function EstrategiaDigitalPage({ params }: Props) {
     url,
     offers: {
       '@type': 'OfferCatalog',
-      name: 'Modalidades de estrategia digital',
+      name: isEn ? 'Digital strategy engagement models' : 'Modalidades de estrategia digital',
       itemListElement: [
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Proyecto de diagnóstico y plan de acción' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Acompañamiento mensual de optimización' } },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: isEn ? 'Audit project and action plan' : 'Proyecto de diagnóstico y plan de acción',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: isEn ? 'Monthly optimisation support' : 'Acompañamiento mensual de optimización',
+          },
+        },
       ],
     },
   };
