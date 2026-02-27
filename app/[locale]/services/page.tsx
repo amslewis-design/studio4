@@ -68,14 +68,16 @@ export default function ServicesPage() {
               className="h-[500px]"
             />
           </Link>
-          <ServiceCard
-            index={2}
-            title={t('identityRefinement')}
-            description={t('identityRefinementDesc')}
-            image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769302516/sassy-studio/Gemini_Generated_Image_ynrk3jynrk3jynrk_zzxlco.png"
-            sigil="◊"
-            className="h-[500px]"
-          />
+          <Link href={`/${locale}/servicios/contenido-social`} className="block">
+            <ServiceCard
+              index={2}
+              title={t('identityRefinement')}
+              description={t('identityRefinementDesc')}
+              image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769302516/sassy-studio/Gemini_Generated_Image_ynrk3jynrk3jynrk_zzxlco.png"
+              sigil="◊"
+              className="h-[500px]"
+            />
+          </Link>
         </div>
 
         {/* Asymmetrical Grid */}
