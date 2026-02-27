@@ -47,6 +47,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     routes.push({
+      url: `${BASE_URL}/${locale}/cuernavaca`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    });
+
+    routes.push({
       url: `${BASE_URL}/${locale}/servicios`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

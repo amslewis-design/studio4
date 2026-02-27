@@ -462,5 +462,90 @@
       "startingFrom": "Packages from",
       "contact": "Contact us for personalized quote"
     }
+  },
+  "cuernavaca": {
+    "pageTitle": "Photography & Content for Hotels and Restaurants in Cuernavaca, Morelos | Sassy Studio",
+    "metaDescription": "Boutique editorial content studio for hospitality brands in Cuernavaca, Morelos. Photography, video and digital strategy with a premium local approach.",
+    "metaKeywords": "Cuernavaca photography, restaurant content Cuernavaca, hotel marketing Morelos, food photography Morelos",
+    "hero": {
+      "title": "Editorial Content for Brands in Cuernavaca",
+      "subtitle": "Photography, video and digital strategy for boutique hotels, restaurants and lifestyle brands in Cuernavaca and Morelos",
+      "cta": "Let's work together in Cuernavaca"
+    },
+    "localValue": {
+      "heading": "Your Local Studio in Cuernavaca",
+      "proximity": {
+        "title": "Agile local coverage",
+        "description": "Flexible sessions in Cuernavaca and surrounding areas for hospitality, wellness and lifestyle brands."
+      },
+      "knowledge": {
+        "title": "Local context expertise",
+        "description": "We understand locations, climate, seasonality and visual style to produce content with real commercial intention."
+      },
+      "community": {
+        "title": "Reliable local network",
+        "description": "We collaborate with trusted local talent and vendors to deliver editorial quality with clear timelines."
+      }
+    },
+    "services": {
+      "title": "Services for Brands in Cuernavaca",
+      "subtitle": "Our editorial and digital strategy services adapted to Cuernavaca and Morelos market realities.",
+      "visualAlchemy": {
+        "name": "Digital Strategy",
+        "description": "Website, landing page, blog and newsletter optimisation for hospitality businesses in Cuernavaca. We improve local SEO, UX and CTAs to convert better."
+      },
+      "digitalNarratives": {
+        "name": "Editorial Production (Photo + Video)",
+        "description": "Social-first production on location for feeds and campaigns. We create editorial-standard content for brands in Cuernavaca and Morelos."
+      },
+      "identityRefinement": {
+        "name": "Social Content",
+        "description": "Reels, carousels and stories with consistent narrative to keep your brand visible, clear and differentiated."
+      },
+      "digitalMaintenance": {
+        "name": "Digital Brand Maintenance",
+        "description": "Monthly ongoing operation: content + social media management + digital ecosystem improvements for sustained growth."
+      }
+    },
+    "localKnowledge": {
+      "title": "We Understand Cuernavaca's Rhythm",
+      "subtitle": "Strategic production based on local light, mobility and seasonality",
+      "lightTiming": {
+        "title": "Light and local weather",
+        "description": "We plan around changing light and weather conditions to keep visuals consistent across locations."
+      },
+      "crowdPattern": {
+        "title": "Flow by schedule",
+        "description": "We adjust sessions to avoid logistics friction and capture moments with stronger visual value."
+      },
+      "seasonal": {
+        "title": "Key seasonal windows",
+        "description": "We activate content around long weekends, holiday seasons and strategic dates for local brands."
+      },
+      "hiddenGems": {
+        "title": "Purposeful locations",
+        "description": "We choose spaces that support your brand narrative and commercial differentiation, not just popular spots."
+      }
+    },
+    "portfolio": {
+      "title": "Cuernavaca Projects",
+      "subtitle": "Brands that have trusted our editorial approach",
+      "viewAll": "View full portfolio"
+    },
+    "cta": {
+      "main": "Schedule your Cuernavaca session",
+      "secondary": "View Cuernavaca projects",
+      "whatsapp": "Direct WhatsApp"
+    },
+    "trust": {
+      "spanishService": "Spanish Service",
+      "basedInCDMX": "Coverage across Morelos",
+      "responseTime": "We respond within 24 hours",
+      "localExpertise": "Local Cuernavaca Experts"
+    },
+    "pricing": {
+      "startingFrom": "Packages from",
+      "contact": "Contact us for personalized quote"
+    }
   }
 }
