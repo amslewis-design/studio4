@@ -5,7 +5,7 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-const faqs = [
+const faqsEs = [
   {
     q: '¿Incluye la estrategia o solo producción?',
     a: 'Incluye estrategia social aplicada: pilares, series, calendario y lineamientos por formato. No hacemos producción aislada sin dirección narrativa.',
@@ -48,47 +48,96 @@ const faqs = [
   },
 ];
 
+const faqsEn = [
+  {
+    q: 'Does this include strategy, or only production?',
+    a: 'It includes applied social strategy: pillars, recurring series, content calendar and format guidelines. We do not deliver stand-alone production without narrative direction.',
+  },
+  {
+    q: 'How many assets do you deliver per month?',
+    a: 'It depends on the agreed monthly scope. We define a clear mix of photos, reels, carousels and stories, with deliverables and cadence from the outset.',
+  },
+  {
+    q: 'Do you publish content, or deliver files for my team to publish?',
+    a: 'We can deliver publish-ready assets or support scheduled publishing, depending on your operation. Scope is defined before kickoff.',
+  },
+  {
+    q: 'Do you include profile and highlights optimisation?',
+    a: 'Yes. We include ongoing Instagram profile optimisation: bio, highlights, covers, grid visual order, links and pinned posts with intent.',
+  },
+  {
+    q: 'Do you work only on Instagram, or TikTok as well?',
+    a: 'We primarily work on Instagram. We can also adapt content for TikTok when the brand strategy requires it.',
+  },
+  {
+    q: 'What do you need from my brand to get started?',
+    a: 'We need goals, visual references, brand guidelines, commercial context, priority products or services, and profile access.',
+  },
+  {
+    q: 'How is content approved?',
+    a: 'We work in approval blocks: calendar proposal, scripts or key concepts, then final asset review before publishing.',
+  },
+  {
+    q: 'Do you include editing, captions and carousel design?',
+    a: 'Yes, within the agreed scope. This includes video editing, captions, cover design and visual structure for carousels.',
+  },
+  {
+    q: 'Can you produce content for specific campaigns?',
+    a: 'Yes. In addition to monthly operations, we deliver campaign content for launches, seasonal moments, promotions and key events.',
+  },
+  {
+    q: 'How do you measure what works and what to adjust?',
+    a: 'We review key performance signals by format and message. With those learnings, we iterate hooks, structure, visual rhythm and calendar.',
+  },
+];
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const pageUrl = `https://sassystudio.com.mx/${locale}/servicios/contenido-social`;
+  const isEn = locale === 'en';
+
+  const title = isEn
+    ? 'Premium social content (Reels, carousels and stories) | Sassy Studio'
+    : 'Contenido social premium (Reels, carruseles y stories) | Sassy Studio';
+
+  const description = isEn
+    ? 'Photos, reels, carousels and stories with consistent narrative. Ongoing profile optimisation for an intentional, premium feed.'
+    : 'Fotos, reels, carruseles y stories con narrativa consistente. Optimización continua del perfil para un feed intencional y premium.';
 
   return {
-    title: 'Contenido social premium (Reels, carruseles y stories) | Sassy Studio',
-    description:
-      'Fotos, reels, carruseles y stories con narrativa consistente. Optimización continua del perfil para un feed intencional y premium.',
+    title,
+    description,
     robots: {
       index: true,
       follow: true,
     },
     alternates: {
-      canonical: 'https://sassystudio.com.mx/servicios/contenido-social',
+      canonical: pageUrl,
       languages: {
         'es-MX': 'https://sassystudio.com.mx/es/servicios/contenido-social',
-        'en-US': 'https://sassystudio.com.mx/en/servicios/contenido-social',
+        'en-GB': 'https://sassystudio.com.mx/en/servicios/contenido-social',
       },
     },
     openGraph: {
-      title: 'Contenido social premium (Reels, carruseles y stories) | Sassy Studio',
-      description:
-        'Fotos, reels, carruseles y stories con narrativa consistente. Optimización continua del perfil para un feed intencional y premium.',
+      title,
+      description,
       url: pageUrl,
       type: 'website',
-      locale: locale === 'en' ? 'en_US' : 'es_MX',
+      locale: isEn ? 'en_GB' : 'es_MX',
       siteName: 'Sassy Studio',
       images: [
         {
           url: 'https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770517992/7_rqcm14.webp',
           width: 1200,
           height: 630,
-          alt: 'Contenido social premium para marcas',
+          alt: isEn ? 'Premium social content for brands' : 'Contenido social premium para marcas',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Contenido social premium (Reels, carruseles y stories) | Sassy Studio',
-      description:
-        'Fotos, reels, carruseles y stories con narrativa consistente. Optimización continua del perfil para un feed intencional y premium.',
+      title,
+      description,
       images: ['https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1770517992/7_rqcm14.webp'],
     },
   };
@@ -97,22 +146,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ContenidoSocialPage({ params }: Props) {
   const { locale } = await params;
   const pageUrl = `https://sassystudio.com.mx/${locale}/servicios/contenido-social`;
+  const isEn = locale === 'en';
+  const faqs = isEn ? faqsEn : faqsEs;
 
   const serviceSchema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'Contenido social',
-    serviceType: 'Contenido social',
-    description:
-      'Servicio de contenido social para marcas: fotos, reels, carruseles y stories con narrativa consistente, optimización continua del perfil y calendario de contenido.',
-    inLanguage: 'es-MX',
+    name: isEn ? 'Social content' : 'Contenido social',
+    serviceType: isEn ? 'Social content' : 'Contenido social',
+    description: isEn
+      ? 'Social content service for brands: photos, reels, carousels and stories with consistent narrative, ongoing profile optimisation and content calendar.'
+      : 'Servicio de contenido social para marcas: fotos, reels, carruseles y stories con narrativa consistente, optimización continua del perfil y calendario de contenido.',
+    inLanguage: isEn ? 'en-GB' : 'es-MX',
     areaServed: {
       '@type': 'Country',
       name: 'MX',
     },
     audience: {
       '@type': 'BusinessAudience',
-      audienceType: 'Marcas y negocios',
+      audienceType: isEn ? 'Brands and businesses' : 'Marcas y negocios',
     },
     provider: {
       '@type': 'Organization',
@@ -122,41 +174,41 @@ export default async function ContenidoSocialPage({ params }: Props) {
     url: pageUrl,
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Entregables de contenido social',
+      name: isEn ? 'Social content deliverables' : 'Entregables de contenido social',
       itemListElement: [
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Fotos para feed y anuncios',
+            name: isEn ? 'Photos for feed and ads' : 'Fotos para feed y anuncios',
           },
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Reels para marcas',
+            name: isEn ? 'Reels for brands' : 'Reels para marcas',
           },
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Carruseles para Instagram',
+            name: isEn ? 'Instagram carousels' : 'Carruseles para Instagram',
           },
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Stories para negocios',
+            name: isEn ? 'Stories for businesses' : 'Stories para negocios',
           },
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'Optimización de perfil de Instagram',
+            name: isEn ? 'Instagram profile optimisation' : 'Optimización de perfil de Instagram',
           },
         },
       ],
