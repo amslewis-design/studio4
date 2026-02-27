@@ -122,6 +122,7 @@ export default function CoyoacanServices() {
               name={service.name}
               description={service.description}
               index={index}
+              href={service.href}
             />
           ))}
         </div>
