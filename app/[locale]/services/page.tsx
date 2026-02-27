@@ -48,14 +48,16 @@ export default function ServicesPage() {
 
         {/* New Services Trio */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
-          <ServiceCard
-            index={0}
-            title={t('visualAlchemy')}
-            description={t('visualAlchemyDesc')}
-            image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769605842/sassy-studio/cafe_tjpt9a.webp"
-            sigil="◉"
-            className="h-[500px]"
-          />
+          <Link href={`/${locale}/servicios/estrategia-digital`} className="block">
+            <ServiceCard
+              index={0}
+              title={t('visualAlchemy')}
+              description={t('visualAlchemyDesc')}
+              image="https://res.cloudinary.com/ds86m2xm0/image/upload/f_auto,q_auto/v1769605842/sassy-studio/cafe_tjpt9a.webp"
+              sigil="◉"
+              className="h-[500px]"
+            />
+          </Link>
           <Link href={`/${locale}/servicios/produccion-editorial`} className="block">
             <ServiceCard
               index={1}
