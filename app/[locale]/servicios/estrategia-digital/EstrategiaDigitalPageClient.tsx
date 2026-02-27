@@ -120,9 +120,6 @@ export default function EstrategiaDigitalPageClient({ locale, faqs }: Props) {
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/35 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 text-xs text-white/80 bg-black/50 border border-white/10 p-3">
-                Asset sugerido: estrategia-digital-sistema-web-contenido-campanas.webp · Alt ejemplo: “Diagrama de estrategia digital para marcas con flujos entre web, contenido, email y campañas”.
-              </div>
             </div>
           </div>
         </div>
@@ -180,9 +177,6 @@ export default function EstrategiaDigitalPageClient({ locale, faqs }: Props) {
           <li className="border border-white/10 p-4">Contenido activo de blog y newsletter</li>
           <li className="border border-white/10 p-4 md:col-span-2">Journeys por objetivo: captación, leads, ventas o reservas</li>
         </ul>
-        <div className="border border-dashed border-white/20 p-4 text-sm text-gray-400">
-          Placeholder: “Mapa de journeys + puntos de fricción” · archivo sugerido: diagnostico-journeys-friccion-estrategia-digital.webp · alt: “Mapa de journey con nodos de fricción en home, servicio y formulario”.
-        </div>
       </section>
 
       <section className="px-6 max-w-7xl mx-auto py-16">
@@ -201,9 +195,6 @@ export default function EstrategiaDigitalPageClient({ locale, faqs }: Props) {
               <p className="text-sm text-gray-300">{body}</p>
             </article>
           ))}
-        </div>
-        <div className="border border-dashed border-white/20 p-4 mb-8 text-sm text-gray-400">
-          Diagrama sugerido: auditoria-proceso-estrategia-digital-5-pasos.webp · alt: “Proceso de estrategia digital de auditoría a iteración mensual”.
         </div>
         <a href="#cotizar" className="inline-block px-8 py-3 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition-colors text-sm">
           ¿Tienes lanzamiento cerca? Lo preparamos con tiempo.
@@ -234,9 +225,6 @@ export default function EstrategiaDigitalPageClient({ locale, faqs }: Props) {
             </ul>
           </div>
         </div>
-        <div className="border border-dashed border-white/20 p-4 text-sm text-gray-400">
-          Placeholder: roadmap-mensual-estrategia-digital.webp · alt: “Roadmap mensual con quick wins, implementación y optimización continua”.
-        </div>
       </section>
 
       <section className="px-6 max-w-7xl mx-auto py-16">
@@ -251,9 +239,6 @@ export default function EstrategiaDigitalPageClient({ locale, faqs }: Props) {
           <div className="border border-white/10 p-4">Coordinación de activos con producción editorial si aplica</div>
           <div className="border border-white/10 p-4 md:col-span-2">Medición base con UTMs y eventos cuando exista infraestructura</div>
         </div>
-        <div className="border border-dashed border-white/20 p-4 text-sm text-gray-400">
-          Timeline sugerido: pre-launch → launch → post-launch optimization · archivo: timeline-campanas-estrategia-digital.webp · alt: “Línea de tiempo de soporte para campañas por fase”.
-        </div>
       </section>
 
       <section className="px-6 max-w-7xl mx-auto py-16">
@@ -261,14 +246,6 @@ export default function EstrategiaDigitalPageClient({ locale, faqs }: Props) {
         <p className="text-gray-300 max-w-4xl mb-8">
           Trabajamos la jerarquía de páginas, enlaces contextuales y llamadas a la acción por intención para reducir fricción y mejorar optimización de conversión cuando corresponde al objetivo comercial.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="border border-dashed border-white/20 p-4 text-sm text-gray-400">
-            Placeholder sitemap: arquitectura-sitio-ux-estrategia-digital.webp · alt: “Mapa de sitio con jerarquía de páginas y rutas de navegación”.
-          </div>
-          <div className="border border-dashed border-white/20 p-4 text-sm text-gray-400">
-            Placeholder CTA map: jerarquia-ctas-intencion-usuario.webp · alt: “Diagrama de jerarquía de CTAs por intención informativa y de cotización”.
-          </div>
-        </div>
       </section>
 
       <section className="px-6 max-w-7xl mx-auto py-16">
@@ -292,14 +269,6 @@ export default function EstrategiaDigitalPageClient({ locale, faqs }: Props) {
               <li>Enfoque en retención y demanda</li>
             </ul>
           </article>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="border border-dashed border-white/20 p-4 text-sm text-gray-400">
-            Placeholder: mapa-pilares-blog-estrategia-digital.webp · alt: “Mapa de pilares de contenido para blog orientado a intención de búsqueda”.
-          </div>
-          <div className="border border-dashed border-white/20 p-4 text-sm text-gray-400">
-            Placeholder: wireframe-newsletter-marcas.webp · alt: “Wireframe de newsletter para marcas con estructura modular”.
-          </div>
         </div>
       </section>
 
