@@ -41,6 +41,14 @@ export default async function ServiciosIndexPage({ params }: Props) {
           </Link>
 
           <Link
+            href={`/${locale}/servicios/contenido-social`}
+            className="border border-white/10 p-6 bg-white/[0.02] hover:border-[#D4AF37] transition-colors"
+          >
+            <h2 className="text-2xl font-serif mb-2">Contenido social</h2>
+            <p className="text-gray-400 text-sm">Fotos, reels, carruseles y stories con narrativa consistente, optimización de perfil y calendario de contenido.</p>
+          </Link>
+
+          <Link
             href={`/${locale}/services`}
             className="border border-white/10 p-6 bg-white/[0.02] hover:border-[#D4AF37] transition-colors"
           >
