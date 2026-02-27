@@ -33,6 +33,14 @@ export default async function ServiciosIndexPage({ params }: Props) {
           </Link>
 
           <Link
+            href={`/${locale}/servicios/estrategia-digital`}
+            className="border border-white/10 p-6 bg-white/[0.02] hover:border-[#D4AF37] transition-colors"
+          >
+            <h2 className="text-2xl font-serif mb-2">Estrategia digital</h2>
+            <p className="text-gray-400 text-sm">Mantenimiento web, optimización UX, enlaces internos, CTAs, blog, newsletter y soporte para campañas.</p>
+          </Link>
+
+          <Link
             href={`/${locale}/services`}
             className="border border-white/10 p-6 bg-white/[0.02] hover:border-[#D4AF37] transition-colors"
           >
