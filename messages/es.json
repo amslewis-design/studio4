@@ -548,5 +548,90 @@
       "startingFrom": "Paquetes desde",
       "contact": "Contáctanos para cotización personalizada"
     }
+  },
+  "acapulco": {
+    "pageTitle": "Fotografía y Contenido para Hoteles y Restaurantes en Acapulco, Guerrero | Sassy Studio",
+    "metaDescription": "Estudio boutique de contenido editorial para marcas de hospitalidad en Acapulco, Guerrero. Fotografía, video y estrategia digital con enfoque premium y ejecución local.",
+    "metaKeywords": "fotografía Acapulco, contenido restaurantes Acapulco, marketing hoteles Guerrero, fotografía gastronómica Guerrero",
+    "hero": {
+      "title": "Contenido Editorial para Marcas en Acapulco",
+      "subtitle": "Fotografía, video y estrategia digital para hoteles, restaurantes y marcas lifestyle en Acapulco y Guerrero",
+      "cta": "Trabajemos juntos en Acapulco"
+    },
+    "localValue": {
+      "heading": "Tu Estudio Local en Acapulco",
+      "proximity": {
+        "title": "Cobertura local ágil",
+        "description": "Sesiones en Acapulco y alrededores con operación flexible para proyectos de hospitalidad, turismo y lifestyle."
+      },
+      "knowledge": {
+        "title": "Conocemos el contexto costero",
+        "description": "Entendemos locaciones, clima, temporalidad turística y estilo visual para producir contenido con intención comercial."
+      },
+      "community": {
+        "title": "Red local confiable",
+        "description": "Trabajamos con talento y proveedores de la zona para ejecutar con calidad editorial, logística clara y tiempos definidos."
+      }
+    },
+    "services": {
+      "title": "Servicios para Marcas en Acapulco",
+      "subtitle": "Nuestros servicios editoriales y de estrategia digital adaptados al mercado de Acapulco y Guerrero.",
+      "visualAlchemy": {
+        "name": "Estrategia Digital",
+        "description": "Optimización de web, landings, blog y newsletter para negocios de hospitalidad en Acapulco. Mejoramos SEO local, UX y CTAs para convertir mejor."
+      },
+      "digitalNarratives": {
+        "name": "Producción Editorial (Foto + Video)",
+        "description": "Producción social-first en locación para redes y campañas. Capturamos contenido con estándar editorial para marcas en Acapulco y Guerrero."
+      },
+      "identityRefinement": {
+        "name": "Contenido Social",
+        "description": "Reels, carruseles y stories con narrativa consistente para mantener presencia constante, clara y diferenciada."
+      },
+      "digitalMaintenance": {
+        "name": "Mantenimiento Digital de Marca",
+        "description": "Operación mensual continua: contenido + gestión de redes + mejoras del ecosistema digital para crecimiento sostenido."
+      }
+    },
+    "localKnowledge": {
+      "title": "Entendemos el Ritmo de Acapulco",
+      "subtitle": "Producción estratégica basada en luz, movilidad y estacionalidad local",
+      "lightTiming": {
+        "title": "Luz y clima local",
+        "description": "Planificamos según condiciones de luz y clima para mantener consistencia visual en exteriores e interiores."
+      },
+      "crowdPattern": {
+        "title": "Flujo por horarios",
+        "description": "Ajustamos sesiones para evitar fricción logística y aprovechar horarios de mayor valor visual."
+      },
+      "seasonal": {
+        "title": "Temporadas clave",
+        "description": "Activamos contenido en temporadas vacacionales, puentes y fechas estratégicas para marcas locales."
+      },
+      "hiddenGems": {
+        "title": "Locaciones con intención",
+        "description": "Seleccionamos espacios que sí aportan a la narrativa de marca y a la diferenciación comercial."
+      }
+    },
+    "portfolio": {
+      "title": "Proyectos en Acapulco",
+      "subtitle": "Marcas que han confiado en nuestro enfoque editorial",
+      "viewAll": "Ver todo el portafolio"
+    },
+    "cta": {
+      "main": "Agenda tu sesión en Acapulco",
+      "secondary": "Ver proyectos en Acapulco",
+      "whatsapp": "WhatsApp directo"
+    },
+    "trust": {
+      "spanishService": "Servicio en Español",
+      "basedInCDMX": "Cobertura en Acapulco",
+      "responseTime": "Respondemos en 24 horas",
+      "localExpertise": "Expertos locales en Acapulco"
+    },
+    "pricing": {
+      "startingFrom": "Paquetes desde",
+      "contact": "Contáctanos para cotización personalizada"
+    }
   }
 }

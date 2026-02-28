@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://studio4.vercel.app';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://sassystudio.com.mx';
 const LOCALES = ['en', 'es'];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -48,6 +48,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     routes.push({
       url: `${BASE_URL}/${locale}/cuernavaca`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    });
+
+    routes.push({
+      url: `${BASE_URL}/${locale}/acapulco`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    });
+
+    routes.push({
+      url: `${BASE_URL}/${locale}/coyoacan`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
