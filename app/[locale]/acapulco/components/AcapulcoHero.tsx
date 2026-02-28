@@ -13,7 +13,7 @@ export default function AcapulcoHero() {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black z-10" />
         <Image
-          src="https://res.cloudinary.com/ds86m2xm0/image/upload/v1771109435/coyoacanhero_hacfvs.webp"
+          src="https://res.cloudinary.com/ds86m2xm0/image/upload/v1772297646/20211113_155727_webp_xhad64.webp"
           alt="Acapulco"
           fill
           className="object-cover opacity-60"
