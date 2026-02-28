@@ -3,6 +3,15 @@ import { MetadataRoute } from 'next';
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://sassystudio.com.mx';
 const LOCALES = ['en', 'es'];
 
+function getSafeDate(value: unknown): Date {
+  if (typeof value !== 'string' || !value.trim()) {
+    return new Date();
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? new Date() : parsed;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes: MetadataRoute.Sitemap = [];
 
@@ -124,7 +133,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           if (post.slug) {
             routes.push({
               url: `${BASE_URL}/${locale}/blog/${post.slug}`,
-              lastModified: new Date(post.updated_at || post.created_at),
+              lastModified: getSafeDate(post.updated_at || post.created_at),
               changeFrequency: 'monthly',
               priority: 0.7,
             });
