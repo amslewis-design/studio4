@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
+import { supabaseService } from '@/lib/services/supabaseService';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sassystudio.com.mx';
-const LOCALES = ['en', 'es'];
+const LOCALES = ['en', 'es'] as const;
 
 function getSafeDate(value: unknown): Date {
   if (typeof value !== 'string' || !value.trim()) {
@@ -114,30 +115,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   });
 
-  // Fetch published blog posts for dynamic entries
+  // Fetch all published blog posts by locale for dynamic entries
   try {
-    const response = await fetch(`${BASE_URL}/api/posts`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 3600 }, // Revalidate every hour
-    });
+    for (const locale of LOCALES) {
+      const posts = await supabaseService.getPostsByLanguage(locale);
 
-    if (response.ok) {
-      const data = await response.json();
-      const posts = data.posts || [];
+      posts.forEach((post) => {
+        if (!post.slug) {
+          return;
+        }
 
-      // Add individual blog posts for each locale
-      LOCALES.forEach((locale) => {
-        posts.forEach((post: any) => {
-          if (post.slug) {
-            routes.push({
-              url: `${BASE_URL}/${locale}/blog/${post.slug}`,
-              lastModified: getSafeDate(post.updated_at || post.created_at),
-              changeFrequency: 'monthly',
-              priority: 0.7,
-            });
-          }
+        routes.push({
+          url: `${BASE_URL}/${locale}/blog/${post.slug}`,
+          lastModified: getSafeDate(post.updated_at || post.published_at || post.created_at),
+          changeFrequency: 'monthly',
+          priority: 0.7,
         });
       });
     }

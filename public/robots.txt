@@ -11,6 +11,7 @@ Crawl-delay: 1
 
 # Disallow admin and sensitive paths
 Disallow: /api/
+Allow: /api/image-sitemap
 Disallow: /*/dashboard/
 Disallow: /*/login/
 

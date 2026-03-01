@@ -352,7 +352,7 @@ const services = useMemo(
             className="text-center mt-16"
           >
             <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto mb-8">
-              {tServices('servicesDescription')} <Link href="/services" className="text-[var(--accent)] hover:underline">
+              {tServices('servicesDescription')} <Link href={`/${locale}/services`} className="text-[var(--accent)] hover:underline">
                 {tServices('exploreServices')}
               </Link> {tServices('transformPresence')}
             </p>
@@ -470,7 +470,7 @@ const services = useMemo(
             </div>
 
             <Link
-              href="/blog"
+              href={`/${locale}/blog`}
               className="self-start md:self-auto border border-white/15 text-white/80 px-8 py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
               style={{ borderRadius: "var(--btn-radius)" }}
             >
@@ -528,7 +528,7 @@ const services = useMemo(
                 <div className="p-8 pt-0 mt-auto">
                   {post.slug ? (
                     <Link
-                      href={`/blog/${post.slug}`}
+                      href={`/${locale}/blog/${post.slug}`}
                       className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 inline-block"
                     >
                       {tBlog('readMore')}
@@ -589,7 +589,7 @@ const services = useMemo(
 
           <div className="text-center">
             <Link
-              href="/portfolio"
+              href={`/${locale}/portfolio`}
               className="border border-white/15 text-white/80 px-8 md:px-12 py-3 md:py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
               style={{ borderRadius: "var(--btn-radius)" }}
             >
