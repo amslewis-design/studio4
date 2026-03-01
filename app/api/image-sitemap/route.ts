@@ -3,7 +3,7 @@ import { supabaseService } from '@/lib/services/supabaseService';
 import { storageService } from '@/lib/services/storageService';
 import type { PortfolioItem } from '@/lib/types';
 
-const BASE_URL = 'https://studio4.vercel.app';
+const BASE_URL = 'https://www.sassystudio.com.mx';
 
 export async function GET() {
   try {

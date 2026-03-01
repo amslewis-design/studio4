@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'mexicoCity' });
 
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const pageUrl = `${baseUrl}/${locale}/mexico-city`;
 
   return {
@@ -61,11 +61,11 @@ export default function MexicoCityLayout({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'LocalBusiness',
-            '@id': 'https://studio4.vercel.app/#organization-mexico-city',
+            '@id': 'https://www.sassystudio.com.mx/#organization-mexico-city',
             name: 'Sassy Studio - Mexico City',
             alternateName: 'Sassy Studio CDMX',
             description: 'Boutique editorial content studio for hospitality brands in Mexico City.',
-            url: 'https://studio4.vercel.app/mexico-city',
+            url: 'https://www.sassystudio.com.mx/mexico-city',
             areaServed: {
               '@type': 'City',
               name: 'Mexico City',

@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'cuernavaca' });
 
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const pageUrl = `${baseUrl}/${locale}/cuernavaca`;
 
   return {
@@ -61,11 +61,11 @@ export default function CuernavacaLayout({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'LocalBusiness',
-            '@id': 'https://studio4.vercel.app/#organization-cuernavaca',
+            '@id': 'https://www.sassystudio.com.mx/#organization-cuernavaca',
             name: 'Sassy Studio - Cuernavaca',
             alternateName: 'Sassy Studio Morelos',
             description: 'Boutique editorial content studio for hospitality brands in Cuernavaca, Morelos.',
-            url: 'https://studio4.vercel.app/cuernavaca',
+            url: 'https://www.sassystudio.com.mx/cuernavaca',
             areaServed: {
               '@type': 'City',
               name: 'Cuernavaca',

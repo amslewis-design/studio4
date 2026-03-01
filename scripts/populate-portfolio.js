@@ -2,7 +2,7 @@
  * Script to populate portfolio with images from Cloudinary
  * 
  * USAGE:
- * 1. Open https://sassystudio.co.uk/en (any page)
+ * 1. Open https://www.sassystudio.com.mx/en (any page)
  * 2. Open browser console (F12)
  * 3. Copy and paste this entire script
  * 4. Press Enter

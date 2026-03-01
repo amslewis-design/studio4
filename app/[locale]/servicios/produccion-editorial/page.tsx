@@ -93,7 +93,7 @@ const serviceFaqsEn = [
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}/servicios/produccion-editorial`;
   const isEn = locale === 'en';
 
@@ -142,7 +142,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProduccionEditorialPage({ params }: Props) {
   const { locale } = await params;
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const pageUrl = `${baseUrl}/${locale}/servicios/produccion-editorial`;
   const isEn = locale === 'en';
   const serviceFaqs = isEn ? serviceFaqsEn : serviceFaqsEs;

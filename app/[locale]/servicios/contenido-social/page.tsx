@@ -93,7 +93,7 @@ const faqsEn = [
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const pageUrl = `https://sassystudio.com.mx/${locale}/servicios/contenido-social`;
+  const pageUrl = `https://www.sassystudio.com.mx/${locale}/servicios/contenido-social`;
   const isEn = locale === 'en';
 
   const title = isEn
@@ -114,8 +114,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: pageUrl,
       languages: {
-        'es-MX': 'https://sassystudio.com.mx/es/servicios/contenido-social',
-        'en-GB': 'https://sassystudio.com.mx/en/servicios/contenido-social',
+        'es-MX': 'https://www.sassystudio.com.mx/es/servicios/contenido-social',
+        'en-GB': 'https://www.sassystudio.com.mx/en/servicios/contenido-social',
       },
     },
     openGraph: {
@@ -145,7 +145,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ContenidoSocialPage({ params }: Props) {
   const { locale } = await params;
-  const pageUrl = `https://sassystudio.com.mx/${locale}/servicios/contenido-social`;
+  const pageUrl = `https://www.sassystudio.com.mx/${locale}/servicios/contenido-social`;
   const isEn = locale === 'en';
   const faqs = isEn ? faqsEn : faqsEs;
 
@@ -169,7 +169,7 @@ export default async function ContenidoSocialPage({ params }: Props) {
     provider: {
       '@type': 'Organization',
       name: 'Sassy Studio',
-      url: 'https://sassystudio.com.mx',
+      url: 'https://www.sassystudio.com.mx',
     },
     url: pageUrl,
     hasOfferCatalog: {

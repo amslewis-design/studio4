@@ -4,7 +4,7 @@ interface BreadcrumbItem {
 }
 
 export function generateBreadcrumbSchema(items: BreadcrumbItem[]) {
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
 
   return {
     '@context': 'https://schema.org',

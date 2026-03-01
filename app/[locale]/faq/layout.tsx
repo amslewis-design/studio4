@@ -9,7 +9,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'faq' });
 
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}/faq`;
 
   return {

@@ -18,7 +18,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}`;
 
   return {
@@ -119,7 +119,7 @@ export default async function RootLayout({
                 '@type': 'ListItem',
                 'position': 1,
                 'name': locale === 'es' ? 'Inicio' : 'Home',
-                'item': `https://www.sassystudio.co.uk/${locale}`
+                'item': `https://www.sassystudio.com.mx/${locale}`
               }]
             }),
           }}

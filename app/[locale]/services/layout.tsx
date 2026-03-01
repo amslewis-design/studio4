@@ -9,7 +9,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'services' });
 
-  const baseUrl = 'https://www.sassystudio.co.uk';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}/services`;
 
   return {

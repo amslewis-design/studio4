@@ -1,5 +1,5 @@
 export function generateWebSiteSchema(locale: string) {
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const isSpanish = locale === 'es';
 
   return {

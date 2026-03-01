@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'acapulco' });
 
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const pageUrl = `${baseUrl}/${locale}/acapulco`;
 
   return {
@@ -61,11 +61,11 @@ export default function AcapulcoLayout({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'LocalBusiness',
-            '@id': 'https://studio4.vercel.app/#organization-acapulco',
+            '@id': 'https://www.sassystudio.com.mx/#organization-acapulco',
             name: 'Sassy Studio - Acapulco',
             alternateName: 'Sassy Studio Guerrero',
             description: 'Boutique editorial content studio for hospitality brands in Acapulco, Guerrero.',
-            url: 'https://studio4.vercel.app/acapulco',
+            url: 'https://www.sassystudio.com.mx/acapulco',
             areaServed: {
               '@type': 'City',
               name: 'Acapulco',

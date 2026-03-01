@@ -94,7 +94,7 @@ const faqsEn = [
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const isEn = locale === 'en';
-  const pageUrl = `https://sassystudio.com.mx/${locale}/servicios/estrategia-digital`;
+  const pageUrl = `https://www.sassystudio.com.mx/${locale}/servicios/estrategia-digital`;
 
   const title = isEn
     ? 'Digital strategy for website, content and campaigns | Sassy Studio'
@@ -112,10 +112,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       follow: true,
     },
     alternates: {
-      canonical: 'https://sassystudio.com.mx/servicios/estrategia-digital',
+      canonical: 'https://www.sassystudio.com.mx/servicios/estrategia-digital',
       languages: {
-        'es-MX': 'https://sassystudio.com.mx/es/servicios/estrategia-digital',
-        'en-GB': 'https://sassystudio.com.mx/en/servicios/estrategia-digital',
+        'es-MX': 'https://www.sassystudio.com.mx/es/servicios/estrategia-digital',
+        'en-GB': 'https://www.sassystudio.com.mx/en/servicios/estrategia-digital',
       },
     },
     openGraph: {
@@ -127,7 +127,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: 'Sassy Studio',
       images: [
         {
-          url: 'https://sassystudio.com.mx/og-home.jpg',
+          url: 'https://www.sassystudio.com.mx/og-home.jpg',
           width: 1200,
           height: 630,
           alt: isEn ? 'Digital strategy for brands' : 'Estrategia digital para marcas',
@@ -138,7 +138,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title,
       description,
-      images: ['https://sassystudio.com.mx/og-home.jpg'],
+      images: ['https://www.sassystudio.com.mx/og-home.jpg'],
     },
   };
 }
@@ -146,7 +146,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function EstrategiaDigitalPage({ params }: Props) {
   const { locale } = await params;
   const isEn = locale === 'en';
-  const url = `https://sassystudio.com.mx/${locale}/servicios/estrategia-digital`;
+  const url = `https://www.sassystudio.com.mx/${locale}/servicios/estrategia-digital`;
   const faqs = isEn ? faqsEn : faqsEs;
 
   const serviceSchema = {
@@ -169,7 +169,7 @@ export default async function EstrategiaDigitalPage({ params }: Props) {
     provider: {
       '@type': 'Organization',
       name: 'Sassy Studio',
-      url: 'https://sassystudio.com.mx',
+      url: 'https://www.sassystudio.com.mx',
     },
     url,
     offers: {

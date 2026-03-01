@@ -12,7 +12,7 @@ export async function generateMetadata({
   const title = t('portfolioTitle');
   const description = t('portfolioDescription');
   const keywords = t('portfolioKeywords');
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}/portfolio`;
 
   return {

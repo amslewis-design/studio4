@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'coyoacan' });
   
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const pageUrl = `${baseUrl}/${locale}/coyoacan`;
 
   return {
@@ -61,11 +61,11 @@ export default function CoyoacanLayout({
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'LocalBusiness',
-            '@id': 'https://studio4.vercel.app/#organization-coyoacan',
+            '@id': 'https://www.sassystudio.com.mx/#organization-coyoacan',
             name: 'Sassy Studio - Coyoacán',
             alternateName: 'Sassy Studio CDMX Coyoacán',
             description: 'Boutique editorial content studio for hospitality brands in Coyoacán, Mexico City.',
-            url: 'https://studio4.vercel.app/coyoacan',
+            url: 'https://www.sassystudio.com.mx/coyoacan',
             areaServed: {
               '@type': 'Neighborhood',
               name: 'Coyoacán',

@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://sassystudio.com.mx';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sassystudio.com.mx';
 const LOCALES = ['en', 'es'];
 
 function getSafeDate(value: unknown): Date {

@@ -1,7 +1,7 @@
 import type { Post } from '@/lib/types';
 
 export function generateArticleSchema(post: Post, locale: string) {
-  const baseUrl = 'https://studio4.vercel.app';
+  const baseUrl = 'https://www.sassystudio.com.mx';
   const imageUrl = post.image?.startsWith('http')
     ? post.image
     : `${baseUrl}${post.image}`;

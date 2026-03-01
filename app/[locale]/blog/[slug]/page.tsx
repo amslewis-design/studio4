@@ -55,7 +55,7 @@ export async function generateMetadata({
       };
     }
 
-    const baseUrl = 'https://studio4.vercel.app';
+    const baseUrl = 'https://www.sassystudio.com.mx';
     const canonicalUrl = `${baseUrl}/${locale}/blog/${slug}`;
     const postImage = post.image || `${baseUrl}/og-blog.jpg`;
 

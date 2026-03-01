@@ -3,8 +3,8 @@ User-agent: *
 Allow: /
 
 # Sitemap locations
-Sitemap: https://sassystudio.com.mx/sitemap.xml
-Sitemap: https://sassystudio.com.mx/api/image-sitemap
+Sitemap: https://www.sassystudio.com.mx/sitemap.xml
+Sitemap: https://www.sassystudio.com.mx/api/image-sitemap
 
 # Crawl delay (in seconds) - optional, helps with server load
 Crawl-delay: 1
