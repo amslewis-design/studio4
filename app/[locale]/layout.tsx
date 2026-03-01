@@ -30,7 +30,7 @@ export async function generateMetadata({
       description: t('homeDescription'),
       url: canonicalUrl,
       type: 'website',
-      locale: locale === 'es' ? 'es_MX' : 'en_US',
+      locale: locale === 'es' ? 'es_MX' : 'en_GB',
       siteName: 'Sassy Studio',
       images: [
         {
@@ -50,8 +50,8 @@ export async function generateMetadata({
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        en: `${baseUrl}/en`,
-        es: `${baseUrl}/es`,
+        'en-GB': `${baseUrl}/en`,
+        'es-MX': `${baseUrl}/es`,
       },
     },
     viewport: 'width=device-width, initial-scale=1',
@@ -77,8 +77,10 @@ export default async function RootLayout({
   const { locale } = await params;
   const messages = (await import(`../../messages/${locale}.json`)).default;
 
+  const htmlLang = locale === 'es' ? 'es-MX' : 'en-GB';
+
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={htmlLang} suppressHydrationWarning>
       <head>
         {/* Preconnect to critical origins */}
         <link rel="preconnect" href="https://res.cloudinary.com" />

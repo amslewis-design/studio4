@@ -14,7 +14,7 @@ export function generateWebSiteSchema(locale: string) {
     publisher: {
       '@id': `${baseUrl}/#organization`,
     },
-    inLanguage: locale === 'es' ? 'es-MX' : 'en-US',
+    inLanguage: locale === 'es' ? 'es-MX' : 'en-GB',
     potentialAction: {
       '@type': 'SearchAction',
       target: {

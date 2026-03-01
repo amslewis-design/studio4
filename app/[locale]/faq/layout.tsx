@@ -20,7 +20,7 @@ export async function generateMetadata({
       description: t('subtitle'),
       url: canonicalUrl,
       type: 'website',
-      locale: locale === 'es' ? 'es_MX' : 'en_US',
+      locale: locale === 'es' ? 'es_MX' : 'en_GB',
       siteName: 'Sassy Studio',
       images: [
         {
@@ -40,8 +40,8 @@ export async function generateMetadata({
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        en: `${baseUrl}/en/faq`,
-        es: `${baseUrl}/es/faq`,
+        'en-GB': `${baseUrl}/en/faq`,
+        'es-MX': `${baseUrl}/es/faq`,
       },
     },
   };

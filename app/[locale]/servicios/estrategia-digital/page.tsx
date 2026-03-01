@@ -112,7 +112,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       follow: true,
     },
     alternates: {
-      canonical: 'https://www.sassystudio.com.mx/servicios/estrategia-digital',
+      canonical: pageUrl,
       languages: {
         'es-MX': 'https://www.sassystudio.com.mx/es/servicios/estrategia-digital',
         'en-GB': 'https://www.sassystudio.com.mx/en/servicios/estrategia-digital',

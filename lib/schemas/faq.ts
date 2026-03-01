@@ -15,7 +15,7 @@ export function generateFAQSchema(faqs: FAQItem[], locale: string) {
         text: faq.answer,
       },
     })),
-    inLanguage: locale === 'es' ? 'es-MX' : 'en-US',
+    inLanguage: locale === 'es' ? 'es-MX' : 'en-GB',
   };
 }
 

@@ -41,7 +41,7 @@ export function generateArticleSchema(post: Post, locale: string) {
       '@id': `${baseUrl}/${locale}/blog/${post.slug}`,
     },
     articleSection: post.category,
-    inLanguage: locale === 'es' ? 'es-MX' : 'en-US',
+    inLanguage: locale === 'es' ? 'es-MX' : 'en-GB',
     keywords: [
       post.category,
       'hospitality marketing',

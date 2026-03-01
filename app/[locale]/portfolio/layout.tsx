@@ -24,7 +24,7 @@ export async function generateMetadata({
       description,
       url: canonicalUrl,
       type: 'website',
-      locale: locale === 'es' ? 'es_MX' : 'en_US',
+      locale: locale === 'es' ? 'es_MX' : 'en_GB',
       siteName: 'Sassy Studio',
       images: [
         {
@@ -44,8 +44,8 @@ export async function generateMetadata({
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        en: `${baseUrl}/en/portfolio`,
-        es: `${baseUrl}/es/portfolio`,
+        'en-GB': `${baseUrl}/en/portfolio`,
+        'es-MX': `${baseUrl}/es/portfolio`,
       },
     },
   };

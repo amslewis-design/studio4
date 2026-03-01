@@ -68,7 +68,7 @@ export async function generateMetadata({
         description: post.excerpt || post.content?.substring(0, 160),
         url: canonicalUrl,
         type: 'article',
-        locale: locale === 'es' ? 'es_MX' : 'en_US',
+        locale: locale === 'es' ? 'es_MX' : 'en_GB',
         siteName: 'Sassy Studio',
         images: [
           {
@@ -91,8 +91,8 @@ export async function generateMetadata({
       alternates: {
         canonical: canonicalUrl,
         languages: {
-          en: `${baseUrl}/en/blog/${slug}`,
-          es: `${baseUrl}/es/blog/${slug}`,
+          'en-GB': `${baseUrl}/en/blog/${slug}`,
+          'es-MX': `${baseUrl}/es/blog/${slug}`,
         },
       },
     };

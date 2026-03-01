@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: t('metaDescription'),
       url: pageUrl,
       siteName: 'Sassy Studio',
-      locale: locale === 'es' ? 'es_MX' : 'en_US',
+      locale: locale === 'es' ? 'es_MX' : 'en_GB',
       type: 'website',
       images: [
         {
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: pageUrl,
       languages: {
         'es-MX': `${baseUrl}/es/mexico-city`,
-        'en-US': `${baseUrl}/en/mexico-city`,
+        'en-GB': `${baseUrl}/en/mexico-city`,
       },
     },
   };
