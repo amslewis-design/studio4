@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 
 interface KnowledgeItemProps {
   icon: string;
@@ -80,14 +79,18 @@ export default function LocalKnowledge() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="mt-12 relative"
+              className="mt-12"
             >
-              <div className="aspect-[4/3] border border-white/10 overflow-hidden relative">
-                <Image
-                  src="https://res.cloudinary.com/ds86m2xm0/image/upload/v1772129448/COYOAC%C3%81N-placeholder_qucawx.webp"
-                  alt="Acapulco bay landscape"
-                  fill
-                  className="object-cover"
+              <div className="w-full max-w-sm mx-auto lg:mx-0 aspect-[9/16] border border-white/10 overflow-hidden bg-black">
+                <video
+                  src="https://res.cloudinary.com/ds86m2xm0/video/upload/v1772297659/20211114_174548_nxoa3x.mp4"
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  aria-label="Video de Acapulco"
                 />
               </div>
             </motion.div>
