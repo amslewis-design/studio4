@@ -3,6 +3,7 @@
 export interface Post {
   id?: string;
   slug?: string;
+  translation_group_id?: string | null;
   title: string;
   content: string;
   image: string;

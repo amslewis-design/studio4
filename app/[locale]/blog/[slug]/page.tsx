@@ -58,6 +58,28 @@ export async function generateMetadata({
     const baseUrl = 'https://www.sassystudio.com.mx';
     const canonicalUrl = `${baseUrl}/${locale}/blog/${slug}`;
     const postImage = post.image || `${baseUrl}/og-blog.jpg`;
+    const counterpartLocale = locale === 'en' ? 'es' : 'en';
+
+    let counterpartPost: Post | undefined;
+    if (post.translation_group_id) {
+      const counterpartPosts = await supabaseService.getPostsByLanguage(counterpartLocale as 'es' | 'en');
+      counterpartPost = counterpartPosts.find(
+        (candidate) =>
+          candidate.translation_group_id === post.translation_group_id &&
+          candidate.published === true &&
+          Boolean(candidate.slug)
+      );
+    }
+
+    const languages: Record<string, string> = {
+      [locale === 'en' ? 'en-GB' : 'es-MX']: canonicalUrl,
+    };
+
+    if (counterpartPost?.slug) {
+      languages[counterpartLocale === 'en' ? 'en-GB' : 'es-MX'] = `${baseUrl}/${counterpartLocale}/blog/${counterpartPost.slug}`;
+    }
+
+    languages['x-default'] = languages['en-GB'] || canonicalUrl;
 
     return {
       title: `${post.title} | Sassy Studio Blog`,
@@ -90,11 +112,7 @@ export async function generateMetadata({
       },
       alternates: {
         canonical: canonicalUrl,
-        languages: {
-          'en-GB': `${baseUrl}/en/blog/${slug}`,
-          'es-MX': `${baseUrl}/es/blog/${slug}`,
-          'x-default': `${baseUrl}/en/blog/${slug}`,
-        },
+        languages,
       },
     };
   } catch (error) {

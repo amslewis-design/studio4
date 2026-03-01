@@ -188,6 +188,7 @@ function TrustIcon({ path }: { path: string }) {
 
 export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
   const isEn = locale === 'en';
+  const serviceHubHref = isEn ? `/${locale}/services` : `/${locale}/servicios`;
   const [activeFilter, setActiveFilter] = useState<GalleryCategory>('spaces');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
@@ -204,7 +205,7 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
         <nav aria-label="Breadcrumb" className="text-xs text-gray-400 mb-8 tracking-wide">
           <Link href={`/${locale}`} className="hover:text-white">{isEn ? 'Home' : 'Inicio'}</Link>
           <span className="mx-2">→</span>
-          <Link href={`/${locale}/servicios`} className="hover:text-white">{isEn ? 'Services' : 'Servicios'}</Link>
+          <Link href={serviceHubHref} className="hover:text-white">{isEn ? 'Services' : 'Servicios'}</Link>
           <span className="mx-2">→</span>
           <span className="text-white">{isEn ? 'Editorial production' : 'Producción editorial'}</span>
         </nav>
@@ -605,10 +606,10 @@ export default function ProduccionEditorialPageClient({ locale, faqs }: Props) {
           <h2 className="text-3xl font-serif mb-4">{isEn ? 'Related services' : 'Servicios relacionados'}</h2>
           <p className="text-gray-300 text-sm leading-relaxed">
             {isEn ? 'You can also explore our services for ' : 'También puedes explorar nuestros servicios de '}
-            <Link href={`/${locale}/services`} className="text-[#D4AF37] hover:underline">{isEn ? 'social content and social media management' : 'contenido social y gestión de redes'}</Link>,{' '}
-            <Link href={`/${locale}/services`} className="text-[#D4AF37] hover:underline">{isEn ? 'branding and visual identity' : 'branding e identidad visual'}</Link>{' '}
+            <Link href={serviceHubHref} className="text-[#D4AF37] hover:underline">{isEn ? 'social content and social media management' : 'contenido social y gestión de redes'}</Link>,{' '}
+            <Link href={serviceHubHref} className="text-[#D4AF37] hover:underline">{isEn ? 'branding and visual identity' : 'branding e identidad visual'}</Link>{' '}
             {isEn ? 'and ' : 'y '}
-            <Link href={`/${locale}/services`} className="text-[#D4AF37] hover:underline">{isEn ? 'web and ecommerce optimization' : 'optimización web y ecommerce'}</Link>.
+            <Link href={serviceHubHref} className="text-[#D4AF37] hover:underline">{isEn ? 'web and ecommerce optimization' : 'optimización web y ecommerce'}</Link>.
           </p>
         </div>
       </section>

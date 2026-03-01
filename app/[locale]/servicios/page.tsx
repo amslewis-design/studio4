@@ -10,7 +10,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const isEn = locale === 'en';
   const baseUrl = 'https://www.sassystudio.com.mx';
-  const canonicalUrl = `${baseUrl}/${locale}/servicios`;
+  const serviceHubPath = isEn ? '/en/services' : '/es/servicios';
+  const canonicalUrl = `${baseUrl}${serviceHubPath}`;
 
   const title = isEn
     ? 'Services for hospitality brands | Sassy Studio'
@@ -35,8 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: canonicalUrl,
       languages: {
         'es-MX': `${baseUrl}/es/servicios`,
-        'en-GB': `${baseUrl}/en/servicios`,
-        'x-default': `${baseUrl}/en/servicios`,
+        'en-GB': `${baseUrl}/en/services`,
+        'x-default': `${baseUrl}/en/services`,
       },
     },
     robots: {
@@ -49,6 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ServiciosIndexPage({ params }: Props) {
   const { locale } = await params;
   const isEn = locale === 'en';
+  const serviceHubHref = isEn ? `/${locale}/services` : `/${locale}/servicios`;
 
   return (
     <main className="min-h-screen bg-[#1a1a1a] text-white selection:bg-[#FC7CA4] selection:text-black">
@@ -93,7 +95,7 @@ export default async function ServiciosIndexPage({ params }: Props) {
           </Link>
 
           <Link
-            href={`/${locale}/services`}
+            href={serviceHubHref}
             className="border border-white/10 p-6 bg-white/[0.02] hover:border-[#D4AF37] transition-colors"
           >
             <h2 className="text-2xl font-serif mb-2">{isEn ? 'View full catalogue' : 'Ver catálogo completo'}</h2>

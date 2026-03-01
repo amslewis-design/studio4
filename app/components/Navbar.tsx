@@ -38,20 +38,20 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
   const t = useTranslations('navigation');
   const tCommon = useTranslations('common');
   const locale = useLocale();
+  const serviceHubHref = locale === 'es' ? `/${locale}/servicios` : `/${locale}/services`;
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   // Define navigation items with their destinations
-  // Note: Services always points to /services page, creating a "clean" URL
   const navItems: NavItem[] = useMemo(
     () => [
       { label: t('home'), href: isHomepage ? "#top" : `/${locale}` },
       { label: t('portfolio'), href: `/${locale}/portfolio` },
-      { label: t('services'), href: `/${locale}/services` },
+      { label: t('services'), href: serviceHubHref },
       { label: t('blog'), href: isHomepage ? "#blog" : `/${locale}/blog` },
       { label: t('contact'), href: isHomepage ? "#contact" : `/${locale}#contact` },
     ],
-    [t, isHomepage, locale]
+    [t, isHomepage, locale, serviceHubHref]
   );
 
   useEffect(() => {

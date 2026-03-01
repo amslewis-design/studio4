@@ -79,6 +79,7 @@ export default function Admin() {
   const [postContent, setPostContent] = useState('');
   const [postCategory, setPostCategory] = useState('Marketing');
   const [postLanguage, setPostLanguage] = useState<'es' | 'en'>('es');
+  const [postTranslationGroupId, setPostTranslationGroupId] = useState('');
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   
   // Asset Manager State
@@ -173,6 +174,7 @@ export default function Admin() {
           excerpt,
           published: true,
           language: postLanguage,
+          translation_group_id: postTranslationGroupId.trim() || null,
         });
         
         console.log('Update result:', updated);
@@ -192,6 +194,7 @@ export default function Admin() {
           excerpt,
           published: true,
           language: postLanguage,
+          translation_group_id: postTranslationGroupId.trim() || null,
         });
         
         console.log('Create result:', newPost);
@@ -208,6 +211,7 @@ export default function Admin() {
           setPostContent('');
           setPostCategory('Marketing');
           setPostLanguage('es');
+          setPostTranslationGroupId('');
         } catch (resetError) {
           console.error('Error resetting form state:', resetError);
         }
@@ -224,6 +228,7 @@ export default function Admin() {
     setPostContent(post.content);
     setPostCategory(post.category);
     setPostLanguage(post.language || 'es');
+    setPostTranslationGroupId(post.translation_group_id || '');
     setTab('posts');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -447,7 +452,7 @@ export default function Admin() {
                 </h3>
                 {editingPostId && (
                   <button 
-                    onClick={() => { setEditingPostId(null); setPostTitle(''); setPostImage(''); setPostContent(''); }}
+                    onClick={() => { setEditingPostId(null); setPostTitle(''); setPostImage(''); setPostContent(''); setPostCategory('Marketing'); setPostLanguage('es'); setPostTranslationGroupId(''); }}
                     className="text-[10px] uppercase tracking-widest text-[#FC7CA4] hover:text-white transition-colors"
                   >
                     {tPostsTab('discardChanges')}
@@ -472,7 +477,7 @@ export default function Admin() {
                     </RichTextEditorErrorBoundary>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-4 gap-6">
                   <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">{tPostsTab('heroAssetUrl')}</label>
                     <div className="flex gap-2">
@@ -508,6 +513,24 @@ export default function Admin() {
                       <option value="es">{tDash('languageSpanish')}</option>
                       <option value="en">{tDash('languageEnglish')}</option>
                     </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">{tPostsTab('translationGroupLabel')}</label>
+                    <div className="flex gap-2">
+                      <input
+                        className="flex-1 bg-black border border-white/10 p-4 text-xs text-white outline-none"
+                        placeholder={tPostsTab('translationGroupPlaceholder')}
+                        value={postTranslationGroupId}
+                        onChange={e => setPostTranslationGroupId(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setPostTranslationGroupId(crypto.randomUUID())}
+                        className="px-3 bg-white/5 border border-white/10 text-[9px] text-white uppercase hover:bg-white hover:text-black transition-all"
+                      >
+                        {tPostsTab('generateGroupId')}
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <button 

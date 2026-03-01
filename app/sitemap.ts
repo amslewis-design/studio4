@@ -41,9 +41,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     });
 
-    // Services hubs
+    const serviceHubUrl = locale === 'es'
+      ? `${BASE_URL}/es/servicios`
+      : `${BASE_URL}/en/services`;
+
+    // Services hub (canonical per locale)
     routes.push({
-      url: `${BASE_URL}/${locale}/services`,
+      url: serviceHubUrl,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
@@ -75,13 +79,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
-    });
-
-    routes.push({
-      url: `${BASE_URL}/${locale}/servicios`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
     });
 
     // Secondary service detail

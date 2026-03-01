@@ -8,6 +8,8 @@ create extension if not exists pgcrypto;
 create table if not exists public.posts (
   id uuid default gen_random_uuid() primary key,
   slug text not null unique,
+  translation_group_id uuid,
+  language text default 'es' check (language in ('es', 'en')),
   title text not null,
   excerpt text,
   content text not null,
@@ -20,8 +22,15 @@ create table if not exists public.posts (
   updated_at timestamptz default now()
 );
 
+-- Ensure existing projects gain new columns safely
+alter table public.posts add column if not exists translation_group_id uuid;
+alter table public.posts add column if not exists language text default 'es';
+
 create index if not exists posts_published_idx on public.posts(published, published_at desc);
 create index if not exists posts_slug_idx on public.posts(slug);
+create index if not exists posts_language_idx on public.posts(language);
+create index if not exists posts_translation_group_idx on public.posts(translation_group_id, language) where translation_group_id is not null;
+create unique index if not exists posts_translation_group_language_uidx on public.posts(translation_group_id, language) where translation_group_id is not null;
 
 -- Enable Row Level Security and policies
 alter table public.posts enable row level security;

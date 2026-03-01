@@ -33,6 +33,7 @@ export const supabaseService = {
         .from('posts')
         .insert({
           slug,
+          translation_group_id: postData.translation_group_id || null,
           title: postData.title,
           content: postData.content,
           cover_url: postData.image,
@@ -209,6 +210,10 @@ export const supabaseService = {
         updatePayload.language = postData.language;
         resultData.language = postData.language;
       }
+      if (postData.translation_group_id !== undefined) {
+        updatePayload.translation_group_id = postData.translation_group_id || null;
+        resultData.translation_group_id = postData.translation_group_id || null;
+      }
       
       const now = new Date().toISOString();
       updatePayload.updated_at = now;
@@ -256,6 +261,8 @@ export const supabaseService = {
           published_at: resultData.published_at || postData.published_at,
           created_at: postData.created_at,
           updated_at: resultData.updated_at,
+          language: resultData.language || postData.language,
+          translation_group_id: resultData.translation_group_id ?? postData.translation_group_id ?? null,
         } as Post;
       }
 
@@ -306,6 +313,7 @@ function mapPostFromDatabase(record: any): Post {
   return {
     id: record.id,
     slug: record.slug,
+    translation_group_id: record.translation_group_id ?? null,
     title: record.title,
     content: record.content,
     image: record.cover_url,

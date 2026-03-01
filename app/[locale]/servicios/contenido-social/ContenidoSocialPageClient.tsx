@@ -207,6 +207,7 @@ function PlaceholderSpec({ name, ratio, alt, isEn }: { name: string; ratio: stri
 
 export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
   const isEn = locale === 'en';
+  const serviceHubHref = isEn ? `/${locale}/services` : `/${locale}/servicios`;
   const [activeFilter, setActiveFilter] = useState<ExampleFilter>('photos');
   const [activeTab, setActiveTab] = useState<DeliverableTab>('monthly');
   const [selectedImage, setSelectedImage] = useState<ExampleItem | null>(null);
@@ -224,7 +225,7 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
         <nav aria-label="Breadcrumb" className="text-xs text-gray-400 mb-8 tracking-wide">
           <Link href={`/${locale}`} className="hover:text-white">{isEn ? 'Home' : 'Inicio'}</Link>
           <span className="mx-2">→</span>
-          <Link href={`/${locale}/servicios`} className="hover:text-white">{isEn ? 'Services' : 'Servicios'}</Link>
+          <Link href={serviceHubHref} className="hover:text-white">{isEn ? 'Services' : 'Servicios'}</Link>
           <span className="mx-2">→</span>
           <span className="text-white">{isEn ? 'Social content' : 'Contenido social'}</span>
         </nav>
@@ -596,7 +597,7 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
             {isEn ? 'to elevate premium assets, ' : 'para elevar assets premium, '}
             <Link href={`/${locale}/servicios/estrategia-digital`} className="text-[#D4AF37] hover:underline">{isEn ? 'digital strategy for web and campaigns' : 'estrategia digital para web y campañas'}</Link>{' '}
             {isEn ? 'and ' : 'y servicios de '}
-            <Link href={`/${locale}/services`} className="text-[#D4AF37] hover:underline">{isEn ? 'branding and web/ecommerce systems' : 'branding y sistema web/ecommerce'}</Link>{' '}
+            <Link href={serviceHubHref} className="text-[#D4AF37] hover:underline">{isEn ? 'branding and web/ecommerce systems' : 'branding y sistema web/ecommerce'}</Link>{' '}
             {isEn ? 'when you need end-to-end consistency.' : 'cuando buscas coherencia integral.'}
           </p>
         </div>

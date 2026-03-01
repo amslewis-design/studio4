@@ -10,7 +10,9 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'services' });
 
   const baseUrl = 'https://www.sassystudio.com.mx';
-  const canonicalUrl = `${baseUrl}/${locale}/services`;
+  const canonicalUrl = locale === 'es'
+    ? `${baseUrl}/es/servicios`
+    : `${baseUrl}/en/services`;
 
   return {
     title: t('pageTitle'),
@@ -42,7 +44,7 @@ export async function generateMetadata({
       canonical: canonicalUrl,
       languages: {
         'en-GB': `${baseUrl}/en/services`,
-        'es-MX': `${baseUrl}/es/services`,
+        'es-MX': `${baseUrl}/es/servicios`,
         'x-default': `${baseUrl}/en/services`,
       },
     },

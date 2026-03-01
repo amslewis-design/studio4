@@ -38,6 +38,7 @@ export default function Preview() {
   const tContact = useTranslations('contact');
   const tHero = useTranslations('hero');
   const locale = useLocale();
+  const serviceHubHref = locale === 'es' ? `/${locale}/servicios` : `/${locale}/services`;
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings>({
     primaryColor: "#1a1a1a",
@@ -352,7 +353,7 @@ const services = useMemo(
             className="text-center mt-16"
           >
             <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto mb-8">
-              {tServices('servicesDescription')} <Link href={`/${locale}/services`} className="text-[var(--accent)] hover:underline">
+              {tServices('servicesDescription')} <Link href={serviceHubHref} className="text-[var(--accent)] hover:underline">
                 {tServices('exploreServices')}
               </Link> {tServices('transformPresence')}
             </p>
