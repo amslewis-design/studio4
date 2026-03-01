@@ -116,6 +116,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       languages: {
         'es-MX': 'https://www.sassystudio.com.mx/es/servicios/contenido-social',
         'en-GB': 'https://www.sassystudio.com.mx/en/servicios/contenido-social',
+        'x-default': 'https://www.sassystudio.com.mx/en/servicios/contenido-social',
       },
     },
     openGraph: {
@@ -218,6 +219,7 @@ export default async function ContenidoSocialPage({ params }: Props) {
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
+    inLanguage: isEn ? 'en-GB' : 'es-MX',
     mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
       name: faq.q,

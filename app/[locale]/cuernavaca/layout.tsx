@@ -43,16 +43,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       languages: {
         'es-MX': `${baseUrl}/es/cuernavaca`,
         'en-GB': `${baseUrl}/en/cuernavaca`,
+        'x-default': `${baseUrl}/en/cuernavaca`,
       },
     },
   };
 }
 
-export default function CuernavacaLayout({
+export default async function CuernavacaLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  const isEn = locale === 'en';
+  const pageUrl = `https://www.sassystudio.com.mx/${locale}/cuernavaca`;
+
   return (
     <>
       <script
@@ -65,7 +72,8 @@ export default function CuernavacaLayout({
             name: 'Sassy Studio - Cuernavaca',
             alternateName: 'Sassy Studio Morelos',
             description: 'Boutique editorial content studio for hospitality brands in Cuernavaca, Morelos.',
-            url: 'https://www.sassystudio.com.mx/cuernavaca',
+            url: pageUrl,
+            inLanguage: isEn ? 'en-GB' : 'es-MX',
             areaServed: {
               '@type': 'City',
               name: 'Cuernavaca',

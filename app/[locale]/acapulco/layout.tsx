@@ -43,16 +43,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       languages: {
         'es-MX': `${baseUrl}/es/acapulco`,
         'en-GB': `${baseUrl}/en/acapulco`,
+        'x-default': `${baseUrl}/en/acapulco`,
       },
     },
   };
 }
 
-export default function AcapulcoLayout({
+export default async function AcapulcoLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  const isEn = locale === 'en';
+  const pageUrl = `https://www.sassystudio.com.mx/${locale}/acapulco`;
+
   return (
     <>
       <script
@@ -65,7 +72,8 @@ export default function AcapulcoLayout({
             name: 'Sassy Studio - Acapulco',
             alternateName: 'Sassy Studio Guerrero',
             description: 'Boutique editorial content studio for hospitality brands in Acapulco, Guerrero.',
-            url: 'https://www.sassystudio.com.mx/acapulco',
+            url: pageUrl,
+            inLanguage: isEn ? 'en-GB' : 'es-MX',
             areaServed: {
               '@type': 'City',
               name: 'Acapulco',

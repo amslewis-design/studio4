@@ -52,6 +52,7 @@ export async function generateMetadata({
       languages: {
         'en-GB': `${baseUrl}/en`,
         'es-MX': `${baseUrl}/es`,
+        'x-default': `${baseUrl}/en`,
       },
     },
     viewport: 'width=device-width, initial-scale=1',

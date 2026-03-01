@@ -113,6 +113,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       languages: {
         'es-MX': `${baseUrl}/es/servicios/produccion-editorial`,
         'en-GB': `${baseUrl}/en/servicios/produccion-editorial`,
+        'x-default': `${baseUrl}/en/servicios/produccion-editorial`,
       },
     },
     openGraph: {
@@ -197,6 +198,7 @@ export default async function ProduccionEditorialPage({ params }: Props) {
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
+    inLanguage: isEn ? 'en-GB' : 'es-MX',
     mainEntity: serviceFaqs.map((faq) => ({
       '@type': 'Question',
       name: faq.q,

@@ -46,6 +46,7 @@ export async function generateMetadata({
       languages: {
         'en-GB': `${baseUrl}/en/portfolio`,
         'es-MX': `${baseUrl}/es/portfolio`,
+        'x-default': `${baseUrl}/en/portfolio`,
       },
     },
   };

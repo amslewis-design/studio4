@@ -43,16 +43,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       languages: {
         'es-MX': `${baseUrl}/es/coyoacan`,
         'en-GB': `${baseUrl}/en/coyoacan`,
+        'x-default': `${baseUrl}/en/coyoacan`,
       },
     },
   };
 }
 
-export default function CoyoacanLayout({
+export default async function CoyoacanLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  const isEn = locale === 'en';
+  const pageUrl = `https://www.sassystudio.com.mx/${locale}/coyoacan`;
+
   return (
     <>
       <script
@@ -65,7 +72,8 @@ export default function CoyoacanLayout({
             name: 'Sassy Studio - Coyoacán',
             alternateName: 'Sassy Studio CDMX Coyoacán',
             description: 'Boutique editorial content studio for hospitality brands in Coyoacán, Mexico City.',
-            url: 'https://www.sassystudio.com.mx/coyoacan',
+            url: pageUrl,
+            inLanguage: isEn ? 'en-GB' : 'es-MX',
             areaServed: {
               '@type': 'Neighborhood',
               name: 'Coyoacán',

@@ -43,16 +43,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       languages: {
         'es-MX': `${baseUrl}/es/mexico-city`,
         'en-GB': `${baseUrl}/en/mexico-city`,
+        'x-default': `${baseUrl}/en/mexico-city`,
       },
     },
   };
 }
 
-export default function MexicoCityLayout({
+export default async function MexicoCityLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
+  const isEn = locale === 'en';
+  const pageUrl = `https://www.sassystudio.com.mx/${locale}/mexico-city`;
+
   return (
     <>
       <script
@@ -65,7 +72,8 @@ export default function MexicoCityLayout({
             name: 'Sassy Studio - Mexico City',
             alternateName: 'Sassy Studio CDMX',
             description: 'Boutique editorial content studio for hospitality brands in Mexico City.',
-            url: 'https://www.sassystudio.com.mx/mexico-city',
+            url: pageUrl,
+            inLanguage: isEn ? 'en-GB' : 'es-MX',
             areaServed: {
               '@type': 'City',
               name: 'Mexico City',
