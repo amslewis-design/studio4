@@ -89,7 +89,7 @@ const nextConfig = {
           // Content Security Policy - restrict resource loading
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https:; img-src 'self' https: data:; font-src 'self' https:; connect-src 'self' https:; frame-ancestors 'none';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https:; img-src 'self' https: data:; media-src 'self' https: data: blob:; font-src 'self' https:; connect-src 'self' https:; frame-ancestors 'none';",
           },
         ],
       },
