@@ -3,6 +3,10 @@ import { supabaseService } from '@/lib/services/supabaseService';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sassystudio.com.mx';
 const LOCALES = ['en', 'es'] as const;
+const VALID_SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+// Keep the sitemap fresh so deleted/changed posts are removed quickly.
+export const revalidate = 3600;
 
 function getSafeDate(value: unknown): Date {
   if (typeof value !== 'string' || !value.trim()) {
@@ -15,10 +19,20 @@ function getSafeDate(value: unknown): Date {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes: MetadataRoute.Sitemap = [];
+  const seenUrls = new Set<string>();
+
+  const pushRoute = (entry: MetadataRoute.Sitemap[number]) => {
+    if (seenUrls.has(entry.url)) {
+      return;
+    }
+
+    seenUrls.add(entry.url);
+    routes.push(entry);
+  };
 
   // Home pages for each locale
   LOCALES.forEach((locale) => {
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
@@ -26,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     // Blog listing
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/blog`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
@@ -34,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     // Portfolio
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/portfolio`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -46,35 +60,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : `${BASE_URL}/en/services`;
 
     // Services hub (canonical per locale)
-    routes.push({
+    pushRoute({
       url: serviceHubUrl,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     });
 
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/mexico-city`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
     });
 
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/cuernavaca`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
     });
 
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/acapulco`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
     });
 
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/coyoacan`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -82,21 +96,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     // Secondary service detail
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/servicios/produccion-editorial`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
     });
 
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/servicios/estrategia-digital`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
     });
 
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/servicios/contenido-social`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -104,7 +118,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     // FAQ
-    routes.push({
+    pushRoute({
       url: `${BASE_URL}/${locale}/faq`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -118,12 +132,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const posts = await supabaseService.getPostsByLanguage(locale);
 
       posts.forEach((post) => {
-        if (!post.slug) {
+        const slug = (post.slug || '').trim().toLowerCase();
+        if (!slug || !VALID_SLUG_REGEX.test(slug)) {
           return;
         }
 
-        routes.push({
-          url: `${BASE_URL}/${locale}/blog/${post.slug}`,
+        pushRoute({
+          url: `${BASE_URL}/${locale}/blog/${encodeURIComponent(slug)}`,
           lastModified: getSafeDate(post.updated_at || post.published_at || post.created_at),
           changeFrequency: 'monthly',
           priority: 0.7,

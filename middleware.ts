@@ -1,5 +1,5 @@
 import createMiddleware from 'next-intl/middleware';
-import { type NextRequest } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 
 // Protected routes that require authentication
 const protectedRoutes = ['/dashboard', '/admin'];
@@ -11,11 +11,27 @@ const intlMiddleware = createMiddleware({
 });
 
 export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
+  // Keep a single canonical URL per locale for the services hub.
+  // - Spanish canonical: /es/servicios
+  // - English canonical: /en/services
+  if (pathname === '/es/services') {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/es/servicios';
+    return NextResponse.redirect(redirectUrl, 308);
+  }
+
+  if (pathname === '/en/servicios') {
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.pathname = '/en/services';
+    return NextResponse.redirect(redirectUrl, 308);
+  }
+
   // First apply the internationalization middleware
   const intlResponse = intlMiddleware(request);
 
   // Check if the path is a protected route
-  const pathname = request.nextUrl.pathname;
   const isProtectedRoute = protectedRoutes.some(route => pathname.includes(route));
 
   if (isProtectedRoute) {
