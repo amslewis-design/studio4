@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Navbar from '@/app/components/Navbar';
 import type { Metadata } from 'next';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
+import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -10,11 +11,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const isEn = locale === 'en';
-  const alternates = buildReciprocalHreflangAlternates(locale, {
-    en: '/en/services',
-    es: '/es/servicios',
-    xDefault: '/en/services',
-  });
+  const alternates = buildReciprocalHreflangAlternates(locale, SEO_ROUTE_MAP.servicesHub);
   const canonicalUrl = alternates.canonical;
 
   const title = isEn

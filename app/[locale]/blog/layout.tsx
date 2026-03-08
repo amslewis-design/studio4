@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
+import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
 
 export async function generateMetadata({
   params,
@@ -15,11 +16,7 @@ export async function generateMetadata({
   const keywords = t('blogKeywords');
   const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}/blog`;
-  const alternates = buildReciprocalHreflangAlternates(locale, {
-    en: '/en/blog',
-    es: '/es/blog',
-    xDefault: '/en/blog',
-  });
+  const alternates = buildReciprocalHreflangAlternates(locale, SEO_ROUTE_MAP.blogIndex);
 
   return {
     title,

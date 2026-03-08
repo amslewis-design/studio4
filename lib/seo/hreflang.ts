@@ -1,12 +1,8 @@
+import type { SeoRoutePair } from '@/lib/seo/routes';
+
 const BASE_URL = 'https://www.sassystudio.com.mx';
 
 type SupportedLocale = 'en' | 'es';
-
-type HreflangPaths = {
-  en: string;
-  es: string;
-  xDefault?: string;
-};
 
 type DynamicAlternateInput = {
   currentPath: string;
@@ -27,7 +23,7 @@ function toAbsoluteUrl(pathOrUrl: string): string {
   return `${BASE_URL}${normalizedPath}`;
 }
 
-export function buildReciprocalHreflangAlternates(locale: string, paths: HreflangPaths) {
+export function buildReciprocalHreflangAlternates(locale: string, paths: SeoRoutePair) {
   const normalizedLocale = normalizeLocale(locale);
   const canonicalPath = normalizedLocale === 'en' ? paths.en : paths.es;
 

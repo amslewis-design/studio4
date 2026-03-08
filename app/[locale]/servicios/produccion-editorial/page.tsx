@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ProduccionEditorialPageClient from './ProduccionEditorialPageClient';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
+import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -97,11 +98,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}/servicios/produccion-editorial`;
   const isEn = locale === 'en';
-  const alternates = buildReciprocalHreflangAlternates(locale, {
-    en: '/en/servicios/produccion-editorial',
-    es: '/es/servicios/produccion-editorial',
-    xDefault: '/en/servicios/produccion-editorial',
-  });
+  const alternates = buildReciprocalHreflangAlternates(locale, SEO_ROUTE_MAP.servicioProduccionEditorial);
 
   const metaTitle = isEn
     ? 'Editorial production (Photo + Video) for brands | Sassy Studio'

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ContenidoSocialPageClient from './ContenidoSocialPageClient.tsx';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
+import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -96,11 +97,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const pageUrl = `https://www.sassystudio.com.mx/${locale}/servicios/contenido-social`;
   const isEn = locale === 'en';
-  const alternates = buildReciprocalHreflangAlternates(locale, {
-    en: '/en/servicios/contenido-social',
-    es: '/es/servicios/contenido-social',
-    xDefault: '/en/servicios/contenido-social',
-  });
+  const alternates = buildReciprocalHreflangAlternates(locale, SEO_ROUTE_MAP.servicioContenidoSocial);
 
   const title = isEn
     ? 'Premium social content (Reels, carousels and stories) | Sassy Studio'

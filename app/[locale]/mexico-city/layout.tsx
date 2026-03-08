@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Metadata } from 'next';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
+import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
 
 type Props = {
   params: { locale: string };
@@ -12,11 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const baseUrl = 'https://www.sassystudio.com.mx';
   const pageUrl = `${baseUrl}/${locale}/mexico-city`;
-  const alternates = buildReciprocalHreflangAlternates(locale, {
-    en: '/en/mexico-city',
-    es: '/es/mexico-city',
-    xDefault: '/en/mexico-city',
-  });
+  const alternates = buildReciprocalHreflangAlternates(locale, SEO_ROUTE_MAP.mexicoCity);
 
   return {
     title: t('pageTitle'),

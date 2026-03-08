@@ -10,6 +10,7 @@ import {
   generateServiceSchemas,
 } from '@/lib/schemas';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
+import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
 
 export async function generateMetadata({
   params,
@@ -21,11 +22,7 @@ export async function generateMetadata({
 
   const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}`;
-  const alternates = buildReciprocalHreflangAlternates(locale, {
-    en: '/en',
-    es: '/es',
-    xDefault: '/',
-  });
+  const alternates = buildReciprocalHreflangAlternates(locale, SEO_ROUTE_MAP.home);
 
   return {
     title: t('homeTitle'),
