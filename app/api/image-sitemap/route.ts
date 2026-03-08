@@ -4,6 +4,12 @@ import { storageService } from '@/lib/services/storageService';
 import type { PortfolioItem } from '@/lib/types';
 
 const BASE_URL = 'https://www.sassystudio.com.mx';
+const EXCLUDED_BLOG_SLUGS = new Set([
+  'visual-storytelling-por-qu-el-sitio-web-de-tu-hotel-necesita-ms-que-solo-fotos-de-las-habitaciones',
+  'visual-storytelling-why-your-hotel-website-needs-more-than-just-room-photos',
+  'cmo-el-contenido-visual-influye-en-la-decisin-de-reserva',
+  'por-qu-el-storytelling-vende-ms-habitaciones-que-los-descuentos',
+]);
 
 export async function GET() {
   try {
@@ -42,13 +48,15 @@ export async function GET() {
     ];
 
     logos.forEach(({ image, title }) => {
-      xml += `  <url>\n`;
-      xml += `    <loc>${BASE_URL}</loc>\n`;
-      xml += `    <image:image>\n`;
-      xml += `      <image:loc>${BASE_URL}${image}</image:loc>\n`;
-      xml += `      <image:title>${escapeXml(title)}</image:title>\n`;
-      xml += `    </image:image>\n`;
-      xml += `  </url>\n`;
+      ['/es', '/en'].forEach((page) => {
+        xml += `  <url>\n`;
+        xml += `    <loc>${BASE_URL}${page}</loc>\n`;
+        xml += `    <image:image>\n`;
+        xml += `      <image:loc>${BASE_URL}${image}</image:loc>\n`;
+        xml += `      <image:title>${escapeXml(title)}</image:title>\n`;
+        xml += `    </image:image>\n`;
+        xml += `  </url>\n`;
+      });
     });
 
     // Fetch and add blog post images for both locales
@@ -60,8 +68,13 @@ export async function GET() {
         const publishedPosts = posts.filter(p => p.published === true && p.image);
 
         publishedPosts.forEach(post => {
+          const slug = (post.slug || '').trim().toLowerCase();
+          if (!slug || EXCLUDED_BLOG_SLUGS.has(slug)) {
+            return;
+          }
+
           xml += `  <url>\n`;
-          xml += `    <loc>${BASE_URL}/${locale}/blog/${post.slug}</loc>\n`;
+          xml += `    <loc>${BASE_URL}/${locale}/blog/${encodeURIComponent(slug)}</loc>\n`;
           xml += `    <image:image>\n`;
           xml += `      <image:loc>${escapeXml(post.image!)}</image:loc>\n`;
           xml += `      <image:title>${escapeXml(post.title)}</image:title>\n`;

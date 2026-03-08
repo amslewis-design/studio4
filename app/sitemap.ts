@@ -4,6 +4,12 @@ import { supabaseService } from '@/lib/services/supabaseService';
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sassystudio.com.mx';
 const LOCALES = ['en', 'es'] as const;
 const VALID_SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const EXCLUDED_BLOG_SLUGS = new Set([
+  'visual-storytelling-por-qu-el-sitio-web-de-tu-hotel-necesita-ms-que-solo-fotos-de-las-habitaciones',
+  'visual-storytelling-why-your-hotel-website-needs-more-than-just-room-photos',
+  'cmo-el-contenido-visual-influye-en-la-decisin-de-reserva',
+  'por-qu-el-storytelling-vende-ms-habitaciones-que-los-descuentos',
+]);
 
 // Keep the sitemap fresh so deleted/changed posts are removed quickly.
 export const revalidate = 3600;
@@ -133,7 +139,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
       posts.forEach((post) => {
         const slug = (post.slug || '').trim().toLowerCase();
-        if (!slug || !VALID_SLUG_REGEX.test(slug)) {
+        if (!slug || !VALID_SLUG_REGEX.test(slug) || EXCLUDED_BLOG_SLUGS.has(slug)) {
           return;
         }
 
