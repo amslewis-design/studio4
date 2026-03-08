@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -11,6 +11,101 @@ import { buildDynamicHreflangAlternates } from '@/lib/seo/hreflang';
 
 // Enable ISR - revalidate every hour
 export const revalidate = 3600;
+
+const BLOG_LOCALES = ['en', 'es'] as const;
+const KNOWN_ORPHAN_BLOG_SLUGS = new Set<string>([
+  'visual-storytelling-por-qu-el-sitio-web-de-tu-hotel-necesita-ms-que-solo-fotos-de-las-habitaciones',
+  'visual-storytelling-why-your-hotel-website-needs-more-than-just-room-photos',
+  'cmo-el-contenido-visual-influye-en-la-decisin-de-reserva',
+  'por-qu-el-storytelling-vende-ms-habitaciones-que-los-descuentos',
+]);
+
+function isBlogLocale(value: string): value is 'en' | 'es' {
+  return (BLOG_LOCALES as readonly string[]).includes(value);
+}
+
+function legacySlugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim()
+    .slice(0, 100);
+}
+
+function normalizedSlugify(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim()
+    .slice(0, 100);
+}
+
+function findTranslation(post: Post, targetPosts: Post[]): Post | undefined {
+  if (!post.translation_group_id) {
+    return undefined;
+  }
+
+  return targetPosts.find(
+    (candidate) =>
+      candidate.translation_group_id === post.translation_group_id &&
+      candidate.published === true &&
+      Boolean(candidate.slug)
+  );
+}
+
+function matchesLegacyAlias(post: Post, slug: string): boolean {
+  if (!post.title) {
+    return false;
+  }
+
+  const aliases = new Set<string>([
+    post.slug || '',
+    legacySlugify(post.title),
+    normalizedSlugify(post.title),
+  ]);
+
+  return aliases.has(slug);
+}
+
+async function resolveLegacyBlogRedirect(
+  localeParam: string,
+  slug: string
+): Promise<{ locale: 'en' | 'es'; slug: string } | null> {
+  const normalizedRequestedSlug = decodeURIComponent(slug).toLowerCase();
+  const locale = isBlogLocale(localeParam) ? localeParam : 'es';
+  const counterpartLocale: 'en' | 'es' = locale === 'en' ? 'es' : 'en';
+
+  const [postsInLocale, postsInCounterpartLocale] = await Promise.all([
+    supabaseService.getPostsByLanguage(locale),
+    supabaseService.getPostsByLanguage(counterpartLocale),
+  ]);
+
+  const sameLocaleMatch = postsInLocale.find((post) => matchesLegacyAlias(post, normalizedRequestedSlug));
+  if (sameLocaleMatch?.slug && sameLocaleMatch.slug !== normalizedRequestedSlug) {
+    return { locale, slug: sameLocaleMatch.slug };
+  }
+
+  const counterpartMatch = postsInCounterpartLocale.find((post) => matchesLegacyAlias(post, normalizedRequestedSlug));
+  if (!counterpartMatch?.slug) {
+    return null;
+  }
+
+  const translatedPost = findTranslation(counterpartMatch, postsInLocale);
+  if (translatedPost?.slug) {
+    return { locale, slug: translatedPost.slug };
+  }
+
+  return {
+    locale: counterpartLocale,
+    slug: counterpartMatch.slug,
+  };
+}
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
@@ -127,6 +222,7 @@ async function BlogPostPage({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
+  const normalizedRequestedSlug = decodeURIComponent(slug).toLowerCase();
   const tBlog = await getTranslations('blog');
 
   let post: Post | null = null;
@@ -134,6 +230,17 @@ async function BlogPostPage({
   try {
     const posts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
     post = posts.find((p) => p.slug === slug && p.published === true) || null;
+
+    if (!post) {
+      const redirectTarget = await resolveLegacyBlogRedirect(locale, slug);
+      if (redirectTarget) {
+        permanentRedirect(`/${redirectTarget.locale}/blog/${redirectTarget.slug}`);
+      }
+
+      if (KNOWN_ORPHAN_BLOG_SLUGS.has(normalizedRequestedSlug)) {
+        permanentRedirect(`/${locale}/blog`);
+      }
+    }
   } catch (error) {
     console.error('Failed to fetch post:', error);
   }
