@@ -22,7 +22,7 @@ export const SEO_ROUTE_MAP: Record<SeoRouteKey, SeoRoutePair> = {
   home: {
     en: '/en',
     es: '/es',
-    xDefault: '/',
+    xDefault: '/es',
   },
   blogIndex: {
     en: '/en/blog',
