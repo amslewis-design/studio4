@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { generateFAQSchema, generateBreadcrumbSchema } from '@/lib/schemas';
@@ -87,22 +86,17 @@ export default async function FAQPage({
         {/* Header */}
         <section className="py-16 md:py-24 px-6 border-b border-white/5">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+            <h1
               className="text-5xl md:text-7xl font-serif text-white mb-6 tracking-tight"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             >
               {faq.title}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+            </h1>
+            <p
               className="text-gray-400 text-lg max-w-2xl mx-auto"
             >
               {faq.subtitle}
-            </motion.p>
+            </p>
           </div>
         </section>
 
@@ -110,11 +104,8 @@ export default async function FAQPage({
         <section className="py-16 md:py-24 px-6">
           <div className="max-w-4xl mx-auto space-y-6">
             {faqs.map((faq, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
                 className="bg-neutral-900/50 border border-white/5 rounded-sm p-8 hover:border-[#FC7CA4]/20 transition-colors"
               >
                 <h3
@@ -124,7 +115,7 @@ export default async function FAQPage({
                   {faq.question}
                 </h3>
                 <p className="text-gray-400 leading-relaxed">{faq.answer}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>

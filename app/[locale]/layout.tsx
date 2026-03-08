@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Providers } from '../providers';
 import { GTMScript } from '../components/GTMScript';
@@ -47,7 +47,6 @@ export async function generateMetadata({
       description: t('homeDescription'),
       images: [`${baseUrl}/og-home.jpg`],
     },
-    viewport: 'width=device-width, initial-scale=1',
     icons: {
       icon: [
         { url: '/favicons_2402/favicon.ico', sizes: 'any' },
@@ -59,6 +58,11 @@ export async function generateMetadata({
     manifest: '/favicons_2402/site.webmanifest',
   };
 }
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
 
 export default async function RootLayout({
   children,
