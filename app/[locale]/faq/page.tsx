@@ -4,27 +4,45 @@ import { getTranslations } from 'next-intl/server';
 import { generateFAQSchema, generateBreadcrumbSchema } from '@/lib/schemas';
 import Navbar from '@/app/components/Navbar';
 
-async function getFAQItems(locale: string) {
-  const tFaq = await getTranslations({ locale, namespace: 'faq' });
-  const items = [];
-  let index = 0;
-  
-  while (true) {
-    try {
-      const question = tFaq(`items.${index}.question`);
-      const answer = tFaq(`items.${index}.answer`);
-      if (question && answer) {
-        items.push({ question, answer });
-        index++;
-      } else {
-        break;
-      }
-    } catch {
-      break;
-    }
-  }
-  
-  return items;
+type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+type FaqMessages = {
+  title: string;
+  subtitle: string;
+  items: FaqItem[];
+};
+
+export const dynamic = 'force-static';
+export const revalidate = 86400;
+
+export function generateStaticParams() {
+  return [{ locale: 'es' }, { locale: 'en' }];
+}
+
+async function getFAQMessages(locale: string): Promise<FaqMessages> {
+  const messages = (await import(`../../../messages/${locale}.json`)).default as {
+    faq?: {
+      title?: string;
+      subtitle?: string;
+      items?: Array<{ question?: string; answer?: string }>;
+    };
+  };
+
+  const faq = messages.faq;
+  const items = Array.isArray(faq?.items)
+    ? faq.items
+        .filter((item): item is { question: string; answer: string } => Boolean(item?.question && item?.answer))
+        .map((item) => ({ question: item.question, answer: item.answer }))
+    : [];
+
+  return {
+    title: faq?.title || '',
+    subtitle: faq?.subtitle || '',
+    items,
+  };
 }
 
 export default async function FAQPage({
@@ -34,8 +52,8 @@ export default async function FAQPage({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale });
-  const tFaq = await getTranslations({ locale, namespace: 'faq' });
-  const faqs = await getFAQItems(locale);
+  const faq = await getFAQMessages(locale);
+  const faqs = faq.items;
 
   return (
     <>
@@ -53,7 +71,7 @@ export default async function FAQPage({
           __html: JSON.stringify(
             generateBreadcrumbSchema([
               { name: t('navigation.home'), url: `/${locale}` },
-              { name: tFaq('title'), url: `/${locale}/faq` },
+              { name: faq.title, url: `/${locale}/faq` },
             ])
           ),
         }}
@@ -75,7 +93,7 @@ export default async function FAQPage({
               className="text-5xl md:text-7xl font-serif text-white mb-6 tracking-tight"
               style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
             >
-              {tFaq('title')}
+              {faq.title}
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -83,7 +101,7 @@ export default async function FAQPage({
               transition={{ delay: 0.1 }}
               className="text-gray-400 text-lg max-w-2xl mx-auto"
             >
-              {tFaq('subtitle')}
+              {faq.subtitle}
             </motion.p>
           </div>
         </section>
