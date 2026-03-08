@@ -8,6 +8,9 @@ const intlMiddleware = createMiddleware({
   locales: ['es', 'en'],
   defaultLocale: 'es',
   localePrefix: 'always',
+  // We emit hreflang via Next metadata alternates in page/layout metadata.
+  // Disable middleware Link headers to avoid duplicate/conflicting hreflang sets.
+  alternateLinks: false,
 });
 
 export function middleware(request: NextRequest) {
