@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Navbar from '@/app/components/Navbar';
 import type { Metadata } from 'next';
+import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -9,9 +10,12 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const isEn = locale === 'en';
-  const baseUrl = 'https://www.sassystudio.com.mx';
-  const serviceHubPath = isEn ? '/en/services' : '/es/servicios';
-  const canonicalUrl = `${baseUrl}${serviceHubPath}`;
+  const alternates = buildReciprocalHreflangAlternates(locale, {
+    en: '/en/services',
+    es: '/es/servicios',
+    xDefault: '/en/services',
+  });
+  const canonicalUrl = alternates.canonical;
 
   const title = isEn
     ? 'Services for hospitality brands | Sassy Studio'
@@ -32,14 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: isEn ? 'en_GB' : 'es_MX',
       siteName: 'Sassy Studio',
     },
-    alternates: {
-      canonical: canonicalUrl,
-      languages: {
-        'es-MX': `${baseUrl}/es/servicios`,
-        'en-GB': `${baseUrl}/en/services`,
-        'x-default': `${baseUrl}/en/services`,
-      },
-    },
+    alternates,
     robots: {
       index: true,
       follow: true,

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ContenidoSocialPageClient from './ContenidoSocialPageClient.tsx';
+import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -95,6 +96,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const pageUrl = `https://www.sassystudio.com.mx/${locale}/servicios/contenido-social`;
   const isEn = locale === 'en';
+  const alternates = buildReciprocalHreflangAlternates(locale, {
+    en: '/en/servicios/contenido-social',
+    es: '/es/servicios/contenido-social',
+    xDefault: '/en/servicios/contenido-social',
+  });
 
   const title = isEn
     ? 'Premium social content (Reels, carousels and stories) | Sassy Studio'
@@ -111,14 +117,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       index: true,
       follow: true,
     },
-    alternates: {
-      canonical: pageUrl,
-      languages: {
-        'es-MX': 'https://www.sassystudio.com.mx/es/servicios/contenido-social',
-        'en-GB': 'https://www.sassystudio.com.mx/en/servicios/contenido-social',
-        'x-default': 'https://www.sassystudio.com.mx/en/servicios/contenido-social',
-      },
-    },
+    alternates,
     openGraph: {
       title,
       description,

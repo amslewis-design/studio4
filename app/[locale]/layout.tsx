@@ -9,6 +9,7 @@ import {
   generateWebSiteSchema,
   generateServiceSchemas,
 } from '@/lib/schemas';
+import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 
 export async function generateMetadata({
   params,
@@ -20,6 +21,11 @@ export async function generateMetadata({
 
   const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}`;
+  const alternates = buildReciprocalHreflangAlternates(locale, {
+    en: '/en',
+    es: '/es',
+    xDefault: '/',
+  });
 
   return {
     title: t('homeTitle'),
@@ -47,14 +53,7 @@ export async function generateMetadata({
       description: t('homeDescription'),
       images: [`${baseUrl}/og-home.jpg`],
     },
-    alternates: {
-      canonical: canonicalUrl,
-      languages: {
-        'en-GB': `${baseUrl}/en`,
-        'es-MX': `${baseUrl}/es`,
-        'x-default': `${baseUrl}/en`,
-      },
-    },
+    alternates,
     viewport: 'width=device-width, initial-scale=1',
     icons: {
       icon: [

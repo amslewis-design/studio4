@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 
 export async function generateMetadata({
   params,
@@ -11,6 +12,11 @@ export async function generateMetadata({
 
   const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}/faq`;
+  const alternates = buildReciprocalHreflangAlternates(locale, {
+    en: '/en/faq',
+    es: '/es/faq',
+    xDefault: '/en/faq',
+  });
 
   return {
     title: `${t('title')} | Sassy Studio`,
@@ -37,14 +43,7 @@ export async function generateMetadata({
       description: t('subtitle'),
       images: [`${baseUrl}/og-faq.jpg`],
     },
-    alternates: {
-      canonical: canonicalUrl,
-      languages: {
-        'en-GB': `${baseUrl}/en/faq`,
-        'es-MX': `${baseUrl}/es/faq`,
-        'x-default': `${baseUrl}/en/faq`,
-      },
-    },
+    alternates,
   };
 }
 

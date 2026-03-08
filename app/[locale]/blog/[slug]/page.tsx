@@ -7,6 +7,7 @@ import { getTranslations } from 'next-intl/server';
 import { supabaseService } from '@/lib/services/supabaseService';
 import type { Post } from '@/lib/types';
 import { generateArticleSchema, generateBreadcrumbSchema } from '@/lib/schemas';
+import { buildDynamicHreflangAlternates } from '@/lib/seo/hreflang';
 
 // Enable ISR - revalidate every hour
 export const revalidate = 3600;
@@ -71,15 +72,15 @@ export async function generateMetadata({
       );
     }
 
-    const languages: Record<string, string> = {
-      [locale === 'en' ? 'en-GB' : 'es-MX']: canonicalUrl,
-    };
-
-    if (counterpartPost?.slug) {
-      languages[counterpartLocale === 'en' ? 'en-GB' : 'es-MX'] = `${baseUrl}/${counterpartLocale}/blog/${counterpartPost.slug}`;
-    }
-
-    languages['x-default'] = languages['en-GB'] || canonicalUrl;
+    const alternates = buildDynamicHreflangAlternates(locale, {
+      currentPath: `/${locale}/blog/${slug}`,
+      counterpartPath: counterpartPost?.slug
+        ? `/${counterpartLocale}/blog/${counterpartPost.slug}`
+        : undefined,
+      xDefaultPath: counterpartLocale === 'en' && counterpartPost?.slug
+        ? `/${counterpartLocale}/blog/${counterpartPost.slug}`
+        : `/${locale}/blog/${slug}`,
+    });
 
     return {
       title: `${post.title} | Sassy Studio Blog`,
@@ -110,10 +111,7 @@ export async function generateMetadata({
         description: post.excerpt || post.content?.substring(0, 160),
         images: [postImage],
       },
-      alternates: {
-        canonical: canonicalUrl,
-        languages,
-      },
+      alternates,
     };
   } catch (error) {
     console.error('Error generating metadata:', error);

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ProduccionEditorialPageClient from './ProduccionEditorialPageClient';
+import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -96,6 +97,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const baseUrl = 'https://www.sassystudio.com.mx';
   const canonicalUrl = `${baseUrl}/${locale}/servicios/produccion-editorial`;
   const isEn = locale === 'en';
+  const alternates = buildReciprocalHreflangAlternates(locale, {
+    en: '/en/servicios/produccion-editorial',
+    es: '/es/servicios/produccion-editorial',
+    xDefault: '/en/servicios/produccion-editorial',
+  });
 
   const metaTitle = isEn
     ? 'Editorial production (Photo + Video) for brands | Sassy Studio'
@@ -108,14 +114,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: metaTitle,
     description: metaDescription,
-    alternates: {
-      canonical: canonicalUrl,
-      languages: {
-        'es-MX': `${baseUrl}/es/servicios/produccion-editorial`,
-        'en-GB': `${baseUrl}/en/servicios/produccion-editorial`,
-        'x-default': `${baseUrl}/en/servicios/produccion-editorial`,
-      },
-    },
+    alternates,
     openGraph: {
       title: metaTitle,
       description: metaDescription,

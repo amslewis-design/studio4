@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { Metadata } from 'next';
+import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 
 type Props = {
   params: { locale: string };
@@ -11,6 +12,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const baseUrl = 'https://www.sassystudio.com.mx';
   const pageUrl = `${baseUrl}/${locale}/acapulco`;
+  const alternates = buildReciprocalHreflangAlternates(locale, {
+    en: '/en/acapulco',
+    es: '/es/acapulco',
+    xDefault: '/en/acapulco',
+  });
 
   return {
     title: t('pageTitle'),
@@ -38,14 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: t('metaDescription'),
       images: [`${baseUrl}/acapulco-og.jpg`],
     },
-    alternates: {
-      canonical: pageUrl,
-      languages: {
-        'es-MX': `${baseUrl}/es/acapulco`,
-        'en-GB': `${baseUrl}/en/acapulco`,
-        'x-default': `${baseUrl}/en/acapulco`,
-      },
-    },
+    alternates,
   };
 }
 

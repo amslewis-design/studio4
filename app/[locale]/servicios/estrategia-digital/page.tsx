@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import EstrategiaDigitalPageClient from './EstrategiaDigitalPageClient';
+import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -95,6 +96,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const isEn = locale === 'en';
   const pageUrl = `https://www.sassystudio.com.mx/${locale}/servicios/estrategia-digital`;
+  const alternates = buildReciprocalHreflangAlternates(locale, {
+    en: '/en/servicios/estrategia-digital',
+    es: '/es/servicios/estrategia-digital',
+    xDefault: '/en/servicios/estrategia-digital',
+  });
 
   const title = isEn
     ? 'Digital strategy for website, content and campaigns | Sassy Studio'
@@ -111,14 +117,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       index: true,
       follow: true,
     },
-    alternates: {
-      canonical: pageUrl,
-      languages: {
-        'es-MX': 'https://www.sassystudio.com.mx/es/servicios/estrategia-digital',
-        'en-GB': 'https://www.sassystudio.com.mx/en/servicios/estrategia-digital',
-        'x-default': 'https://www.sassystudio.com.mx/en/servicios/estrategia-digital',
-      },
-    },
+    alternates,
     openGraph: {
       title,
       description,
