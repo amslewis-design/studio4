@@ -22,6 +22,50 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/es/blog/visual-storytelling-por-qu-el-sitio-web-de-tu-hotel-necesita-ms-que-solo-fotos-de-las-habitaciones',
+        destination: '/es/blog',
+        permanent: true,
+      },
+      {
+        source: '/es/blog/visual-storytelling-why-your-hotel-website-needs-more-than-just-room-photos',
+        destination: '/es/blog',
+        permanent: true,
+      },
+      {
+        source: '/es/blog/cmo-el-contenido-visual-influye-en-la-decisin-de-reserva',
+        destination: '/es/blog',
+        permanent: true,
+      },
+      {
+        source: '/es/blog/por-qu-el-storytelling-vende-ms-habitaciones-que-los-descuentos',
+        destination: '/es/blog',
+        permanent: true,
+      },
+      {
+        source: '/en/blog/por-qu-el-storytelling-vende-ms-habitaciones-que-los-descuentos',
+        destination: '/en/blog',
+        permanent: true,
+      },
+      {
+        source: '/en/blog/visual-storytelling-why-your-hotel-website-needs-more-than-just-room-photos',
+        destination: '/en/blog',
+        permanent: true,
+      },
+      {
+        source: '/en/blog/cmo-el-contenido-visual-influye-en-la-decisin-de-reserva',
+        destination: '/en/blog',
+        permanent: true,
+      },
+      {
+        source: '/en/blog/visual-storytelling-por-qu-el-sitio-web-de-tu-hotel-necesita-ms-que-solo-fotos-de-las-habitaciones',
+        destination: '/en/blog',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       // Image optimization and caching headers
