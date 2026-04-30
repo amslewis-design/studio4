@@ -73,11 +73,27 @@ function matchesLegacyAlias(post: Post, slug: string): boolean {
   return aliases.has(slug);
 }
 
+function normalizeRequestedSlug(value: string): string {
+  return decodeURIComponent(value).toLowerCase().replace(/\/+$/, '').trim();
+}
+
+function findPostBySlug(posts: Post[], requestedSlug: string): Post | undefined {
+  const normalizedRequested = normalizeRequestedSlug(requestedSlug);
+
+  return posts.find((post) => {
+    if (!post.slug) {
+      return false;
+    }
+
+    return normalizeRequestedSlug(post.slug) === normalizedRequested;
+  });
+}
+
 async function resolveLegacyBlogRedirect(
   localeParam: string,
   slug: string
 ): Promise<{ locale: 'en' | 'es'; slug: string } | null> {
-  const normalizedRequestedSlug = decodeURIComponent(slug).toLowerCase();
+  const normalizedRequestedSlug = normalizeRequestedSlug(slug);
   const locale = isBlogLocale(localeParam) ? localeParam : 'es';
   const counterpartLocale: 'en' | 'es' = locale === 'en' ? 'es' : 'en';
 
@@ -85,6 +101,16 @@ async function resolveLegacyBlogRedirect(
     supabaseService.getPostsByLanguage(locale),
     supabaseService.getPostsByLanguage(counterpartLocale),
   ]);
+
+  const directLocaleMatch = findPostBySlug(postsInLocale, normalizedRequestedSlug);
+  if (directLocaleMatch?.slug) {
+    return { locale, slug: directLocaleMatch.slug };
+  }
+
+  const directCounterpartMatch = findPostBySlug(postsInCounterpartLocale, normalizedRequestedSlug);
+  if (directCounterpartMatch?.slug) {
+    return { locale: counterpartLocale, slug: directCounterpartMatch.slug };
+  }
 
   const sameLocaleMatch = postsInLocale.find((post) => matchesLegacyAlias(post, normalizedRequestedSlug));
   if (sameLocaleMatch?.slug && sameLocaleMatch.slug !== normalizedRequestedSlug) {
@@ -141,8 +167,14 @@ export async function generateMetadata({
   const { locale, slug } = await params;
 
   try {
-    const posts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
-    const post = posts.find((p) => p.slug === slug && p.published === true);
+    const currentLocale: 'es' | 'en' = isBlogLocale(locale) ? locale : 'es';
+    const counterpartLocale: 'es' | 'en' = currentLocale === 'es' ? 'en' : 'es';
+    const [posts, counterpartPosts] = await Promise.all([
+      supabaseService.getPostsByLanguage(currentLocale),
+      supabaseService.getPostsByLanguage(counterpartLocale),
+    ]);
+
+    const post = findPostBySlug(posts, slug) || findPostBySlug(counterpartPosts, slug);
 
     if (!post) {
       return {
@@ -152,14 +184,16 @@ export async function generateMetadata({
     }
 
     const baseUrl = 'https://www.sassystudio.com.mx';
-    const canonicalUrl = `${baseUrl}/${locale}/blog/${slug}`;
+    const postLocale: 'es' | 'en' = post.language === 'en' ? 'en' : 'es';
+    const canonicalUrl = `${baseUrl}/${postLocale}/blog/${post.slug}`;
     const postImage = post.image || `${baseUrl}/og-blog.jpg`;
-    const counterpartLocale = locale === 'en' ? 'es' : 'en';
+    const seoTitle = post.seo_title || post.title;
+    const seoDescription = post.seo_description || post.excerpt || post.content?.substring(0, 160);
+    const alternateLocale = postLocale === 'en' ? 'es' : 'en';
 
     let counterpartPost: Post | undefined;
     if (post.translation_group_id) {
-      const counterpartPosts = await supabaseService.getPostsByLanguage(counterpartLocale as 'es' | 'en');
-      counterpartPost = counterpartPosts.find(
+      counterpartPost = (postLocale === currentLocale ? counterpartPosts : posts).find(
         (candidate) =>
           candidate.translation_group_id === post.translation_group_id &&
           candidate.published === true &&
@@ -168,25 +202,25 @@ export async function generateMetadata({
     }
 
     const alternates = buildDynamicHreflangAlternates(locale, {
-      currentPath: `/${locale}/blog/${slug}`,
+      currentPath: `/${postLocale}/blog/${post.slug}`,
       counterpartPath: counterpartPost?.slug
-        ? `/${counterpartLocale}/blog/${counterpartPost.slug}`
+        ? `/${alternateLocale}/blog/${counterpartPost.slug}`
         : undefined,
-      xDefaultPath: counterpartLocale === 'en' && counterpartPost?.slug
-        ? `/${counterpartLocale}/blog/${counterpartPost.slug}`
-        : `/${locale}/blog/${slug}`,
+      xDefaultPath: alternateLocale === 'en' && counterpartPost?.slug
+        ? `/${alternateLocale}/blog/${counterpartPost.slug}`
+        : `/${postLocale}/blog/${post.slug}`,
     });
 
     return {
-      title: `${post.title} | Sassy Studio Blog`,
-      description: post.excerpt || post.content?.substring(0, 160),
+      title: seoTitle,
+      description: seoDescription,
       keywords: post.category ? [post.category, 'hospitality marketing', 'luxury content'] : undefined,
       openGraph: {
-        title: post.title,
-        description: post.excerpt || post.content?.substring(0, 160),
+        title: seoTitle,
+        description: seoDescription,
         url: canonicalUrl,
         type: 'article',
-        locale: locale === 'es' ? 'es_MX' : 'en_GB',
+        locale: postLocale === 'es' ? 'es_MX' : 'en_GB',
         siteName: 'Sassy Studio',
         images: [
           {
@@ -202,8 +236,8 @@ export async function generateMetadata({
       },
       twitter: {
         card: 'summary_large_image',
-        title: post.title,
-        description: post.excerpt || post.content?.substring(0, 160),
+        title: seoTitle,
+        description: seoDescription,
         images: [postImage],
       },
       alternates,
@@ -222,14 +256,28 @@ async function BlogPostPage({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  const normalizedRequestedSlug = decodeURIComponent(slug).toLowerCase();
+  const normalizedRequestedSlug = normalizeRequestedSlug(slug);
   const tBlog = await getTranslations('blog');
 
   let post: Post | null = null;
 
   try {
-    const posts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
-    post = posts.find((p) => p.slug === slug && p.published === true) || null;
+    const currentLocale: 'es' | 'en' = isBlogLocale(locale) ? locale : 'es';
+    const counterpartLocale: 'es' | 'en' = currentLocale === 'es' ? 'en' : 'es';
+    const [posts, counterpartPosts] = await Promise.all([
+      supabaseService.getPostsByLanguage(currentLocale),
+      supabaseService.getPostsByLanguage(counterpartLocale),
+    ]);
+
+    const localeMatch = findPostBySlug(posts, slug);
+    if (localeMatch) {
+      post = localeMatch;
+    } else {
+      const counterpartMatch = findPostBySlug(counterpartPosts, slug);
+      if (counterpartMatch?.slug) {
+        permanentRedirect(`/${counterpartLocale}/blog/${counterpartMatch.slug}`);
+      }
+    }
 
     if (!post) {
       const redirectTarget = await resolveLegacyBlogRedirect(locale, slug);

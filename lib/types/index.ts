@@ -5,6 +5,8 @@ export interface Post {
   slug?: string;
   translation_group_id?: string | null;
   title: string;
+  seo_title?: string;
+  seo_description?: string;
   content: string;
   image: string;
   category: string;

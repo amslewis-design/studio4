@@ -35,6 +35,8 @@ export const supabaseService = {
           slug,
           translation_group_id: postData.translation_group_id || null,
           title: postData.title,
+          seo_title: postData.seo_title || null,
+          seo_description: postData.seo_description || null,
           content: postData.content,
           cover_url: postData.image,
           tag: postData.category,
@@ -187,6 +189,14 @@ export const supabaseService = {
         updatePayload.content = postData.content;
         resultData.content = postData.content;
       }
+      if (postData.seo_title !== undefined) {
+        updatePayload.seo_title = postData.seo_title;
+        resultData.seo_title = postData.seo_title;
+      }
+      if (postData.seo_description !== undefined) {
+        updatePayload.seo_description = postData.seo_description;
+        resultData.seo_description = postData.seo_description;
+      }
       if (postData.image !== undefined) {
         updatePayload.cover_url = postData.image;
         resultData.image = postData.image;
@@ -254,6 +264,8 @@ export const supabaseService = {
           title: resultData.title || postData.title || '',
           slug: resultData.slug || '',
           content: resultData.content || postData.content || '',
+          seo_title: resultData.seo_title || postData.seo_title,
+          seo_description: resultData.seo_description || postData.seo_description,
           image: resultData.image || postData.image || '',
           category: resultData.category || postData.category || '',
           excerpt: resultData.excerpt || postData.excerpt || '',
@@ -315,6 +327,8 @@ function mapPostFromDatabase(record: any): Post {
     slug: record.slug,
     translation_group_id: record.translation_group_id ?? null,
     title: record.title,
+    seo_title: record.seo_title ?? undefined,
+    seo_description: record.seo_description ?? undefined,
     content: record.content,
     image: record.cover_url,
     category: record.tag,
