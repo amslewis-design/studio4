@@ -11,6 +11,8 @@ import { buildDynamicHreflangAlternates } from '@/lib/seo/hreflang';
 
 // Enable ISR - revalidate every hour
 export const revalidate = 3600;
+// Allow rendering slugs that were not present during build time.
+export const dynamicParams = true;
 
 const BLOG_LOCALES = ['en', 'es'] as const;
 const KNOWN_ORPHAN_BLOG_SLUGS = new Set<string>([
