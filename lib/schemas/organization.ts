@@ -43,7 +43,7 @@ export function generateOrganizationSchema(locale: string) {
     },
     priceRange: '$$$',
     email: 'contacto@sassystudio.com.mx',
-    sameAs: ['https://www.instagram.com/sassydigitalcontent/'],
+    sameAs: ['https://www.instagram.com/sassystudioagency/'],
     knowsAbout: [
       'Hospitality Marketing',
       'Luxury Content Creation',

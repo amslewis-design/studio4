@@ -76,7 +76,13 @@ function matchesLegacyAlias(post: Post, slug: string): boolean {
 }
 
 function normalizeRequestedSlug(value: string): string {
-  return decodeURIComponent(value).toLowerCase().replace(/\/+$/, '').trim();
+  try {
+    return decodeURIComponent(value).toLowerCase().replace(/\/+$/, '').trim();
+  } catch {
+    // Some legacy slugs may contain stray '%' characters.
+    // Fall back to raw value so one malformed slug does not break all lookups.
+    return value.toLowerCase().replace(/\/+$/, '').trim();
+  }
 }
 
 function findPostBySlug(posts: Post[], requestedSlug: string): Post | undefined {
@@ -278,6 +284,18 @@ async function BlogPostPage({
       const counterpartMatch = findPostBySlug(counterpartPosts, slug);
       if (counterpartMatch?.slug) {
         permanentRedirect(`/${counterpartLocale}/blog/${counterpartMatch.slug}`);
+      }
+
+      // Defensive fallback: query by exact slug directly.
+      // This avoids false 404s if list-scanning is disrupted by malformed legacy data.
+      const directMatch = await supabaseService.getPublishedPostBySlug(normalizedRequestedSlug);
+      if (directMatch) {
+        const directLocale: 'es' | 'en' = directMatch.language === 'en' ? 'en' : 'es';
+        if (directLocale !== currentLocale && directMatch.slug) {
+          permanentRedirect(`/${directLocale}/blog/${directMatch.slug}`);
+        }
+
+        post = directMatch;
       }
     }
 

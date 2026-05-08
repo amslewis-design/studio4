@@ -123,6 +123,30 @@ export const supabaseService = {
   },
 
   /**
+   * Get a single published post by exact slug
+   */
+  async getPublishedPostBySlug(slug: string): Promise<Post | null> {
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('slug', slug)
+        .eq('published', true)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error fetching published post by slug:', error);
+        return null;
+      }
+
+      return data ? mapPostFromDatabase(data) : null;
+    } catch (err) {
+      console.error('Exception fetching published post by slug:', err);
+      return null;
+    }
+  },
+
+  /**
    * Get all posts including drafts (admin use only)
    * This should only be called by authenticated users in the admin dashboard
    * RLS will filter results based on the user's own posts

@@ -88,7 +88,7 @@ export default async function CoyoacanLayout({
             },
             priceRange: '$$$',
             email: 'contacto@sassystudio.com.mx',
-            sameAs: ['https://www.instagram.com/sassydigitalcontent/'],
+            sameAs: ['https://www.instagram.com/sassystudioagency/'],
             knowsAbout: [
               'Hospitality Marketing Coyoacán',
               'Luxury Content Creation',

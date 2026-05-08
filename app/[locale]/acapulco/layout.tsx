@@ -87,7 +87,7 @@ export default async function AcapulcoLayout({
             },
             priceRange: '$$$',
             email: 'contacto@sassystudio.com.mx',
-            sameAs: ['https://www.instagram.com/sassydigitalcontent/'],
+            sameAs: ['https://www.instagram.com/sassystudioagency/'],
             knowsAbout: [
               'Hospitality Marketing Acapulco',
               'Luxury Content Creation',
