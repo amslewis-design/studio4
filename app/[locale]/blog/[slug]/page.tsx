@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { getTranslations } from 'next-intl/server';
 import { filePostService } from '@/lib/services/filePostService';
 import type { Post } from '@/lib/types';
@@ -82,6 +81,37 @@ function findPostBySlug(posts: Post[], requestedSlug: string): Post | undefined 
 
     return slugsMatch(post.slug, normalizedRequested);
   });
+}
+
+async function findCanonicalPost(localeParam: string, slug: string): Promise<{
+  post: Post | null;
+  currentLocale: 'es' | 'en';
+  counterpartLocale: 'es' | 'en';
+}> {
+  const currentLocale: 'es' | 'en' = isBlogLocale(localeParam) ? localeParam : 'es';
+  const counterpartLocale: 'es' | 'en' = currentLocale === 'es' ? 'en' : 'es';
+
+  const localePost = await filePostService.getPostBySlugAndLocale(currentLocale, slug);
+  if (localePost) {
+    return { post: localePost, currentLocale, counterpartLocale };
+  }
+
+  const counterpartPost = await filePostService.getPostBySlugAndLocale(counterpartLocale, slug);
+  if (counterpartPost?.slug) {
+    permanentRedirect(`/${counterpartLocale}/blog/${counterpartPost.slug}`);
+  }
+
+  const directPost = await filePostService.getPublishedPostBySlug(slug);
+  if (directPost?.slug) {
+    const directLocale: 'es' | 'en' = directPost.language === 'en' ? 'en' : 'es';
+    if (directLocale !== currentLocale) {
+      permanentRedirect(`/${directLocale}/blog/${directPost.slug}`);
+    }
+
+    return { post: directPost, currentLocale, counterpartLocale };
+  }
+
+  return { post: null, currentLocale, counterpartLocale };
 }
 
 async function resolveLegacyBlogRedirect(
@@ -170,12 +200,9 @@ export async function generateMetadata({
   try {
     const currentLocale: 'es' | 'en' = isBlogLocale(locale) ? locale : 'es';
     const counterpartLocale: 'es' | 'en' = currentLocale === 'es' ? 'en' : 'es';
-    const [posts, counterpartPosts] = await Promise.all([
-      filePostService.getPostsByLanguage(currentLocale),
-      filePostService.getPostsByLanguage(counterpartLocale),
-    ]);
-
-    const post = findPostBySlug(posts, slug) || findPostBySlug(counterpartPosts, slug);
+    const post =
+      (await filePostService.getPostBySlugAndLocale(currentLocale, slug)) ||
+      (await filePostService.getPostBySlugAndLocale(counterpartLocale, slug));
 
     if (!post) {
       return {
@@ -192,15 +219,9 @@ export async function generateMetadata({
     const seoDescription = post.seo_description || post.excerpt || post.content?.substring(0, 160);
     const alternateLocale = postLocale === 'en' ? 'es' : 'en';
 
-    let counterpartPost: Post | undefined;
-    if (post.translation_group_id) {
-      counterpartPost = (postLocale === currentLocale ? counterpartPosts : posts).find(
-        (candidate) =>
-          candidate.translation_group_id === post.translation_group_id &&
-          candidate.published === true &&
-          Boolean(candidate.slug)
-      );
-    }
+    const counterpartPost = post.translation_group_id
+      ? await filePostService.getTranslation(post, alternateLocale)
+      : null;
 
     const alternates = buildDynamicHreflangAlternates(locale, {
       currentPath: `/${postLocale}/blog/${post.slug}`,
@@ -258,52 +279,23 @@ async function BlogPostPage({
 }) {
   const { locale, slug } = await params;
   const normalizedRequestedSlug = normalizeRequestedSlug(slug);
-  const tBlog = await getTranslations('blog');
+  const currentLocale = isBlogLocale(locale) ? locale : 'es';
+  const tBlog = await getTranslations({ locale: currentLocale, namespace: 'blog' });
 
-  let post: Post | null = null;
+  let { post } = await findCanonicalPost(locale, normalizedRequestedSlug);
 
-  try {
-    const currentLocale: 'es' | 'en' = isBlogLocale(locale) ? locale : 'es';
-    const counterpartLocale: 'es' | 'en' = currentLocale === 'es' ? 'en' : 'es';
-    const [posts, counterpartPosts] = await Promise.all([
-      filePostService.getPostsByLanguage(currentLocale),
-      filePostService.getPostsByLanguage(counterpartLocale),
-    ]);
-
-    const localeMatch = findPostBySlug(posts, slug);
-    if (localeMatch) {
-      post = localeMatch;
-    } else {
-      const counterpartMatch = findPostBySlug(counterpartPosts, slug);
-      if (counterpartMatch?.slug) {
-        permanentRedirect(`/${counterpartLocale}/blog/${counterpartMatch.slug}`);
-      }
-
-      // Defensive fallback: query by exact slug directly.
-      // This avoids false 404s if list-scanning is disrupted by malformed legacy data.
-      const directMatch = await filePostService.getPublishedPostBySlug(normalizedRequestedSlug);
-      if (directMatch) {
-        const directLocale: 'es' | 'en' = directMatch.language === 'en' ? 'en' : 'es';
-        if (directLocale !== currentLocale && directMatch.slug) {
-          permanentRedirect(`/${directLocale}/blog/${directMatch.slug}`);
-        }
-
-        post = directMatch;
-      }
+  if (!post) {
+    const redirectTarget = await resolveLegacyBlogRedirect(locale, slug);
+    if (redirectTarget) {
+      permanentRedirect(`/${redirectTarget.locale}/blog/${redirectTarget.slug}`);
     }
 
-    if (!post) {
-      const redirectTarget = await resolveLegacyBlogRedirect(locale, slug);
-      if (redirectTarget) {
-        permanentRedirect(`/${redirectTarget.locale}/blog/${redirectTarget.slug}`);
-      }
-
-      if (KNOWN_ORPHAN_BLOG_SLUGS.has(normalizedRequestedSlug)) {
-        permanentRedirect(`/${locale}/blog`);
-      }
+    if (KNOWN_ORPHAN_BLOG_SLUGS.has(normalizedRequestedSlug)) {
+      permanentRedirect(`/${locale}/blog`);
     }
-  } catch (error) {
-    console.error('Failed to fetch post:', error);
+
+    // Re-run a direct lookup after legacy resolution checks before final 404.
+    ({ post } = await findCanonicalPost(locale, normalizedRequestedSlug));
   }
 
   if (!post) {
@@ -343,12 +335,7 @@ async function BlogPostPage({
       />
 
       {/* Hero Section with Featured Image */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="px-6 mx-auto max-w-6xl"
-      >
+      <div className="px-6 mx-auto max-w-6xl">
         <div className="relative h-96 md:h-[500px] overflow-hidden rounded-sm">
           <Image
             src={post.image || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1600'}
@@ -360,16 +347,12 @@ async function BlogPostPage({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         </div>
-      </motion.div>
+      </div>
 
       {/* Post Header */}
       <section className="py-12 md:py-16 px-6 border-b border-white/5">
         <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
+          <div>
             {/* Breadcrumb */}
             <div className="mb-6 flex gap-2 text-xs uppercase tracking-widest text-gray-500">
               <Link href={`/${locale}/blog`} className="hover:text-white transition-colors">
@@ -403,7 +386,7 @@ async function BlogPostPage({
             <p className="text-lg text-gray-300 font-light leading-relaxed mb-6">
               {post.excerpt}
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -447,10 +430,7 @@ async function BlogPostPage({
             color: #ff9fc0;
           }
         `}</style>
-        <motion.article
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+        <article
           className="max-w-4xl mx-auto prose prose-invert blog-post-content"
           dangerouslySetInnerHTML={{
             __html: post.content || '<p>No content available.</p>',

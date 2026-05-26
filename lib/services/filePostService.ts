@@ -199,9 +199,7 @@ export const filePostService = {
     const normalized = normalizeRawSlug(slug);
     const posts = await getPostsByLocaleInternal(locale);
 
-    return (
-      posts.find((post) => post.slug && slugsMatch(post.slug, normalized)) || null
-    );
+    return posts.find((post) => post.slug && slugsMatch(post.slug, normalized)) || null;
   },
 
   async getTranslation(post: Post, locale: BlogLocale): Promise<Post | null> {
