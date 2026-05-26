@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { supabaseService } from '@/lib/services/supabaseService';
+import { filePostService } from '@/lib/services/filePostService';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sassystudio.com.mx';
 const LOCALES = ['en', 'es'] as const;
@@ -135,7 +135,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all published blog posts by locale for dynamic entries
   try {
     for (const locale of LOCALES) {
-      const posts = await supabaseService.getPostsByLanguage(locale);
+      const posts = await filePostService.getPostsByLanguage(locale);
 
       posts.forEach((post) => {
         const slug = (post.slug || '').trim().toLowerCase();

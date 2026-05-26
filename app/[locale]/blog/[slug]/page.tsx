@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { getTranslations } from 'next-intl/server';
-import { supabaseService } from '@/lib/services/supabaseService';
+import { filePostService } from '@/lib/services/filePostService';
 import type { Post } from '@/lib/types';
 import { generateArticleSchema, generateBreadcrumbSchema } from '@/lib/schemas';
 import { buildDynamicHreflangAlternates } from '@/lib/seo/hreflang';
@@ -105,9 +105,15 @@ async function resolveLegacyBlogRedirect(
   const locale = isBlogLocale(localeParam) ? localeParam : 'es';
   const counterpartLocale: 'en' | 'es' = locale === 'en' ? 'es' : 'en';
 
+  const redirectMap = await filePostService.getLegacyRedirects();
+  const mappedTarget = redirectMap[normalizedRequestedSlug];
+  if (mappedTarget) {
+    return mappedTarget;
+  }
+
   const [postsInLocale, postsInCounterpartLocale] = await Promise.all([
-    supabaseService.getPostsByLanguage(locale),
-    supabaseService.getPostsByLanguage(counterpartLocale),
+    filePostService.getPostsByLanguage(locale),
+    filePostService.getPostsByLanguage(counterpartLocale),
   ]);
 
   const directLocaleMatch = findPostBySlug(postsInLocale, normalizedRequestedSlug);
@@ -148,7 +154,7 @@ export async function generateStaticParams() {
 
   for (const locale of locales) {
     try {
-      const posts = await supabaseService.getPostsByLanguage(locale);
+      const posts = await filePostService.getPostsByLanguage(locale);
       const publishedPosts = posts.filter(p => p.published === true);
       
       for (const post of publishedPosts) {
@@ -178,8 +184,8 @@ export async function generateMetadata({
     const currentLocale: 'es' | 'en' = isBlogLocale(locale) ? locale : 'es';
     const counterpartLocale: 'es' | 'en' = currentLocale === 'es' ? 'en' : 'es';
     const [posts, counterpartPosts] = await Promise.all([
-      supabaseService.getPostsByLanguage(currentLocale),
-      supabaseService.getPostsByLanguage(counterpartLocale),
+      filePostService.getPostsByLanguage(currentLocale),
+      filePostService.getPostsByLanguage(counterpartLocale),
     ]);
 
     const post = findPostBySlug(posts, slug) || findPostBySlug(counterpartPosts, slug);
@@ -273,8 +279,8 @@ async function BlogPostPage({
     const currentLocale: 'es' | 'en' = isBlogLocale(locale) ? locale : 'es';
     const counterpartLocale: 'es' | 'en' = currentLocale === 'es' ? 'en' : 'es';
     const [posts, counterpartPosts] = await Promise.all([
-      supabaseService.getPostsByLanguage(currentLocale),
-      supabaseService.getPostsByLanguage(counterpartLocale),
+      filePostService.getPostsByLanguage(currentLocale),
+      filePostService.getPostsByLanguage(counterpartLocale),
     ]);
 
     const localeMatch = findPostBySlug(posts, slug);
@@ -288,7 +294,7 @@ async function BlogPostPage({
 
       // Defensive fallback: query by exact slug directly.
       // This avoids false 404s if list-scanning is disrupted by malformed legacy data.
-      const directMatch = await supabaseService.getPublishedPostBySlug(normalizedRequestedSlug);
+      const directMatch = await filePostService.getPublishedPostBySlug(normalizedRequestedSlug);
       if (directMatch) {
         const directLocale: 'es' | 'en' = directMatch.language === 'en' ? 'en' : 'es';
         if (directLocale !== currentLocale && directMatch.slug) {

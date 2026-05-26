@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useLocale } from 'next-intl';
-import { supabaseService } from '@/lib/services/supabaseService';
 import type { Post } from '@/lib/types';
 import { generateBreadcrumbSchema } from '@/lib/schemas';
 import Navbar from '@/app/components/Navbar';
@@ -30,8 +29,14 @@ export default function BlogPage() {
       try {
         setIsLoading(true);
         setError(null);
-        const posts = await supabaseService.getPostsByLanguage(locale as 'es' | 'en');
-        const publishedPosts = posts.filter(p => p.published === true);
+        const response = await fetch(`/api/posts?locale=${locale}&format=full`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+
+        const data = await response.json();
+        const posts = Array.isArray(data.posts) ? data.posts : [];
+        const publishedPosts = posts.filter((p: Post) => p.published === true);
         setAllPosts(publishedPosts);
       } catch (err) {
         console.error('Failed to fetch blog posts:', err);

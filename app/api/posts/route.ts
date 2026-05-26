@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseService } from '@/lib/services/supabaseService';
+import { filePostService } from '@/lib/services/filePostService';
 import { checkRateLimit, getClientIP } from '@/lib/utils/rateLimit';
 import { RATE_LIMITS, isRateLimitingEnabled } from '@/lib/config/rateLimits';
 
@@ -20,8 +20,29 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Fetch all published posts from Supabase
-    const posts = await supabaseService.getPosts();
+    const searchParams = request.nextUrl.searchParams;
+    const format = searchParams.get('format');
+    const locale = searchParams.get('locale');
+
+    // Full response mode for blog listing pages.
+    if (format === 'full') {
+      if (locale === 'es' || locale === 'en') {
+        const localizedPosts = await filePostService.getPostsByLanguage(locale);
+        return NextResponse.json({
+          success: true,
+          posts: localizedPosts,
+        });
+      }
+
+      const allPosts = await filePostService.getPosts();
+      return NextResponse.json({
+        success: true,
+        posts: allPosts,
+      });
+    }
+
+    // Default mode for homepage: 3 recent posts formatted for cards.
+    const posts = await filePostService.getPosts();
 
     // Filter for published posts only
     const publishedPosts = posts.filter((post) => post.published === true);

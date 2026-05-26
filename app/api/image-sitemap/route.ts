@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabaseService } from '@/lib/services/supabaseService';
+import { filePostService } from '@/lib/services/filePostService';
 import { storageService } from '@/lib/services/storageService';
 import type { PortfolioItem } from '@/lib/types';
 
@@ -64,7 +64,7 @@ export async function GET() {
       const locales = ['es', 'en'] as const;
       
       for (const locale of locales) {
-        const posts = await supabaseService.getPostsByLanguage(locale);
+        const posts = await filePostService.getPostsByLanguage(locale);
         const publishedPosts = posts.filter(p => p.published === true && p.image);
 
         publishedPosts.forEach(post => {
