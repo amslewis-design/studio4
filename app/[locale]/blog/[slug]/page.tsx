@@ -8,6 +8,12 @@ import { filePostService } from '@/lib/services/filePostService';
 import type { Post } from '@/lib/types';
 import { generateArticleSchema, generateBreadcrumbSchema } from '@/lib/schemas';
 import { buildDynamicHreflangAlternates } from '@/lib/seo/hreflang';
+import {
+  normalizeAsciiSlug,
+  normalizeLegacySlug,
+  normalizeRawSlug,
+  slugsMatch,
+} from '@/lib/utils/blogSlug';
 
 // Enable ISR - revalidate every hour
 export const revalidate = 3600;
@@ -27,25 +33,11 @@ function isBlogLocale(value: string): value is 'en' | 'es' {
 }
 
 function legacySlugify(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim()
-    .slice(0, 100);
+  return normalizeLegacySlug(value).slice(0, 100);
 }
 
 function normalizedSlugify(value: string): string {
-  return value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim()
-    .slice(0, 100);
+  return normalizeAsciiSlug(value).slice(0, 100);
 }
 
 function findTranslation(post: Post, targetPosts: Post[]): Post | undefined {
@@ -67,22 +59,17 @@ function matchesLegacyAlias(post: Post, slug: string): boolean {
   }
 
   const aliases = new Set<string>([
-    post.slug || '',
+    normalizeRawSlug(post.slug || ''),
     legacySlugify(post.title),
     normalizedSlugify(post.title),
   ]);
 
-  return aliases.has(slug);
+  return aliases.has(normalizeRawSlug(slug));
 }
 
 function normalizeRequestedSlug(value: string): string {
-  try {
-    return decodeURIComponent(value).toLowerCase().replace(/\/+$/, '').trim();
-  } catch {
-    // Some legacy slugs may contain stray '%' characters.
-    // Fall back to raw value so one malformed slug does not break all lookups.
-    return value.toLowerCase().replace(/\/+$/, '').trim();
-  }
+  // Keep raw-normalized value for map lookups while matching also supports legacy variants.
+  return normalizeRawSlug(value);
 }
 
 function findPostBySlug(posts: Post[], requestedSlug: string): Post | undefined {
@@ -93,7 +80,7 @@ function findPostBySlug(posts: Post[], requestedSlug: string): Post | undefined 
       return false;
     }
 
-    return normalizeRequestedSlug(post.slug) === normalizedRequested;
+    return slugsMatch(post.slug, normalizedRequested);
   });
 }
 

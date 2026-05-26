@@ -5,6 +5,7 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import MarkdownIt from 'markdown-it';
 import type { Post } from '@/lib/types';
+import { normalizeRawSlug, slugVariants, slugsMatch } from '@/lib/utils/blogSlug';
 
 type BlogLocale = 'es' | 'en';
 
@@ -41,14 +42,6 @@ const markdown = new MarkdownIt({
   linkify: true,
   typographer: true,
 });
-
-function normalizeRequestedSlug(value: string): string {
-  try {
-    return decodeURIComponent(value).toLowerCase().replace(/\/+$/, '').trim();
-  } catch {
-    return value.toLowerCase().replace(/\/+$/, '').trim();
-  }
-}
 
 function getString(value: unknown): string | undefined {
   return typeof value === 'string' && value.trim().length > 0 ? value.trim() : undefined;
@@ -189,11 +182,11 @@ export const filePostService = {
   },
 
   async getPublishedPostBySlug(slug: string): Promise<Post | null> {
-    const normalized = normalizeRequestedSlug(slug);
+    const normalized = normalizeRawSlug(slug);
     const allPosts = await this.getPosts();
 
     return (
-      allPosts.find((post) => post.slug && normalizeRequestedSlug(post.slug) === normalized) || null
+      allPosts.find((post) => post.slug && slugsMatch(post.slug, normalized)) || null
     );
   },
 
@@ -203,11 +196,11 @@ export const filePostService = {
   },
 
   async getPostBySlugAndLocale(locale: BlogLocale, slug: string): Promise<Post | null> {
-    const normalized = normalizeRequestedSlug(slug);
+    const normalized = normalizeRawSlug(slug);
     const posts = await getPostsByLocaleInternal(locale);
 
     return (
-      posts.find((post) => post.slug && normalizeRequestedSlug(post.slug) === normalized) || null
+      posts.find((post) => post.slug && slugsMatch(post.slug, normalized)) || null
     );
   },
 
@@ -243,7 +236,19 @@ export const filePostService = {
         );
       });
 
-      return Object.fromEntries(validEntries);
+      const expandedEntries: Array<[string, LegacyRedirectTarget]> = [];
+      for (const [sourceSlug, target] of validEntries) {
+        const variants = slugVariants(sourceSlug);
+        if (variants.length === 0) {
+          continue;
+        }
+
+        for (const variant of variants) {
+          expandedEntries.push([variant, target]);
+        }
+      }
+
+      return Object.fromEntries(expandedEntries);
     } catch {
       return {};
     }
