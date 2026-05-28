@@ -11,6 +11,16 @@ export interface Project {
 
 export const PORTFOLIO_PROJECTS_EN: Project[] = [
   {
+    id: '9',
+    clientName: 'Jack Británico',
+    location: 'SOCIAL MEDIA & PRODUCT LAUNCH',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1779978915/PXL_20260430_005912656_1_pu3mb8.jpg',
+    testimonial: 'Sassy Studio did amazing work on our Social Media and supporting our product launch',
+    testimonialAuthor: '',
+    services: ['Social Media', 'Product Launch Support'],
+    year: '2026'
+  },
+  {
     id: '2',
     clientName: 'SOTA LOS ANGELES',
     location: 'LIFESTYLE CONTENT',
@@ -92,6 +102,16 @@ export const PORTFOLIO_PROJECTS_EN: Project[] = [
 ];
 
 export const PORTFOLIO_PROJECTS_ES: Project[] = [
+  {
+    id: '9',
+    clientName: 'Jack Británico',
+    location: 'SOCIAL MEDIA Y LANZAMIENTO DE PRODUCTO',
+    imageUrl: 'https://res.cloudinary.com/ds86m2xm0/image/upload/v1779978915/PXL_20260430_005912656_1_pu3mb8.jpg',
+    testimonial: 'Sassy Studio did amazing work on our Social Media and supporting our product launch',
+    testimonialAuthor: '',
+    services: ['Social Media', 'Lanzamiento de Producto'],
+    year: '2026'
+  },
   {
     id: '2',
     clientName: 'SOTA LOS ANGELES',
