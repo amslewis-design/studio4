@@ -7,6 +7,8 @@ const BASE_URL = 'https://www.sassystudio.com.mx';
 const EXCLUDED_BLOG_SLUGS = new Set([
   'visual-storytelling-por-qu-el-sitio-web-de-tu-hotel-necesita-ms-que-solo-fotos-de-las-habitaciones',
   'visual-storytelling-why-your-hotel-website-needs-more-than-just-room-photos',
+  'visual-storytelling-hotel-photos-en',
+  'visual-storytelling-hotel-photos-es',
   'cmo-el-contenido-visual-influye-en-la-decisin-de-reserva',
   'por-qu-el-storytelling-vende-ms-habitaciones-que-los-descuentos',
 ]);

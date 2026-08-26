@@ -10,14 +10,6 @@ const POSTS_ROOT = path.join(CONTENT_ROOT, 'posts');
 const REDIRECTS_FILE = path.join(CONTENT_ROOT, 'legacy-redirects.json');
 
 const KNOWN_ORPHAN_BLOG_SLUGS = {
-  'visual-storytelling-por-qu-el-sitio-web-de-tu-hotel-necesita-ms-que-solo-fotos-de-las-habitaciones': {
-    locale: 'es',
-    slug: 'visual-storytelling-hotel-photos-es',
-  },
-  'visual-storytelling-why-your-hotel-website-needs-more-than-just-room-photos': {
-    locale: 'en',
-    slug: 'visual-storytelling-hotel-photos-en',
-  },
   'cmo-el-contenido-visual-influye-en-la-decisin-de-reserva': {
     locale: 'es',
     slug: 'how-visual-content-shapes-booking-decisions-es',
