@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '@/app/components/Navbar';
+import { submitLeadForm } from '@/lib/utils/submitLeadForm';
 
 type FaqItem = {
   q: string;
@@ -128,15 +129,11 @@ function ContactForm({ isEn }: { isEn: boolean }) {
     event.preventDefault();
     setResult('Sending....');
     const formData = new FormData(event.currentTarget);
-    formData.append('access_key', 'ecc15eb8-54e8-4e41-ab55-4420220a880f');
+    formData.append('locale', isEn ? 'en' : 'es');
+    formData.append('source', 'servicios-produccion-editorial');
 
-    const response = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      body: formData,
-    });
-
-    const data = await response.json();
-    if (data.success) {
+    const { success } = await submitLeadForm(formData);
+    if (success) {
       setResult(isEn ? 'Form Submitted Successfully' : 'Formulario enviado correctamente');
       event.currentTarget.reset();
     } else {
@@ -166,6 +163,14 @@ function ContactForm({ isEn }: { isEn: boolean }) {
         rows={5}
         placeholder={isEn ? 'Tell us what you need to produce, timeline, and channels.' : 'Cuéntanos qué necesitas producir, fechas y canales.'}
         className="w-full bg-black/40 border border-white/15 px-4 py-3 text-white focus:outline-none focus:border-[#D4AF37] resize-none"
+      />
+      <input
+        type="text"
+        name="companyWebsite"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
       />
       <button
         type="submit"

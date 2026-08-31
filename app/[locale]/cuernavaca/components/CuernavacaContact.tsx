@@ -1,11 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { submitLeadForm } from '@/lib/utils/submitLeadForm';
 
 export default function CuernavacaContact() {
   const t = useTranslations('cuernavaca');
+  const locale = useLocale();
   const [result, setResult] = useState('');
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -14,23 +16,14 @@ export default function CuernavacaContact() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
-    formData.append('access_key', 'ecc15eb8-54e8-4e41-ab55-4420220a880f');
+    formData.append('locale', locale);
+    formData.append('source', 'cuernavaca');
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData,
-      });
+      const { success, message } = await submitLeadForm(formData);
 
-      let data: { success?: boolean; message?: string } = {};
-      try {
-        data = await response.json();
-      } catch {
-        data = {};
-      }
-
-      if (data.success === false) {
-        setResult(data.message || 'Error');
+      if (!success) {
+        setResult(message || 'Error');
         return;
       }
 
@@ -111,6 +104,15 @@ export default function CuernavacaContact() {
                 placeholder="https://yourwebsite.com"
               />
             </div>
+
+            <input
+              type="text"
+              name="companyWebsite"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="hidden"
+            />
 
             <div>
               <label htmlFor="message" className="block text-white text-sm mb-2">

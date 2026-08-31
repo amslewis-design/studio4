@@ -27,6 +27,19 @@ const LeadFormSchema = z.object({
     .min(10, 'Message must be at least 10 characters')
     .max(5000, 'Message must be less than 5000 characters')
     .trim(),
+  website: z.string()
+    .max(255, 'Website must be less than 255 characters')
+    .trim()
+    .optional()
+    .default(''),
+  locale: z.enum(['en', 'es'])
+    .optional()
+    .default('es'),
+  source: z.string()
+    .max(60, 'Source must be less than 60 characters')
+    .trim()
+    .optional()
+    .default(''),
   companyWebsite: z.string()
     .max(0, 'Invalid submission') // Honeypot field - must be empty
     .optional()
@@ -78,6 +91,8 @@ export async function POST(request: NextRequest) {
     const formData = validationResult.data;
 
     const resend = new Resend(process.env.RESEND_API_KEY);
+    const from = process.env.RESEND_FROM_EMAIL || 'Sassy Studio <contacto@sassystudio.com.mx>';
+    const recipient = process.env.RESEND_TO_EMAIL || 'contacto@sassystudio.com.mx';
 
     // Prepare email content for admin
     const adminEmailContent = `New Contact Form Submission
@@ -86,35 +101,66 @@ Name: ${formData.name}
 Email: ${formData.email}
 Brand/Hotel: ${formData.brand || 'Not provided'}
 Project Type: ${formData.projectType || 'Not specified'}
+Website: ${formData.website || 'Not provided'}
+Source page: ${formData.source || 'Unknown'}
 
 Message:
 ${formData.message}`;
 
-    // Prepare email content for user
-    const userEmailContent = `Thank you for reaching out!
+    // Confirmation email copy per submitter locale
+    const userEmailCopy = formData.locale === 'en'
+      ? {
+        subject: 'We received your message',
+        body: `Thank you for reaching out!
 
 We received your message and will get back to you shortly.
 
 Best regards,
-Sassy Studio`;
+Sassy Studio`,
+      }
+      : {
+        subject: 'Hemos recibido tu mensaje',
+        body: `¡Gracias por contactarnos!
+
+Hemos recibido tu mensaje y te responderemos en breve.
+
+Saludos,
+Sassy Studio`,
+      };
 
     // Send email to admin
-    await resend.emails.send({
-      from: 'Sassy Studio <onboarding@resend.dev>',
-      replyTo: 'contacto@sassystudio.com.mx',
-      to: 'contacto@sassystudio.com.mx',
-      subject: `New Contact Form Submission from ${formData.name}`,
+    const adminEmail = await resend.emails.send({
+      from,
+      replyTo: formData.email,
+      to: recipient,
+      subject: `New Contact Form Submission from ${formData.name} (${formData.source || 'unknown'})`,
       text: adminEmailContent,
     });
 
+    if (adminEmail.error) {
+      console.error('Failed to send lead notification:', adminEmail.error);
+      return NextResponse.json(
+        { error: 'Unable to send your message. Please try again.' },
+        { status: 502 }
+      );
+    }
+
     // Send confirmation email to user
-    await resend.emails.send({
-      from: 'Sassy Studio <onboarding@resend.dev>',
-      replyTo: 'contacto@sassystudio.com.mx',
+    const confirmationEmail = await resend.emails.send({
+      from,
+      replyTo: recipient,
       to: formData.email,
-      subject: 'We received your message',
-      text: userEmailContent,
+      subject: userEmailCopy.subject,
+      text: userEmailCopy.body,
     });
+
+    if (confirmationEmail.error) {
+      console.error('Failed to send lead confirmation:', confirmationEmail.error);
+      return NextResponse.json(
+        { error: 'Your message was received, but we could not send a confirmation email.' },
+        { status: 502 }
+      );
+    }
 
     return NextResponse.json(
       { success: true, message: 'Email sent successfully' },

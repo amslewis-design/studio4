@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from "react";
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from "framer-motion";
+import { submitLeadForm } from '@/lib/utils/submitLeadForm';
 
 export default function ConsultationModal({
   isOpen,
@@ -12,23 +13,20 @@ export default function ConsultationModal({
   onClose: () => void;
 }) {
   const tContact = useTranslations('contact');
+  const locale = useLocale();
   const [result, setResult] = useState("");
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
     setResult("Sending...");
     const formData = new FormData(event.target);
-    formData.append("access_key", "ecc15eb8-54e8-4e41-ab55-4420220a880f");
+    formData.append("locale", locale);
+    formData.append("source", "consultation-modal");
 
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: formData
-    });
+    const { success } = await submitLeadForm(formData);
+    setResult(success ? "Success!" : "Error");
 
-    const data = await response.json();
-    setResult(data.success ? "Success!" : "Error");
-    
-    if (data.success) {
+    if (success) {
       setTimeout(() => {
         onClose();
         setResult("");
@@ -125,6 +123,15 @@ export default function ConsultationModal({
                       placeholder={tContact('form.websitePlaceholder')}
                     />
                   </div>
+
+                  <input
+                    type="text"
+                    name="companyWebsite"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
+                  />
 
                   <div className="space-y-2">
                     <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
