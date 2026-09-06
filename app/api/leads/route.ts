@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     const formData = validationResult.data;
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const from = process.env.RESEND_FROM_EMAIL || 'Sassy Studio <contacto@sassystudio.com.mx>';
+    const from = process.env.RESEND_FROM_EMAIL || 'Sassy Studio <onboarding@resend.dev>';
     const recipient = process.env.RESEND_TO_EMAIL || 'contacto@sassystudio.com.mx';
 
     // Prepare email content for admin
@@ -156,10 +156,6 @@ Sassy Studio`,
 
     if (confirmationEmail.error) {
       console.error('Failed to send lead confirmation:', confirmationEmail.error);
-      return NextResponse.json(
-        { error: 'Your message was received, but we could not send a confirmation email.' },
-        { status: 502 }
-      );
     }
 
     return NextResponse.json(

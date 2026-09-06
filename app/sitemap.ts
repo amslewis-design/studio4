@@ -132,6 +132,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.7,
     });
+
+    // Privacy notice
+    pushRoute({
+      url: `${BASE_URL}/${locale}/aviso-de-privacidad`,
+      lastModified: new Date('2026-09-05'),
+      changeFrequency: 'yearly',
+      priority: 0.4,
+    });
   });
 
   // Fetch all published blog posts by locale for dynamic entries

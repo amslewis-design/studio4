@@ -665,6 +665,12 @@ const services = useMemo(
             >
               Request consultation
             </button>
+            <Link
+              href={`/${locale}/aviso-de-privacidad`}
+              className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
+            >
+              Aviso de privacidad
+            </Link>
           </div>
         </div>
       </footer>
