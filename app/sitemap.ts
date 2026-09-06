@@ -142,6 +142,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.4,
     });
+
+    // Terms of use
+    pushRoute({
+      url: `${BASE_URL}/${locale}/terminos-de-uso`,
+      lastModified: new Date('2026-09-05'),
+      changeFrequency: 'yearly',
+      priority: 0.4,
+    });
   });
 
   // Fetch all published blog posts by locale for dynamic entries

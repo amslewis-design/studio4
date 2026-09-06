@@ -42,6 +42,7 @@ export default function Preview() {
   const privacyNoticeHref = locale === 'es'
     ? `/${locale}/aviso-de-privacidad`
     : `/${locale}/privacy-notice`;
+  const termsHref = `/${locale}/terminos-de-uso`;
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings>({
     primaryColor: "#1a1a1a",
@@ -673,6 +674,12 @@ const services = useMemo(
               className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
             >
               {locale === 'es' ? 'Aviso de privacidad' : 'Privacy notice'}
+            </Link>
+            <Link
+              href={termsHref}
+              className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
+            >
+              Términos de uso
             </Link>
           </div>
         </div>
