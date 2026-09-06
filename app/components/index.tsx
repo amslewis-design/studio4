@@ -39,6 +39,9 @@ export default function Preview() {
   const tHero = useTranslations('hero');
   const locale = useLocale();
   const serviceHubHref = locale === 'es' ? `/${locale}/servicios` : `/${locale}/services`;
+  const privacyNoticeHref = locale === 'es'
+    ? `/${locale}/aviso-de-privacidad`
+    : `/${locale}/privacy-notice`;
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings>({
     primaryColor: "#1a1a1a",
@@ -666,10 +669,10 @@ const services = useMemo(
               Request consultation
             </button>
             <Link
-              href={`/${locale}/aviso-de-privacidad`}
+              href={privacyNoticeHref}
               className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
             >
-              Aviso de privacidad
+              {locale === 'es' ? 'Aviso de privacidad' : 'Privacy notice'}
             </Link>
           </div>
         </div>

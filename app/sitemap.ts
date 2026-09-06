@@ -135,7 +135,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Privacy notice
     pushRoute({
-      url: `${BASE_URL}/${locale}/aviso-de-privacidad`,
+      url: locale === 'es'
+        ? `${BASE_URL}/${locale}/aviso-de-privacidad`
+        : `${BASE_URL}/${locale}/privacy-notice`,
       lastModified: new Date('2026-09-05'),
       changeFrequency: 'yearly',
       priority: 0.4,
