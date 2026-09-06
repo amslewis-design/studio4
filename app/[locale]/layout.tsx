@@ -82,8 +82,17 @@ export default async function RootLayout({
         {/* Preconnect to critical origins */}
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="preconnect" href="https://analytics.ahrefs.com" />
+        <link rel="preconnect" href="https://consent.cookiebot.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         
+        <Script
+          id="Cookiebot"
+          src="https://consent.cookiebot.com/uc.js"
+          data-cbid="94243ad4-f3fd-4781-8b4c-88c07cceaa32"
+          data-blockingmode="auto"
+          type="text/javascript"
+          strategy="beforeInteractive"
+        />
         <GTMScript />
         <Script
           src="https://analytics.ahrefs.com/analytics.js"
