@@ -9,6 +9,7 @@ import { useLocale } from 'next-intl';
 import type { Post } from '@/lib/types';
 import { generateBreadcrumbSchema } from '@/lib/schemas';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 const POSTS_PER_PAGE = 9;
 
@@ -409,6 +410,7 @@ export default function BlogPage() {
         </section>
       )}
       </div>
+      <Footer />
     </>
   );
 }

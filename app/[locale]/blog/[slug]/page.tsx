@@ -13,6 +13,7 @@ import {
   normalizeRawSlug,
   slugsMatch,
 } from '@/lib/utils/blogSlug';
+import Footer from '@/app/components/Footer';
 
 // Enable ISR - revalidate every hour
 export const revalidate = 3600;
@@ -456,6 +457,7 @@ async function BlogPostPage({
           </Link>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

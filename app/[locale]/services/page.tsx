@@ -6,6 +6,7 @@ import ServiceCard from '@/components/services/ServiceCard';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import ConsultationModal from '@/app/components/ConsultationModal';
+import Footer from '@/app/components/Footer';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 
@@ -163,6 +164,7 @@ export default function ServicesPage() {
           </button>
         </motion.div>
       </div>
+      <Footer onConsult={() => setIsConsultModalOpen(true)} />
     </main>
   );
 }

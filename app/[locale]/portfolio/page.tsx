@@ -3,6 +3,7 @@
 import React from 'react';
 import { useLocale } from 'next-intl';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 import { Postcard } from '@/components/portfolio/Postcard';
 import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from '@/app/constants/portfolio';
 
@@ -55,6 +56,7 @@ export default function PortfolioPage() {
              </p>
         </section>
       </div>
+      <Footer />
     </>
   );
 }

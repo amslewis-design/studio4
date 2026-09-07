@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ContenidoSocialPageClient from './ContenidoSocialPageClient.tsx';
+import Footer from '@/app/components/Footer';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
 
@@ -237,6 +238,7 @@ export default async function ContenidoSocialPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <ContenidoSocialPageClient locale={locale} faqs={faqs} />
+      <Footer />
     </>
   );
 }

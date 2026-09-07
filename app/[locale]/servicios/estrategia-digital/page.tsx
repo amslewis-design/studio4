@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import EstrategiaDigitalPageClient from './EstrategiaDigitalPageClient';
+import Footer from '@/app/components/Footer';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
 
@@ -216,6 +217,7 @@ export default async function EstrategiaDigitalPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <EstrategiaDigitalPageClient locale={locale} faqs={faqs} />
+      <Footer />
     </>
   );
 }

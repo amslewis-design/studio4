@@ -5,6 +5,7 @@ import LocalKnowledge from './components/LocalKnowledge.tsx';
 import AcapulcoPortfolio from './components/AcapulcoPortfolio.tsx';
 import AcapulcoContact from './components/AcapulcoContact.tsx';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export default function AcapulcoPage() {
   return (
@@ -16,6 +17,7 @@ export default function AcapulcoPage() {
       <LocalKnowledge />
       <AcapulcoPortfolio />
       <AcapulcoContact />
+      <Footer />
     </main>
   );
 }

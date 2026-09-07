@@ -5,6 +5,7 @@ import LocalKnowledge from './components/LocalKnowledge.tsx';
 import MexicoCityPortfolio from './components/MexicoCityPortfolio.tsx';
 import MexicoCityContact from './components/MexicoCityContact.tsx';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export default function MexicoCityPage() {
   return (
@@ -16,6 +17,7 @@ export default function MexicoCityPage() {
       <LocalKnowledge />
       <MexicoCityPortfolio />
       <MexicoCityContact />
+      <Footer />
     </main>
   );
 }

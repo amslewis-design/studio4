@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 import type { Metadata } from 'next';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
@@ -97,6 +98,7 @@ export default async function ServiciosIndexPage({ params }: Props) {
           </Link>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }

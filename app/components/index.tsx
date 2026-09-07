@@ -6,7 +6,6 @@ import Image from "next/image";
 import dynamic from 'next/dynamic';
 import { useTranslations, useLocale } from 'next-intl';
 import { motion } from "framer-motion";
-import { Instagram } from 'lucide-react';
 import { SiteSettings } from "@/lib/types";
 import { Postcard } from "@/components/portfolio/Postcard";
 import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from "@/app/constants/portfolio";
@@ -19,6 +18,7 @@ const HeroSlideshow = dynamic(() => import("./HeroSlideshow"), {
 });
 import Navbar from "./Navbar";
 import ConsultationModal from "./ConsultationModal";
+import Footer from "./Footer";
 
 type BlogPost = {
   title: string;
@@ -39,12 +39,6 @@ export default function Preview() {
   const tHero = useTranslations('hero');
   const locale = useLocale();
   const serviceHubHref = locale === 'es' ? `/${locale}/servicios` : `/${locale}/services`;
-  const privacyNoticeHref = locale === 'es'
-    ? `/${locale}/aviso-de-privacidad`
-    : `/${locale}/privacy-notice`;
-  const termsHref = locale === 'es'
-    ? `/${locale}/terminos-de-uso`
-    : `/${locale}/terms-of-use`;
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
   const [settings, setSettings] = useState<SiteSettings>({
     primaryColor: "#1a1a1a",
@@ -646,46 +640,7 @@ const services = useMemo(
         </div>
       </section>
 
-      {/* Footer */}
-      <footer
-        className="py-10 px-6"
-        style={{ backgroundColor: "#000" }}
-      >
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-[10px] uppercase tracking-[0.4em] text-white/40">
-            {tHero('tagline')}
-          </div>
-          <div className="flex items-center gap-6">
-            <a
-              href="https://www.instagram.com/sassystudioagency/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors"
-              aria-label="Follow us on Instagram"
-            >
-              <Instagram size={20} />
-            </a>
-            <button
-              onClick={() => setIsConsultModalOpen(true)}
-              className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
-            >
-              Request consultation
-            </button>
-            <Link
-              href={privacyNoticeHref}
-              className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
-            >
-              {locale === 'es' ? 'Aviso de privacidad' : 'Privacy notice'}
-            </Link>
-            <Link
-              href={termsHref}
-              className="text-[10px] uppercase tracking-[0.4em] text-white/60 hover:text-white transition-colors"
-            >
-              {locale === 'es' ? 'Términos de uso' : 'Terms of use'}
-            </Link>
-          </div>
-        </div>
-      </footer>
+      <Footer onConsult={() => setIsConsultModalOpen(true)} />
     </div>
   );
 }

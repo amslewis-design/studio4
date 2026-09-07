@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { generateFAQSchema, generateBreadcrumbSchema } from '@/lib/schemas';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 type FaqItem = {
   question: string;
@@ -137,6 +138,7 @@ export default async function FAQPage({
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 }

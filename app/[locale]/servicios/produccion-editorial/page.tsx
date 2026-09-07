@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ProduccionEditorialPageClient from './ProduccionEditorialPageClient';
+import Footer from '@/app/components/Footer';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
 
@@ -216,6 +217,7 @@ export default async function ProduccionEditorialPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <ProduccionEditorialPageClient locale={locale} faqs={serviceFaqs} />
+      <Footer />
     </>
   );
 }

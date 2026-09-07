@@ -5,6 +5,7 @@ import LocalKnowledge from './components/LocalKnowledge';
 import CoyoacanPortfolio from './components/CoyoacanPortfolio';
 import CoyoacanContact from './components/CoyoacanContact';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export default function CoyoacanPage() {
   return (
@@ -16,6 +17,7 @@ export default function CoyoacanPage() {
       <LocalKnowledge />
       <CoyoacanPortfolio />
       <CoyoacanContact />
+      <Footer />
     </main>
   );
 }

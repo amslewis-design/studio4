@@ -5,6 +5,7 @@ import LocalKnowledge from './components/LocalKnowledge.tsx';
 import CuernavacaPortfolio from './components/CuernavacaPortfolio.tsx';
 import CuernavacaContact from './components/CuernavacaContact.tsx';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export default function CuernavacaPage() {
   return (
@@ -16,6 +17,7 @@ export default function CuernavacaPage() {
       <LocalKnowledge />
       <CuernavacaPortfolio />
       <CuernavacaContact />
+      <Footer />
     </main>
   );
 }

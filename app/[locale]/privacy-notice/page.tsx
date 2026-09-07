@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Comprehensive Privacy Notice | Sassy Studio',
@@ -182,6 +183,7 @@ export default function PrivacyNoticePage() {
           </Section>
         </div>
       </article>
+      <Footer />
     </main>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Website Terms of Use | Sassy Studio',
@@ -129,6 +130,7 @@ export default function TermsOfUsePage() {
           </Section>
         </div>
       </article>
+      <Footer />
     </main>
   );
 }
