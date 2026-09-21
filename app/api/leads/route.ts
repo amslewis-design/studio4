@@ -1,50 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { z } from 'zod';
 import { checkRateLimit, getClientIP } from '@/lib/utils/rateLimit';
 import { RATE_LIMITS, isRateLimitingEnabled } from '@/lib/config/rateLimits';
-
-// Define validation schema for lead form submissions
-const LeadFormSchema = z.object({
-  name: z.string()
-    .min(2, 'Name must be at least 2 characters')
-    .max(100, 'Name must be less than 100 characters')
-    .trim(),
-  email: z.string()
-    .email('Invalid email address')
-    .max(255, 'Email must be less than 255 characters'),
-  brand: z.string()
-    .max(100, 'Brand must be less than 100 characters')
-    .trim()
-    .optional()
-    .default(''),
-  projectType: z.string()
-    .max(100, 'Project type must be less than 100 characters')
-    .trim()
-    .optional()
-    .default(''),
-  message: z.string()
-    .min(10, 'Message must be at least 10 characters')
-    .max(5000, 'Message must be less than 5000 characters')
-    .trim(),
-  website: z.string()
-    .max(255, 'Website must be less than 255 characters')
-    .trim()
-    .optional()
-    .default(''),
-  locale: z.enum(['en', 'es'])
-    .optional()
-    .default('es'),
-  source: z.string()
-    .max(60, 'Source must be less than 60 characters')
-    .trim()
-    .optional()
-    .default(''),
-  companyWebsite: z.string()
-    .max(0, 'Invalid submission') // Honeypot field - must be empty
-    .optional()
-    .default(''),
-});
+import { LeadFormSchema, normalizeLeadSubmission } from '@/lib/utils/leadFormSchema';
 
 export async function POST(request: NextRequest) {
   try {
@@ -73,9 +31,10 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const normalizedBody = normalizeLeadSubmission(body ?? {});
 
     // Validate request body against schema
-    const validationResult = LeadFormSchema.safeParse(body);
+    const validationResult = LeadFormSchema.safeParse(normalizedBody);
     
     if (!validationResult.success) {
       const errors = validationResult.error.issues
