@@ -30,6 +30,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!process.env.RESEND_FROM_EMAIL) {
+      console.error('RESEND_FROM_EMAIL is not configured');
+      return NextResponse.json(
+        { error: 'Email sender is not configured' },
+        { status: 500 }
+      );
+    }
+
     const body = await request.json();
     const normalizedBody = normalizeLeadSubmission(body ?? {});
 
@@ -50,7 +58,7 @@ export async function POST(request: NextRequest) {
     const formData = validationResult.data;
 
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const from = process.env.RESEND_FROM_EMAIL || 'Sassy Studio <onboarding@resend.dev>';
+    const from = process.env.RESEND_FROM_EMAIL;
     const recipient = process.env.RESEND_TO_EMAIL || 'contacto@sassystudio.com.mx';
 
     // Prepare email content for admin

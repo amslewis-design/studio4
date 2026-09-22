@@ -10,14 +10,6 @@ const POSTS_ROOT = path.join(CONTENT_ROOT, 'posts');
 const REDIRECTS_FILE = path.join(CONTENT_ROOT, 'legacy-redirects.json');
 
 const KNOWN_ORPHAN_BLOG_SLUGS = {
-  'cmo-el-contenido-visual-influye-en-la-decisin-de-reserva': {
-    locale: 'es',
-    slug: 'how-visual-content-shapes-booking-decisions-es',
-  },
-  'por-qu-el-storytelling-vende-ms-habitaciones-que-los-descuentos': {
-    locale: 'es',
-    slug: 'storytelling-vs-discounts-es',
-  },
 };
 
 function legacySlugify(value) {
