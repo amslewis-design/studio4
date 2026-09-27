@@ -15,6 +15,11 @@ export function normalizeLeadSubmission(raw: Record<string, unknown>) {
     name: normalizeText(source.name),
     email: normalizeText(source.email),
     brand: normalizeText(source.brand),
+    role: normalizeText(source.role),
+    city: normalizeText(source.city),
+    sector: normalizeText(source.sector),
+    monthlyBudget: normalizeText(source.monthlyBudget),
+    startDate: normalizeText(source.startDate),
     projectType: normalizeText(source.projectType),
     message: normalizeText(source.message),
     website: normalizeText(source.website),
@@ -38,6 +43,11 @@ export const LeadFormSchema = z.object({
     .trim()
     .optional()
     .default(''),
+  role: z.string().max(100).trim().optional().default(''),
+  city: z.string().max(100).trim().optional().default(''),
+  sector: z.string().max(300).trim().optional().default(''),
+  monthlyBudget: z.string().max(100).trim().optional().default(''),
+  startDate: z.string().max(120).trim().optional().default(''),
   projectType: z.string()
     .max(100, 'Project type must be less than 100 characters')
     .trim()

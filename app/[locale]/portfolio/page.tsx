@@ -4,6 +4,7 @@ import React from 'react';
 import { useLocale } from 'next-intl';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
+import LeadContactForm from '@/app/components/LeadContactForm';
 import { Postcard } from '@/components/portfolio/Postcard';
 import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_PROJECTS_ES } from '@/app/constants/portfolio';
 
@@ -26,12 +27,11 @@ export default function PortfolioPage() {
         <section className="relative px-6 pt-32 pb-16 md:px-12 md:pt-48 md:pb-32 max-w-[1800px] mx-auto">
              <div className="max-w-4xl">
                 <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl leading-[0.9] text-white/90 mb-8 max-w-3xl">
-                  {locale === 'es' ? (
-                    <>Proyectos ejecutados <br /> con estándar editorial.</>
-                  ) : (
-                    <>Curating digital <br /> destinations.</>
-                  )}
+                  {locale === 'es' ? 'Nuestro trabajo' : 'Our work'}
                 </h1>
+                <p className="max-w-2xl text-lg text-white/60">
+                  {locale === 'es' ? 'Conoce algunos de nuestros proyectos aquí.' : 'Explore a selection of our projects.'}
+                </p>
             </div>
         </section>
 
@@ -49,11 +49,11 @@ export default function PortfolioPage() {
             </div>
         </section>
 
-        {/* Footer Note */}
-        <section className="py-24 border-t border-white/5 text-center">
-             <p className="font-serif italic text-white/30 text-2xl">
-                "To travel is to live."
-             </p>
+        <section className="py-24 px-6 border-t border-white/5">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="font-serif text-4xl md:text-6xl text-white mb-10">{locale === 'es' ? 'Contáctanos' : 'Contact us'}</h2>
+            <LeadContactForm source="portfolio-page" />
+          </div>
         </section>
       </div>
       <Footer />

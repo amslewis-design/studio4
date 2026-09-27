@@ -36,3 +36,28 @@ test('rejects a non-empty honeypot value', () => {
 
   assert.equal(result.success, false);
 });
+
+test('accepts the additional contact form details', () => {
+  const payload = {
+    name: 'Test Name',
+    email: 'test@example.com',
+    role: 'Marketing lead',
+    brand: 'Example Hotel',
+    city: 'Mexico City',
+    sector: 'Hospitalidad, Wellness',
+    projectType: 'Kit de Contenido Mensual',
+    monthlyBudget: '$2,000 USD',
+    startDate: 'October 2026',
+    message: 'We need a clearer digital presence.',
+    locale: 'es',
+    source: 'contact-page',
+  };
+
+  const result = LeadFormSchema.safeParse(normalizeLeadSubmission(payload));
+
+  assert.equal(result.success, true, result.success ? 'expected validation to pass' : result.error?.issues.map((issue) => issue.message).join('; '));
+  if (result.success) {
+    assert.equal(result.data.role, 'Marketing lead');
+    assert.equal(result.data.monthlyBudget, '$2,000 USD');
+  }
+});

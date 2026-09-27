@@ -46,10 +46,11 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
   const navItems: NavItem[] = useMemo(
     () => [
       { label: t('home'), href: isHomepage ? "#top" : `/${locale}` },
+      { label: t('about'), href: locale === 'es' ? `/${locale}/nosotros` : `/${locale}/about` },
       { label: t('portfolio'), href: `/${locale}/portfolio` },
       { label: t('services'), href: serviceHubHref },
       { label: t('blog'), href: isHomepage ? "#blog" : `/${locale}/blog` },
-      { label: t('contact'), href: isHomepage ? "#contact" : `/${locale}#contact` },
+      { label: t('contact'), href: isHomepage ? "#contact" : locale === 'es' ? `/${locale}/contacto` : `/${locale}/contact` },
     ],
     [t, isHomepage, locale, serviceHubHref]
   );
@@ -118,7 +119,7 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
           )}
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-10">
+          <nav className="hidden xl:flex items-center gap-10">
             {navItems.map((item) => {
               const isHash = item.href.startsWith("#");
               // Only use scroll behavior if we are on homepage AND the link is a hash
@@ -154,7 +155,7 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
             <button
               onClick={handleConsultClick}
               className={
-                "hidden md:inline-flex px-6 py-3 uppercase tracking-[0.35em] text-[11px] font-extrabold transition-colors duration-300 " +
+                "hidden xl:inline-flex px-6 py-3 uppercase tracking-[0.35em] text-[11px] font-extrabold transition-colors duration-300 " +
                 (isScrolled
                   ? "border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black"
                   : "border border-white/60 text-white hover:bg-white hover:text-[var(--accent)]")
@@ -168,7 +169,7 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
             <button
               onClick={() => setIsOpen((v) => !v)}
               className={
-                "md:hidden inline-flex items-center justify-center w-11 h-11 transition-colors " +
+                "xl:hidden inline-flex items-center justify-center w-11 h-11 transition-colors " +
                 (isScrolled
                   ? "border border-[var(--accent)] text-[var(--accent)] hover:bg-[var(--accent)] hover:text-black"
                   : "border border-white/30 bg-black/10 text-white/90 hover:text-white hover:border-white/60")
@@ -190,7 +191,7 @@ export default function Navbar({ onConsult, isHomepage = false }: NavbarProps) {
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.35, ease: "easeOut" }}
               className={
-                "md:hidden overflow-hidden " +
+                "xl:hidden overflow-hidden " +
                 (isScrolled ? "bg-transparent" : "bg-[var(--accent)]")
               }
             >

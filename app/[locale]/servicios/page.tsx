@@ -4,6 +4,7 @@ import Footer from '@/app/components/Footer';
 import type { Metadata } from 'next';
 import { buildReciprocalHreflangAlternates } from '@/lib/seo/hreflang';
 import { SEO_ROUTE_MAP } from '@/lib/seo/routes';
+import LeadContactForm from '@/app/components/LeadContactForm';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -97,6 +98,25 @@ export default async function ServiciosIndexPage({ params }: Props) {
             <p className="text-gray-400 text-sm">{isEn ? 'Review social content, digital strategy, branding, and web support services.' : 'Revisa servicios de contenido social, estrategia digital, branding y soporte web.'}</p>
           </Link>
         </div>
+
+        <section className="mt-24 border-t border-white/10 pt-16">
+          <h2 className="text-4xl md:text-5xl font-serif mb-6">{isEn ? 'Bespoke projects' : 'Proyectos a la medida'}</h2>
+          <p className="text-gray-300 max-w-3xl leading-relaxed mb-8">
+            {isEn
+              ? 'For openings, relaunches, key seasons, or specific needs. We define the scope with you and execute it with the same editorial vision.'
+              : 'Para aperturas, relanzamientos, temporadas clave o necesidades específicas. Definimos el alcance contigo y lo ejecutamos con la misma visión editorial de siempre.'}
+          </p>
+          <a href="#services-contact" className="inline-block border border-white/20 px-8 py-4 text-xs uppercase tracking-[0.3em] hover:border-[#FC7CA4] hover:text-[#FC7CA4] transition-colors">
+            {isEn ? 'Request availability' : 'Solicitar disponibilidad'}
+          </a>
+          <h3 className="font-serif text-3xl md:text-4xl mt-16 mb-6">
+            {isEn ? 'If you feel your brand has the potential to grow, it probably does.' : 'Si sientes que tu marca tiene potencial para crecer, es porque probablemente puede.'}
+          </h3>
+          <a href="#services-contact" className="inline-block text-xs uppercase tracking-[0.3em] text-[#FC7CA4] mb-12">
+            {isEn ? 'Contact us' : 'Contáctanos'}
+          </a>
+          <div id="services-contact"><LeadContactForm source="services-page" /></div>
+        </section>
       </section>
       <Footer />
     </main>

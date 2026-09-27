@@ -55,9 +55,9 @@ export function Postcard({ project }: PostcardProps) {
                 {/* Left Side: Message */}
                 <div className="flex-1 flex flex-col justify-center space-y-4 pr-4 border-r border-white/10 border-dashed">
                     <p className="font-serif italic text-white/80 text-sm leading-relaxed">
-                        "{project.testimonial}"
+                      {project.description || `“${project.testimonial}”`}
                     </p>
-                    {project.testimonialAuthor && (
+                    {!project.description && project.testimonialAuthor && (
                         <p className="font-sans text-xs font-bold text-[var(--accent)] uppercase tracking-wider">
                             — {project.testimonialAuthor}
                         </p>

@@ -37,6 +37,7 @@ export default function Preview() {
   const tPortfolio = useTranslations('portfolio');
   const tContact = useTranslations('contact');
   const tHero = useTranslations('hero');
+  const tPositioning = useTranslations('homePositioning');
   const locale = useLocale();
   const serviceHubHref = locale === 'es' ? `/${locale}/servicios` : `/${locale}/services`;
   const [isConsultModalOpen, setIsConsultModalOpen] = useState(false);
@@ -291,6 +292,19 @@ const services = useMemo(
         </div>
       </section>
 
+      {locale === 'es' && (
+        <section className="py-16 md:py-20 px-6 border-b border-white/10" style={{ backgroundColor: 'var(--section-bg)' }}>
+          <div className="max-w-5xl mx-auto text-center">
+            <h2 className="font-serif text-3xl md:text-5xl text-white mb-6" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+              {tPositioning('heading')}
+            </h2>
+            <p className="max-w-4xl mx-auto text-base md:text-lg leading-relaxed text-white/65">
+              {tPositioning('network')}
+            </p>
+          </div>
+        </section>
+      )}
+
       {/* Services */}
       <section
         id="services"
@@ -314,10 +328,15 @@ const services = useMemo(
             <p className="font-sans text-xs md:text-sm tracking-[0.2em] font-medium text-white/60 uppercase mb-10">
               {tServices('ourCraftSubtitle')}
             </p>
+            {locale === 'es' && (
+              <Link href={serviceHubHref} className="inline-block border border-white/20 text-white px-8 py-4 mb-10 uppercase tracking-[0.35em] text-[10px] font-bold hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors">
+                Conoce nuestros servicios
+              </Link>
+            )}
             <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-16 md:gap-20 lg:gap-32">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-20 lg:gap-32">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
@@ -387,11 +406,16 @@ const services = useMemo(
             >
               {tApproach('quote')}
             </p>
-            <div className="flex items-center justify-center gap-6 text-[11px] uppercase tracking-[0.6em] text-gray-600">
-              <div className="w-16 h-[1px] bg-white/10" />
-              <span>{tApproach('philosophy')}</span>
-              <div className="w-16 h-[1px] bg-white/10" />
-            </div>
+            {locale === 'es' && (
+              <div className="mt-10 space-y-8">
+                <p className="text-base md:text-lg text-gray-400 leading-relaxed max-w-3xl mx-auto">
+                  {tApproach('supporting')}
+                </p>
+                <a href="#contact" className="inline-block border border-white/20 text-white px-8 py-4 uppercase tracking-[0.35em] text-[10px] font-bold hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors">
+                  {tApproach('cta')}
+                </a>
+              </div>
+            )}
           </motion.div>
         </div>
       </section>
@@ -412,6 +436,9 @@ const services = useMemo(
           >
             {/* Text Column */}
             <div className="md:w-1/2 space-y-8">
+              {locale === 'es' && (
+                <p className="text-[10px] uppercase tracking-[0.45em] text-[var(--accent)]">Filosofía Sassy</p>
+              )}
               <h2
                 className="text-4xl md:text-6xl font-serif tracking-tight text-white leading-tight"
                 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
@@ -422,7 +449,7 @@ const services = useMemo(
                 {tEditorial('body')}
               </p>
               <a
-                href="#services"
+                href="#contact"
                 className="inline-block border border-white/15 text-white/80 px-8 py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300"
                 style={{ borderRadius: "var(--btn-radius)" }}
               >
@@ -444,108 +471,18 @@ const services = useMemo(
         </div>
       </section>
 
-      {/* Blog */}
-      <section
-        id="blog"
-        className="py-28 md:py-40 px-6"
-        style={{ backgroundColor: "var(--section-bg)" }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-120px" }}
-            transition={{ duration: 1 }}
-            className="flex flex-col md:flex-row md:items-end md:justify-between gap-10 mb-16 md:mb-20"
-          >
-            <div className="space-y-5">
-              <h2
-                className="text-5xl md:text-7xl font-serif tracking-tight text-white"
-                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-              >
-                {tBlog('title')}
-              </h2>
-              <p className="text-gray-500 font-light leading-relaxed max-w-2xl">
-                {tBlog('description')}
-              </p>
-            </div>
-
-            <Link
-              href={`/${locale}/blog`}
-              className="self-start md:self-auto border border-white/15 text-white/80 px-8 py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
-              style={{ borderRadius: "var(--btn-radius)" }}
-            >
-              {tBlog('viewAllPosts')}
-            </Link>
-          </motion.div>
-
-          <div className="grid md:grid-cols-3 gap-10">
-            {blogPosts.map((post, idx) => (
-              <motion.article
-                key={post.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: idx * 0.15 }}
-                className="group border border-white/10 bg-black/20 backdrop-blur-sm flex flex-col hover:border-[var(--accent)]/40 transition-colors duration-500 overflow-hidden"
-              >
-                {/* Image */}
-                <div className="relative">
-                  <div className="h-48 w-full overflow-hidden relative">
-                    <Image
-                      src={post.image}
-                      alt={`${post.title} - Hospitality marketing insights from Sassy Studio CDMX`}
-                      fill
-                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                  </div>
-
-                  {/* Tag/date overlay */}
-                  <div className="absolute top-0 left-0 right-0 p-6 flex items-center justify-between gap-6 bg-gradient-to-b from-black/70 to-transparent">
-                    <div className="text-[10px] uppercase tracking-[0.4em] text-white/70 font-bold">
-                      {post.tag}
-                    </div>
-                    <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">
-                      {post.date}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Copy */}
-                <div className="p-8 space-y-4">
-                  <h3
-                    className="text-3xl font-serif text-white group-hover:text-[var(--accent)] transition-colors duration-500"
-                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-                  >
-                    {post.title}
-                  </h3>
-                  <p className="text-gray-500 font-light leading-relaxed">
-                    {post.excerpt}
-                  </p>
-                </div>
-
-                {/* Footer */}
-                <div className="p-8 pt-0 mt-auto">
-                  {post.slug ? (
-                    <Link
-                      href={`/${locale}/blog/${post.slug}`}
-                      className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 inline-block"
-                    >
-                      {tBlog('readMore')}
-                    </Link>
-                  ) : (
-                    <button className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 cursor-default">
-                      {tBlog('readMore')}
-                    </button>
-                  )}
-                  <div className="mt-6 w-full h-[1px] bg-white/5 group-hover:bg-[var(--accent)]/60 transition-colors duration-700" />
-                </div>
-              </motion.article>
-            ))}
+      {locale === 'es' && (
+        <section className="py-24 md:py-32 px-6 border-y border-white/5" style={{ backgroundColor: 'var(--primary)' }}>
+          <div className="max-w-5xl mx-auto text-center">
+            <h2 className="text-4xl md:text-6xl font-serif text-white mb-8" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+              Proyectos a la medida
+            </h2>
+            <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto">
+              Aperturas, relanzamientos, temporadas clave o necesidades específicas. Definimos el alcance contigo y lo ejecutamos con el mismo estándar editorial.
+            </p>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Portfolio */}
       <section
@@ -600,6 +537,18 @@ const services = useMemo(
         </div>
       </section>
 
+      {locale === 'es' && (
+        <section className="py-24 md:py-32 px-6" style={{ backgroundColor: 'var(--primary)' }}>
+          <div className="max-w-4xl mx-auto text-center">
+            <p className="text-[10px] uppercase tracking-[0.45em] text-[var(--accent)] mb-8">ZAÏA Urban Wellness</p>
+            <blockquote className="font-serif text-2xl md:text-4xl leading-relaxed text-white/90">
+              “Trabajar con Sassy Studio fue una experiencia muy positiva para ZAÏA. Durante estos meses me ayudaron no solamente en la creación de contenido y comunicación de la marca, sino también a aterrizar ideas, entender mejor nuestra identidad y explorar nuevas formas de conectar con nuestra audiencia. Siempre valoré mucho su disposición, creatividad y acompañamiento durante todo el proceso. Me quedo muy agradecido con el equipo y con todo lo aprendido durante esta etapa.”
+            </blockquote>
+            <p className="mt-8 text-xs uppercase tracking-[0.3em] text-white/50">Ivan, ZAÏA Urban Wellness</p>
+          </div>
+        </section>
+      )}
+
       {/* CTA */}
       <section
         id="contact"
@@ -637,6 +586,102 @@ const services = useMemo(
               {tContact('form.sendMessage')}
             </button>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Blog */}
+      <section
+        id="blog"
+        className="py-28 md:py-40 px-6"
+        style={{ backgroundColor: "var(--section-bg)" }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-120px" }}
+            transition={{ duration: 1 }}
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-10 mb-16 md:mb-20"
+          >
+            <div className="space-y-5">
+              <h2
+                className="text-5xl md:text-7xl font-serif tracking-tight text-white"
+                style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+              >
+                {tBlog('title')}
+              </h2>
+              <p className="text-gray-500 font-light leading-relaxed max-w-2xl">
+                {tBlog('description')}
+              </p>
+            </div>
+
+            <Link
+              href={`/${locale}/blog`}
+              className="self-start md:self-auto border border-white/15 text-white/80 px-8 py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
+              style={{ borderRadius: "var(--btn-radius)" }}
+            >
+              {tBlog('viewAllPosts')}
+            </Link>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-10">
+            {blogPosts.map((post, idx) => (
+              <motion.article
+                key={post.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: idx * 0.15 }}
+                className="group border border-white/10 bg-black/20 backdrop-blur-sm flex flex-col hover:border-[var(--accent)]/40 transition-colors duration-500 overflow-hidden"
+              >
+                <div className="relative">
+                  <div className="h-48 w-full overflow-hidden relative">
+                    <Image
+                      src={post.image}
+                      alt={`${post.title} - Hospitality marketing insights from Sassy Studio CDMX`}
+                      fill
+                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+                  <div className="absolute top-0 left-0 right-0 p-6 flex items-center justify-between gap-6 bg-gradient-to-b from-black/70 to-transparent">
+                    <div className="text-[10px] uppercase tracking-[0.4em] text-white/70 font-bold">
+                      {post.tag}
+                    </div>
+                    <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">
+                      {post.date}
+                    </div>
+                  </div>
+                </div>
+                <div className="p-8 space-y-4">
+                  <h3
+                    className="text-3xl font-serif text-white group-hover:text-[var(--accent)] transition-colors duration-500"
+                    style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+                  >
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-500 font-light leading-relaxed">
+                    {post.excerpt}
+                  </p>
+                </div>
+                <div className="p-8 pt-0 mt-auto">
+                  {post.slug ? (
+                    <Link
+                      href={`/${locale}/blog/${post.slug}`}
+                      className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 inline-block"
+                    >
+                      {tBlog('readMore')}
+                    </Link>
+                  ) : (
+                    <button className="text-[10px] uppercase tracking-[0.5em] text-white/60 group-hover:text-white transition-colors duration-300 cursor-default">
+                      {tBlog('readMore')}
+                    </button>
+                  )}
+                  <div className="mt-6 w-full h-[1px] bg-white/5 group-hover:bg-[var(--accent)]/60 transition-colors duration-700" />
+                </div>
+              </motion.article>
+            ))}
+          </div>
         </div>
       </section>
 

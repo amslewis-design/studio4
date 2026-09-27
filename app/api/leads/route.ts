@@ -66,9 +66,14 @@ export async function POST(request: NextRequest) {
 
 Name: ${formData.name}
 Email: ${formData.email}
+Role: ${formData.role || 'Not provided'}
 Brand/Hotel: ${formData.brand || 'Not provided'}
+City: ${formData.city || 'Not provided'}
+Sector: ${formData.sector || 'Not provided'}
 Project Type: ${formData.projectType || 'Not specified'}
 Website: ${formData.website || 'Not provided'}
+Monthly investment range: ${formData.monthlyBudget || 'Not provided'}
+Desired start: ${formData.startDate || 'Not provided'}
 Source page: ${formData.source || 'Unknown'}
 
 Message:

@@ -1,6 +1,7 @@
 {
   "navigation": {
     "home": "Home",
+    "about": "About",
     "portfolio": "Portfolio",
     "services": "Services",
     "approach": "Approach",
@@ -83,7 +84,7 @@
     "cta": "Explore our services"
   },
   "blog": {
-    "title": "The Studio Journal",
+    "title": "Journal",
     "journal": "Journal",
     "description": "Notes on boutique hospitality marketing, visual storytelling, and the small details that turn attention into bookings.",
     "viewAllPosts": "View all posts",

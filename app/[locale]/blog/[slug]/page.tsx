@@ -14,6 +14,7 @@ import {
   slugsMatch,
 } from '@/lib/utils/blogSlug';
 import Footer from '@/app/components/Footer';
+import Navbar from '@/app/components/Navbar';
 
 // Enable ISR - revalidate every hour
 export const revalidate = 3600;
@@ -314,7 +315,9 @@ async function BlogPostPage({
   };
 
   return (
-    <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }}>
+    <>
+      <Navbar isHomepage={false} />
+      <div style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', paddingTop: '100px' }}>
       {/* JSON-LD Schemas */}
       <script
         type="application/ld+json"
@@ -455,8 +458,9 @@ async function BlogPostPage({
           </Link>
         </div>
       </section>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
 

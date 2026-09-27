@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from "react";
-import { useLocale, useTranslations } from 'next-intl';
+import React from "react";
+import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from "framer-motion";
-import { submitLeadForm } from '@/lib/utils/submitLeadForm';
+import LeadContactForm from './LeadContactForm';
 
 export default function ConsultationModal({
   isOpen,
@@ -13,26 +13,6 @@ export default function ConsultationModal({
   onClose: () => void;
 }) {
   const tContact = useTranslations('contact');
-  const locale = useLocale();
-  const [result, setResult] = useState("");
-
-  const onSubmit = async (event: any) => {
-    event.preventDefault();
-    setResult("Sending...");
-    const formData = new FormData(event.target);
-    formData.append("locale", locale);
-    formData.append("source", "consultation-modal");
-
-    const { success } = await submitLeadForm(formData);
-    setResult(success ? "Success!" : "Error");
-
-    if (success) {
-      setTimeout(() => {
-        onClose();
-        setResult("");
-      }, 3000);
-    }
-  };
 
   return (
     <AnimatePresence>
@@ -71,92 +51,7 @@ export default function ConsultationModal({
             </div>
 
             <div className="flex-1 p-8 md:p-12 overflow-y-auto max-h-[85vh]">
-              {result === "Success!" ? (
-                <div className="h-full flex flex-col items-center justify-center text-center space-y-8 py-12">
-                  <div className="w-20 h-20 bg-[var(--accent)]/10 rounded-full flex items-center justify-center text-[var(--accent)] text-4xl">
-                    ✧
-                  </div>
-                  <div className="space-y-4">
-                    <h3
-                      className="text-4xl font-serif italic"
-                      style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-                    >
-                      {tContact('form.successMessage')}
-                    </h3>
-                  </div>
-                </div>
-              ) : (
-                <form onSubmit={onSubmit} className="space-y-8">
-                  <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                      {tContact('form.name')}
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
-                      placeholder={tContact('form.namePlaceholder')}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                      {tContact('form.email')}
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
-                      placeholder={tContact('form.emailPlaceholder')}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                      {tContact('form.website')}
-                    </label>
-                    <input
-                      type="url"
-                      name="website"
-                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300"
-                      placeholder={tContact('form.websitePlaceholder')}
-                    />
-                  </div>
-
-                  <input
-                    type="text"
-                    name="companyWebsite"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    aria-hidden="true"
-                    className="hidden"
-                  />
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">
-                      {tContact('form.message')}
-                    </label>
-                    <textarea
-                      name="message"
-                      required
-                      rows={4}
-                      className="w-full bg-black/40 border border-white/10 p-4 text-sm outline-none focus:border-[var(--accent)] transition-colors duration-300 resize-none"
-                      placeholder={tContact('form.messagePlaceholder')}
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full bg-[var(--accent)] text-white py-5 uppercase tracking-[0.5em] text-[11px] font-black hover:bg-white hover:text-[var(--accent)] transition-colors duration-300 shadow-xl"
-                    style={{ borderRadius: "var(--btn-radius)" }}
-                  >
-                    Submit
-                  </button>
-                  <p>{result}</p>
-
-                </form>
-              )}
+              <LeadContactForm source="consultation-modal" />
             </div>
           </motion.div>
         </div>

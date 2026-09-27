@@ -9,6 +9,7 @@ import ConsultationModal from '@/app/components/ConsultationModal';
 import Footer from '@/app/components/Footer';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
+import LeadContactForm from '@/app/components/LeadContactForm';
 
 export default function ServicesPage() {
   const t = useTranslations('services');
@@ -163,6 +164,23 @@ export default function ServicesPage() {
             {t('cta')}
           </button>
         </motion.div>
+
+        <section className="border-t border-white/10 pt-16 pb-20">
+          <h2 className="text-4xl md:text-5xl font-serif mb-6">{isEn ? 'Bespoke projects' : 'Proyectos a la medida'}</h2>
+          <p className="text-gray-300 max-w-3xl leading-relaxed mb-8">
+            {isEn
+              ? 'For openings, relaunches, key seasons, or specific needs. We define the scope with you and execute it with the same editorial vision.'
+              : 'Para aperturas, relanzamientos, temporadas clave o necesidades específicas. Definimos el alcance contigo y lo ejecutamos con la misma visión editorial de siempre.'}
+          </p>
+          <a href="#services-contact" className="inline-block border border-white/20 px-8 py-4 text-xs uppercase tracking-[0.3em] hover:border-[#FC7CA4] hover:text-[#FC7CA4] transition-colors mb-16">
+            {isEn ? 'Request availability' : 'Solicitar disponibilidad'}
+          </a>
+          <h3 className="text-3xl md:text-4xl font-serif mb-6">
+            {isEn ? 'If you feel your brand has the potential to grow, it probably does.' : 'Si sientes que tu marca tiene potencial para crecer, es porque probablemente puede.'}
+          </h3>
+          <a href="#services-contact" className="inline-block text-xs uppercase tracking-[0.3em] text-white/70 hover:text-[#FC7CA4] mb-10 transition-colors">{isEn ? 'Contact us' : 'Contáctanos'}</a>
+          <div id="services-contact"><LeadContactForm source="services-page" /></div>
+        </section>
       </div>
       <Footer onConsult={() => setIsConsultModalOpen(true)} />
     </main>

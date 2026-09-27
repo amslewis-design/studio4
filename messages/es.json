@@ -1,6 +1,7 @@
 {
   "navigation": {
     "home": "Inicio",
+    "about": "Nosotros",
     "portfolio": "Portafolio",
     "services": "Servicios",
     "approach": "Enfoque",
@@ -27,26 +28,30 @@
     "noData": "Sin datos disponibles"
   },
   "hero": {
-    "tagline": "Sassy: Tu marca con enfoque editorial",
-    "heading": "Atelier de Contenido",
-    "description": "Contenido social con dirección editorial + presencia digital optimizada para competir internacionalmente y convertir atención en acción.",
+    "tagline": "Atelier de Contenido",
+    "heading": "Tu marca con enfoque editorial",
+    "description": "Social First Boutique. Contenido social con dirección editorial + presencia digital optimizada para competir internacionalmente.",
     "cta": "Contáctanos"
+  },
+  "homePositioning": {
+    "heading": "Social First para Hospitalidad, Wellness y Marcas Lifestyle",
+    "network": "Contamos con una red curada de colaboradores en México, USA, España y UK con años de experiencia en estrategia digital, creación de contenidos, influencer marketing y producción editorial con marcas globales."
   },
   "services": {
     "menuTitle": "The Studio Menu",
     "menuHeading": "Servicios para marcas de hospitalidad y lifestyle con estándar editorial",
     "pageTitle": "Servicios | Sassy Studio | Kit de Contenido Mensual y Mantenimiento Digital",
     "metaDescription": "Dos planes para elevar tu marca mes con mes: contenido para redes y un plan más completo de presencia digital. Proyectos a la medida disponibles. Base en CDMX, proyectos en Los Ángeles y Reino Unido.",
-    "ourCraft": "Servicios de Contenido para Hospitalidad y Marcas Lifestyle",
-    "ourCraftSubtitle": "Los Angeles, Londres, Irlanda, Acapulco y Ciudad de México",
-    "visualAlchemy": "Estrategia Digital",
-    "visualAlchemyDesc": "Mantenimiento y optimización web, diseño/ajustes de páginas, blog (estructura + publicación), newsletter, soporte para campañas (lanzamientos/temporadas), mejoras de UX, estructura de links y CTAs.",
+    "ourCraft": "Servicios",
+    "ourCraftSubtitle": "Dirección editorial para marcas con visión internacional",
+    "visualAlchemy": "Estrategia Social First",
+    "visualAlchemyDesc": "Estrategia digital que parte de redes sociales para llevar a la audiencia a una acción clara: reservar, comprar, visitar, escribir o llegar a tu web.\n\nDefinimos mensajes, campañas, creadores, CTAs, links y rutas de conversión para que tu presencia digital tenga más dirección.",
     "digitalNarratives": "Producción Editorial (Foto + Video)",
-    "digitalNarrativesDesc": "Capturamos espacios, producto, gastronomía y momentos con un estándar editorial pensado para redes, web y campañas.",
-    "identityRefinement": "Contenido Social",
-    "identityRefinementDesc": "Fotos, reels, carruseles y stories con narrativa consistente.\n\nOptimización continua de perfiles para que el feed se sienta intencional y premium.",
-    "servicesDescription": "Descubre nuestro conjunto integral de servicios diseñados para elevar la presencia de tu marca.",
-    "exploreServices": "Conoce nuestros servicios",
+    "digitalNarrativesDesc": "Capturamos espacios, producto, gastronomía y momentos con dirección visual y estándar editorial para redes, web, pauta y campañas.",
+    "identityRefinement": "Contenido Social, UGC & Creators",
+    "identityRefinementDesc": "Creamos reels, carruseles, stories, contenido UGC y colaboraciones con creadores para que tu marca se vea activa, clara y deseable.\n\nOptimizamos perfiles, formatos, captions, highlights y piezas clave para convertir atención en visitas, mensajes, reservas o ventas.",
+    "servicesDescription": "Estrategia, producción y contenido bajo una misma dirección editorial.",
+    "exploreServices": "Ver más",
     "transformPresence": "para comenzar tu transformación.",
     "hero": {
       "title": "Dos planes para elevar tu marca mes con mes.",
@@ -73,17 +78,19 @@
     }
   },
   "approach": {
-    "title": "Nuestro Oficio",
-    "quote": "En el corazón de la Ciudad de México, refinamos el potencial bruto de tu marca en el oro puro de la distinción digital.",
-    "philosophy": "La Filosofía Sassy"
+    "title": "Acompañamiento integral",
+    "quote": "Estrategia social-first, dirección visual, producción editorial, creadores, pauta y medición trabajando bajo una misma dirección.",
+    "supporting": "Construyamos una presencia digital más clara y alineada con lo que tu marca ofrece.",
+    "philosophy": "La Filosofía Sassy",
+    "cta": "Contáctanos"
   },
   "editorialPhilosophy": {
-    "heading": "Contenido que refleja tu marca",
-    "body": "Definimos el criterio editorial de tu marca y lo convertimos en contenido visual que se nota en redes, con una presencia digital coherente y bien ejecutada. Dirigimos el trabajo como estudio boutique y lo implementamos con una red curada entre Ciudad de México, Los Ángeles y Reino Unido, para que tu marca se vea internacional sin perder su esencia.",
-    "cta": "Conoce nuestros servicios"
+    "heading": "Tu marca tiene una esencia. Nuestro trabajo es hacer que el mundo digital la vea, la sienta y la elija.",
+    "body": "En Sassy Studio te ayudamos a clarificar tu mensaje y elevar tu presencia digital para que tu marca se vea más cuidada, moderna y coherente. Creamos una narrativa visual con personalidad que conecta con tu cliente, genera confianza y te hace destacar desde redes sociales.",
+    "cta": "Contáctanos"
   },
   "blog": {
-    "title": "El Diario del Estudio",
+    "title": "Journal",
     "journal": "Diario",
     "description": "Notas sobre marketing de hospitalidad boutique, narrativa visual y los pequeños detalles que convierten la atención en reservas.",
     "viewAllPosts": "Ver todos los posts",
@@ -106,14 +113,14 @@
     "readMore": "Leer Más"
   },
   "portfolio": {
-    "title": "Portafolio",
-    "description": "Proyectos destacados que muestran nuestras transformaciones de marcas internacionales.",
+    "title": "Nuestro trabajo",
+    "description": "Conoce algunos de nuestros proyectos aquí.",
     "viewFullPortfolio": "Ver portafolio completo"
   },
   "contact": {
-    "title": "¿Listo para la Transformación?",
-    "heading": "Ponerse en Contacto",
-    "subtitle": "Cuéntanos un poco sobre tu proyecto y te responderemos pronto.",
+    "title": "Contáctanos",
+    "heading": "Cuéntanos sobre tu proyecto",
+    "subtitle": "Cuéntanos sobre tu proyecto y nos pondremos en contacto pronto.",
     "form": {
       "name": "Tu Nombre",
       "namePlaceholder": "ej. Julian Ross",
@@ -126,7 +133,7 @@
       "projectType": "Tipo de Proyecto",
       "message": "Mensaje",
       "messagePlaceholder": "Cuéntanos qué necesitas ayuda, plazos y enlaces si es relevante.",
-      "sendMessage": "Enviar mensaje",
+      "sendMessage": "Enviar",
       "sending": "Enviando...",
       "successMessage": "Mensaje recibido",
       "successText": "Gracias. Hemos recibido tus detalles y nos pondremos en contacto en {email}."
