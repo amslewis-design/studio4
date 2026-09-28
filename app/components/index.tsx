@@ -389,6 +389,72 @@ const services = useMemo(
       </section>
 
       {locale === 'es' && (
+        <section className="py-24 md:py-32 px-6 border-y border-white/5" style={{ backgroundColor: 'var(--primary)' }}>
+          <div className="max-w-5xl mx-auto text-center">
+            <h2 className="text-4xl md:text-6xl font-serif text-white mb-8" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
+              Proyectos a la medida
+            </h2>
+            <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto">
+              Aperturas, relanzamientos, temporadas clave o necesidades específicas. Definimos el alcance contigo y lo ejecutamos con el mismo estándar editorial.
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* Portfolio */}
+      <section
+        id="portfolio"
+        className="py-28 md:py-40 px-6"
+        style={{ backgroundColor: "var(--section-bg)" }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1 }}
+            className="text-center mb-20 md:mb-32"
+          >
+            <h2
+              className="text-5xl md:text-7xl font-serif mb-8 tracking-tight text-white"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              {tPortfolio('title')}
+            </h2>
+            <p className="text-gray-500 font-light leading-relaxed max-w-2xl mx-auto mb-8">
+              {tPortfolio('description')}
+            </p>
+            <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
+          </motion.div>
+
+          <div className="flex overflow-x-auto gap-6 md:gap-8 pb-12 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+            {portfolioProjects.slice(0, 6).map((project, idx) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                className="min-w-[85vw] md:min-w-[400px] snap-center flex-shrink-0"
+              >
+                <Postcard project={project} />
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link
+              href={`/${locale}/portfolio`}
+              className="border border-white/15 text-white/80 px-8 md:px-12 py-3 md:py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
+              style={{ borderRadius: "var(--btn-radius)" }}
+            >
+              {tPortfolio('viewFullPortfolio')}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {locale === 'es' && (
         <section className="py-24 md:py-32 px-6" style={{ backgroundColor: 'var(--primary)' }}>
           <div className="max-w-5xl mx-auto text-center">
             <h2
@@ -501,72 +567,6 @@ const services = useMemo(
               />
             </div>
           </motion.div>
-        </div>
-      </section>
-
-      {locale === 'es' && (
-        <section className="py-24 md:py-32 px-6 border-y border-white/5" style={{ backgroundColor: 'var(--primary)' }}>
-          <div className="max-w-5xl mx-auto text-center">
-            <h2 className="text-4xl md:text-6xl font-serif text-white mb-8" style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}>
-              Proyectos a la medida
-            </h2>
-            <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto">
-              Aperturas, relanzamientos, temporadas clave o necesidades específicas. Definimos el alcance contigo y lo ejecutamos con el mismo estándar editorial.
-            </p>
-          </div>
-        </section>
-      )}
-
-      {/* Portfolio */}
-      <section
-        id="portfolio"
-        className="py-28 md:py-40 px-6"
-        style={{ backgroundColor: "var(--section-bg)" }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1 }}
-            className="text-center mb-20 md:mb-32"
-          >
-            <h2
-              className="text-5xl md:text-7xl font-serif mb-8 tracking-tight text-white"
-              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
-            >
-              {tPortfolio('title')}
-            </h2>
-            <p className="text-gray-500 font-light leading-relaxed max-w-2xl mx-auto mb-8">
-              {tPortfolio('description')}
-            </p>
-            <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
-          </motion.div>
-
-          <div className="flex overflow-x-auto gap-6 md:gap-8 pb-12 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-            {portfolioProjects.slice(0, 6).map((project, idx) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="min-w-[85vw] md:min-w-[400px] snap-center flex-shrink-0"
-              >
-                <Postcard project={project} />
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Link
-              href={`/${locale}/portfolio`}
-              className="border border-white/15 text-white/80 px-8 md:px-12 py-3 md:py-4 uppercase tracking-[0.45em] text-[10px] font-black hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 inline-block"
-              style={{ borderRadius: "var(--btn-radius)" }}
-            >
-              {tPortfolio('viewFullPortfolio')}
-            </Link>
-          </div>
         </div>
       </section>
 
