@@ -388,6 +388,31 @@ const services = useMemo(
         </div>
       </section>
 
+      {locale === 'es' && (
+        <section className="py-24 md:py-32 px-6" style={{ backgroundColor: 'var(--primary)' }}>
+          <div className="max-w-5xl mx-auto text-center">
+            <h2
+              className="font-serif text-4xl md:text-6xl text-white mb-8"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              Acompañamiento Integral
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed max-w-4xl mx-auto mb-6">
+              Estrategia social-first, dirección visual, producción editorial, creadores, pauta y medición trabajando bajo una misma dirección.
+            </p>
+            <p className="text-base md:text-lg text-gray-400 leading-relaxed max-w-3xl mx-auto mb-10">
+              Construyamos una presencia digital más clara y alineada con lo que tu marca ofrece.
+            </p>
+            <a
+              href="#contact"
+              className="inline-block border border-white/20 text-white px-8 py-4 uppercase tracking-[0.35em] text-[10px] font-bold hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors"
+            >
+              Contáctanos
+            </a>
+          </div>
+        </section>
+      )}
+
       {/* Approach / Quote */}
       <section
         id="approach"
