@@ -372,9 +372,17 @@ const services = useMemo(
             className="text-center mt-16"
           >
             <p className="text-gray-400 text-lg leading-relaxed max-w-3xl mx-auto mb-8">
-              {tServices('servicesDescription')} <Link href={serviceHubHref} className="text-[var(--accent)] hover:underline">
-                {tServices('exploreServices')}
-              </Link> {tServices('transformPresence')}
+              {locale === 'es' ? (
+                <Link href={serviceHubHref} className="text-[var(--accent)] hover:underline">
+                  {tServices('exploreServices')}
+                </Link>
+              ) : (
+                <>
+                  {tServices('servicesDescription')} <Link href={serviceHubHref} className="text-[var(--accent)] hover:underline">
+                    {tServices('exploreServices')}
+                  </Link> {tServices('transformPresence')}
+                </>
+              )}
             </p>
           </motion.div>
         </div>
