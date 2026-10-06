@@ -10,7 +10,27 @@ export interface Project {
   year: string;
 }
 
-export const LEGACY_PORTFOLIO_PROJECTS_EN: Project[] = [
+export const PORTFOLIO_PROJECTS_EN: Project[] = [
+  {
+    id: 'cupchic-coffee-boba',
+    clientName: 'Cupchic Coffee & Boba',
+    location: 'Polanco, Mexico City',
+    imageUrl: '/cupchic-coffee-boba.png',
+    description: 'Visual direction, editorial photography, social-first content, creators, and digital optimisation for a coffee, boba & bites brand in Polanco, communicating product, space, menu, and experience with a clearer, more desirable point of view.',
+    testimonial: '',
+    services: ['Food & Beverage Content'],
+    year: '2026',
+  },
+  {
+    id: 'zaia-urban-wellness',
+    clientName: 'ZAÏA Urban Wellness',
+    location: 'Mexico City',
+    imageUrl: '/zaia-urban-wellness.png',
+    description: 'Photo/video production, social-first strategy, and experience coverage for a wellness stay in Mexico City, communicating spa, rest, design, and lifestyle for social media, bookings, and campaigns.',
+    testimonial: '',
+    services: ['Hospitality Wellness Content'],
+    year: '2026',
+  },
   {
     id: '9',
     clientName: 'Jack Británico',
@@ -102,7 +122,27 @@ export const LEGACY_PORTFOLIO_PROJECTS_EN: Project[] = [
   }
 ];
 
-export const LEGACY_PORTFOLIO_PROJECTS_ES: Project[] = [
+export const PORTFOLIO_PROJECTS_ES: Project[] = [
+  {
+    id: 'cupchic-coffee-boba',
+    clientName: 'Cupchic Coffee & Boba',
+    location: 'Polanco, Ciudad de México',
+    imageUrl: '/cupchic-coffee-boba.png',
+    description: 'Dirección visual, fotografía editorial, contenido social-first, creadores y optimización digital para una marca de coffee, boba & bites en Polanco, comunicando producto, espacio, menú y experiencia desde una mirada más clara y deseable.',
+    testimonial: '',
+    services: ['Food & Beverage Content'],
+    year: '2026',
+  },
+  {
+    id: 'zaia-urban-wellness',
+    clientName: 'ZAÏA Urban Wellness',
+    location: 'Ciudad de México',
+    imageUrl: '/zaia-urban-wellness.png',
+    description: 'Producción foto/video, estrategia social-first y cobertura de experiencia para una estancia wellness en Ciudad de México, comunicando spa, descanso, diseño y lifestyle para redes, reservas y campañas.',
+    testimonial: '',
+    services: ['Hospitality Wellness Content'],
+    year: '2026',
+  },
   {
     id: '9',
     clientName: 'Jack Británico',
@@ -192,50 +232,4 @@ export const LEGACY_PORTFOLIO_PROJECTS_ES: Project[] = [
     services: ['Fotografía', 'Video', 'Dirección de Arte'],
     year: '2025'
   }
-];
-
-export const PORTFOLIO_PROJECTS_EN: Project[] = [
-  {
-    id: 'cupchic-coffee-boba',
-    clientName: 'Cupchic Coffee & Boba',
-    location: 'Polanco, Mexico City',
-    imageUrl: '/cupchic-coffee-boba.png',
-    description: 'Visual direction, editorial photography, social-first content, creators, and digital optimisation for a coffee, boba & bites brand in Polanco, communicating product, space, menu, and experience with a clearer, more desirable point of view.',
-    testimonial: '',
-    services: ['Food & Beverage Content'],
-    year: '2026',
-  },
-  {
-    id: 'zaia-urban-wellness',
-    clientName: 'ZAÏA Urban Wellness',
-    location: 'Mexico City',
-    imageUrl: '/zaia-urban-wellness.png',
-    description: 'Photo/video production, social-first strategy, and experience coverage for a wellness stay in Mexico City, communicating spa, rest, design, and lifestyle for social media, bookings, and campaigns.',
-    testimonial: '',
-    services: ['Hospitality Wellness Content'],
-    year: '2026',
-  },
-];
-
-export const PORTFOLIO_PROJECTS_ES: Project[] = [
-  {
-    id: 'cupchic-coffee-boba',
-    clientName: 'Cupchic Coffee & Boba',
-    location: 'Polanco, Ciudad de México',
-    imageUrl: '/cupchic-coffee-boba.png',
-    description: 'Dirección visual, fotografía editorial, contenido social-first, creadores y optimización digital para una marca de coffee, boba & bites en Polanco, comunicando producto, espacio, menú y experiencia desde una mirada más clara y deseable.',
-    testimonial: '',
-    services: ['Food & Beverage Content'],
-    year: '2026',
-  },
-  {
-    id: 'zaia-urban-wellness',
-    clientName: 'ZAÏA Urban Wellness',
-    location: 'Ciudad de México',
-    imageUrl: '/zaia-urban-wellness.png',
-    description: 'Producción foto/video, estrategia social-first y cobertura de experiencia para una estancia wellness en Ciudad de México, comunicando spa, descanso, diseño y lifestyle para redes, reservas y campañas.',
-    testimonial: '',
-    services: ['Hospitality Wellness Content'],
-    year: '2026',
-  },
 ];
