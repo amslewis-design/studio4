@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from 'next/dynamic';
@@ -125,6 +125,29 @@ const services = useMemo(
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const portfolioProjects = locale === 'es' ? PORTFOLIO_PROJECTS_ES : PORTFOLIO_PROJECTS_EN;
+
+  // Horizontal portfolio scroller
+  const portfolioScrollRef = useRef<HTMLDivElement>(null);
+  const [portfolioScrollProgress, setPortfolioScrollProgress] = useState(0);
+
+  const scrollPortfolio = (direction: 'prev' | 'next') => {
+    const container = portfolioScrollRef.current;
+    if (!container) return;
+    const firstCard = container.firstElementChild as HTMLElement | null;
+    const cardWidth = firstCard ? firstCard.offsetWidth : 400;
+    const gap = window.innerWidth >= 768 ? 32 : 24;
+    container.scrollBy({
+      left: (direction === 'next' ? 1 : -1) * (cardWidth + gap),
+      behavior: 'smooth',
+    });
+  };
+
+  const handlePortfolioScroll = () => {
+    const container = portfolioScrollRef.current;
+    if (!container) return;
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    setPortfolioScrollProgress(maxScroll > 0 ? container.scrollLeft / maxScroll : 0);
+  };
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -427,19 +450,65 @@ const services = useMemo(
             <div className="w-32 h-[1px] bg-[var(--accent)] mx-auto opacity-30" />
           </motion.div>
 
-          <div className="flex overflow-x-auto gap-6 md:gap-8 pb-12 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-            {portfolioProjects.slice(0, 6).map((project, idx) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                className="min-w-[85vw] md:min-w-[400px] snap-center flex-shrink-0"
-              >
-                <Postcard project={project} />
-              </motion.div>
-            ))}
+          <div className="relative">
+            <div
+              ref={portfolioScrollRef}
+              onScroll={handlePortfolioScroll}
+              className="flex overflow-x-auto gap-6 md:gap-8 pb-8 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0"
+            >
+              {portfolioProjects.map((project, idx) => (
+                <motion.div
+                  key={project.id}
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: Math.min(idx * 0.05, 0.3) }}
+                  className="min-w-[85vw] md:min-w-[400px] snap-center flex-shrink-0"
+                >
+                  <Postcard project={project} />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Edge fades hinting more content */}
+            {portfolioScrollProgress > 0.02 && (
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-12 md:w-24 bg-gradient-to-r from-[var(--section-bg)] to-transparent" />
+            )}
+            {portfolioScrollProgress < 0.98 && (
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-12 md:w-24 bg-gradient-to-l from-[var(--section-bg)] to-transparent" />
+            )}
+
+            {/* Arrow controls (desktop) */}
+            <button
+              type="button"
+              onClick={() => scrollPortfolio('prev')}
+              aria-label={locale === 'es' ? 'Proyecto anterior' : 'Previous project'}
+              className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 items-center justify-center w-11 h-11 border border-white/15 text-white/80 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 bg-black/40 backdrop-blur-sm"
+              style={{ borderRadius: "var(--btn-radius)" }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollPortfolio('next')}
+              aria-label={locale === 'es' ? 'Siguiente proyecto' : 'Next project'}
+              className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 items-center justify-center w-11 h-11 border border-white/15 text-white/80 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors duration-300 bg-black/40 backdrop-blur-sm"
+              style={{ borderRadius: "var(--btn-radius)" }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Scroll progress indicator */}
+          <div className="mt-4 mb-8 h-[2px] w-full bg-white/10 overflow-hidden">
+            <div
+              className="h-full bg-[var(--accent)] transition-[width] duration-150 ease-out"
+              style={{ width: `${Math.max(portfolioScrollProgress, 0.08) * 100}%` }}
+            />
           </div>
 
           <div className="text-center">

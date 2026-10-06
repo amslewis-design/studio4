@@ -91,7 +91,7 @@ export default async function RootLayout({
           data-cbid="94243ad4-f3fd-4781-8b4c-88c07cceaa32"
           data-blockingmode="auto"
           type="text/javascript"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
         />
         <GTMScript />
         <Script
