@@ -192,23 +192,6 @@ function ContactForm({ isEn }: { isEn: boolean }) {
   );
 }
 
-function PlaceholderSpec({ name, ratio, alt, isEn }: { name: string; ratio: string; alt: string; isEn: boolean }) {
-  return (
-    <div className="text-xs text-gray-400 border border-white/10 bg-black/30 p-3 mt-3">
-      <p className="text-gray-300 mb-1">{isEn ? 'Suggested file' : 'Archivo sugerido'}: {name}</p>
-      <p className="mb-1">
-        {isEn
-          ? 'Recommended ratio: based on this section layout.'
-          : `Proporción: ${ratio}`}
-      </p>
-      <p>
-        {isEn
-          ? 'Suggested alt text: describe the format, main subject, action and commercial intent.'
-          : `Alt sugerido: ${alt}`}
-      </p>
-    </div>
-  );
-}
 
 export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
   const isEn = locale === 'en';
@@ -282,12 +265,6 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
                 </div>
               ))}
             </div>
-            <PlaceholderSpec
-              name="contenido-social-collage.webp"
-              ratio="1:1 por celda, collage 2x2"
-              alt="Collage de contenido social con foto, reel, carrusel y stories para marca premium"
-              isEn={isEn}
-            />
           </div>
         </div>
       </section>
@@ -325,7 +302,6 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
                 : 'Fotografía para redes sociales enfocada en percepción premium, coherencia visual y versatilidad para pauta. Uso típico: feed, anuncios, portada de carrusel.'}
             </p>
             <p className="text-sm text-gray-400">{isEn ? 'Suggested cadence: 6 to 12 assets per month.' : 'Frecuencia sugerida: 6 a 12 piezas por mes.'}</p>
-            <PlaceholderSpec name="fotos-feed-anuncios.webp" ratio="4:5 y 1:1" alt="Foto editorial para feed de Instagram con estética de marca" isEn={isEn} />
           </article>
 
           <article className="border border-white/10 p-6 bg-white/[0.02]">
@@ -336,7 +312,6 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
                 : 'Reels para marcas con estructura clara de hook, desarrollo y cierre. Se diseñan para retención y claridad de propuesta. Uso típico: awareness, producto, prueba social.'}
             </p>
             <p className="text-sm text-gray-400">{isEn ? 'Suggested cadence: 4 to 8 assets per month.' : 'Frecuencia sugerida: 4 a 8 piezas por mes.'}</p>
-            <PlaceholderSpec name="reels-9x16-marcas.webp" ratio="9:16" alt="Reel vertical para marca con subtítulos y hook visual" isEn={isEn} />
           </article>
 
           <article className="border border-white/10 p-6 bg-white/[0.02]">
@@ -347,7 +322,6 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
                 : 'Carruseles para Instagram con narrativa slide a slide para educar, argumentar valor y mover a acción. Uso típico: metodología, casos, diferenciadores.'}
             </p>
             <p className="text-sm text-gray-400">{isEn ? 'Suggested cadence: 2 to 6 assets per month.' : 'Frecuencia sugerida: 2 a 6 piezas por mes.'}</p>
-            <PlaceholderSpec name="carruseles-instagram.webp" ratio="4:5 por slide" alt="Preview de carrusel de Instagram con diseño editorial" isEn={isEn} />
           </article>
 
           <article className="border border-white/10 p-6 bg-white/[0.02]">
@@ -358,7 +332,6 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
                 : 'Stories para negocios con bloques de contexto, interacción y CTA. Útiles para continuidad diaria y activaciones. Uso típico: recordatorios, FAQs, oferta puntual.'}
             </p>
             <p className="text-sm text-gray-400">{isEn ? 'Suggested cadence: 3 to 5 sequences per week.' : 'Frecuencia sugerida: 3 a 5 secuencias por semana.'}</p>
-            <PlaceholderSpec name="stories-negocios.webp" ratio="9:16" alt="Secuencia de stories para negocio con CTA de contacto" isEn={isEn} />
           </article>
         </div>
       </section>
@@ -376,10 +349,6 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
           <div className="border border-white/10 p-5">{isEn ? 'Visual guidelines: typography, colour, composition, framing, covers and captions.' : 'Guías visuales: tipografía, color, composición, encuadre, covers y subtítulos.'}</div>
           <div className="border border-white/10 p-5">{isEn ? 'Tone of voice: clarity, editorial judgement and focus on client decisions.' : 'Tono y voz: claridad, criterio editorial y foco en decisiones del cliente.'}</div>
         </div>
-        <div className="border border-white/10 bg-black/30 p-6">
-          <p className="text-sm text-gray-300">{isEn ? 'Diagram placeholder: pillar + series map (simple grid per pillar with weekly asset examples).' : 'Placeholder de diagrama: Mapa de pilares + series (grid simple por pilar con ejemplos de piezas semanales).'}</p>
-          <PlaceholderSpec name="pilares-contenido-social.webp" ratio="16:9" alt="Mapa de pilares de contenido social y series semanales" isEn={isEn} />
-        </div>
       </section>
 
       <section className="px-6 max-w-7xl mx-auto py-16">
@@ -396,10 +365,6 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
           <li className="border border-white/10 p-4">{isEn ? 'Intentional links and CTAs in link-in-bio.' : 'Enlaces y CTAs en link-in-bio con intención.'}</li>
           <li className="border border-white/10 p-4 md:col-span-2">{isEn ? 'Pinned posts to present offer, social proof and next step.' : 'Posts fijados para presentar oferta, prueba social y siguiente paso.'}</li>
         </ul>
-        <div className="border border-white/10 bg-black/30 p-6">
-          <p className="text-sm text-gray-300">{isEn ? 'Visual placeholder: profile before/after (wireframe without real data).' : 'Placeholder visual: Antes / después del perfil (wireframe sin datos reales).'}</p>
-          <PlaceholderSpec name="optimizacion-perfil-instagram.webp" ratio="16:9" alt="Comparativa de perfil de Instagram antes y después de optimización" isEn={isEn} />
-        </div>
       </section>
 
       <section className="px-6 max-w-7xl mx-auto py-16">
@@ -429,10 +394,6 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
           ))}
         </div>
         <p className="text-sm text-[#D4AF37] mb-6">{isEn ? 'Running a campaign or seasonal push? We integrate it into the calendar.' : '¿Tienes campaña o temporada? Lo integramos al calendario.'}</p>
-        <div className="border border-white/10 bg-black/30 p-6">
-          <p className="text-sm text-gray-300">{isEn ? 'Placeholder for 5-step horizontal process diagram.' : 'Placeholder de diagrama horizontal de 5 pasos.'}</p>
-          <PlaceholderSpec name="proceso-contenido-social.webp" ratio="21:9" alt="Diagrama de proceso de contenido social en cinco pasos" isEn={isEn} />
-        </div>
       </section>
 
       <section id="entregables" className="px-6 max-w-7xl mx-auto py-16">
@@ -455,7 +416,7 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
         </div>
 
         {activeTab === 'monthly' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8">
             <div className="border border-white/10 p-6 bg-white/[0.02]">
               <h3 className="text-2xl font-serif mb-4">{isEn ? 'Monthly' : 'Mensual'}</h3>
               <ul className="space-y-2 text-gray-300 list-disc pl-5">
@@ -466,13 +427,9 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
                 <li>{isEn ? 'Light performance report with learnings and next adjustments.' : 'Reporte ligero con aprendizajes y siguientes ajustes.'}</li>
               </ul>
             </div>
-            <div className="border border-white/10 p-6 bg-black/30">
-              <p className="text-sm text-gray-300 mb-2">{isEn ? 'Visual placeholder: monthly calendar.' : 'Placeholder visual: Calendario mensual.'}</p>
-              <PlaceholderSpec name="calendario-contenido-social.webp" ratio="16:10" alt="Calendario mensual de contenido social con formatos y fechas" isEn={isEn} />
-            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8">
             <div className="border border-white/10 p-6 bg-white/[0.02]">
               <h3 className="text-2xl font-serif mb-4">{isEn ? 'By campaign' : 'Por campaña'}</h3>
               <ul className="space-y-2 text-gray-300 list-disc pl-5">
@@ -481,10 +438,6 @@ export default function ContenidoSocialPageClient({ locale, faqs }: Props) {
                 <li>{isEn ? 'Paid-media versions where relevant, plus cut-downs and alternate hooks.' : 'Versiones para pauta cuando aplica, cutdowns y hooks alternos.'}</li>
                 <li>{isEn ? 'Organised delivery for fast campaign execution.' : 'Entrega organizada para ejecución rápida durante la campaña.'}</li>
               </ul>
-            </div>
-            <div className="border border-white/10 p-6 bg-black/30">
-              <p className="text-sm text-gray-300 mb-2">{isEn ? 'Visual placeholder: format pack.' : 'Placeholder visual: Pack de formatos.'}</p>
-              <PlaceholderSpec name="pack-formatos-campana.webp" ratio="16:10" alt="Mockup de pack de formatos para campaña social" isEn={isEn} />
             </div>
           </div>
         )}
